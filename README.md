@@ -20,3 +20,4 @@
 [팀 그라운드 룰](https://github.com/boostcampwm-2022/web07-zokboo.com/wiki/Ground-Rule)
 
 [스크럼 기록](https://github.com/boostcampwm-2022/web07-zokboo.com/wiki/%EC%8A%A4%ED%81%AC%EB%9F%BC-%EA%B8%B0%EB%A1%9D-1%EC%A3%BC%EC%B0%A8)
+
