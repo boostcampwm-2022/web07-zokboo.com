@@ -1,0 +1,26 @@
+{
+  "name": "web07-zokboo.com",
+  "version": "0.0.1",
+  "description": "README.md",
+  "lint-staged": {
+    "server/**/*.ts": [
+      "eslint --config server/.eslintrc.js --fix"
+    ],
+    "client/**/*.{ts,tsx}": [
+      "eslint --config client/.eslintrc.js --fix"
+    ]
+  },
+  "scripts": {
+    "postinstall": "husky install",
+    "lint-staged": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boostcampwm-2022/web07-zokboo.com.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3"
+  }
+}
