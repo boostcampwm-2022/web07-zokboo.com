@@ -10,9 +10,12 @@ const DashBoardContainer = styled.div`
   justify-content: space-around;
 
   width: 45%;
+  max-width: 560px;
   height: 250px;
 
-  padding: 10px;
+  box-sizing: border-box;
+
+  padding: 24px;
   margin-top: 50px;
 
   border-radius: 5px;
@@ -22,6 +25,7 @@ const DashBoardContainer = styled.div`
 
   @media screen and (max-width: ${device.tablet}) {
     width: 100%;
+    max-width: 100%;
   }
 
   @media screen and (max-width: ${device.mobileWidth}) {
