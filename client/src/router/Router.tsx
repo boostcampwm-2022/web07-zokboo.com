@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import Header from '../components/header/Header';
+
 import Exam from '../pages/Exam';
 import ExamCreate from '../pages/ExamCreate';
 import FindId from '../pages/FindId';
@@ -19,11 +21,10 @@ const Router = () => {
     <BrowserRouter>
       <GlobalStyle />
       {/* Header */}
-      {/* 
+
       <Routes>
-        <Route />
-      </Routes> 
-      */}
+        <Route path="/" element={<Header />} />
+      </Routes>
 
       {/* Contents */}
       <Routes>

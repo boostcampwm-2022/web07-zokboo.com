@@ -1,94 +1,166 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { colors, device, fonts } from '../../styles/theme';
-import DashBoardItem from './DashBoardItem';
-import addIcon from '../../assets/images/add.svg';
+import reviewNote from '../../assets/images/review_note.png';
+import paper from '../../assets/images/paper.png';
+import books from '../../assets/images/books.png';
+import profile from '../../assets/images/profile.png';
 
-const DashBoardContainer = styled.div`
+const HomeDashBoard = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
-  width: 45%;
-  max-width: 560px;
-  height: 250px;
+  margin-bottom: 50px;
+`;
+
+const DashBoardItemContainer = styled(Link)`
+  display: flex;
+
+  width: 22%;
+  height: 120px;
 
   box-sizing: border-box;
+  padding: 15px;
 
-  padding: 24px;
-  margin-top: 50px;
+  border-radius: 10px;
+  background-color: ${colors.secondary};
 
-  border-radius: 5px;
+  color: ${colors.text};
 
-  background-color: ${colors.offWhite};
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  text-decoration-line: none;
 
   @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  @media screen and (max-width: ${device.mobileWidth}) {
-    width: ${device.mobileWidth};
+    width: 45%;
+    margin-top: 10px;
   }
 `;
 
-const DashBoardList = styled.div`
+const DashBoardItemInfo = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 65%;
+
+  h3 {
+    margin: 0;
+    font-size: ${fonts.size.lg};
+  }
+
+  p {
+    font-size: ${fonts.size.lg};
+    margin: 8px 0;
+
+    span {
+      font-weight: 700;
+      font-size: 28px;
+    }
+  }
 `;
 
-const DashBoardWrapper = styled.div<{ justifyContent: string }>`
+const DashBoardItemImageBox = styled.div`
   display: flex;
-  justify-content: ${(props) => props.justifyContent};
   align-items: center;
-`;
 
-const DashBoardTitle = styled.h2`
-  font-size: ${fonts.size.lg};
-
-  margin: 0;
-`;
-
-const DashBoardMoreLink = styled(Link)`
-  color: ${colors.gray};
-  text-decoration-line: none;
-`;
-
-const DashBoardCreateLink = styled(Link)`
-  color: ${colors.text};
-  text-decoration-line: none;
-
+  width: 35%;
+  height: 100%;
   img {
-    width: 15px;
-    height: 15px;
+    width: 100%;
+    max-width: 100px;
   }
 `;
 
-interface Props {
+interface ItemProps {
   title: string;
-  moreLink: string;
-  createLink: string;
+  image: string;
+  link: string;
+  contents: JSX.Element | null;
 }
 
-const DashBoard = ({ title, moreLink, createLink }: Props) => {
+const DashBoardItem = ({ title, image, link, contents }: ItemProps) => {
   return (
-    <DashBoardContainer>
-      <DashBoardWrapper justifyContent="space-between">
-        <DashBoardTitle>{title}</DashBoardTitle>
-        <DashBoardMoreLink to={moreLink}>더보기</DashBoardMoreLink>
-      </DashBoardWrapper>
-      <DashBoardList>
-        <DashBoardItem />
-        <DashBoardItem />
-        <DashBoardItem />
-      </DashBoardList>
-      <DashBoardWrapper justifyContent="flex-end">
-        <DashBoardCreateLink to={createLink}>
-          <img src={addIcon} alt="addIcon" />
-        </DashBoardCreateLink>
-      </DashBoardWrapper>
-    </DashBoardContainer>
+    <DashBoardItemContainer to={link}>
+      <DashBoardItemInfo>
+        <h3>{title}</h3>
+        {contents}
+      </DashBoardItemInfo>
+      <DashBoardItemImageBox>
+        <img src={image} alt="books" />
+      </DashBoardItemImageBox>
+    </DashBoardItemContainer>
+  );
+};
+
+const DashBoard = () => {
+  return (
+    <HomeDashBoard>
+      <DashBoardItem
+        title="문제집"
+        image={books}
+        link="/mypage"
+        contents={
+          <p>
+            <span>10</span>권
+          </p>
+        }
+      />
+      <DashBoardItem
+        title="시험지"
+        image={paper}
+        link="/mypage"
+        contents={
+          <p>
+            <span>10</span>장
+          </p>
+        }
+      />
+      <DashBoardItem
+        title="오답노트"
+        image={reviewNote}
+        link="/mypage"
+        contents={
+          <p>
+            <span>10</span>권
+          </p>
+        }
+      />
+      <DashBoardItem title="내 프로필" image={profile} link="/mypage" contents={null} />
+      {/* <DashBoardItemContainer>
+        <DashBoardItemInfoContainer>
+          <h3>시험지</h3>
+          <p>
+            <span>10</span>권
+          </p>
+        </DashBoardItemInfoContainer>
+        <DashBoardItemImageBoxContainer>
+          <img src={paper} alt="paper" />
+        </DashBoardItemImageBoxContainer>
+      </DashBoardItemContainer>
+      <DashBoardItemContainer>
+        <DashBoardItemInfoContainer>
+          <h3>오답노트</h3>
+          <p>
+            <span>10</span>권
+          </p>
+        </DashBoardItemInfoContainer>
+        <DashBoardItemImageBoxContainer>
+          <img src={reviewNote} alt="reviewNote" />
+        </DashBoardItemImageBoxContainer>
+      </DashBoardItemContainer>
+      <DashBoardItemContainer>
+        <DashBoardItemInfoContainer>
+          <h3>내프로필 관리</h3>
+          <p>
+            <span>10</span>권
+          </p>
+        </DashBoardItemInfoContainer>
+        <DashBoardItemImageBoxContainer>
+          <img src={profile} alt="profile" />
+        </DashBoardItemImageBoxContainer>
+      </DashBoardItemContainer> */}
+    </HomeDashBoard>
   );
 };
 
