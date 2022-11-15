@@ -1,13 +1,19 @@
 import styled from 'styled-components';
 import { colors, device } from '../../styles/theme';
-import Logo from '../common/Logo';
 
 const HeaderContainer = styled.header`
+  border-bottom: 1px solid ${colors.offWhite};
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.08);
+`;
+
+const HeaderInnerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  width: 70%;
+  position: relative;
+
+  width: 80%;
   margin: 0 auto;
 
   @media screen and (max-width: ${device.tablet}) {
@@ -17,28 +23,30 @@ const HeaderContainer = styled.header`
   }
 `;
 
-const HeaderInner = styled.div`
+const HeaderInner = styled.div<{ width: string }>`
   display: flex;
-  flex-direction: column;
+  align-items: center;
+
+  width: ${(props) => props.width};
 
   .template_logo {
+    display: flex;
+    align-items: center;
+
     width: 150px;
     height: 70px;
 
-    background-color: ${colors.primary};
+    div {
+      width: 150px;
+      height: 60px;
+      background-color: ${colors.primary};
+    }
   }
 `;
 
 const HeaderSearch = styled.input`
-  position: absolute;
-  top: 0;
-  left: 0px;
-  right: 0px;
-
-  margin: 0 auto;
-
-  width: 600px;
-  height: 62px;
+  width: calc(100% - 150px);
+  height: 50px;
 
   border: 1px solid ${colors.primary};
   border-radius: 5px;
@@ -46,6 +54,7 @@ const HeaderSearch = styled.input`
   box-sizing: border-box;
 
   padding: 0px 17px;
+  margin: 0 0 0 50px;
 
   font-size: 16px;
   color: ${colors.text};
@@ -59,23 +68,24 @@ const HeaderSearch = styled.input`
   }
 
   @media screen and (max-width: ${device.tablet}) {
-    top: 80px;
-
-    width: 90%;
+    top: 120px;
   }
 `;
 
 const Header = () => {
   return (
     <HeaderContainer>
-      <HeaderInner>
-        {/* <Logo /> */}
-        <div className="template_logo">Zok</div>
-      </HeaderInner>
-      <HeaderInner>
-        <HeaderSearch placeholder="검색어를 입력하세요." />
-      </HeaderInner>
-      <HeaderInner>Button</HeaderInner>
+      <HeaderInnerContainer>
+        <HeaderInner width="80%">
+          {/* <Logo /> */}
+          <div className="template_logo">
+            <div>Zok</div>
+          </div>
+          <HeaderSearch placeholder="검색어를 입력하세요." />
+        </HeaderInner>
+
+        <HeaderInner width="100px">Button</HeaderInner>
+      </HeaderInnerContainer>
     </HeaderContainer>
   );
 };

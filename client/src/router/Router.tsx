@@ -14,10 +14,12 @@ import ProblemCreate from '../pages/ProblemCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/SignUp';
+import GlobalStyle from '../styles/Global';
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <GlobalStyle />
       {/* Header */}
 
       <Routes>
