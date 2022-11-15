@@ -11,6 +11,9 @@ const Modal = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 
   width: 440px;
@@ -20,6 +23,12 @@ const Modal = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   background: #fcfcfc;
+
+  @media screen and (max-width: ${device.mobileWidth}) {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
 `;
 
 const Logo = styled.div`
