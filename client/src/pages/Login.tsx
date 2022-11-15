@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { colors } from '../styles/theme';
+import { colors, device } from '../styles/theme';
+import githubIcon from '../assets/images/github-icon.png';
+import googleIcon from '../assets/images/google-icon.png';
+import kakaoIcon from '../assets/images/kakao-icon.png';
+import naverIcon from '../assets/images/naver-icon.png';
 
 const Modal = styled.div`
   position: absolute;
@@ -10,7 +14,6 @@ const Modal = styled.div`
   text-align: center;
 
   width: 440px;
-  height: 280px;
 
   border: 1.5px solid #c1c1c1;
   border-radius: 8px;
@@ -19,35 +22,129 @@ const Modal = styled.div`
   background: #fcfcfc;
 `;
 
-const Logo = styled.div``;
-const ModalBody = styled.div`
-  display: flex;
-  flex-direction: column;
+const Logo = styled.div`
+  width: 100px;
+  height: 50px;
 `;
-const InputBox = styled.input``;
-const MoreButtons = styled.div``;
-const OSSButtons = styled.div``;
+const ModalBody = styled.div`
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+const InputBox = styled.input`
+  width: 200px;
+  padding: 12px;
+  margin: 12px 0px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+
+  :focus {
+    outline: none;
+    border: 1px solid ${colors.primary};
+  }
+`;
+const LoginButton = styled.input`
+  background: none;
+  color: ${colors.secondary};
+  border: 1px solid ${colors.secondary};
+  border-radius: 8px;
+
+  padding: 8px;
+  width: 224px;
+
+  :hover {
+    background-color: ${colors.primary};
+    color: white;
+  }
+`;
+const MoreButtons = styled.div`
+  margin: 12px;
+
+  input {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    color: ${colors.gray};
+
+    :hover {
+      opacity: 0.7;
+    }
+  }
+`;
+
+const SSOTitle = styled.div`
+  margin: 12px;
+
+  color: ${colors.gray};
+  font-size: 14px;
+`;
+
+const SSOButtons = styled.div`
+  img {
+    margin: 12px 12px;
+  }
+`;
+
+const SSOIcon = styled.img`
+  width: 48px;
+`;
+
+const handleLocalLogin = {
+  login: () => {
+    /** */
+  },
+  findID: () => {
+    /** */
+  },
+  findPW: () => {
+    /** */
+  },
+  register: () => {
+    /** */
+  },
+};
+
+const handleSSO = {
+  github: () => {
+    /** */
+  },
+  google: () => {
+    /** */
+  },
+  naver: () => {
+    /** */
+  },
+  kakao: () => {
+    /** */
+  },
+};
+
 const Login = () => {
   return (
     <div>
       <Modal>
         <Logo>logo</Logo>
         <ModalBody>
-          <InputBox placeholder="아이디" />
-          <InputBox placeholder="비밀번호" />
-          <input type="button" value="로그인" />
+          <form onSubmit={() => handleLocalLogin.login()}>
+            <InputBox placeholder="아이디" />
+            <InputBox placeholder="비밀번호" />
+            <LoginButton type="submit" value="로그인" />
+          </form>
           <MoreButtons>
-            <input type="button" value="아이디 찾기" />
-            <input type="button" value="비밀번호 찾기" />
-            <input type="button" value="회원가입" />
+            <input type="button" value="아이디 찾기" onClick={() => handleLocalLogin.findID()} />
+            <input type="button" value="비밀번호 찾기" onClick={() => handleLocalLogin.findPW()} />
+            <input type="button" value="회원가입" onClick={() => handleLocalLogin.register()} />
           </MoreButtons>
-          <div>간편로그인</div>
-          <OSSButtons>
-            <input type="button" value="naver" />
-            <input type="button" value="google" />
-            <input type="button" value="github" />
-            <input type="button" value="kakao" />
-          </OSSButtons>
+          <SSOTitle>간편로그인</SSOTitle>
+          <SSOButtons>
+            <SSOIcon src={githubIcon} alt="github" onClick={() => handleSSO.github()} />
+            <SSOIcon src={googleIcon} alt="google" onClick={() => handleSSO.google()} />
+            <SSOIcon src={naverIcon} alt="naver" onClick={() => handleSSO.naver()} />
+            <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => handleSSO.kakao()} />
+          </SSOButtons>
         </ModalBody>
       </Modal>
     </div>
