@@ -1,11 +1,9 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import dropdownArrow from '../images/dropdown-arrow.svg';
 import CommonDropdown from './CommonDropdown';
 
-const Dropdown = styled.details`
-  //display: none;
-`;
+const Dropdown = styled.div``;
 
 const DropdownTitleContainer = styled.summary`
   display: flex;
@@ -32,14 +30,37 @@ type CommonDropdownContainerProps = {
 const CommonDropdownContainer: React.FC<CommonDropdownContainerProps> = ({
   title: _title,
 }: CommonDropdownContainerProps) => {
-  const wrapperRef = useRef(null);
+  const [isToggled, setIsToggled] = useState<boolean>(false);
+  const detailsRef: any = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: any) {
+      if (detailsRef.current && !detailsRef.current.contains(e.target)) {
+        setIsToggled(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <Dropdown>
+    <Dropdown
+      ref={detailsRef}
+      onClick={(e) => {
+        setIsToggled((prev) => !prev);
+      }}
+    >
       <DropdownTitleContainer>
         <DropdownTitle>{_title}</DropdownTitle>
         <DropdownArrow src={dropdownArrow} alt="" />
       </DropdownTitleContainer>
-      <CommonDropdown wrapperRef={wrapperRef} />
+
+      {isToggled ? <CommonDropdown /> : null}
     </Dropdown>
   );
 };

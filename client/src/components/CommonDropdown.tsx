@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const Dropdown = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
 
@@ -24,25 +25,8 @@ const DropdownItem = styled.button`
   }
 `;
 
-type CommonDropdownProps = {
-  wrapperRef: React.MutableRefObject<null>;
-};
-
-// dropdown 안에는 context로 가져오는걸로? 아니면 props두번써야함.
-const CommonDropdown: React.FC<CommonDropdownProps> = ({ wrapperRef: ref }: CommonDropdownProps) => {
-  // 드롭다운 바깥클릭 핸들러
-  //   useEffect(() => {
-  //     const handleOutsideClick = (e: any) => {
-  //       if (ref.current && !ref.current.contains(e.target)) {
-  //         alert('You clicked outside of me!');
-  //       }
-  //     };
-
-  //     document.addEventListener('mousedown', handleOutsideClick);
-  //     return () => {
-  //       document.removeEventListener('mousedown', handleOutsideClick);
-  //     };
-  //   }, [ref]);
+// 버튼이름과 버튼핸들러는 어떻게 가져올 수 있을까요? 전 도저히 생각이 안나네요ㅠ
+const CommonDropdown: React.FC = () => {
   return (
     <Dropdown>
       <DropdownItem>aa</DropdownItem>
