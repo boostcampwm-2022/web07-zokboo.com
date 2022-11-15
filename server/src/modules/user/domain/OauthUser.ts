@@ -3,16 +3,16 @@ import OauthType from '../enum/OauthType';
 import User from './User';
 
 export default class OauthUser extends User {
-  private oauthId: number;
-  private oauthType: OauthType;
+  public oauthId: bigint;
+  public oauthType: OauthType;
 
   constructor(
-    userId: number | undefined,
+    userId: bigint | undefined,
     nickname: string,
     avatar: string,
     createdAt: Date,
     updatedAt: Date,
-    oauthId: number,
+    oauthId: bigint,
     oauthType: OauthType,
   ) {
     super(userId, nickname, avatar, createdAt, updatedAt);
@@ -20,7 +20,7 @@ export default class OauthUser extends User {
     this.oauthType = oauthType;
   }
 
-  static new(oauthType: OauthType, oauthId: number) {
+  static new(oauthType: OauthType, oauthId: bigint) {
     const now = new Date();
     const nickname = oauthType.toString() + randomUUID;
     return new OauthUser(undefined, nickname, '', now, now, oauthId, oauthType);

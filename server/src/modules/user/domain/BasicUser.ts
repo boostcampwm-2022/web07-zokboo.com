@@ -1,11 +1,11 @@
 import User from './User';
 
 export default class BasicUser extends User {
-  private email: string;
-  private password: string;
+  public email: string;
+  public password: string;
 
   constructor(
-    userId: number | undefined,
+    userId: bigint | undefined,
     nickname: string,
     avatar: string,
     createdAt: Date,
