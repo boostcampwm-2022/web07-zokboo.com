@@ -5,32 +5,33 @@ import Logo from '../common/Logo';
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 
   width: 70%;
-  margin: 36px auto;
-  /* margin: 36px 71px; */
+  margin: 0 auto;
 
   @media screen and (max-width: ${device.tablet}) {
     width: 100%;
 
-    margin: 36px 0;
+    margin: 0 0;
   }
 `;
 
 const HeaderInner = styled.div`
   display: flex;
   flex-direction: column;
-`;
 
-const HeaderNavList = styled.ul`
-  display: flex;
-  list-style: none;
+  .template_logo {
+    width: 150px;
+    height: 70px;
+
+    background-color: ${colors.primary};
+  }
 `;
 
 const HeaderSearch = styled.input`
   position: absolute;
-  top: 180px;
+  top: 0;
   left: 0px;
   right: 0px;
 
@@ -68,11 +69,10 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderInner>
-        <Logo />
+        {/* <Logo /> */}
+        <div className="template_logo">Zok</div>
       </HeaderInner>
       <HeaderInner>
-        <HeaderNavList />
-
         <HeaderSearch placeholder="검색어를 입력하세요." />
       </HeaderInner>
       <HeaderInner>Button</HeaderInner>
