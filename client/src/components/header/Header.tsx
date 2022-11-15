@@ -14,33 +14,13 @@ const HeaderInnerContainer = styled.div`
   position: relative;
 
   width: 80%;
+
   margin: 0 auto;
 
   @media screen and (max-width: ${device.tablet}) {
     width: 100%;
 
     margin: 0 0;
-  }
-`;
-
-const HeaderInner = styled.div<{ width: string }>`
-  display: flex;
-  align-items: center;
-
-  width: ${(props) => props.width};
-
-  .template_logo {
-    display: flex;
-    align-items: center;
-
-    width: 150px;
-    height: 70px;
-
-    div {
-      width: 150px;
-      height: 60px;
-      background-color: ${colors.primary};
-    }
   }
 `;
 
@@ -66,9 +46,55 @@ const HeaderSearch = styled.input`
   :focus {
     outline: none;
   }
+`;
+
+const HeaderInner = styled.div<{ width: string }>`
+  display: flex;
+  align-items: center;
+
+  width: ${(props) => props.width};
+
+  padding: 0 20px;
+
+  .template_logo {
+    display: flex;
+    align-items: center;
+
+    width: 150px;
+    height: 70px;
+
+    div {
+      width: 150px;
+      height: 60px;
+      background-color: ${colors.primary};
+    }
+  }
 
   @media screen and (max-width: ${device.tablet}) {
-    top: 120px;
+    ${HeaderSearch} {
+      display: none;
+    }
+  }
+`;
+
+const HeaderMobileContainer = styled.div`
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+
+  display: none;
+
+  padding: 0 20px;
+
+  ${HeaderSearch} {
+    width: 100%;
+    margin: 0;
+  }
+
+  @media screen and (max-width: ${device.tablet}) {
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -83,6 +109,10 @@ const Header = () => {
           </div>
           <HeaderSearch placeholder="검색어를 입력하세요." />
         </HeaderInner>
+
+        <HeaderMobileContainer>
+          <HeaderSearch placeholder="검색어를 입력하세요." />
+        </HeaderMobileContainer>
 
         <HeaderInner width="100px">Button</HeaderInner>
       </HeaderInnerContainer>
