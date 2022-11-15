@@ -27,9 +27,7 @@ type CommonDropdownContainerProps = {
 };
 
 // title을 어떻게 받는게 효율적일까요..? 일단 img도 오고 string도 올수 있겠다 생각해서 element로 처리해봤습니다
-const CommonDropdownContainer: React.FC<CommonDropdownContainerProps> = ({
-  title: _title,
-}: CommonDropdownContainerProps) => {
+const CommonDropdownContainer = ({ title: _title }: CommonDropdownContainerProps) => {
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const detailsRef: any = useRef(null);
 

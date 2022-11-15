@@ -26,7 +26,7 @@ const DropdownItem = styled.button`
 `;
 
 // 버튼이름과 버튼핸들러는 어떻게 가져올 수 있을까요? 전 도저히 생각이 안나네요ㅠ
-const CommonDropdown: React.FC = () => {
+const CommonDropdown = () => {
   return (
     <Dropdown>
       <DropdownItem>aa</DropdownItem>

@@ -24,11 +24,7 @@ interface CommonButtonProps {
   buttonColor?: string;
 }
 
-const CommonButtonComponent: React.FC<CommonButtonProps> = ({
-  buttonText: text,
-  handleButton: handle,
-  buttonColor: color,
-}: CommonButtonProps) => {
+const CommonButtonComponent = ({ buttonText: text, handleButton: handle, buttonColor: color }: CommonButtonProps) => {
   return (
     <CommonButton onClick={handle} color={color}>
       {text}
