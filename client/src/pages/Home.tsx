@@ -1,20 +1,21 @@
 import styled from 'styled-components';
+import Chart from '../components/chart/Chart';
 import DashBoard from '../components/dashboard/DashBoard';
 
-import { colors, device, fonts, paddings } from '../styles/theme';
+import { colors, device, fonts, paddings, widths } from '../styles/theme';
 
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: 80%;
+  width: ${widths.base};
 
   box-sizing: border-box;
   margin: 100px auto 0px;
   padding: ${paddings.responsive};
 
   @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
+    width: ${widths.responsive};
     margin: 50px auto 0px;
   }
 `;
@@ -26,13 +27,6 @@ const HomeTitle = styled.h1`
   }
 `;
 
-const HomeChart = styled.div`
-  width: 100%;
-  height: 400px;
-
-  background-color: ${colors.gray1};
-`;
-
 const Home = () => {
   return (
     <HomeContainer>
@@ -42,7 +36,8 @@ const Home = () => {
 
       <DashBoard />
 
-      <HomeChart>차트 같은거 있으면 어떨까?</HomeChart>
+      <HomeTitle>최근에 활동한 정보에요.</HomeTitle>
+      <Chart />
     </HomeContainer>
   );
 };

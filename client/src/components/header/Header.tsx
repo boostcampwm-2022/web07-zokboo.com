@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device, paddings } from '../../styles/theme';
+import { colors, device, paddings, widths } from '../../styles/theme';
 
 const HeaderContainer = styled.header`
   border-bottom: 1px solid ${colors.offWhite};
@@ -13,12 +13,12 @@ const HeaderInnerContainer = styled.div`
 
   position: relative;
 
-  width: 80%;
+  width: ${widths.base};
 
   margin: 0 auto;
 
   @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
+    width: ${widths.responsive};
 
     margin: 0;
   }
