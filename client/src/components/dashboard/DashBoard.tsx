@@ -11,7 +11,11 @@ const HomeDashBoard = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
 
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+
+  @media screen and (max-width: ${device.tablet}) {
+    margin-bottom: 30px;
+  }
 `;
 
 const DashBoardItemContainer = styled(Link)`
@@ -127,39 +131,6 @@ const DashBoard = () => {
         }
       />
       <DashBoardItem title="내 프로필" image={profile} link="/mypage" contents={null} />
-      {/* <DashBoardItemContainer>
-        <DashBoardItemInfoContainer>
-          <h3>시험지</h3>
-          <p>
-            <span>10</span>권
-          </p>
-        </DashBoardItemInfoContainer>
-        <DashBoardItemImageBoxContainer>
-          <img src={paper} alt="paper" />
-        </DashBoardItemImageBoxContainer>
-      </DashBoardItemContainer>
-      <DashBoardItemContainer>
-        <DashBoardItemInfoContainer>
-          <h3>오답노트</h3>
-          <p>
-            <span>10</span>권
-          </p>
-        </DashBoardItemInfoContainer>
-        <DashBoardItemImageBoxContainer>
-          <img src={reviewNote} alt="reviewNote" />
-        </DashBoardItemImageBoxContainer>
-      </DashBoardItemContainer>
-      <DashBoardItemContainer>
-        <DashBoardItemInfoContainer>
-          <h3>내프로필 관리</h3>
-          <p>
-            <span>10</span>권
-          </p>
-        </DashBoardItemInfoContainer>
-        <DashBoardItemImageBoxContainer>
-          <img src={profile} alt="profile" />
-        </DashBoardItemImageBoxContainer>
-      </DashBoardItemContainer> */}
     </HomeDashBoard>
   );
 };
