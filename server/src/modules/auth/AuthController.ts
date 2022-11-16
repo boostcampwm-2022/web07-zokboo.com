@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters } from '@nestjs/common';
+import { GlobalExceptionFilter } from 'src/GlobalExceptionFilter';
 import ApiResponse from '../common/response/ApiResponse';
 import SignupRequest from '../user/dto/request/SignupRequest';
 import { UserService } from '../user/UserService';
 
+@UseFilters(new GlobalExceptionFilter())
 @Controller('auth')
 export class AuthController {
   constructor(private userService: UserService) {}
