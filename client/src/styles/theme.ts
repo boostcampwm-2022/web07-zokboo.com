@@ -1,3 +1,8 @@
+export const widths = {
+  base: '65%',
+  responsive: '100%',
+};
+
 export const margins = {
   sm: '',
   base: '',
