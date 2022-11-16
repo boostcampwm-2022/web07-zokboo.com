@@ -25,8 +25,18 @@ const SearchResultItemContainer = styled.div`
 
 const ItemTitle = styled.div``;
 const ItemExplain = styled.div`
-  font-size: 8px;
+  font-size: 12px;
   color: ${colors.gray4};
+  padding: 8px 0px;
+`;
+const ItemCreator = styled.div`
+  font-size: 8px;
+  color: ${colors.gray3};
+`;
+
+const ItemCreateAt = styled.div`
+  font-size: 8px;
+  color: ${colors.gray3};
 `;
 
 const Buttons = styled.div`
@@ -72,7 +82,14 @@ const ContentButtons = styled.div`
 const TestButton = styled.input``;
 const SaveButton = styled.input``;
 
-const SearchResultItem = () => {
+interface SearchResultItemProps {
+  title: string;
+  creatorId: string;
+  createAt: string;
+  description: string;
+}
+
+const SearchResultItem = ({ title, creatorId, createAt, description }: SearchResultItemProps) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isScrap, setIsScrap] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
@@ -81,8 +98,10 @@ const SearchResultItem = () => {
   return (
     <SearchResultItemContainer>
       <FiMoreHorizontal className="more-button" />
-      <ItemTitle>CS 면접 대비 문제집</ItemTitle>
-      <ItemExplain>이 문제집은 CS면접을 대비하기 위해 작성한 문제를 모아둔 문제집입니다.</ItemExplain>
+      <ItemTitle>{title}</ItemTitle>
+      <ItemExplain>{description}</ItemExplain>
+      <ItemCreator>{`생성자 : ${creatorId}`}</ItemCreator>
+      <ItemCreateAt>{`생성일 : ${createAt}`}</ItemCreateAt>
       <Buttons>
         <ItemInfo>
           <Heart onClick={() => setIsLike((prev) => !prev)}>

@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
 
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Header from '../components/header/Header';
 import { colors, device, paddings } from '../styles/theme';
 import SearchResultItem from '../components/search/SearchResultItem';
@@ -38,7 +39,20 @@ const SortContainer = styled.div`
 
 const SearchResultTitle = styled.div``;
 
+interface SearchData {
+  workbook_id: number;
+  title: string;
+  creator_id: string;
+  create_at: string;
+  description: string;
+}
 const Search = () => {
+  const [searchData, setSearchData] = useState<SearchData[]>([]);
+
+  useEffect(() => {
+    axios.get('/search').then((res) => setSearchData(res.data));
+  }, []);
+
   return (
     <div>
       <Header />
@@ -51,13 +65,15 @@ const Search = () => {
           </SortContainer>
         </TitleContainer>
         {/** temp */}
-        <SearchResultItem />
-        <SearchResultItem />
-        <SearchResultItem />
-        <SearchResultItem />
-        <SearchResultItem />
-        <SearchResultItem />
-        <SearchResultItem />
+        {searchData.map((x, i) => (
+          <SearchResultItem
+            key={x.workbook_id}
+            title={x.title}
+            creatorId={x.creator_id}
+            createAt={x.create_at}
+            description={x.description}
+          />
+        ))}
         {/** temp */}
       </SearchResultContainer>
     </div>
