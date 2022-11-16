@@ -20,7 +20,7 @@ export class UserRepository {
     const newUser = await this.prisma.user.create({
       data: {
         nickname: user.nickname,
-        avatar: user.nickname,
+        avatar: user.avatar,
         created_at: user.createdAt,
         updated_at: user.updatedAt,
       },
@@ -65,5 +65,14 @@ export class UserRepository {
       },
     });
     return user;
+  }
+
+  async findUserById(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        user_id: userId,
+      },
+    });
+    return User.of(user);
   }
 }

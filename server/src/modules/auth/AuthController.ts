@@ -6,7 +6,7 @@ import { UserService } from '../user/UserService';
 import ApiResponse from '../common/response/ApiResponse';
 import SignupRequest from '../user/dto/request/SignupRequest';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService, private userService: UserService) {}
 
