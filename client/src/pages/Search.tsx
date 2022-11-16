@@ -1,7 +1,5 @@
-import styled, { css } from 'styled-components';
-
+import styled from 'styled-components';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { useState } from 'react';
 import Header from '../components/header/Header';
 import { colors, device, paddings } from '../styles/theme';
 import SearchResultItem from '../components/search/SearchResultItem';
