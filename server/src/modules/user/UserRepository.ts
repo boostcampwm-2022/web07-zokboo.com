@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaInstance } from '../common/PrismaInstance';
 import BasicUser from './domain/BasicUser';
 import OauthUser from './domain/OauthUser';
@@ -41,6 +41,13 @@ export class UserRepository {
           oauth_type: (user as OauthUser).oauthType,
         },
       });
+    } else {
+      await this.prisma.user.delete({
+        where: {
+          user_id: newUser.user_id,
+        },
+      });
+      throw new InternalServerErrorException('허용되지 않은 User의 등록 시도');
     }
     user.setId(newUser.user_id);
     return user;

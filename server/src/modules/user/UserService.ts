@@ -16,7 +16,7 @@ export class UserService {
     return new SignupResponse(savedUser);
   }
 
-  async comparePassword(password: string, passwordConfirmation: string) {
+  private comparePassword(password: string, passwordConfirmation: string) {
     if (password !== passwordConfirmation) {
       throw new BadRequestException('password와 password confirmation 불일치');
     }

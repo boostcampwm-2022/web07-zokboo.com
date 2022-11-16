@@ -27,6 +27,6 @@ export class AuthRepository {
     };
 
     // TODO: fix this part
-    const user = await this.prismaInstance.user.create({ data });
+    //const user = await this.prismaInstance.user.create({ data });
   }
 }
