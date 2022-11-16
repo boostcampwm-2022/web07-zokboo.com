@@ -13,12 +13,12 @@ const HeaderInnerContainer = styled.div`
 
   position: relative;
 
-  width: ${widths.pc};
+  width: ${widths.base};
 
   margin: 0 auto;
 
   @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
+    width: ${widths.responsive};
 
     margin: 0;
   }

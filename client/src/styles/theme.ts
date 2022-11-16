@@ -1,5 +1,6 @@
 export const widths = {
-  pc: '65%',
+  base: '65%',
+  responsive: '100%',
 };
 
 export const margins = {

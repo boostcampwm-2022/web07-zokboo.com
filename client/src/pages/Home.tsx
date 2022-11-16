@@ -7,14 +7,14 @@ const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: ${widths.pc};
+  width: ${widths.base};
 
   box-sizing: border-box;
   margin: 100px auto 0px;
   padding: ${paddings.responsive};
 
   @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
+    width: ${widths.responsive};
     margin: 50px auto 0px;
   }
 `;
