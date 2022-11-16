@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const Dropdown = styled.div`
+const DropdownStyled = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -26,14 +26,14 @@ const DropdownItem = styled.button`
 `;
 
 // 버튼이름과 버튼핸들러는 어떻게 가져올 수 있을까요? 전 도저히 생각이 안나네요ㅠ
-const CommonDropdown = () => {
+const Dropdown = () => {
   return (
-    <Dropdown>
+    <DropdownStyled>
       <DropdownItem>aa11</DropdownItem>
       <DropdownItem>bb</DropdownItem>
       <DropdownItem>cc</DropdownItem>
-    </Dropdown>
+    </DropdownStyled>
   );
 };
 
-export default CommonDropdown;
+export default Dropdown;
