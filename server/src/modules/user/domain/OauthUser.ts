@@ -22,7 +22,7 @@ export default class OauthUser extends User {
 
   static new(oauthType: OauthType, oauthId: bigint) {
     const now = new Date();
-    const nickname = oauthType.toString() + '-' + randomUUID;
+    const nickname = oauthType.toString() + '-' + randomUUID();
     return new OauthUser(undefined, nickname, '', now, now, oauthId, oauthType);
   }
 }
