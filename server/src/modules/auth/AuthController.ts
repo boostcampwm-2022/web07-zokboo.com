@@ -4,6 +4,7 @@ import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/UserService';
 import ApiResponse from '../common/response/ApiResponse';
+import SignupRequest from '../user/dto/request/SignupRequest';
 
 @Controller()
 export class AuthController {
