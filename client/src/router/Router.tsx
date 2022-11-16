@@ -9,6 +9,7 @@ import FindPw from '../pages/FindPw';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
+import PageNotFound from '../pages/PageNotFound';
 import Problem from '../pages/Problem';
 import ProblemCreate from '../pages/ProblemCreate';
 import Review from '../pages/Review';
@@ -40,6 +41,7 @@ const Router = () => {
         <Route path="/find_id" element={<FindId />} />
         <Route path="/find_pw" element={<FindPw />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );
