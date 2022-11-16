@@ -1,3 +1,7 @@
+export const widths = {
+  pc: '65%',
+};
+
 export const margins = {
   sm: '',
   base: '',

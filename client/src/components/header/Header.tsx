@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device, paddings } from '../../styles/theme';
+import { colors, device, paddings, widths } from '../../styles/theme';
 
 const HeaderContainer = styled.header`
   border-bottom: 1px solid ${colors.offWhite};
@@ -13,7 +13,7 @@ const HeaderInnerContainer = styled.div`
 
   position: relative;
 
-  width: 80%;
+  width: ${widths.pc};
 
   margin: 0 auto;
 
