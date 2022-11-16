@@ -1,12 +1,26 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import SigninRequest from '../user/dto/request/SigninRequest';
+import SigninResponse from '../user/dto/response/SigninResponse';
+import { UserRepository } from '../user/UserRepository';
 import { AuthRepository } from './AuthRepository';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly authRepository: AuthRepository) {}
+  constructor(
+    private readonly authRepository: AuthRepository,
+    private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
   getUserById(id: number) {
     return this.authRepository.getById(id);
+  }
+
+  async signin(request: SigninRequest) {
+    const user = await this.userRepository.findUserByEmail(request.email);
+    user.authenticate(request.password);
+    return new SigninResponse(user);
   }
 
   signupKakao(name: string, email: string, id: number) {
@@ -22,5 +36,13 @@ export class AuthService {
     }
 
     //const user = this.authRepository.create(oauthData, email);
+  }
+
+  issueJwtAccessToken(userId: number) {
+    const payload = { userId };
+    return this.jwtService.sign(payload, {
+      expiresIn: '1h',
+      secret: process.env.JWT_SECRET || 'KKK',
+    });
   }
 }

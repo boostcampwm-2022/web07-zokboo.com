@@ -17,9 +17,6 @@ import { CommonModule } from '../common/CommonModule';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '1d',
-        },
       }),
     }),
     CommonModule,
