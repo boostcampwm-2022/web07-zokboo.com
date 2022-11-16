@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import DashBoard from '../components/dashboard/DashBoard';
 
-import { colors, device } from '../styles/theme';
+import { colors, device, fonts, paddings } from '../styles/theme';
 
 const HomeContainer = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const HomeContainer = styled.div`
 
   box-sizing: border-box;
   margin: 100px auto 0px;
-  padding: 20px;
+  padding: ${paddings.responsive};
 
   @media screen and (max-width: ${device.tablet}) {
     width: 100%;
@@ -20,8 +20,7 @@ const HomeContainer = styled.div`
 `;
 
 const HomeTitle = styled.h1`
-  font-size: 28px;
-
+  font-size: ${fonts.size.xxl};
   span {
     color: ${colors.primary};
   }
@@ -31,7 +30,7 @@ const HomeChart = styled.div`
   width: 100%;
   height: 400px;
 
-  background-color: ${colors.gray};
+  background-color: ${colors.gray1};
 `;
 
 const Home = () => {

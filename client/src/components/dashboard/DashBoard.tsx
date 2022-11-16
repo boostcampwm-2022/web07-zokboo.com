@@ -54,8 +54,8 @@ const DashBoardItemInfo = styled.div`
     margin: 8px 0;
 
     span {
-      font-weight: 700;
-      font-size: 28px;
+      font-weight: ${fonts.weight.bold};
+      font-size: ${fonts.size.xxl};
     }
   }
 `;

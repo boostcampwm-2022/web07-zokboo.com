@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device } from '../../styles/theme';
+import { colors, device, paddings } from '../../styles/theme';
 
 const HeaderContainer = styled.header`
   border-bottom: 1px solid ${colors.offWhite};
@@ -20,7 +20,7 @@ const HeaderInnerContainer = styled.div`
   @media screen and (max-width: ${device.tablet}) {
     width: 100%;
 
-    margin: 0 0;
+    margin: 0;
   }
 `;
 
@@ -54,7 +54,7 @@ const HeaderInner = styled.div<{ width: string }>`
 
   width: ${(props) => props.width};
 
-  padding: 0 20px;
+  padding: ${paddings.responsive};
 
   .template_logo {
     display: flex;
@@ -85,7 +85,7 @@ const HeaderMobileContainer = styled.div`
 
   display: none;
 
-  padding: 0 20px;
+  padding: ${paddings.responsive};
 
   ${HeaderSearch} {
     width: 100%;
