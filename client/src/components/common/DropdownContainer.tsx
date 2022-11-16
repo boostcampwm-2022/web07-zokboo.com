@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import dropdownArrow from '../images/dropdown-arrow.svg';
-import CommonDropdown from './CommonDropdown';
+import Dropdown from './Dropdown';
 
-const Dropdown = styled.div``;
+const DropButton = styled.div``;
 
 const DropdownTitleContainer = styled.summary`
   display: flex;
@@ -22,12 +22,12 @@ const DropdownArrow = styled.img`
   width: 14px;
 `;
 
-type CommonDropdownContainerProps = {
+type DropdownContainerProps = {
   title: JSX.Element;
 };
 
 // title을 어떻게 받는게 효율적일까요..? 일단 img도 오고 string도 올수 있겠다 생각해서 element로 처리해봤습니다
-const CommonDropdownContainer = ({ title: _title }: CommonDropdownContainerProps) => {
+const DropdownContainer = ({ title }: DropdownContainerProps) => {
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const detailsRef: any = useRef(null);
 
@@ -47,20 +47,20 @@ const CommonDropdownContainer = ({ title: _title }: CommonDropdownContainerProps
   }, []);
 
   return (
-    <Dropdown
+    <DropButton
       ref={detailsRef}
-      onClick={(e) => {
+      onClick={() => {
         setIsToggled((prev) => !prev);
       }}
     >
       <DropdownTitleContainer>
-        <DropdownTitle>{_title}</DropdownTitle>
+        <DropdownTitle>{title}</DropdownTitle>
         <DropdownArrow src={dropdownArrow} alt="" />
       </DropdownTitleContainer>
 
-      {isToggled ? <CommonDropdown /> : null}
-    </Dropdown>
+      {isToggled ? <Dropdown /> : null}
+    </DropButton>
   );
 };
 
-export default CommonDropdownContainer;
+export default DropdownContainer;
