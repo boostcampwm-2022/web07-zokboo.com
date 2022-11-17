@@ -32,7 +32,7 @@ const ToggleButton = styled.div`
   }
 `;
 
-const ToggleContainer = styled.div`
+const ToggleContainer = styled.label`
   position: relative;
 
   width: 100%;
@@ -66,18 +66,20 @@ const ToggleContainer = styled.div`
 `;
 
 interface Props {
-  setToggle: () => void;
+  setToggle?: () => void;
 }
 
 const Toggle = ({ setToggle }: Props) => {
   return (
-    <ToggleContainer>
-      <label htmlFor="toggle">
-        <input type="checkbox" id="toggle" onChange={setToggle} />
-        <ToggleButton />
-      </label>
+    <ToggleContainer htmlFor="toggle">
+      <input type="checkbox" id="toggle" onChange={setToggle} />
+      <ToggleButton />
     </ToggleContainer>
   );
+};
+
+Toggle.defaultProps = {
+  setToggle: undefined,
 };
 
 export default Toggle;
