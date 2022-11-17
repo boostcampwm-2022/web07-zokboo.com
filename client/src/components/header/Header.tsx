@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { colors, device, paddings, widths } from '../../styles/theme';
+import Logo from '../common/Logo';
 
 const HeaderContainer = styled.header`
-  border-bottom: 1px solid ${colors.offWhite};
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid ${colors.gray1};
+  padding: 10px 0;
 `;
 
 const HeaderInnerContainer = styled.div`
@@ -25,7 +26,7 @@ const HeaderInnerContainer = styled.div`
 `;
 
 const HeaderSearch = styled.input`
-  width: calc(100% - 150px);
+  width: calc(100% - 100px);
   height: 50px;
 
   border: 1px solid ${colors.primary};
@@ -34,7 +35,7 @@ const HeaderSearch = styled.input`
   box-sizing: border-box;
 
   padding: 0px 17px;
-  margin: 0 0 0 50px;
+  margin: 0 0 0 20px;
 
   font-size: 16px;
   color: ${colors.text};
@@ -55,20 +56,6 @@ const HeaderInner = styled.div<{ width: string }>`
   width: ${(props) => props.width};
 
   padding: ${paddings.responsive};
-
-  .template_logo {
-    display: flex;
-    align-items: center;
-
-    width: 150px;
-    height: 70px;
-
-    div {
-      width: 150px;
-      height: 60px;
-      background-color: ${colors.primary};
-    }
-  }
 
   @media screen and (max-width: ${device.tablet}) {
     ${HeaderSearch} {
@@ -98,15 +85,22 @@ const HeaderMobileContainer = styled.div`
   }
 `;
 
+const HeaderLogo = styled.div`
+  width: 350px;
+
+  @media screen and (max-width: ${device.tablet}) {
+    width: 200px;
+  }
+`;
+
 const Header = () => {
   return (
     <HeaderContainer>
       <HeaderInnerContainer>
         <HeaderInner width="80%">
-          {/* <Logo /> */}
-          <div className="template_logo">
-            <div>Zok</div>
-          </div>
+          <HeaderLogo>
+            <Logo />
+          </HeaderLogo>
           <HeaderSearch placeholder="검색어를 입력하세요." />
         </HeaderInner>
 

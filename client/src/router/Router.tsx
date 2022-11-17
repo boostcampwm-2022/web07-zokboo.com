@@ -25,13 +25,14 @@ const Router = () => {
 
       <Routes>
         <Route path="/" element={<Header />} />
+        <Route path="/problemCreate" element={<Header />} />
       </Routes>
 
       {/* Contents */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/problem_create" element={<ProblemCreate />} />
+        <Route path="/problemCreate" element={<ProblemCreate />} />
         <Route path="/problem/:id " element={<Problem />} />
         <Route path="/exam_create" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
