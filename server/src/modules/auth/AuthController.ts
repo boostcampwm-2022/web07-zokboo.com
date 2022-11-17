@@ -5,7 +5,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/UserService';
 import ApiResponse from '../common/response/ApiResponse';
 import SignupRequest from '../user/dto/request/SignupRequest';
-import SSOSignupRequest from '../user/dto/request/SSOSignupRequest';
 
 @Controller('auth')
 export class AuthController {
@@ -25,13 +24,10 @@ export class AuthController {
 
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
-  kakaoSignup(@Req() req: Request) {
-    return new ApiResponse('kakao data loading success', req.user);
-  }
+  async kakaoSignup(@Req() req: Request) {
+    const { id } = req.user;
 
-  @Post('signup/sso')
-  async ssoSignup(@Body() request: SSOSignupRequest) {
-    const response = await this.userService.signupOAuthUser(request);
-    return new ApiResponse('signup 완료', response);
+    const response = await this.userService.signupOAuthUser({ oauthType: 'KAKAO', oauthId: id });
+    return new ApiResponse('kakao data loading success', response);
   }
 }
