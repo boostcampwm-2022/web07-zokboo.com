@@ -68,6 +68,26 @@ export class AuthController {
     return res.status(200).json(new ApiResponse('signin 완료', user));
   }
 
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  githubLogin() {
+    return 'OK';
+  }
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubAuthCallback(@Req() req: Request, @Res() res: Response) {
+    const { id } = req.user;
+    const oauthRequest: SSOSigninRequest = {
+      oauthId: id,
+      oauthType: 'GITHUB',
+    };
+    const user = await this.authService.signinByOauth(oauthRequest);
+    const token = this.authService.issueJwtAccessToken(user.userId);
+    res.cookie('accessToken', token);
+    return res.status(200).json(new ApiResponse('signin 완료', user));
+  }
+
   @Post('signup/sso')
   async ssoSignup(@Body() request: SSOSigninRequest) {
     const response = await this.userService.signupOAuthUser(request);
