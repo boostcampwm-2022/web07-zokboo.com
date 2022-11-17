@@ -24,10 +24,11 @@ const DropdownArrow = styled.img`
 
 type DropdownContainerProps = {
   title: JSX.Element;
+  children: JSX.Element[];
 };
 
 // title을 어떻게 받는게 효율적일까요..? 일단 img도 오고 string도 올수 있겠다 생각해서 element로 처리해봤습니다
-const DropdownContainer = ({ title }: DropdownContainerProps) => {
+const DropdownContainer = ({ title, children }: DropdownContainerProps) => {
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const detailsRef: any = useRef(null);
 
@@ -58,7 +59,7 @@ const DropdownContainer = ({ title }: DropdownContainerProps) => {
         <DropdownArrow src={dropdownArrow} alt="" />
       </DropdownTitleContainer>
 
-      {isToggled ? <Dropdown /> : null}
+      {isToggled ? <Dropdown>{children}</Dropdown> : null}
     </DropButton>
   );
 };
