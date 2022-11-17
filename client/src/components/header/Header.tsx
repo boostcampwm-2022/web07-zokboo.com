@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { colors, device } from '../../styles/theme';
+import { colors, device, paddings, widths } from '../../styles/theme';
+import Logo from '../common/Logo';
 
 const HeaderContainer = styled.header`
-  border-bottom: 1px solid ${colors.offWhite};
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid ${colors.gray1};
+  padding: 10px 0;
 `;
 
 const HeaderInnerContainer = styled.div`
@@ -13,19 +14,19 @@ const HeaderInnerContainer = styled.div`
 
   position: relative;
 
-  width: 80%;
+  width: ${widths.base};
 
   margin: 0 auto;
 
   @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
+    width: ${widths.responsive};
 
-    margin: 0 0;
+    margin: 0;
   }
 `;
 
 const HeaderSearch = styled.input`
-  width: calc(100% - 150px);
+  width: calc(100% - 100px);
   height: 50px;
 
   border: 1px solid ${colors.primary};
@@ -34,7 +35,7 @@ const HeaderSearch = styled.input`
   box-sizing: border-box;
 
   padding: 0px 17px;
-  margin: 0 0 0 50px;
+  margin: 0 0 0 20px;
 
   font-size: 16px;
   color: ${colors.text};
@@ -54,21 +55,7 @@ const HeaderInner = styled.div<{ width: string }>`
 
   width: ${(props) => props.width};
 
-  padding: 0 20px;
-
-  .template_logo {
-    display: flex;
-    align-items: center;
-
-    width: 150px;
-    height: 70px;
-
-    div {
-      width: 150px;
-      height: 60px;
-      background-color: ${colors.primary};
-    }
-  }
+  padding: ${paddings.responsive};
 
   @media screen and (max-width: ${device.tablet}) {
     ${HeaderSearch} {
@@ -85,7 +72,7 @@ const HeaderMobileContainer = styled.div`
 
   display: none;
 
-  padding: 0 20px;
+  padding: ${paddings.responsive};
 
   ${HeaderSearch} {
     width: 100%;
@@ -98,23 +85,36 @@ const HeaderMobileContainer = styled.div`
   }
 `;
 
+const HeaderLogo = styled.div`
+  width: 350px;
+
+  @media screen and (max-width: ${device.tablet}) {
+    width: 200px;
+  }
+`;
+
+const HeaderButtonList = styled.div`
+  width: 150px;
+`;
+
 const Header = () => {
   return (
     <HeaderContainer>
       <HeaderInnerContainer>
-        <HeaderInner width="80%">
-          {/* <Logo /> */}
-          <div className="template_logo">
-            <div>Zok</div>
-          </div>
-          <HeaderSearch placeholder="검색어를 입력하세요." />
+        <HeaderInner width="350px">
+          <HeaderLogo>
+            <Logo />
+          </HeaderLogo>
         </HeaderInner>
 
         <HeaderMobileContainer>
           <HeaderSearch placeholder="검색어를 입력하세요." />
         </HeaderMobileContainer>
 
-        <HeaderInner width="100px">Button</HeaderInner>
+        <HeaderInner width="calc(100% - 350px)">
+          <HeaderSearch placeholder="검색어를 입력하세요." />
+          <HeaderButtonList>1</HeaderButtonList>
+        </HeaderInner>
       </HeaderInnerContainer>
     </HeaderContainer>
   );
