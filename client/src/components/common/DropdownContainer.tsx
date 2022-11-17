@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import dropdownArrow from '../images/dropdown-arrow.svg';
+import dropdownArrow from '../../images/dropdown-arrow.svg';
 import Dropdown from './Dropdown';
 
 const DropButton = styled.div``;
