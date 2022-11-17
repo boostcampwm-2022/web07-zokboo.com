@@ -1,4 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import SigninRequest from '../user/dto/request/SigninRequest';
 import SigninResponse from '../user/dto/response/SigninResponse';
@@ -11,6 +12,7 @@ export class AuthService {
     private readonly authRepository: AuthRepository,
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   getUserById(id: number) {
@@ -42,7 +44,7 @@ export class AuthService {
     const payload = { userId };
     return this.jwtService.sign(payload, {
       expiresIn: '1h',
-      secret: process.env.JWT_SECRET || 'KKK',
+      secret: this.configService.get<string>('JWT_SECRET'),
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './AuthService';
-import { Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/UserService';
 import ApiResponse from '../common/response/ApiResponse';
@@ -31,7 +31,7 @@ export class AuthController {
   @Get('test')
   @UseGuards(JwtAuthGuard)
   testLogin() {
-    return response.status(200);
+    return new ApiResponse('로그인 된 사용자입니다.');
   }
 
   @Get('kakao')
