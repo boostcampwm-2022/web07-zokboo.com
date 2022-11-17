@@ -75,4 +75,16 @@ export class UserRepository {
     });
     return User.of(user);
   }
+
+  async findUserByEmail(email: string) {
+    const basicUser = await this.prisma.basicUser.findUnique({
+      where: {
+        email,
+      },
+      include: {
+        User: true,
+      },
+    });
+    return BasicUser.basicOf(basicUser);
+  }
 }

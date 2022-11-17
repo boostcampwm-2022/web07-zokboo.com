@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
-const CommonButton = styled.button`
+const Button = styled.button<{ width?: string; height?: string; buttonColor?: string }>`
   background: none;
-  border: 1.5px solid ${(props) => props.color};
+  border: 1.5px solid ${(props) => props.buttonColor};
   border-radius: 8px;
-  color: ${(props) => props.color};
+
+  color: ${(props) => (props.color ? props.color : '#EE842C')};
+  ${(props) => props.width && `width: ${props.width}`};
+  ${(props) => props.width && `height: ${props.height}`};
 
   padding: 4px 12px;
 
@@ -18,24 +21,29 @@ const CommonButton = styled.button`
   }
 `;
 
-interface CommonButtonProps {
+interface ButtonProps {
   buttonText: string;
+  buttonWidth?: string;
+  buttonHeight?: string;
   handleButton?: () => void;
   buttonColor?: string;
 }
 
-const CommonButtonComponent = ({ buttonText: text, handleButton: handle, buttonColor: color }: CommonButtonProps) => {
+const ButtonComponent = ({ buttonText, handleButton, buttonColor, buttonWidth, buttonHeight }: ButtonProps) => {
   return (
-    <CommonButton onClick={handle} color={color}>
-      {text}
-    </CommonButton>
+    <Button onClick={handleButton} width={buttonWidth} height={buttonHeight} buttonColor={buttonColor}>
+      {buttonText}
+    </Button>
   );
 };
 
-CommonButtonComponent.defaultProps = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  handleButton: () => {},
-  buttonColor: '#EE842C',
+ButtonComponent.defaultProps = {
+  handleButton: () => {
+    /** */
+  },
+  buttonWidth: '',
+  buttonHeight: '',
+  buttonColor: '',
 };
 
-export default CommonButtonComponent;
+export default ButtonComponent;
