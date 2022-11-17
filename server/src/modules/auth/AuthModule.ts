@@ -6,7 +6,7 @@ import { AuthController } from './AuthController';
 import { AuthService } from './AuthService';
 import { AuthRepository } from './AuthRepository';
 import { ConfigService } from '@nestjs/config';
-import { KakaoStrategy, JwtStrategy } from './strategies';
+import { KakaoStrategy, JwtStrategy, NaverStrategy } from './strategies';
 import { CommonModule } from '../common/CommonModule';
 
 @Module({
@@ -25,6 +25,6 @@ import { CommonModule } from '../common/CommonModule';
     CommonModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtStrategy, KakaoStrategy],
+  providers: [AuthService, AuthRepository, JwtStrategy, KakaoStrategy, NaverStrategy],
 })
 export class AuthModule {}
