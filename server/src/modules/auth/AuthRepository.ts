@@ -11,7 +11,7 @@ export class AuthRepository {
     });
   }
 
-  public getByOAuthId(oauthId: number) {
+  public getByOAuthId(oauthId: string) {
     return this.prismaInstance.user.findFirst({
       where: { OauthUser: { oauth_id: oauthId } },
     });
