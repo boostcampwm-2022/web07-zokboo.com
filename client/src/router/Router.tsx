@@ -6,7 +6,7 @@ import Exam from '../pages/Exam';
 import ExamCreate from '../pages/ExamCreate';
 import FindId from '../pages/FindId';
 import FindPw from '../pages/FindPw';
-import Home from '../pages/Home';
+import Home from '../pages/home/Home';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import PageNotFound from '../pages/PageNotFound';
