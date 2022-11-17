@@ -42,8 +42,10 @@ export class AuthController {
 
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
-  kakaoSignup(@Req() req: Request) {
-    return new ApiResponse('kakao data loading success', req.user);
+  async kakaoSignup(@Req() req: Request) {
+    const { id } = req.user;
+    const response = await this.userService.signupOAuthUser({ oauthType: 'KAKAO', oauthId: id });
+    return new ApiResponse('kakao data loading success', response);
   }
 
   @Get('google')
@@ -55,13 +57,13 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
-    const { user } = req;
+    const { id } = req.user;
     const oauthRequest: SSOSigninRequest = {
-      oauthId: (user as any).id,
+      oauthId: id,
       oauthType: 'GOOGLE',
     };
-    const loggedinUser = await this.authService.signinByOauth(oauthRequest);
-    const token = this.authService.issueJwtAccessToken(loggedinUser.userId);
+    const user = await this.authService.signinByOauth(oauthRequest);
+    const token = this.authService.issueJwtAccessToken(user.userId);
     res.cookie('accessToken', token);
     return res.status(200).json(new ApiResponse('signin 완료', user));
   }
