@@ -8,12 +8,12 @@ export const HomeContainer = styled.div`
   width: ${widths.base};
 
   box-sizing: border-box;
-  margin: 100px auto 0px;
+  margin: 80px auto 0px;
   padding: ${paddings.responsive};
 
   @media screen and (max-width: ${device.tablet}) {
     width: ${widths.responsive};
-    margin: 50px auto 0px;
+    margin: 10px auto 0px;
   }
 `;
 
