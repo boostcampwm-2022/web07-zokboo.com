@@ -76,7 +76,8 @@ const MoreButtons = styled.div`
     background: none;
     border: none;
     text-decoration: underline;
-    color: ${colors.gray4};
+
+    color: ${colors.gray1};
 
     :hover {
       opacity: 0.7;
@@ -87,7 +88,8 @@ const MoreButtons = styled.div`
 const SSOTitle = styled.div`
   margin: 12px;
 
-  color: ${colors.gray4};
+
+  color: ${colors.gray1};
   font-size: 14px;
 `;
 
