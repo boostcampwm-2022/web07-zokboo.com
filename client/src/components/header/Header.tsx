@@ -93,22 +93,28 @@ const HeaderLogo = styled.div`
   }
 `;
 
+const HeaderButtonList = styled.div`
+  width: 150px;
+`;
+
 const Header = () => {
   return (
     <HeaderContainer>
       <HeaderInnerContainer>
-        <HeaderInner width="80%">
+        <HeaderInner width="350px">
           <HeaderLogo>
             <Logo />
           </HeaderLogo>
-          <HeaderSearch placeholder="검색어를 입력하세요." />
         </HeaderInner>
 
         <HeaderMobileContainer>
           <HeaderSearch placeholder="검색어를 입력하세요." />
         </HeaderMobileContainer>
 
-        <HeaderInner width="100px">Button</HeaderInner>
+        <HeaderInner width="calc(100% - 350px)">
+          <HeaderSearch placeholder="검색어를 입력하세요." />
+          <HeaderButtonList>1</HeaderButtonList>
+        </HeaderInner>
       </HeaderInnerContainer>
     </HeaderContainer>
   );
