@@ -13,15 +13,14 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(accessToken: string, refreshToken: string, profile: any, done: any) {
+  validate(accessToken: string, refreshToken: string, profile: any) {
     const { email, nickname, id } = profile._json;
 
-    const payload = {
+    return {
+      provider: 'NAVER',
       nickname,
       email,
       id,
     };
-
-    done(null, payload);
   }
 }
