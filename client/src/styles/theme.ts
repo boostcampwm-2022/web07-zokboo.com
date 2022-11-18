@@ -1,3 +1,8 @@
+export const widths = {
+  base: '65%',
+  responsive: '100%',
+};
+
 export const margins = {
   sm: '',
   base: '',
@@ -6,7 +11,7 @@ export const margins = {
 };
 
 export const paddings = {
-  sm: '',
+  responsive: '0 20px',
   base: '',
   lg: '',
   xl: '',
@@ -22,6 +27,7 @@ export const fonts = {
     sm: '16px',
     lg: '18px',
     xl: '24px',
+    xxl: '28px',
   },
   weight: {
     light: 100,
@@ -36,11 +42,14 @@ export const colors = {
   error: '#FF322F',
   alert: '#3FFF3C',
   white: '#FFFFFF',
-  offWhite: '#FCFCFC',
+  offWhite: '#F8F8F8',
   line: '#D7D7D7',
   placeholder: '#BBBBBB',
   text: '#222222',
-  gray: '#757575',
+  gray1: '#ecf0f1',
+  gray2: '#bdc3c7',
+  gray3: '#95a5a6',
+  gray4: '#7f8c8d',
 };
 
 export const device = {
