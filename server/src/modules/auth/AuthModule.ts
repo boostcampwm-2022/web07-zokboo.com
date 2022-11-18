@@ -8,6 +8,7 @@ import { AuthRepository } from './AuthRepository';
 import { ConfigService } from '@nestjs/config';
 import { KakaoStrategy, JwtStrategy } from './strategies';
 import { CommonModule } from '../common/CommonModule';
+import { GoogleStrategy } from './strategies/GoogleStrategy';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { CommonModule } from '../common/CommonModule';
     CommonModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtStrategy, KakaoStrategy],
+  providers: [AuthService, AuthRepository, JwtStrategy, KakaoStrategy, GoogleStrategy],
 })
 export class AuthModule {}
