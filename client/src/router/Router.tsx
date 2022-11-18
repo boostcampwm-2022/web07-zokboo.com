@@ -11,7 +11,7 @@ import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import PageNotFound from '../pages/PageNotFound';
 import Problem from '../pages/Problem';
-import ProblemCreate from '../pages/ProblemCreate';
+import ProblemCreate from '../pages/problemCreate/ProblemCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/SignUp';
