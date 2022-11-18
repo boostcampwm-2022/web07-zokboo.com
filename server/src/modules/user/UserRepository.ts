@@ -3,6 +3,7 @@ import { PrismaInstance } from '../common/PrismaInstance';
 import BasicUser from './domain/BasicUser';
 import OauthUser from './domain/OauthUser';
 import User from './domain/User';
+import OauthType from './enum/OauthType';
 
 @Injectable()
 export class UserRepository {
@@ -73,6 +74,42 @@ export class UserRepository {
         user_id: userId,
       },
     });
+    if (!user) {
+      return null;
+    }
     return User.of(user);
+  }
+
+  async findUserByEmail(email: string) {
+    const basicUser = await this.prisma.basicUser.findUnique({
+      where: {
+        email,
+      },
+      include: {
+        User: true,
+      },
+    });
+    if (!basicUser) {
+      return null;
+    }
+    return BasicUser.basicOf(basicUser);
+  }
+
+  async findUserByOauth(oauthId: string, oauthType: OauthType) {
+    const oauthUser = await this.prisma.oauthUser.findUnique({
+      where: {
+        oauth_type_oauth_id: {
+          oauth_id: oauthId,
+          oauth_type: oauthType,
+        },
+      },
+      include: {
+        User: true,
+      },
+    });
+    if (!oauthUser) {
+      return null;
+    }
+    return OauthUser.oauthOf(oauthUser);
   }
 }

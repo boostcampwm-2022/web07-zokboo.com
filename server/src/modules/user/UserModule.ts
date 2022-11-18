@@ -5,7 +5,7 @@ import { UserService } from './UserService';
 
 @Module({
   imports: [CommonModule],
-  providers: [UserRepository, UserService],
-  exports: [UserService],
+  providers: [UserService, UserRepository],
+  exports: [UserService, UserRepository],
 })
 export class UserModule {}

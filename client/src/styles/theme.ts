@@ -42,7 +42,7 @@ export const colors = {
   error: '#FF322F',
   alert: '#3FFF3C',
   white: '#FFFFFF',
-  offWhite: '#FCFCFC',
+  offWhite: '#F8F8F8',
   line: '#D7D7D7',
   placeholder: '#BBBBBB',
   text: '#222222',

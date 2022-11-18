@@ -8,6 +8,7 @@ import { AuthRepository } from './AuthRepository';
 import { ConfigService } from '@nestjs/config';
 import { KakaoStrategy, JwtStrategy, NaverStrategy } from './strategies';
 import { CommonModule } from '../common/CommonModule';
+import { GoogleStrategy } from './strategies/GoogleStrategy';
 
 @Module({
   imports: [
@@ -17,14 +18,11 @@ import { CommonModule } from '../common/CommonModule';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '1d',
-        },
       }),
     }),
     CommonModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtStrategy, KakaoStrategy, NaverStrategy],
+  providers: [AuthService, AuthRepository, JwtStrategy, KakaoStrategy, GoogleStrategy, NaverStrategy],
 })
 export class AuthModule {}

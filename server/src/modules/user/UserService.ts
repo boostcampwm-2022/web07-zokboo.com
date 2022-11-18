@@ -4,7 +4,7 @@ import SignupRequest from './dto/request/SignupRequest';
 import SignupResponse from './dto/response/SignupResponse';
 import { UserRepository } from './UserRepository';
 import * as bcrypt from 'bcrypt';
-import SSOSignupRequest from './dto/request/SSOSignupRequest';
+import SSOSigninRequest from './dto/request/SSOSigninRequest';
 import OauthUser from './domain/OauthUser';
 import OauthType from './enum/OauthType';
 
@@ -19,7 +19,7 @@ export class UserService {
     return new SignupResponse(savedUser);
   }
 
-  public async signupOAuthUser(request: SSOSignupRequest) {
+  public async signupOAuthUser(request: SSOSigninRequest) {
     const { oauthType, oauthId } = request;
     const user = OauthUser.new(OauthType[`${oauthType}`], oauthId);
     const savedUser = await this.userRepository.save(user);

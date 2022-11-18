@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { User as pUser } from '@prisma/client';
 
 export default class User {
@@ -21,5 +22,9 @@ export default class User {
 
   setId(userId: bigint) {
     this.userId = userId;
+  }
+
+  authenticate(password: string) {
+    throw new BadRequestException('password로 인증이 불가한 User입니다.');
   }
 }
