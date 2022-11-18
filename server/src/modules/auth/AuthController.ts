@@ -8,6 +8,7 @@ import SignupRequest from '../user/dto/request/SignupRequest';
 import SigninRequest from '../user/dto/request/SigninRequest';
 import { JwtAuthGuard } from './guard/jwtAuthGuard';
 import SSOSigninRequest from '../user/dto/request/SSOSigninRequest';
+import OauthType from '../user/enum/OauthType';
 
 @Controller('auth')
 export class AuthController {
@@ -42,10 +43,10 @@ export class AuthController {
 
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
-  async kakaoSignup(@Req() req: Request) {
+  async kakaoSignup(@Req() req: Request, @Res() res: Response) {
     const { id } = req.user;
-    const response = await this.userService.signupOAuthUser({ oauthType: 'KAKAO', oauthId: id });
-    return new ApiResponse('kakao data loading success', response);
+    const apiResponse = await this.oauthCallback(id, OauthType['KAKAO'], res);
+    return res.status(200).json(apiResponse);
   }
 
   @Get('google')
@@ -58,20 +59,22 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
     const { id } = req.user;
-    const oauthRequest: SSOSigninRequest = {
-      oauthId: id,
-      oauthType: 'GOOGLE',
-    };
-    const user = await this.authService.signinByOauth(oauthRequest);
-    const token = this.authService.issueJwtAccessToken(user.userId);
-    res.cookie('accessToken', token);
-    return res.status(200).json(new ApiResponse('signin 완료', user));
+    const apiResponse = await this.oauthCallback(id, OauthType['GOOGLE'], res);
+    return res.status(200).json(apiResponse);
   }
 
-  @Post('signup/sso')
-  async ssoSignup(@Body() request: SSOSigninRequest) {
-    const response = await this.userService.signupOAuthUser(request);
-    return new ApiResponse('signup 완료', response);
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  githubLogin() {
+    return 'OK';
+  }
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubAuthCallback(@Req() req: Request, @Res() res: Response) {
+    const { id } = req.user;
+    const apiResponse = await this.oauthCallback(id, OauthType['GITHUB'], res);
+    return res.status(200).json(apiResponse);
   }
 
   @Get('naver')
@@ -82,10 +85,20 @@ export class AuthController {
 
   @Get('naver/callback')
   @UseGuards(AuthGuard('naver'))
-  async naverSignup(@Req() req: Request) {
+  async naverSignup(@Req() req: Request, @Res() res: Response) {
     const { id } = req.user;
+    const apiResponse = await this.oauthCallback(id, OauthType['NAVER'], res);
+    return res.status(200).json(apiResponse);
+  }
 
-    const response = await this.userService.signupOAuthUser({ oauthType: 'NAVER', oauthId: id });
-    return new ApiResponse('naver data loading success', response);
+  private async oauthCallback(oauthId: string, oauthType: string, res: Response) {
+    const oauthRequest: SSOSigninRequest = {
+      oauthId,
+      oauthType,
+    };
+    const user = await this.authService.signinByOauth(oauthRequest);
+    const token = this.authService.issueJwtAccessToken(user.userId);
+    res.cookie('accessToken', token);
+    return new ApiResponse('signin 완료', user);
   }
 }
