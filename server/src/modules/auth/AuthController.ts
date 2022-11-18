@@ -73,4 +73,19 @@ export class AuthController {
     const response = await this.userService.signupOAuthUser(request);
     return new ApiResponse('signup 완료', response);
   }
+
+  @Get('naver')
+  @UseGuards(AuthGuard('naver'))
+  naverLogin() {
+    return 'OK';
+  }
+
+  @Get('naver/callback')
+  @UseGuards(AuthGuard('naver'))
+  async naverSignup(@Req() req: Request) {
+    const { id } = req.user;
+
+    const response = await this.userService.signupOAuthUser({ oauthType: 'NAVER', oauthId: id });
+    return new ApiResponse('naver data loading success', response);
+  }
 }
