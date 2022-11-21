@@ -3,10 +3,16 @@ import { colors, fonts } from '../../../styles/theme';
 
 export const CreateModalContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
   height: 100%;
+`;
+
+export const CreateModalStepContainer = styled.div`
+  width: calc(100% - 50px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   box-sizing: border-box;
   padding-top: 30px;
@@ -124,5 +130,32 @@ export const CreateModalQuestionBox = styled.div`
     height: 40px;
 
     padding: 0;
+  }
+`;
+
+export const CreateModalStepBar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 100%;
+`;
+
+export const CreateModalStepBarItem = styled.div<{ isActive: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    transition: all 0.5s;
+    margin: 10px 0;
+    color: ${(props) => (props.isActive ? colors.primary : colors.line)};
+
+    :last-child {
+      cursor: pointer;
+    }
   }
 `;
