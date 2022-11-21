@@ -1,4 +1,4 @@
-import { IsEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 class CreateQuestionRequest {
   @IsString()

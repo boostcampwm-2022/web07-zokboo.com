@@ -104,6 +104,12 @@ class Question {
     if (this.questionType !== QuestionType.MULTIPLE) {
       throw new BadRequestException('객관식 문제에만 보기가 포함될 수 있습니다.');
     }
+    if (options.length < 1 || options.length > 5) {
+      throw new BadRequestException('객관식 문제에는 1개 ~ 5개의 보기가 필수입니다.');
+    }
+    if (!options.map((option) => option.content).includes(this.answer)) {
+      throw new BadRequestException('보기중에 정답이 없습니다.');
+    }
     this.options = options;
   }
 }
