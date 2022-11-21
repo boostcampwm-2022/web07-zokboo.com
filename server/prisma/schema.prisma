@@ -16,7 +16,7 @@ model BasicUser {
 
 model Hashtag {
   hashtag_id      BigInt            @id @default(autoincrement())
-  name            String            @db.VarChar(20)
+  name            String            @unique(map: "name") @db.VarChar(20)
   QuestionHashtag QuestionHashtag[]
 }
 
@@ -67,7 +67,7 @@ model QuestionHashtag {
 
   @@unique([question_id, hashtag_id], map: "question_id")
   @@unique([question_id, hashtag_id], map: "question_id_2")
-  @@index([hashtag_id], map: "FK_Hashtag_TO_QuestionHashtag_1")
+  @@unique([hashtag_id, question_id], map: "hashtag_id")
 }
 
 model QuestionImage {

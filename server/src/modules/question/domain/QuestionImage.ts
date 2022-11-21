@@ -1,7 +1,7 @@
 import { QuestionImage as pQuestionImage } from '@prisma/client';
 
 class QuestionImage {
-  public questionImageId: bigint;
+  public questionImageId: bigint | undefined;
   public questionId: bigint;
   public path: string;
   constructor(questionImageId: bigint, questionId: bigint, path: string) {
@@ -12,6 +12,10 @@ class QuestionImage {
 
   static of(record: pQuestionImage) {
     return new QuestionImage(record.question_image_id, record.question_id, record.path);
+  }
+
+  setId(imageId: bigint) {
+    this.questionImageId = imageId;
   }
 }
 

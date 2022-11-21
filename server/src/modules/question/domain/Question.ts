@@ -10,7 +10,7 @@ import {
 } from '@prisma/client';
 
 class Question {
-  public questionId: bigint;
+  public questionId: bigint | undefined;
   public question: string;
   public questionType: QuestionType;
   public userId: bigint;
@@ -61,6 +61,10 @@ class Question {
       record.created_at,
       record.updated_at,
     );
+  }
+
+  setId(questionId: bigint) {
+    this.questionId = questionId;
   }
 
   setImages(images: pQuestionImage[]) {
