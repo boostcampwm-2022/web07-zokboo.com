@@ -1,4 +1,4 @@
-const researchMockData = [
+const searchData = [
   {
     workbook_id: 1,
     title: 'CS 면접대비',
@@ -36,4 +36,6 @@ const researchMockData = [
   },
 ];
 
-export default researchMockData;
+export default {
+  search: searchData,
+};

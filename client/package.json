@@ -61,5 +61,8 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "msw": "^0.48.3",
     "prettier": "2.7.1"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
