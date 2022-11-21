@@ -9,6 +9,7 @@ import QuestionType from './enum/QuestionType';
 @Injectable()
 export class QuestionRepository {
   constructor(private readonly prisma: PrismaInstance) {}
+
   async save(question: Question) {
     if (question.questionId) {
       return await this.updateQuestion(question);
@@ -106,5 +107,80 @@ export class QuestionRepository {
     });
     option.setId((await newOption).option_id);
     return option;
+  }
+
+  async findQuestionsByUserId(userId: bigint) {
+    const questions = await this.prisma.question.findMany({
+      where: {
+        user_id: userId,
+      },
+    });
+    return questions.map((question) => Question.of(question));
+  }
+
+  async findQuestionsWithDetailsByUserId(userId: bigint) {
+    //TODO: 객관식에 한해서만 Option table과 Join하게 할 수는 없을까?
+    //TODO: 문제집에 공개범위가 있을게 아니라 문제에 공개범위가 있어야 하나? 왜냐면 한개의 문제가 여러 문제집과 연관되어 있을 수 있는데 그렇다면 어떤 문제집을 기준으로...? 첫 문제집..? 그렇다면 차라리 공개여부 column을 문제에도 만들어 두는건 어떨까?
+    const questions = await this.prisma.question.findMany({
+      where: {
+        user_id: userId,
+      },
+      include: {
+        Option: true,
+        QuestionImage: true,
+        QuestionHashtag: {
+          include: {
+            Hashtag: true,
+          },
+        },
+      },
+    });
+    return questions.map((q) => {
+      const question = Question.of(q);
+      question.setImages(q.QuestionImage);
+      question.setOptions(q.Option);
+      question.setHashtags(q.QuestionHashtag.map((h) => h.Hashtag));
+    });
+  }
+
+  async findQuestionByHashtag(hashtag: Hashtag) {
+    const result = await this.prisma.questionHashtag.findMany({
+      where: {
+        hashtag_id: hashtag.hashtagId,
+      },
+      include: {
+        Question: true,
+      },
+    });
+    return result.map((r) => Question.of(r.Question));
+  }
+
+  async findQuestionsWithDetailsByHashtag(hashtag: Hashtag) {
+    //TODO: 객관식에 한해서만 Option table과 Join하게 할 수는 없을까?
+    //TODO: 문제집에 공개범위가 있을게 아니라 문제에 공개범위가 있어야 하나? 왜냐면 한개의 문제가 여러 문제집과 연관되어 있을 수 있는데 그렇다면 어떤 문제집을 기준으로...? 첫 문제집..? 그렇다면 차라리 공개여부 column을 문제에도 만들어 두는건 어떨까?
+    const result = await this.prisma.questionHashtag.findMany({
+      where: {
+        hashtag_id: hashtag.hashtagId,
+      },
+      include: {
+        Question: {
+          include: {
+            QuestionImage: true,
+            Option: true,
+            QuestionHashtag: {
+              include: {
+                Hashtag: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return result.map((r) => {
+      const question = Question.of(r.Question);
+      question.setHashtags(r.Question.QuestionHashtag.map((h) => h.Hashtag));
+      question.setImages(r.Question.QuestionImage);
+      question.setOptions(r.Question.Option);
+    });
   }
 }
