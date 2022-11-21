@@ -12,11 +12,11 @@ import { QuestionRepository } from './QuestionRepository';
 export class QuestionService {
   constructor(private readonly questionRepository: QuestionRepository) {}
 
-  async createQuestion(request: CreateQuestionRequest, user: User) {
+  async createQuestion(request: CreateQuestionRequest, userId: number) {
     const question = Question.new(
       request.question,
       request.questionType,
-      user.userId,
+      BigInt(userId),
       request.answer,
       request.commentary,
       request.difficulty,

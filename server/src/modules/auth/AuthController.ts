@@ -31,7 +31,8 @@ export class AuthController {
 
   @Get('test')
   @UseGuards(JwtAuthGuard)
-  testLogin() {
+  testLogin(@Req() req: Request) {
+    console.log(req.user);
     return new ApiResponse('로그인 된 사용자입니다.');
   }
 
