@@ -2,12 +2,8 @@ import QuestionType from '../enum/QuestionType';
 import Hashtag from './Hashtag';
 import Option from './Option';
 import QuestionImage from './QuestionImage';
-import {
-  Question as pQuestion,
-  QuestionImage as pQuestionImage,
-  Hashtag as pHashtag,
-  Option as pOption,
-} from '@prisma/client';
+import { Question as pQuestion } from '@prisma/client';
+import { BadRequestException } from '@nestjs/common';
 
 class Question {
   public questionId: bigint | undefined;
@@ -16,6 +12,7 @@ class Question {
   public userId: bigint;
   public answer: string;
   public commentary: string;
+  public difficulty: number;
   public images: QuestionImage[];
   public hashtags: Hashtag[];
   public options: Option[];
@@ -28,6 +25,7 @@ class Question {
     userId: bigint,
     answer: string,
     commentary: string,
+    difficulty: number,
     images: QuestionImage[] | undefined,
     hashtags: Hashtag[] | undefined,
     options: Option[] | undefined,
@@ -40,6 +38,7 @@ class Question {
     this.userId = userId;
     this.answer = answer;
     this.commentary = commentary;
+    this.difficulty = difficulty;
     this.images = images;
     this.hashtags = hashtags;
     this.options = options;
@@ -55,6 +54,7 @@ class Question {
       record.user_id,
       record.answer,
       record.commentary,
+      record.difficulty,
       undefined,
       undefined,
       undefined,
@@ -63,20 +63,48 @@ class Question {
     );
   }
 
+  static new(
+    question: string,
+    questionType: string,
+    userId: bigint,
+    answer: string,
+    commentary: string,
+    difficulty: number,
+  ) {
+    const now = new Date();
+    return new Question(
+      undefined,
+      question,
+      QuestionType[questionType],
+      userId,
+      answer,
+      commentary,
+      difficulty,
+      undefined,
+      undefined,
+      undefined,
+      now,
+      now,
+    );
+  }
+
   setId(questionId: bigint) {
     this.questionId = questionId;
   }
 
-  setImages(images: pQuestionImage[]) {
-    this.images = images.map((image) => QuestionImage.of(image));
+  setImages(images: QuestionImage[]) {
+    this.images = images;
   }
 
-  setHashtags(hashtags: pHashtag[]) {
-    this.hashtags = hashtags.map((hashtag) => Hashtag.of(hashtag));
+  setHashtags(hashtags: Hashtag[]) {
+    this.hashtags = hashtags;
   }
 
-  setOptions(options: pOption[]) {
-    this.options = options.map((option) => Option.of(option));
+  setOptions(options: Option[]) {
+    if (this.questionType !== QuestionType.MULTIPLE) {
+      throw new BadRequestException('객관식 문제에만 보기가 포함될 수 있습니다.');
+    }
+    this.options = options;
   }
 }
 
