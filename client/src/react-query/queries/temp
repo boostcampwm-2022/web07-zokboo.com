@@ -1,0 +1,14 @@
+// import { useQuery, useQueryClient } from 'react-query';
+
+// const KEY = {
+//   //     '파일명_API명',
+//   check: 'user_check',
+// };
+// const client = useQueryClient();
+
+// export const userCheck = useQuery(KEY.check,api, options);
+// export const getUserCheck = client.getQueryData(KEY.check);
+
+// export default KEY;
+
+// 최초 사용자가 지울 것!
