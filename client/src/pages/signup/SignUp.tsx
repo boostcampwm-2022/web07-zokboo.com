@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { colors, device } from '../../styles/theme';
 import useInput from '../../hooks/useInput';
 import {
   InputBox,
