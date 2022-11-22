@@ -1,7 +1,7 @@
 name: dev CI CD
 on:
   push:
-    branches: [ "test/cicd" ]
+    branches: [ "develop" ]
 
 jobs:
   build:
@@ -29,5 +29,4 @@ jobs:
         script: |
           docker rm zokboo-dev
           docker rmi hooo0503/zokboo-dev:latest
-          docker pull hooo0503/zokboo-dev:latest
           docker run --name zokboo-dev -it -d -p 8080:8080 --env-file ./.env hooo0503/zokboo-dev:latest
