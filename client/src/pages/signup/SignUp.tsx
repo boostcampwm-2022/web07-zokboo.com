@@ -54,7 +54,7 @@ const SignUp = () => {
           <RegisterButton
             type="button"
             value="회원가입"
-            isActive={idValue !== '' && pwValue !== '' && pwCheckValue !== ''}
+            disabled={idValue !== '' && pwValue !== '' && pwCheckValue !== ''}
           />
         </Modal>
       </ModalContainer>

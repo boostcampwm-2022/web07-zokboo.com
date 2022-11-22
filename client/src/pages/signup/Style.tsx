@@ -70,12 +70,18 @@ export const InputBox = styled.input`
     border: 1px solid ${colors.primary};
   }
 `;
-export const RegisterButton = styled.input<{ isActive: boolean }>`
+export const RegisterButton = styled.input<{ disabled: boolean }>`
   background: none;
   color: ${colors.white};
   border: 1px solid ${colors.secondary};
   border-radius: 8px;
-  background: ${(props) => (props.isActive ? colors.primary : colors.secondary)};
+  background: ${(props) => (props.disabled ? colors.primary : colors.secondary)};
 
   padding: 8px;
+
+  :disabled {
+    :active {
+      opacity: 0.7;
+    }
+  }
 `;
