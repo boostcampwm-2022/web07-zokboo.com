@@ -1,0 +1,32 @@
+name: dev CI CD
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    environment: dev
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Docker build
+      run: |
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p  ${{ secrets.DOCKERHUB_PASSWORD }}
+        docker build -t hooo0503/zokboo-dev ./server/
+        docker push hooo0503/zokboo-dev
+    
+    - name: SSH Remote Commands
+      # You may pin to the exact commit or the version.
+      # uses: appleboy/ssh-action@f9010ff7f1bbd7db1a0b4bab661437550cea20c0
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.DEV_SERVER_IP }}
+        port: ${{ secrets.DEV_SERVER_PORT }}
+        username: ${{ secrets.DEV_SERVER_USERNAME }}
+        password: ${{ secrets.DEV_SERVER_PASSWORD }}
+        script: |
+          docker rm zokboo-dev
+          docker rmi hooo0503/zokboo-dev:latest
+          docker run --name zokboo-dev -it -d -p 8080:8080 --env-file ./.env hooo0503/zokboo-dev:latest
