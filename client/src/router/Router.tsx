@@ -14,7 +14,7 @@ import Problem from '../pages/Problem';
 import ProblemCreate from '../pages/problemCreate/ProblemCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
-import SignUp from '../pages/SignUp';
+import SignUp from '../pages/signup/SignUp';
 import GlobalStyle from '../styles/Global';
 
 const Router = () => {
