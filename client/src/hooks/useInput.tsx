@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 type Return = [string, (e: React.ChangeEvent<HTMLInputElement>) => void, boolean, () => void];
 
-const maxTextInput = 30;
+const MAX_TEXT_INPUT_SIZE = 30;
 
 const useInput = (initialValue: string, verification?: RegExp): Return => {
   const [text, setText] = useState<string>(initialValue);
@@ -11,8 +11,8 @@ const useInput = (initialValue: string, verification?: RegExp): Return => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
-    if (e.target.value.length > maxTextInput) {
-      setText((prev) => prev.substr(0, maxTextInput));
+    if (e.target.value.length > MAX_TEXT_INPUT_SIZE) {
+      setText((prev) => prev.substr(0, MAX_TEXT_INPUT_SIZE));
     }
   };
 
