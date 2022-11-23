@@ -140,6 +140,8 @@ export class QuestionRepository {
       question.setImages(q.QuestionImage);
       question.setOptions(q.Option);
       question.setHashtags(q.QuestionHashtag.map((h) => h.Hashtag));
+
+      return question;
     });
   }
 
@@ -153,6 +155,32 @@ export class QuestionRepository {
       },
     });
     return result.map((r) => Question.of(r.Question));
+  }
+
+  async findQuestionsWithDetailsByQuestion(question: string) {
+    const result = await this.prisma.question.findMany({
+      where: {
+        question: {
+          contains: question,
+        },
+      },
+      include: {
+        QuestionImage: true,
+        Option: true,
+        QuestionHashtag: {
+          include: {
+            Hashtag: true,
+          },
+        },
+      },
+    });
+
+    return result.map((r) => {
+      const question = Question.of(r);
+      question.setHashtags(r.QuestionHashtag.map((h) => h.hashtag));
+
+      return question;
+    });
   }
 
   async findQuestionsWithDetailsByHashtag(hashtag: Hashtag) {
@@ -181,6 +209,17 @@ export class QuestionRepository {
       question.setHashtags(r.Question.QuestionHashtag.map((h) => h.Hashtag));
       question.setImages(r.Question.QuestionImage);
       question.setOptions(r.Question.Option);
+      return question;
     });
+  }
+
+  async findHashtagByName(name: string) {
+    const result = await this.prisma.hashtag.findUnique({
+      where: {
+        name,
+      },
+    });
+
+    return Hashtag.of(result);
   }
 }
