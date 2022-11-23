@@ -11,23 +11,6 @@ import { User } from 'src/decorators/UserDecorator';
 import { Response } from 'express';
 import { MailService } from '../common/MailService';
 
-const VERIFY_TOKEN_TEMPLATE = (url) => `<!DOCTYPE HTML>
-<html lang="ko">
-<head>
-  <title>족부닷컴</title>
-  <meta charset="utf-8">
-</head>
-<body>
-<h1>족부닷컴</h1>
-<p>
-<div>회원가입이 완료되었습니다. 링크를 클릭해 계정 인증을 완료해주세요! 제공되는 링크는 회원가입 시점으로부터 30분간 유효합니다.</div>
-<div>
-  <a href="${url}" target="_blank">링크 클릭</a>
-</div>
-</p>
-</body>
-</html>`;
-
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -40,12 +23,7 @@ export class AuthController {
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
-    const template = VERIFY_TOKEN_TEMPLATE(`http://localhost:3000/auth/verify?token=${verifyToken}`);
-    await this.mailService.sendMail({
-      to: request.email,
-      subject: '[족부닷컴] 회원가입을 환영합니다! 계정 인증을 마무리해주세요.',
-      description: template,
-    });
+    await this.mailService.sendVerifyMail(request.email, verifyToken);
     return new ApiResponse('signup 완료', response);
   }
 
@@ -62,7 +40,6 @@ export class AuthController {
     const token = this.authService.issueJwtAccessToken(user.userId);
     response.cookie('accessToken', token);
     return response.status(200).json(new ApiResponse('signin 완료', user));
-    //return new ApiResponse('signin 완료', user);
   }
 
   @Get('kakao')
