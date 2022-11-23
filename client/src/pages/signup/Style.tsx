@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device } from '../../styles/theme';
+import { colors, device, fonts } from '../../styles/theme';
 
 export const ModalContainer = styled.div`
   position: absolute;
@@ -56,13 +56,13 @@ export const InputBoxContainer = styled.div`
   width: 100%;
 `;
 
-export const InputBox = styled.input`
+export const InputBox = styled.input<{ isCorrect?: boolean }>`
   padding: 12px;
   margin: 4px 0px;
 
   width: 100%;
 
-  border: 1px solid #d7d7d7;
+  border: 1px solid ${(props) => (props.isCorrect ? '#d7d7d7' : `${colors.error}`)};
   border-radius: 8px;
 
   :focus {
@@ -70,6 +70,13 @@ export const InputBox = styled.input`
     border: 1px solid ${colors.primary};
   }
 `;
+
+export const InputAlert = styled.div`
+  font-size: ${fonts.size.xxs};
+  color: ${colors.error};
+  margin: 0px 10px;
+`;
+
 export const RegisterButton = styled.input<{ disabled: boolean }>`
   background: none;
   color: ${colors.white};
