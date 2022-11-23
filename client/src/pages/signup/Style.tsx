@@ -82,13 +82,11 @@ export const RegisterButton = styled.input<{ disabled: boolean }>`
   color: ${colors.white};
   border: 1px solid ${colors.secondary};
   border-radius: 8px;
-  background: ${(props) => (props.disabled ? colors.primary : colors.secondary)};
+  background: ${(props) => (props.disabled ? colors.secondary : colors.primary)};
 
   padding: 8px;
 
-  :disabled {
-    :active {
-      opacity: 0.7;
-    }
+  :active {
+    opacity: 0.7;
   }
 `;
