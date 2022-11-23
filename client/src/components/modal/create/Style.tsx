@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 import { Button, Input, SubTitle } from '../../../styles/common';
-import { colors, fonts } from '../../../styles/theme';
+import { colors, fonts, media } from '../../../styles/theme';
 
 export const Container = styled.div`
   display: flex;
 
   height: 100%;
   padding: 0 20px 0 0;
+
+  ${media.tablet} {
+    padding: 0 20px;
+  }
 `;
 
 export const StepContainer = styled.div`
-  width: calc(100% - 30px);
+  width: calc(100% - 60px);
 
   display: flex;
   flex-direction: column;
@@ -18,6 +22,10 @@ export const StepContainer = styled.div`
 
   box-sizing: border-box;
   padding-top: 30px;
+
+  ${media.tablet} {
+    width: calc(100%);
+  }
 `;
 
 export const Label = styled.label`
@@ -126,8 +134,12 @@ export const StepBar = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 40px;
+  width: 60px;
   height: 100%;
+
+  ${media.tablet} {
+    display: none;
+  }
 `;
 
 export const StepBarItem = styled.div<{ isActive: boolean }>`
