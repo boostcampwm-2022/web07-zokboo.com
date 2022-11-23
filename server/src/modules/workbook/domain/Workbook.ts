@@ -49,6 +49,11 @@ class Workbook {
     );
   }
 
+  static new(title: string, description: string, isPublic: boolean, userId: number) {
+    const now = new Date();
+    return new Workbook(undefined, title, description, isPublic, BigInt(userId), undefined, undefined, now, now);
+  }
+
   setId(workbookId: bigint) {
     this.workbookId = workbookId;
   }

@@ -185,4 +185,13 @@ export class QuestionRepository {
       question.setOptions(r.Question.Option.map((option) => Option.of(option)));
     });
   }
+
+  async findQuestionsByIds(questionIds: number[]) {
+    const questions = await this.prisma.question.findMany({
+      where: {
+        question_id: { in: questionIds },
+      },
+    });
+    return questions.map((question) => Question.of(question));
+  }
 }

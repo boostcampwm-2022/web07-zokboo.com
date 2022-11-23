@@ -23,8 +23,16 @@ class WorkbookQuestion {
     );
   }
 
+  static new(workbookId: bigint | undefined, question: Question) {
+    return new WorkbookQuestion(undefined, workbookId, question, '');
+  }
+
   setId(workbookQuestionId: bigint) {
     this.workbookQuestionId = workbookQuestionId;
+  }
+
+  setWorkbookId(workbookId: bigint) {
+    this.workbookId = workbookId;
   }
 }
 
