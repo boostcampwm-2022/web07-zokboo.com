@@ -1,11 +1,21 @@
 import { BadRequestException } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import Workbook from '../../domain/Workbook';
 
 class CreateWorkbookResponse {
+  @ApiProperty()
   public workbookdId: number;
+
+  @ApiProperty()
   public title: string;
+
+  @ApiProperty()
   public description: string;
+
+  @ApiProperty()
   public isPublic: boolean;
+
+  @ApiProperty()
   public questionCount: number;
 
   constructor(workbook: Workbook) {
