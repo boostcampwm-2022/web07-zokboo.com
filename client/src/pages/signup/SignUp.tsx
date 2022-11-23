@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import ButtonComponent from '../../components/common/Button';
 import useInput from '../../hooks/useInput';
 import {
+  Button,
   InputAlert,
   InputBox,
   InputBoxContainer,
@@ -9,7 +11,6 @@ import {
   InputTitle,
   Modal,
   ModalContainer,
-  RegisterButton,
 } from './Style';
 
 const verification = {
@@ -18,8 +19,6 @@ const verification = {
   email: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
 };
 
-// ModalContainer > Modal > InputContainer > InputBoxContainer > InputBox 순의 구조로 설계하긴 했는데요,,
-// 좀 가독성이 떨어지는 느낌..? inpu
 const SignUp = () => {
   const [idValue, onIdChange, isIdCorrectInput] = useInput('', verification.id);
   const [pwValue, onPwChange, isPwCorrectInput] = useInput('', verification.pw);
@@ -111,7 +110,7 @@ const SignUp = () => {
             </InputBoxContainer>
             {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
           </InputContainer>
-          <RegisterButton
+          <Button
             type="button"
             value="회원가입"
             onClick={handleSignup}

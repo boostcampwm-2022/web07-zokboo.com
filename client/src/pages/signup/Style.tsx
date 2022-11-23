@@ -77,7 +77,7 @@ export const InputAlert = styled.div`
   margin: 0px 10px;
 `;
 
-export const RegisterButton = styled.input<{ disabled: boolean }>`
+export const Button = styled.input<{ disabled: boolean }>`
   background: none;
   color: ${colors.white};
   border: 1px solid ${colors.secondary};
