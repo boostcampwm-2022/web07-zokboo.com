@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button, Input } from '../../styles/common';
 import { colors, device, fonts, paddings, widths } from '../../styles/theme';
 
 export const ProblemCreateContainer = styled.div`
@@ -51,7 +52,7 @@ export const ProblemCreateFormToggle = styled.div`
   height: 20px;
 `;
 
-export const ProblemCreateFormInput = styled.input`
+export const ProblemCreateFormInput = styled(Input)`
   width: 100%;
   height: 48px;
 
@@ -61,21 +62,35 @@ export const ProblemCreateFormInput = styled.input`
   padding: 0px 16px;
 `;
 
-export const ProblemCreateFormButton = styled.div`
-  text-align: center;
-
-  margin-top: 50px;
-`;
-
 export const ProblemCreateButtonList = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
 
-export const ProblemCreateButton = styled.div`
+export const ProblemCreateFormButton = styled(Button)`
+  display: block;
+
+  width: 200px;
+  height: 50px;
+
+  margin: 50px auto 0;
+`;
+
+export const ProblemCreateButton = styled(Button)`
+  width: 100px;
+  height: 30px;
+
+  font-size: ${fonts.size.xs};
+
   margin: 24px 0 10px 10px;
 `;
 
+export const ProblemItemButton = styled(Button)`
+  width: 55px;
+  height: 30px;
+
+  font-size: ${fonts.size.xs};
+`;
 export const ProblemList = styled.div`
   width: 100%;
   height: 460px;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button, Input } from '../../../styles/common';
 import { colors, fonts } from '../../../styles/theme';
 
 export const CreateModalContainer = styled.div`
@@ -36,8 +37,8 @@ export const CreateModalContentBox = styled.div`
   flex-wrap: wrap;
 `;
 
-export const CreateModalButton = styled.button<{ isActive: boolean; isDisplay: boolean }>`
-  ${(props) => (props.isDisplay ? `opacity: 1; cursor: pointer;` : `opacity: 0;`)}
+export const CreateModalButton = styled(Button)<{ isActive: boolean; isDisplay: boolean }>`
+  ${(props) => (props.isDisplay ? `opacity: 1;` : `cursor:default; opacity: 0;`)}
 
   width: 100px;
   height: 40px;
@@ -46,16 +47,13 @@ export const CreateModalButton = styled.button<{ isActive: boolean; isDisplay: b
 
   transition: background 0.5s;
 
+  border: 1px solid ${colors.primary};
   border-radius: 10px;
+
   ${(props) =>
     props.isActive
-      ? `border: 1px solid ${colors.primary}; background-color:${colors.primary};`
-      : `border: 1px solid ${colors.primary}; background-color:${colors.white};`}
-
-  :hover {
-    border: 1px solid ${colors.primary};
-    background-color: ${colors.primary};
-  }
+      ? `background-color:${colors.primary};  color: ${colors.white};`
+      : `background-color:${colors.white};  color: ${colors.primary};`}
 `;
 
 export const CreateModalButtonList = styled.div`
@@ -94,12 +92,11 @@ export const CreateModalStep = styled.div`
   }
 `;
 
-export const CreateModalAddButton = styled.button`
+export const CreateModalAddButton = styled(Button)`
   width: 100%;
-  height: 30px;
+  height: 40px;
 
-  border: 1px solid ${colors.line};
-  cursor: pointer;
+  padding: 5px;
 
   font-size: ${fonts.size.lg};
 `;
@@ -110,27 +107,27 @@ export const CreateModalQuestionBox = styled.div`
 
   width: 100%;
   margin: 5px 0;
+`;
 
-  input {
-    width: calc(100% - 55px);
-    height: 40px;
-  }
+export const CreateModalQuestionInput = styled(Input)`
+  width: calc(100% - 55px);
+  height: 40px;
+`;
 
-  button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+export const CreateModalQuestionButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    border: none;
-    background: none;
+  border: none;
+  background: none;
 
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
 
-    width: 40px;
-    height: 40px;
+  padding: 0;
 
-    padding: 0;
-  }
+  color: ${colors.text};
 `;
 
 export const CreateModalStepBar = styled.div`

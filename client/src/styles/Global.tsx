@@ -24,23 +24,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #555;
   }
 
-  input,
-  textarea {
-    color: ${colors.text};
-    font-size: ${fonts.size.sm};
-    width: 100%;
 
-    resize: none;
-    border: 1px solid ${colors.line};
-
-    ::placeholder {
-      color: ${colors.placeholder};
-    }
-
-    :focus {
-      outline: none;
-    }
-  }
 
   body {
       margin: 0;

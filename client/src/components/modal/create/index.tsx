@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
+import { BsCheckLg } from 'react-icons/bs';
 import { BiCircle, BiImageAdd } from 'react-icons/bi';
 import { FaCircle } from 'react-icons/fa';
 import useToggle from '../../../hooks/useToggle';
-import { colors } from '../../../styles/theme';
+import { Input, TextArea } from '../../../styles/common';
 import {
   CreateModalButtonList,
   CreateModalStepContainer,
@@ -18,6 +18,8 @@ import {
   CreateModalStepBar,
   CreateModalContainer,
   CreateModalStepBarItem,
+  CreateModalQuestionButton,
+  CreateModalQuestionInput,
 } from './Style';
 
 const STEP = ['QUESTIONS', ['MULTIPLE', 'ESSAY'], 'COMMENTARY'];
@@ -58,11 +60,11 @@ const CreateProblemModal = () => {
           <CreateModalStep>
             <CreateModalLabel htmlFor="question">
               문제 지문
-              <textarea id="question" rows={5} placeholder="지문을 입력하세요." />
+              <TextArea id="question" rows={5} placeholder="지문을 입력하세요." />
             </CreateModalLabel>
             <CreateModalLabel htmlFor="file">
               문제 이미지
-              <input type="file" hidden id="file" />
+              <Input type="file" hidden id="file" />
               <CreateModalImageBox>
                 <BiImageAdd size={50} />
               </CreateModalImageBox>
@@ -90,25 +92,25 @@ const CreateProblemModal = () => {
               </CreateModalTitleBox>
               <CreateModalContentBox>
                 <CreateModalQuestionBox>
-                  <input />
+                  <CreateModalQuestionInput />
 
-                  <button type="button">
-                    <AiOutlineCheckSquare size={40} />
-                  </button>
+                  <CreateModalQuestionButton type="button">
+                    <BsCheckLg size={20} />
+                  </CreateModalQuestionButton>
                 </CreateModalQuestionBox>
                 <CreateModalQuestionBox>
-                  <input />
+                  <CreateModalQuestionInput />
 
-                  <button type="button">
-                    <AiOutlineCheckSquare size={40} />
-                  </button>
+                  <CreateModalQuestionButton type="button">
+                    <BsCheckLg size={20} />
+                  </CreateModalQuestionButton>
                 </CreateModalQuestionBox>
                 <CreateModalQuestionBox>
-                  <input />
+                  <CreateModalQuestionInput />
 
-                  <button type="button">
-                    <AiOutlineCheckSquare size={40} />
-                  </button>
+                  <CreateModalQuestionButton type="button">
+                    <BsCheckLg size={20} />
+                  </CreateModalQuestionButton>
                 </CreateModalQuestionBox>
                 <CreateModalAddButton>추가</CreateModalAddButton>
               </CreateModalContentBox>
@@ -117,7 +119,7 @@ const CreateProblemModal = () => {
             <CreateModalStep>
               <CreateModalLabel htmlFor="commentary">
                 모범 답안 작성
-                <textarea id="commentary" rows={18} />
+                <TextArea id="commentary" rows={18} />
               </CreateModalLabel>
             </CreateModalStep>
           ))}
@@ -125,7 +127,7 @@ const CreateProblemModal = () => {
           <CreateModalStep>
             <CreateModalLabel htmlFor="commentary">
               해설 작성
-              <textarea id="commentary" rows={15} />
+              <TextArea id="commentary" rows={15} />
             </CreateModalLabel>
 
             <CreateModalTitleBox>

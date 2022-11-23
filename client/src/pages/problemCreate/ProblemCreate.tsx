@@ -5,6 +5,7 @@ import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
 import CreateProblemModal from '../../components/modal/create';
 import useToggle from '../../hooks/useToggle';
+import { Button } from '../../styles/common';
 import {
   ProblemCreateButton,
   ProblemCreateButtonList,
@@ -15,6 +16,7 @@ import {
   ProblemCreateFormItem,
   ProblemCreateFormToggle,
   ProblemItem,
+  ProblemItemButton,
   ProblemItemHashTagItem,
   ProblemItemHashTagList,
   ProblemItemTitle,
@@ -46,9 +48,7 @@ const ProblemCreate = () => {
             </ProblemCreateFormToggle>
           </ProblemCreateFormItem>
 
-          <ProblemCreateFormButton>
-            <CommonButtonComponent buttonText="문제집 생성 / 수정" buttonWidth="200px" buttonHeight="50px" />
-          </ProblemCreateFormButton>
+          <ProblemCreateFormButton>문제집 생성</ProblemCreateFormButton>
         </ProblemCreateForm>
 
         <ProblemListContainer>
@@ -56,9 +56,7 @@ const ProblemCreate = () => {
             <ProblemCreateButton>
               <CommonButtonComponent buttonText="문제 검색" buttonWidth="100px" />
             </ProblemCreateButton>
-            <ProblemCreateButton>
-              <CommonButtonComponent buttonText="문제 추가" buttonWidth="100px" handleButton={onCreateModalToggle} />
-            </ProblemCreateButton>
+            <ProblemCreateButton onClick={onCreateModalToggle}>문제 추가</ProblemCreateButton>
           </ProblemCreateButtonList>
 
           <ProblemList>
@@ -74,7 +72,7 @@ const ProblemCreate = () => {
                 <ProblemItemHashTagList>
                   <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
                 </ProblemItemHashTagList>
-                <CommonButtonComponent buttonText="제거" buttonWidth="55px" />
+                <ProblemItemButton>제거</ProblemItemButton>
               </ProblemItemUnderLine>
             </ProblemItem>
             <ProblemItem>
@@ -86,7 +84,7 @@ const ProblemCreate = () => {
                   <ProblemItemHashTagItem>#큐</ProblemItemHashTagItem>
                   <ProblemItemHashTagItem>#잘 모르는 아무튼 긴거</ProblemItemHashTagItem>
                 </ProblemItemHashTagList>
-                <CommonButtonComponent buttonText="제거" buttonWidth="55px" />
+                <ProblemItemButton>제거</ProblemItemButton>
               </ProblemItemUnderLine>
             </ProblemItem>
             <ProblemItem>123</ProblemItem>
