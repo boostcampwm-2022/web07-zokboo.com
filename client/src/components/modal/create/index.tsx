@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { BsCheckLg , BsCircleFill } from 'react-icons/bs';
+import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
 import { BiImageAdd } from 'react-icons/bi';
 
 import { MdArrowDropDown } from 'react-icons/md';
-import useToggle from '../../../hooks/useToggle';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
 import {
   ButtonList,
@@ -28,12 +27,19 @@ import {
   StepBarButton,
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
+import QUESTION_TYPE from './constants';
 
-const STEP = ['QUESTIONS', ['MULTIPLE', 'ESSAY'], 'COMMENTARY'];
+const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 
 const CreateProblemModal = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [questionType, onChange] = useToggle(false);
+  const [questionType, setQuestionType] = useState(QUESTION_TYPE.SUBJECTIVE);
+
+  const handleUpdateType = ({ target }: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const isElement = target instanceof HTMLButtonElement;
+
+    if (isElement && questionType !== target.value) setQuestionType(target.value);
+  };
 
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
@@ -88,10 +94,22 @@ const CreateProblemModal = () => {
             </TitleBox>
 
             <ContentBox>
-              <ModalButton type="button" isDisplay isActive={!questionType} onClick={onChange}>
+              <ModalButton
+                type="button"
+                isDisplay
+                isActive={questionType === QUESTION_TYPE.SUBJECTIVE}
+                value={QUESTION_TYPE.SUBJECTIVE}
+                onClick={handleUpdateType}
+              >
                 주관식
               </ModalButton>
-              <ModalButton type="button" isDisplay isActive={questionType} onClick={onChange}>
+              <ModalButton
+                type="button"
+                isDisplay
+                isActive={questionType === QUESTION_TYPE.MULTIPLE}
+                value={QUESTION_TYPE.MULTIPLE}
+                onClick={handleUpdateType}
+              >
                 객관식
               </ModalButton>
             </ContentBox>
