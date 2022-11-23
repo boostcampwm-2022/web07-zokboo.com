@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BsCheckLg } from 'react-icons/bs';
 import { BiCircle, BiImageAdd } from 'react-icons/bi';
 import { FaCircle } from 'react-icons/fa';
+import { MdArrowDropDown } from 'react-icons/md';
 import useToggle from '../../../hooks/useToggle';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
 import {
@@ -20,7 +21,12 @@ import {
   StepBarItem,
   QuestionButton,
   QuestionInput,
+  DropDownTitle,
+  DropDownContainer,
+  DropDownSelector,
+  DropDownIcon,
 } from './Style';
+import DropDown from '../../common/dropdown/Dropdown';
 
 const STEP = ['QUESTIONS', ['MULTIPLE', 'ESSAY'], 'COMMENTARY'];
 
@@ -129,12 +135,20 @@ const CreateProblemModal = () => {
               <SubTitle>문제 난이도</SubTitle>
             </TitleBox>
 
-            {/* 
-          <DropdownContainer>
-            <Dropdown>1</Dropdown>
-            <Dropdown>1</Dropdown>
-          </DropdownContainer> 
-          */}
+            <DropDownContainer>
+              <DropDown
+                title={
+                  <DropDownSelector>
+                    <DropDownTitle>123</DropDownTitle>
+                    <DropDownIcon>
+                      <MdArrowDropDown size={30} />
+                    </DropDownIcon>
+                  </DropDownSelector>
+                }
+                values={['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F']}
+                direction="right"
+              />
+            </DropDownContainer>
           </Step>
         )}
 

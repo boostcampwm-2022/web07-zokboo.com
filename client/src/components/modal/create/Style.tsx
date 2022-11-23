@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Input } from '../../../styles/common';
+import { Button, Input, SubTitle } from '../../../styles/common';
 import { colors, fonts } from '../../../styles/theme';
 
 export const Container = styled.div`
@@ -144,4 +144,44 @@ export const StepBarItem = styled.div<{ isActive: boolean }>`
       cursor: pointer;
     }
   }
+`;
+
+export const DropDownContainer = styled.div`
+  width: 200px;
+`;
+
+export const DropDownSelector = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  cursor: pointer;
+
+  border: 1px solid ${colors.primary};
+  border-radius: 5px;
+
+  :hover ${Button} {
+    color: ${colors.white};
+    background-color: ${colors.primary};
+  }
+`;
+
+export const DropDownTitle = styled(SubTitle)`
+  width: calc(100% - 30px);
+  font-size: ${fonts.size.sm};
+
+  margin: 0;
+`;
+
+export const DropDownIcon = styled(Button)`
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 0 5px 5px 0;
 `;
