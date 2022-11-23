@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useToggle from './useToggle';
 
 interface Props<Type> {
   falseValue: Type;
@@ -9,20 +10,16 @@ interface Props<Type> {
 type Return<Type> = [Type, () => void];
 
 function useToggleValue<Type>({ falseValue, trueValue, initialState }: Props<Type>): Return<Type> {
-  const [state, setState] = useState<boolean>(initialState);
-
-  const onChange = () => {
-    setState((prev) => !prev);
-  };
+  const [toggle, onToggle] = useToggle(initialState);
 
   const getToggleValue = () => {
-    if (state) return trueValue;
+    if (toggle) return trueValue;
     return falseValue;
   };
 
   const value = getToggleValue();
 
-  return [value, onChange];
+  return [value, onToggle];
 }
 
 export default useToggleValue;

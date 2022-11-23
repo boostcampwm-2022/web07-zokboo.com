@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import CommonButtonComponent from '../../components/common/Button';
 import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
+import Modal from '../../components/modal';
+import CreateProblemModal from '../../components/modal/create';
+import useToggle from '../../hooks/useToggle';
 import {
   ProblemCreateButton,
   ProblemCreateButtonList,
@@ -21,6 +24,8 @@ import {
 } from './Style';
 
 const ProblemCreate = () => {
+  const [isCreateModal, onCreateModalToggle] = useToggle(false);
+
   return (
     <>
       <MainTitle title="문제집 만들기" />
@@ -52,7 +57,7 @@ const ProblemCreate = () => {
               <CommonButtonComponent buttonText="문제 검색" buttonWidth="100px" />
             </ProblemCreateButton>
             <ProblemCreateButton>
-              <CommonButtonComponent buttonText="문제 추가" buttonWidth="100px" />
+              <CommonButtonComponent buttonText="문제 추가" buttonWidth="100px" handleButton={onCreateModalToggle} />
             </ProblemCreateButton>
           </ProblemCreateButtonList>
 
@@ -91,6 +96,8 @@ const ProblemCreate = () => {
           </ProblemList>
         </ProblemListContainer>
       </ProblemCreateContainer>
+
+      {isCreateModal && <Modal type="create" onToggle={onCreateModalToggle} />}
     </>
   );
 };
