@@ -55,22 +55,10 @@ export const ProblemCreateFormInput = styled.input`
   width: 100%;
   height: 48px;
 
-  color: ${colors.text};
-  font-size: ${fonts.size.sm};
-
-  border: 1px solid ${colors.line};
   border-radius: 5px;
 
   box-sizing: border-box;
   padding: 0px 16px;
-
-  ::placeholder {
-    color: ${colors.placeholder};
-  }
-
-  :focus {
-    outline: none;
-  }
 `;
 
 export const ProblemCreateFormButton = styled.div`
