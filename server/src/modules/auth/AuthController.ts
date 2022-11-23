@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './AuthService';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/UserService';
@@ -13,17 +13,31 @@ import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
 import { Api201Response } from 'src/decorators/ApiResponseDecorator';
+import { MailService } from '../common/MailService';
 
 @Controller('auth')
 @ApiExtraModels(ApiResponse, SigninResponse, SignupResponse)
 export class AuthController {
-  constructor(private readonly authService: AuthService, private userService: UserService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private userService: UserService,
+    private mailService: MailService,
+  ) {}
 
   @Post('signup')
   @Api201Response(SignupResponse, '회원가입 완료')
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
+    const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
+    await this.mailService.sendVerifyMail(request.email, verifyToken);
     return new ApiResponse('signup 완료', response);
+  }
+
+  @Get('verify')
+  async verify(@Query('token') token: string) {
+    const verifyResult = await this.authService.verify(token);
+
+    return new ApiResponse('verify status', verifyResult);
   }
 
   @Post('signin')

@@ -5,11 +5,13 @@ import OauthUser from './domain/OauthUser';
 import User from './domain/User';
 import OauthType from './enum/OauthType';
 
+type UserType = User | BasicUser | OauthUser;
+
 @Injectable()
 export class UserRepository {
   constructor(private prisma: PrismaInstance) {}
 
-  async save(user: User): Promise<User> {
+  async save(user: UserType): Promise<UserType> {
     if (user.userId) {
       return await this.update(user);
     } else {
@@ -80,7 +82,7 @@ export class UserRepository {
     return User.of(user);
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string): Promise<BasicUser> {
     const basicUser = await this.prisma.basicUser.findUnique({
       where: {
         email,
