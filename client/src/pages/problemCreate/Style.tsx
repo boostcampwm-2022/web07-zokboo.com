@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Button, Input } from '../../styles/common';
+import { Button, Input, Item, List } from '../../styles/common';
 import { colors, device, fonts, paddings, widths } from '../../styles/theme';
 
-export const ProblemCreateContainer = styled.div`
+export const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
@@ -32,7 +32,7 @@ export const ProblemListContainer = styled.div`
   }
 `;
 
-export const ProblemCreateForm = styled.form`
+export const Form = styled.form`
   width: 45%;
 
   @media screen and (max-width: ${device.tablet}) {
@@ -40,19 +40,16 @@ export const ProblemCreateForm = styled.form`
   }
 `;
 
-export const ProblemCreateFormItem = styled.div`
-  h2 {
-    font-size: ${fonts.size.xl};
-    margin: 24px 0 16px;
-  }
+export const FormItem = styled.div`
+  margin-bottom: 16px;
 `;
 
-export const ProblemCreateFormToggle = styled.div`
+export const FormToggle = styled.div`
   width: 40px;
   height: 20px;
 `;
 
-export const ProblemCreateFormInput = styled(Input)`
+export const FormInput = styled(Input)`
   width: 100%;
   height: 48px;
 
@@ -62,12 +59,12 @@ export const ProblemCreateFormInput = styled(Input)`
   padding: 0px 16px;
 `;
 
-export const ProblemCreateButtonList = styled.div`
+export const ButtonList = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
 
-export const ProblemCreateFormButton = styled(Button)`
+export const FormButton = styled(Button)`
   display: block;
 
   width: 200px;
@@ -76,13 +73,13 @@ export const ProblemCreateFormButton = styled(Button)`
   margin: 50px auto 0;
 `;
 
-export const ProblemCreateButton = styled(Button)`
+export const ListButton = styled(Button)`
   width: 100px;
   height: 30px;
 
   font-size: ${fonts.size.xs};
 
-  margin: 24px 0 10px 10px;
+  margin: 0px 0 10px 10px;
 `;
 
 export const ProblemItemButton = styled(Button)`
@@ -91,7 +88,7 @@ export const ProblemItemButton = styled(Button)`
 
   font-size: ${fonts.size.xs};
 `;
-export const ProblemList = styled.div`
+export const ProblemList = styled(List)`
   width: 100%;
   height: 460px;
 
@@ -100,10 +97,8 @@ export const ProblemList = styled.div`
 
   border: 2px solid ${colors.gray2};
   border-radius: 10px;
-
-  overflow-y: scroll;
 `;
-export const ProblemItem = styled.div`
+export const ProblemItem = styled(Item)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -111,10 +106,7 @@ export const ProblemItem = styled.div`
   width: 100%;
   height: 100px;
 
-  box-sizing: border-box;
   padding: 10px;
-
-  margin: 10px 0;
 
   background-color: ${colors.gray1};
   border-radius: 10px;

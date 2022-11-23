@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { Button, Input } from '../../../styles/common';
 import { colors, fonts } from '../../../styles/theme';
 
-export const CreateModalContainer = styled.div`
+export const Container = styled.div`
   display: flex;
 
   height: 100%;
 `;
 
-export const CreateModalStepContainer = styled.div`
+export const StepContainer = styled.div`
   width: calc(100% - 50px);
 
   display: flex;
@@ -19,24 +19,24 @@ export const CreateModalStepContainer = styled.div`
   padding-top: 30px;
 `;
 
-export const CreateModalLabel = styled.label`
+export const Label = styled.label`
   display: block;
 
   cursor: pointer;
 `;
 
-export const CreateModalTitleBox = styled.div`
+export const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-export const CreateModalContentBox = styled.div`
+export const ContentBox = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
 `;
 
-export const CreateModalButton = styled(Button)<{ isActive: boolean; isDisplay: boolean }>`
+export const ModalButton = styled(Button)<{ isActive: boolean; isDisplay: boolean }>`
   ${(props) => (props.isDisplay ? `opacity: 1;` : `cursor:default; opacity: 0;`)}
 
   width: 100px;
@@ -55,12 +55,12 @@ export const CreateModalButton = styled(Button)<{ isActive: boolean; isDisplay: 
       : `background-color:${colors.white};  color: ${colors.primary};`}
 `;
 
-export const CreateModalButtonList = styled.div`
+export const ButtonList = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-export const CreateModalImageBox = styled.div`
+export const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,11 +79,11 @@ export const CreateModalImageBox = styled.div`
   }
 `;
 
-export const CreateModalStep = styled.div`
+export const Step = styled.div`
   font-size: ${fonts.size.xl};
 `;
 
-export const CreateModalAddButton = styled(Button)`
+export const AddButton = styled(Button)`
   width: 100%;
   height: 40px;
 
@@ -92,7 +92,7 @@ export const CreateModalAddButton = styled(Button)`
   font-size: ${fonts.size.lg};
 `;
 
-export const CreateModalQuestionBox = styled.div`
+export const QuestionBox = styled.div`
   display: flex;
   justify-content: space-between;
 
@@ -100,12 +100,12 @@ export const CreateModalQuestionBox = styled.div`
   margin: 5px 0;
 `;
 
-export const CreateModalQuestionInput = styled(Input)`
+export const QuestionInput = styled(Input)`
   width: calc(100% - 55px);
   height: 40px;
 `;
 
-export const CreateModalQuestionButton = styled(Button)`
+export const QuestionButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,7 +119,7 @@ export const CreateModalQuestionButton = styled(Button)`
   color: ${colors.text};
 `;
 
-export const CreateModalStepBar = styled.div`
+export const StepBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,7 +129,7 @@ export const CreateModalStepBar = styled.div`
   height: 100%;
 `;
 
-export const CreateModalStepBarItem = styled.div<{ isActive: boolean }>`
+export const StepBarItem = styled.div<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -69,4 +69,19 @@ export const SubTitle = styled.h2`
   font-weight: ${fonts.weight.bold};
 `;
 
-export const List = styled.ul``;
+export const List = styled.ul`
+  list-style-type: none;
+
+  margin: 0;
+  padding: 0;
+
+  overflow-y: auto;
+`;
+
+export const Item = styled.li`
+  box-sizing: border-box;
+  padding: 10px;
+
+  margin: 10px 0;
+  padding: 0;
+`;
