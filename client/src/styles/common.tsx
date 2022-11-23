@@ -52,4 +52,21 @@ export const TextArea = styled.textarea`
   }
 `;
 
-export const Form = styled.ul``;
+export const MainTitle = styled.h1`
+  margin: 0;
+  padding: 0;
+
+  font-weight: ${fonts.weight.bold};
+`;
+
+export const SubTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+
+  margin-bottom: 10px;
+
+  font-size: ${fonts.size.xl};
+  font-weight: ${fonts.weight.bold};
+`;
+
+export const List = styled.ul``;

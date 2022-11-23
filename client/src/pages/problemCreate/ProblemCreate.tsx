@@ -5,7 +5,7 @@ import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
 import CreateProblemModal from '../../components/modal/create';
 import useToggle from '../../hooks/useToggle';
-import { Button } from '../../styles/common';
+import { Button, SubTitle } from '../../styles/common';
 import {
   ProblemCreateButton,
   ProblemCreateButtonList,
@@ -34,15 +34,15 @@ const ProblemCreate = () => {
       <ProblemCreateContainer>
         <ProblemCreateForm>
           <ProblemCreateFormItem>
-            <h2>문제집 제목</h2>
+            <SubTitle>문제집 제목</SubTitle>
             <ProblemCreateFormInput type="text" id="title" placeholder="문제집 제목을 입력하세요." />
           </ProblemCreateFormItem>
           <ProblemCreateFormItem>
-            <h2>카테고리</h2>
+            <SubTitle>카테고리</SubTitle>
             <ProblemCreateFormInput type="text" id="category" placeholder="카테고리를 입력하세요." />
           </ProblemCreateFormItem>
           <ProblemCreateFormItem>
-            <h2>공유</h2>
+            <SubTitle>공유</SubTitle>
             <ProblemCreateFormToggle>
               <Toggle />
             </ProblemCreateFormToggle>

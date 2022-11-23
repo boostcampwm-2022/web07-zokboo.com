@@ -22,7 +22,6 @@ export const CreateModalStepContainer = styled.div`
 export const CreateModalLabel = styled.label`
   display: block;
 
-  font-weight: ${fonts.weight.bold};
   cursor: pointer;
 `;
 
@@ -72,6 +71,8 @@ export const CreateModalImageBox = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.line};
 
+  margin-bottom: 10px;
+
   svg {
     width: 100px;
     height: 100px;
@@ -80,16 +81,6 @@ export const CreateModalImageBox = styled.div`
 
 export const CreateModalStep = styled.div`
   font-size: ${fonts.size.xl};
-
-  ${CreateModalLabel}, ${CreateModalTitleBox} {
-    margin-top: 10px;
-  }
-
-  ${CreateModalLabel} textarea,
-  ${CreateModalLabel} ${CreateModalImageBox}, 
-  ${CreateModalContentBox} {
-    margin-top: 10px;
-  }
 `;
 
 export const CreateModalAddButton = styled(Button)`
@@ -124,8 +115,6 @@ export const CreateModalQuestionButton = styled(Button)`
 
   width: 40px;
   height: 40px;
-
-  padding: 0;
 
   color: ${colors.text};
 `;

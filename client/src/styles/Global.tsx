@@ -24,8 +24,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: #555;
   }
 
-
-
   body {
       margin: 0;
   }

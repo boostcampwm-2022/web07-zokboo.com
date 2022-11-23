@@ -3,7 +3,7 @@ import { BsCheckLg } from 'react-icons/bs';
 import { BiCircle, BiImageAdd } from 'react-icons/bi';
 import { FaCircle } from 'react-icons/fa';
 import useToggle from '../../../hooks/useToggle';
-import { Input, TextArea } from '../../../styles/common';
+import { Input, SubTitle, TextArea } from '../../../styles/common';
 import {
   CreateModalButtonList,
   CreateModalStepContainer,
@@ -58,19 +58,18 @@ const CreateProblemModal = () => {
       <CreateModalStepContainer>
         {currentStep === 1 && (
           <CreateModalStep>
-            <CreateModalLabel htmlFor="question">
-              문제 지문
-              <TextArea id="question" rows={5} placeholder="지문을 입력하세요." />
-            </CreateModalLabel>
+            <SubTitle>문제 지문</SubTitle>
+            <TextArea id="question" rows={5} placeholder="지문을 입력하세요." />
+
+            <SubTitle>문제 이미지</SubTitle>
             <CreateModalLabel htmlFor="file">
-              문제 이미지
               <Input type="file" hidden id="file" />
               <CreateModalImageBox>
                 <BiImageAdd size={50} />
               </CreateModalImageBox>
             </CreateModalLabel>
             <CreateModalTitleBox>
-              <span>문제 유형</span>
+              <SubTitle>문제 유형</SubTitle>
             </CreateModalTitleBox>
 
             <CreateModalContentBox>
@@ -87,8 +86,8 @@ const CreateProblemModal = () => {
           (questionType ? (
             <CreateModalStep>
               <CreateModalTitleBox>
-                <span>보기 등록</span>
-                <span>정답</span>
+                <SubTitle>보기 등록</SubTitle>
+                <SubTitle>정답</SubTitle>
               </CreateModalTitleBox>
               <CreateModalContentBox>
                 <CreateModalQuestionBox>
@@ -117,21 +116,17 @@ const CreateProblemModal = () => {
             </CreateModalStep>
           ) : (
             <CreateModalStep>
-              <CreateModalLabel htmlFor="commentary">
-                모범 답안 작성
-                <TextArea id="commentary" rows={18} />
-              </CreateModalLabel>
+              <SubTitle>모범 답안 작성</SubTitle>
+              <TextArea id="commentary" rows={18} />
             </CreateModalStep>
           ))}
         {currentStep === 3 && (
           <CreateModalStep>
-            <CreateModalLabel htmlFor="commentary">
-              해설 작성
-              <TextArea id="commentary" rows={15} />
-            </CreateModalLabel>
+            <SubTitle>해설 작성</SubTitle>
+            <TextArea id="commentary" rows={15} />
 
             <CreateModalTitleBox>
-              <span>문제 난이도</span>
+              <SubTitle>문제 난이도</SubTitle>
             </CreateModalTitleBox>
 
             {/* 
