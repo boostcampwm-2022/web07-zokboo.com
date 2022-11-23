@@ -1,9 +1,7 @@
-import styled from 'styled-components';
 import CommonButtonComponent from '../../components/common/Button';
 import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
-import CreateProblemModal from '../../components/modal/create';
 import useToggle from '../../hooks/useToggle';
 import {
   ProblemCreateButton,
@@ -25,6 +23,7 @@ import {
 
 const ProblemCreate = () => {
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
+  const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
   return (
     <>
@@ -54,7 +53,7 @@ const ProblemCreate = () => {
         <ProblemListContainer>
           <ProblemCreateButtonList>
             <ProblemCreateButton>
-              <CommonButtonComponent buttonText="문제 검색" buttonWidth="100px" />
+              <CommonButtonComponent buttonText="문제 검색" buttonWidth="100px" handleButton={onSearchModalToggle} />
             </ProblemCreateButton>
             <ProblemCreateButton>
               <CommonButtonComponent buttonText="문제 추가" buttonWidth="100px" handleButton={onCreateModalToggle} />
@@ -98,6 +97,7 @@ const ProblemCreate = () => {
       </ProblemCreateContainer>
 
       {isCreateModal && <Modal type="create" onToggle={onCreateModalToggle} />}
+      {isSearchModal && <Modal type="search" onToggle={onSearchModalToggle} />}
     </>
   );
 };
