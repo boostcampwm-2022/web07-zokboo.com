@@ -1,3 +1,4 @@
-import problem from './problem';
+import question from './question';
+import search from './search';
 
-export default [...problem];
+export default [...search, ...question];

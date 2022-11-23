@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { BiCircle, BiImageAdd } from 'react-icons/bi';
 import { FaCircle } from 'react-icons/fa';
+import { useMutation } from 'react-query';
+import createQuestion from '../../../api/question';
 import useToggle from '../../../hooks/useToggle';
 import { colors } from '../../../styles/theme';
 import {
@@ -26,10 +28,11 @@ const CreateProblemModal = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [questionType, onChange] = useToggle(false);
 
+  const questionCreate = useMutation(createQuestion);
+
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
   };
-
   const handleBeforeStep = () => {
     if (currentStep > 1) setCurrentStep((prev) => prev - 1);
   };
