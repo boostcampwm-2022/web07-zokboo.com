@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './AuthService';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/UserService';
@@ -9,15 +9,29 @@ import SSOSigninRequest from '../user/dto/request/SSOSigninRequest';
 import OauthType from '../user/enum/OauthType';
 import { User } from 'src/decorators/UserDecorator';
 import { Response } from 'express';
+import { MailService } from '../common/MailService';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private userService: UserService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private userService: UserService,
+    private mailService: MailService,
+  ) {}
 
   @Post('signup')
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
+    const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
+    await this.mailService.sendVerifyMail(request.email, verifyToken);
     return new ApiResponse('signup 완료', response);
+  }
+
+  @Get('verify')
+  async verify(@Query('token') token: string) {
+    const verifyResult = await this.authService.verify(token);
+
+    return new ApiResponse('verify status', verifyResult);
   }
 
   @Post('signin')
@@ -26,7 +40,6 @@ export class AuthController {
     const token = this.authService.issueJwtAccessToken(user.userId);
     response.cookie('accessToken', token);
     return response.status(200).json(new ApiResponse('signin 완료', user));
-    //return new ApiResponse('signin 완료', user);
   }
 
   @Get('kakao')
