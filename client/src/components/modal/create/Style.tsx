@@ -6,10 +6,11 @@ export const Container = styled.div`
   display: flex;
 
   height: 100%;
+  padding: 0 20px 0 0;
 `;
 
 export const StepContainer = styled.div`
-  width: calc(100% - 50px);
+  width: calc(100% - 30px);
 
   display: flex;
   flex-direction: column;
@@ -125,7 +126,7 @@ export const StepBar = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 50px;
+  width: 40px;
   height: 100%;
 `;
 
@@ -134,6 +135,19 @@ export const StepBarItem = styled.div<{ isActive: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  ${Button} {
+    ${(props) =>
+      props.isActive
+        ? `
+    color: ${colors.white};
+    border: 1px solid ${colors.primary};
+    background-color: ${colors.primary};
+  `
+        : `
+    color:${colors.line};
+    border: 1px solid ${colors.line};
+  `};
+  }
 
   svg {
     transition: all 0.5s;
@@ -143,6 +157,17 @@ export const StepBarItem = styled.div<{ isActive: boolean }>`
     :last-child {
       cursor: pointer;
     }
+  }
+`;
+
+export const StepBarButton = styled(Button)`
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  :hover {
+    color: ${colors.white};
   }
 `;
 

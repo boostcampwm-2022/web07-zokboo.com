@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { BsCheckLg } from 'react-icons/bs';
-import { BiCircle, BiImageAdd } from 'react-icons/bi';
-import { FaCircle } from 'react-icons/fa';
+import { BsCheckLg , BsCircleFill } from 'react-icons/bs';
+import { BiImageAdd } from 'react-icons/bi';
+
 import { MdArrowDropDown } from 'react-icons/md';
 import useToggle from '../../../hooks/useToggle';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
@@ -25,6 +25,7 @@ import {
   DropDownContainer,
   DropDownSelector,
   DropDownIcon,
+  StepBarButton,
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
 
@@ -46,19 +47,27 @@ const CreateProblemModal = () => {
     <Container>
       <StepBar>
         <StepBarItem isActive={currentStep >= 1}>
-          <FaCircle onClick={() => setCurrentStep(1)} />
+          <StepBarButton onClick={() => setCurrentStep(1)}>1</StepBarButton>
         </StepBarItem>
         <StepBarItem isActive={currentStep >= 2}>
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <FaCircle onClick={() => setCurrentStep(2)} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <StepBarButton onClick={() => setCurrentStep(2)}>2</StepBarButton>
         </StepBarItem>
         <StepBarItem isActive={currentStep >= 3}>
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <FaCircle onClick={() => setCurrentStep(3)} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <StepBarButton onClick={() => setCurrentStep(3)}>3</StepBarButton>
         </StepBarItem>
       </StepBar>
       <StepContainer>
