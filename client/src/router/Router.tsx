@@ -4,7 +4,7 @@ import Header from '../components/header/Header';
 
 import Exam from '../pages/Exam';
 import ExamCreate from '../pages/ExamCreate';
-import FindId from '../pages/FindId/FindId';
+import FindId from '../pages/findId/FindId';
 import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home/Home';
 import Login from '../pages/Login';
