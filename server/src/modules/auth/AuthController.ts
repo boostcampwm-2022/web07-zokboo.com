@@ -1,14 +1,14 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './AuthService';
-import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../user/UserService';
 import ApiResponse from '../common/response/ApiResponse';
 import SignupRequest from '../user/dto/request/SignupRequest';
 import SigninRequest from '../user/dto/request/SigninRequest';
-import { JwtAuthGuard } from './guard/jwtAuthGuard';
 import SSOSigninRequest from '../user/dto/request/SSOSigninRequest';
 import OauthType from '../user/enum/OauthType';
+import { User } from 'src/decorators/UserDecorator';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -29,13 +29,6 @@ export class AuthController {
     //return new ApiResponse('signin 완료', user);
   }
 
-  @Get('test')
-  @UseGuards(JwtAuthGuard)
-  testLogin(@Req() req: Request) {
-    console.log(req.user);
-    return new ApiResponse('로그인 된 사용자입니다.');
-  }
-
   @Get('kakao')
   @UseGuards(AuthGuard('kakao'))
   kakaoLogin() {
@@ -44,9 +37,8 @@ export class AuthController {
 
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
-  async kakaoSignup(@Req() req: Request, @Res() res: Response) {
-    const { id } = req.user;
-    const apiResponse = await this.oauthCallback(id, OauthType['KAKAO'], res);
+  async kakaoSignup(@User('id') oauthId: string, @Res() res: Response) {
+    const apiResponse = await this.oauthCallback(oauthId, OauthType['KAKAO'], res);
     return res.status(200).json(apiResponse);
   }
 
@@ -58,9 +50,8 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
-    const { id } = req.user;
-    const apiResponse = await this.oauthCallback(id, OauthType['GOOGLE'], res);
+  async googleAuthCallback(@User('id') oauthId: string, @Res() res: Response) {
+    const apiResponse = await this.oauthCallback(oauthId, OauthType['GOOGLE'], res);
     return res.status(200).json(apiResponse);
   }
 
@@ -72,9 +63,8 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
-  async githubAuthCallback(@Req() req: Request, @Res() res: Response) {
-    const { id } = req.user;
-    const apiResponse = await this.oauthCallback(id, OauthType['GITHUB'], res);
+  async githubAuthCallback(@User('id') oauthId: string, @Res() res: Response) {
+    const apiResponse = await this.oauthCallback(oauthId, OauthType['GITHUB'], res);
     return res.status(200).json(apiResponse);
   }
 
@@ -86,9 +76,8 @@ export class AuthController {
 
   @Get('naver/callback')
   @UseGuards(AuthGuard('naver'))
-  async naverSignup(@Req() req: Request, @Res() res: Response) {
-    const { id } = req.user;
-    const apiResponse = await this.oauthCallback(id, OauthType['NAVER'], res);
+  async naverSignup(@User('id') oauthId: string, @Res() res: Response) {
+    const apiResponse = await this.oauthCallback(oauthId, OauthType['NAVER'], res);
     return res.status(200).json(apiResponse);
   }
 
