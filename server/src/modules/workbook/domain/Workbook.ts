@@ -1,4 +1,6 @@
+import { BadRequestException } from '@nestjs/common';
 import { Workbook as pWorkbook } from '@prisma/client';
+import WorkbookQuestion from './WorkbookQuestion';
 
 class Workbook {
   public workbookId: bigint | undefined;
@@ -7,6 +9,7 @@ class Workbook {
   public isPublic: boolean;
   public userId: bigint;
   public originalId: bigint | undefined;
+  public questions: WorkbookQuestion[] | undefined;
   public createdAt: Date;
   public updatedAt: Date;
 
@@ -17,6 +20,7 @@ class Workbook {
     isPublic: boolean,
     userId: bigint,
     originalId: bigint | undefined,
+    questions: WorkbookQuestion[] | undefined,
     createdAt: Date,
     updatedAt: Date,
   ) {
@@ -26,6 +30,7 @@ class Workbook {
     this.isPublic = isPublic;
     this.userId = userId;
     this.originalId = originalId;
+    this.questions = questions;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -38,9 +43,21 @@ class Workbook {
       record.is_public,
       record.user_id,
       record.original_id,
+      undefined,
       record.created_at,
       record.updated_at,
     );
+  }
+
+  setId(workbookId: bigint) {
+    this.workbookId = workbookId;
+  }
+
+  setQuestions(questions: WorkbookQuestion[]) {
+    if (questions.length < 5 || questions.length > 50) {
+      throw new BadRequestException('문제집에 포함될 수 있는 문제 수는 5개에서 50개 입니다.');
+    }
+    this.questions = questions;
   }
 }
 
