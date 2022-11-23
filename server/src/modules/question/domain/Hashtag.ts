@@ -12,6 +12,10 @@ class Hashtag {
     return new Hashtag(record.hashtag_id, record.name);
   }
 
+  static new(name: string) {
+    return new Hashtag(undefined, name);
+  }
+
   setId(hashtagId: bigint) {
     this.hashtagId = hashtagId;
   }
