@@ -1,30 +1,45 @@
 import { useState } from 'react';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
-import { BiCircle, BiImageAdd } from 'react-icons/bi';
-import { FaCircle } from 'react-icons/fa';
-import useToggle from '../../../hooks/useToggle';
-import { colors } from '../../../styles/theme';
-import {
-  CreateModalButtonList,
-  CreateModalStepContainer,
-  CreateModalContentBox,
-  CreateModalLabel,
-  CreateModalStep,
-  CreateModalTitleBox,
-  CreateModalButton,
-  CreateModalImageBox,
-  CreateModalAddButton,
-  CreateModalQuestionBox,
-  CreateModalStepBar,
-  CreateModalContainer,
-  CreateModalStepBarItem,
-} from './Style';
+import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
+import { BiImageAdd } from 'react-icons/bi';
 
-const STEP = ['QUESTIONS', ['MULTIPLE', 'ESSAY'], 'COMMENTARY'];
+import { MdArrowDropDown } from 'react-icons/md';
+import { Input, SubTitle, TextArea } from '../../../styles/common';
+import {
+  ButtonList,
+  StepContainer,
+  ContentBox,
+  Label,
+  Step,
+  TitleBox,
+  ModalButton,
+  ImageBox,
+  AddButton,
+  QuestionBox,
+  StepBar,
+  Container,
+  StepBarItem,
+  QuestionButton,
+  QuestionInput,
+  DropDownTitle,
+  DropDownContainer,
+  DropDownSelector,
+  DropDownIcon,
+  StepBarButton,
+} from './Style';
+import DropDown from '../../common/dropdown/Dropdown';
+import QUESTION_TYPE from './constants';
+
+const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 
 const CreateProblemModal = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [questionType, onChange] = useToggle(false);
+  const [questionType, setQuestionType] = useState(QUESTION_TYPE.SUBJECTIVE);
+
+  const handleUpdateType = ({ target }: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const isElement = target instanceof HTMLButtonElement;
+
+    if (isElement && questionType !== target.value) setQuestionType(target.value);
+  };
 
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
@@ -35,114 +50,137 @@ const CreateProblemModal = () => {
   };
 
   return (
-    <CreateModalContainer>
-      <CreateModalStepBar>
-        <CreateModalStepBarItem isActive={currentStep >= 1}>
-          <FaCircle onClick={() => setCurrentStep(1)} />
-        </CreateModalStepBarItem>
-        <CreateModalStepBarItem isActive={currentStep >= 2}>
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <FaCircle onClick={() => setCurrentStep(2)} />
-        </CreateModalStepBarItem>
-        <CreateModalStepBarItem isActive={currentStep >= 3}>
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <BiCircle size={10} />
-          <FaCircle onClick={() => setCurrentStep(3)} />
-        </CreateModalStepBarItem>
-      </CreateModalStepBar>
-      <CreateModalStepContainer>
+    <Container>
+      <StepBar>
+        <StepBarItem isActive={currentStep >= 1}>
+          <StepBarButton onClick={() => setCurrentStep(1)}>1</StepBarButton>
+        </StepBarItem>
+        <StepBarItem isActive={currentStep >= 2}>
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <StepBarButton onClick={() => setCurrentStep(2)}>2</StepBarButton>
+        </StepBarItem>
+        <StepBarItem isActive={currentStep >= 3}>
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <BsCircleFill size={10} />
+          <StepBarButton onClick={() => setCurrentStep(3)}>3</StepBarButton>
+        </StepBarItem>
+      </StepBar>
+      <StepContainer>
         {currentStep === 1 && (
-          <CreateModalStep>
-            <CreateModalLabel htmlFor="question">
-              문제 지문
-              <textarea id="question" rows={5} placeholder="지문을 입력하세요." />
-            </CreateModalLabel>
-            <CreateModalLabel htmlFor="file">
-              문제 이미지
-              <input type="file" hidden id="file" />
-              <CreateModalImageBox>
-                <BiImageAdd size={50} />
-              </CreateModalImageBox>
-            </CreateModalLabel>
-            <CreateModalTitleBox>
-              <span>문제 유형</span>
-            </CreateModalTitleBox>
+          <Step>
+            <SubTitle>문제 지문</SubTitle>
+            <TextArea id="question" rows={5} placeholder="지문을 입력하세요." />
 
-            <CreateModalContentBox>
-              <CreateModalButton type="button" isDisplay isActive={!questionType} onClick={onChange}>
+            <SubTitle>문제 이미지</SubTitle>
+            <Label htmlFor="file">
+              <Input type="file" hidden id="file" />
+              <ImageBox>
+                <BiImageAdd size={50} />
+              </ImageBox>
+            </Label>
+            <TitleBox>
+              <SubTitle>문제 유형</SubTitle>
+            </TitleBox>
+
+            <ContentBox>
+              <ModalButton
+                type="button"
+                isDisplay
+                isActive={questionType === QUESTION_TYPE.SUBJECTIVE}
+                value={QUESTION_TYPE.SUBJECTIVE}
+                onClick={handleUpdateType}
+              >
                 주관식
-              </CreateModalButton>
-              <CreateModalButton type="button" isDisplay isActive={questionType} onClick={onChange}>
+              </ModalButton>
+              <ModalButton
+                type="button"
+                isDisplay
+                isActive={questionType === QUESTION_TYPE.MULTIPLE}
+                value={QUESTION_TYPE.MULTIPLE}
+                onClick={handleUpdateType}
+              >
                 객관식
-              </CreateModalButton>
-            </CreateModalContentBox>
-          </CreateModalStep>
+              </ModalButton>
+            </ContentBox>
+          </Step>
         )}
         {currentStep === 2 &&
           (questionType ? (
-            <CreateModalStep>
-              <CreateModalTitleBox>
-                <span>보기 등록</span>
-                <span>정답</span>
-              </CreateModalTitleBox>
-              <CreateModalContentBox>
-                <CreateModalQuestionBox>
-                  <input />
+            <Step>
+              <TitleBox>
+                <SubTitle>보기 등록</SubTitle>
+                <SubTitle>정답</SubTitle>
+              </TitleBox>
+              <ContentBox>
+                <QuestionBox>
+                  <QuestionInput />
 
-                  <button type="button">
-                    <AiOutlineCheckSquare size={40} />
-                  </button>
-                </CreateModalQuestionBox>
-                <CreateModalQuestionBox>
-                  <input />
+                  <QuestionButton type="button">
+                    <BsCheckLg size={20} />
+                  </QuestionButton>
+                </QuestionBox>
+                <QuestionBox>
+                  <QuestionInput />
 
-                  <button type="button">
-                    <AiOutlineCheckSquare size={40} />
-                  </button>
-                </CreateModalQuestionBox>
-                <CreateModalQuestionBox>
-                  <input />
+                  <QuestionButton type="button">
+                    <BsCheckLg size={20} />
+                  </QuestionButton>
+                </QuestionBox>
+                <QuestionBox>
+                  <QuestionInput />
 
-                  <button type="button">
-                    <AiOutlineCheckSquare size={40} />
-                  </button>
-                </CreateModalQuestionBox>
-                <CreateModalAddButton>추가</CreateModalAddButton>
-              </CreateModalContentBox>
-            </CreateModalStep>
+                  <QuestionButton type="button">
+                    <BsCheckLg size={20} />
+                  </QuestionButton>
+                </QuestionBox>
+                <AddButton>추가</AddButton>
+              </ContentBox>
+            </Step>
           ) : (
-            <CreateModalStep>
-              <CreateModalLabel htmlFor="commentary">
-                모범 답안 작성
-                <textarea id="commentary" rows={18} />
-              </CreateModalLabel>
-            </CreateModalStep>
+            <Step>
+              <SubTitle>모범 답안 작성</SubTitle>
+              <TextArea id="commentary" rows={18} />
+            </Step>
           ))}
         {currentStep === 3 && (
-          <CreateModalStep>
-            <CreateModalLabel htmlFor="commentary">
-              해설 작성
-              <textarea id="commentary" rows={15} />
-            </CreateModalLabel>
+          <Step>
+            <SubTitle>해설 작성</SubTitle>
+            <TextArea id="commentary" rows={15} />
 
-            <CreateModalTitleBox>
-              <span>문제 난이도</span>
-            </CreateModalTitleBox>
+            <TitleBox>
+              <SubTitle>문제 난이도</SubTitle>
+            </TitleBox>
 
-            {/* 
-          <DropdownContainer>
-            <Dropdown>1</Dropdown>
-            <Dropdown>1</Dropdown>
-          </DropdownContainer> 
-          */}
-          </CreateModalStep>
+            <DropDownContainer>
+              <DropDown
+                title={
+                  <DropDownSelector>
+                    <DropDownTitle>123</DropDownTitle>
+                    <DropDownIcon>
+                      <MdArrowDropDown size={30} />
+                    </DropDownIcon>
+                  </DropDownSelector>
+                }
+                values={['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F']}
+                direction="right"
+              />
+            </DropDownContainer>
+          </Step>
         )}
 
-        <CreateModalButtonList>
-          <CreateModalButton
+        <ButtonList>
+          <ModalButton
             type="button"
             isDisplay={currentStep !== 1}
             isActive={false}
@@ -150,8 +188,8 @@ const CreateProblemModal = () => {
             onClick={handleBeforeStep}
           >
             이전
-          </CreateModalButton>
-          <CreateModalButton
+          </ModalButton>
+          <ModalButton
             type="button"
             isDisplay={currentStep !== 3}
             isActive={false}
@@ -159,9 +197,9 @@ const CreateProblemModal = () => {
             onClick={handleNextStep}
           >
             다음
-          </CreateModalButton>
+          </ModalButton>
           {currentStep === 3 && (
-            <CreateModalButton
+            <ModalButton
               type="button"
               isDisplay
               isActive={false}
@@ -169,11 +207,11 @@ const CreateProblemModal = () => {
               onClick={handleNextStep}
             >
               추가
-            </CreateModalButton>
+            </ModalButton>
           )}
-        </CreateModalButtonList>
-      </CreateModalStepContainer>
-    </CreateModalContainer>
+        </ButtonList>
+      </StepContainer>
+    </Container>
   );
 };
 

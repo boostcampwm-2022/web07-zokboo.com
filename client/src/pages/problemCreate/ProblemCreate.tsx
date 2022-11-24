@@ -3,16 +3,18 @@ import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
 import useToggle from '../../hooks/useToggle';
+import { SubTitle } from '../../styles/common';
 import {
-  ProblemCreateButton,
-  ProblemCreateButtonList,
-  ProblemCreateContainer,
-  ProblemCreateForm,
-  ProblemCreateFormButton,
-  ProblemCreateFormInput,
-  ProblemCreateFormItem,
-  ProblemCreateFormToggle,
+  ListButton,
+  ButtonList,
+  Container,
+  Form,
+  FormButton,
+  FormInput,
+  FormItem,
+  FormToggle,
   ProblemItem,
+  ProblemItemButton,
   ProblemItemHashTagItem,
   ProblemItemHashTagList,
   ProblemItemTitle,
@@ -28,73 +30,50 @@ const ProblemCreate = () => {
   return (
     <>
       <MainTitle title="문제집 만들기" />
-      <ProblemCreateContainer>
-        <ProblemCreateForm>
-          <ProblemCreateFormItem>
-            <h2>문제집 제목</h2>
-            <ProblemCreateFormInput type="text" id="title" placeholder="문제집 제목을 입력하세요." />
-          </ProblemCreateFormItem>
-          <ProblemCreateFormItem>
-            <h2>카테고리</h2>
-            <ProblemCreateFormInput type="text" id="category" placeholder="카테고리를 입력하세요." />
-          </ProblemCreateFormItem>
-          <ProblemCreateFormItem>
-            <h2>공유</h2>
-            <ProblemCreateFormToggle>
+      <Container>
+        <Form>
+          <FormItem>
+            <SubTitle>문제집 제목</SubTitle>
+            <FormInput type="text" id="title" placeholder="문제집 제목을 입력하세요." />
+          </FormItem>
+          <FormItem>
+            <SubTitle>카테고리</SubTitle>
+            <FormInput type="text" id="category" placeholder="카테고리를 입력하세요." />
+          </FormItem>
+          <FormItem>
+            <SubTitle>공유</SubTitle>
+            <FormToggle>
               <Toggle />
-            </ProblemCreateFormToggle>
-          </ProblemCreateFormItem>
+            </FormToggle>
+          </FormItem>
 
-          <ProblemCreateFormButton>
-            <CommonButtonComponent buttonText="문제집 생성 / 수정" buttonWidth="200px" buttonHeight="50px" />
-          </ProblemCreateFormButton>
-        </ProblemCreateForm>
+          <FormButton>문제집 생성</FormButton>
+        </Form>
 
         <ProblemListContainer>
-          <ProblemCreateButtonList>
-            <ProblemCreateButton>
-              <CommonButtonComponent buttonText="문제 검색" buttonWidth="100px" handleButton={onSearchModalToggle} />
-            </ProblemCreateButton>
-            <ProblemCreateButton>
-              <CommonButtonComponent buttonText="문제 추가" buttonWidth="100px" handleButton={onCreateModalToggle} />
-            </ProblemCreateButton>
-          </ProblemCreateButtonList>
+          <ButtonList>
+            <ListButton>
+              <CommonButtonComponent buttonText="문제 검색" buttonWidth="100px" />
+            </ListButton>
+            <ListButton onClick={onCreateModalToggle}>문제 추가</ListButton>
+          </ButtonList>
 
           <ProblemList>
             <ProblemItem>
               <ProblemItemTitle>
                 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-                모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-                입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
-                정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-                모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
+                모시깽이 입니다
               </ProblemItemTitle>
               <ProblemItemUnderLine>
                 <ProblemItemHashTagList>
                   <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
                 </ProblemItemHashTagList>
-                <CommonButtonComponent buttonText="제거" buttonWidth="55px" />
+                <ProblemItemButton>제거</ProblemItemButton>
               </ProblemItemUnderLine>
             </ProblemItem>
-            <ProblemItem>
-              <ProblemItemTitle>짧은 모시깽이 입니다. 짧은 모시깽이 입니다. 짧은 모시깽이 입니다. </ProblemItemTitle>
-              <ProblemItemUnderLine>
-                <ProblemItemHashTagList>
-                  <ProblemItemHashTagItem>#자료구조</ProblemItemHashTagItem>
-                  <ProblemItemHashTagItem>#스택</ProblemItemHashTagItem>
-                  <ProblemItemHashTagItem>#큐</ProblemItemHashTagItem>
-                  <ProblemItemHashTagItem>#잘 모르는 아무튼 긴거</ProblemItemHashTagItem>
-                </ProblemItemHashTagList>
-                <CommonButtonComponent buttonText="제거" buttonWidth="55px" />
-              </ProblemItemUnderLine>
-            </ProblemItem>
-            <ProblemItem>123</ProblemItem>
-            <ProblemItem>123</ProblemItem>
-            <ProblemItem>123</ProblemItem>
-            <ProblemItem>123</ProblemItem>
           </ProblemList>
         </ProblemListContainer>
-      </ProblemCreateContainer>
+      </Container>
 
       {isCreateModal && <Modal type="create" onToggle={onCreateModalToggle} />}
       {isSearchModal && <Modal type="search" onToggle={onSearchModalToggle} />}

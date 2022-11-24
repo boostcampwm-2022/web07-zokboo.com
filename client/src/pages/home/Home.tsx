@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <HomeContainer>
       <HomeTitle>
-        <span>회원</span>님의 책장이에요.
+        <strong>회원</strong>님의 책장이에요.
       </HomeTitle>
 
       <DashBoard />

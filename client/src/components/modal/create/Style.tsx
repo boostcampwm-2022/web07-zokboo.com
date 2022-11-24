@@ -1,42 +1,53 @@
 import styled from 'styled-components';
-import { colors, fonts } from '../../../styles/theme';
+import { Button, Input, SubTitle } from '../../../styles/common';
+import { colors, fonts, media } from '../../../styles/theme';
 
-export const CreateModalContainer = styled.div`
+export const Container = styled.div`
   display: flex;
 
   height: 100%;
+  padding: 0 20px 0 0;
+
+  ${media.tablet} {
+    padding: 0 20px;
+  }
 `;
 
-export const CreateModalStepContainer = styled.div`
-  width: calc(100% - 50px);
+export const StepContainer = styled.div`
+  width: calc(100% - 60px);
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   box-sizing: border-box;
+
+  padding-top: 30px;
+
+  ${media.tablet} {
+    width: calc(100%);
+  }
 `;
 
-export const CreateModalLabel = styled.label`
+export const Label = styled.label`
   display: block;
 
-  font-weight: ${fonts.weight.bold};
   cursor: pointer;
 `;
 
-export const CreateModalTitleBox = styled.div`
+export const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-export const CreateModalContentBox = styled.div`
+export const ContentBox = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
 `;
 
-export const CreateModalButton = styled.button<{ isActive: boolean; isDisplay: boolean }>`
-  ${(props) => (props.isDisplay ? `opacity: 1; cursor: pointer;` : `opacity: 0;`)}
+export const ModalButton = styled(Button)<{ isActive: boolean; isDisplay: boolean }>`
+  ${(props) => (props.isDisplay ? `opacity: 1;` : `cursor:default; opacity: 0;`)}
 
   width: 100px;
   height: 40px;
@@ -45,24 +56,21 @@ export const CreateModalButton = styled.button<{ isActive: boolean; isDisplay: b
 
   transition: background 0.5s;
 
+  border: 1px solid ${colors.primary};
   border-radius: 10px;
+
   ${(props) =>
     props.isActive
-      ? `border: 1px solid ${colors.primary}; background-color:${colors.primary};`
-      : `border: 1px solid ${colors.primary}; background-color:${colors.white};`}
-
-  :hover {
-    border: 1px solid ${colors.primary};
-    background-color: ${colors.primary};
-  }
+      ? `background-color:${colors.primary};  color: ${colors.white};`
+      : `background-color:${colors.white};  color: ${colors.primary};`}
 `;
 
-export const CreateModalButtonList = styled.div`
+export const ButtonList = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-export const CreateModalImageBox = styled.div`
+export const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,80 +81,86 @@ export const CreateModalImageBox = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.line};
 
+  margin-bottom: 10px;
+
   svg {
     width: 100px;
     height: 100px;
   }
 `;
 
-export const CreateModalStep = styled.div`
+export const Step = styled.div`
   font-size: ${fonts.size.xl};
-
-  ${CreateModalLabel}, ${CreateModalTitleBox} {
-    margin-top: 10px;
-  }
-
-  ${CreateModalLabel} textarea,
-  ${CreateModalLabel} ${CreateModalImageBox}, 
-  ${CreateModalContentBox} {
-    margin-top: 10px;
-  }
 `;
 
-export const CreateModalAddButton = styled.button`
+export const AddButton = styled(Button)`
   width: 100%;
-  height: 30px;
+  height: 40px;
 
-  border: 1px solid ${colors.line};
-  cursor: pointer;
+  padding: 5px;
 
   font-size: ${fonts.size.lg};
 `;
 
-export const CreateModalQuestionBox = styled.div`
+export const QuestionBox = styled.div`
   display: flex;
   justify-content: space-between;
 
   width: 100%;
   margin: 5px 0;
-
-  input {
-    width: calc(100% - 55px);
-    height: 40px;
-  }
-
-  button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    border: none;
-    background: none;
-
-    cursor: pointer;
-
-    width: 40px;
-    height: 40px;
-
-    padding: 0;
-  }
 `;
 
-export const CreateModalStepBar = styled.div`
+export const QuestionInput = styled(Input)`
+  width: calc(100% - 55px);
+  height: 40px;
+`;
+
+export const QuestionButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  background: none;
+
+  width: 40px;
+  height: 40px;
+
+  color: ${colors.text};
+`;
+
+export const StepBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  width: 50px;
+  width: 60px;
   height: 100%;
+
+  ${media.tablet} {
+    display: none;
+  }
 `;
 
-export const CreateModalStepBarItem = styled.div<{ isActive: boolean }>`
+export const StepBarItem = styled.div<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  ${Button} {
+    ${(props) =>
+      props.isActive
+        ? `
+    color: ${colors.white};
+    border: 1px solid ${colors.primary};
+    background-color: ${colors.primary};
+  `
+        : `
+    color:${colors.line};
+    border: 1px solid ${colors.line};
+  `};
+  }
 
   svg {
     transition: all 0.5s;
@@ -157,4 +171,55 @@ export const CreateModalStepBarItem = styled.div<{ isActive: boolean }>`
       cursor: pointer;
     }
   }
+`;
+
+export const StepBarButton = styled(Button)`
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  :hover {
+    color: ${colors.white};
+  }
+`;
+
+export const DropDownContainer = styled.div`
+  width: 200px;
+`;
+
+export const DropDownSelector = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  cursor: pointer;
+
+  border: 1px solid ${colors.primary};
+  border-radius: 5px;
+
+  :hover ${Button} {
+    color: ${colors.white};
+    background-color: ${colors.primary};
+  }
+`;
+
+export const DropDownTitle = styled(SubTitle)`
+  width: calc(100% - 30px);
+  font-size: ${fonts.size.sm};
+
+  margin: 0;
+`;
+
+export const DropDownIcon = styled(Button)`
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 0 5px 5px 0;
 `;

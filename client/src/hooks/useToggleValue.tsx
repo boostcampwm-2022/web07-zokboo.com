@@ -1,15 +1,13 @@
-import { useState } from 'react';
 import useToggle from './useToggle';
 
-interface Props<Type> {
+interface Value<Type> {
   falseValue: Type;
   trueValue: Type;
-  initialState: boolean;
 }
 
 type Return<Type> = [Type, () => void];
 
-function useToggleValue<Type>({ falseValue, trueValue, initialState }: Props<Type>): Return<Type> {
+function useToggleValue<Type>(initialState: boolean, { falseValue, trueValue }: Value<Type>): Return<Type> {
   const [toggle, onToggle] = useToggle(initialState);
 
   const getToggleValue = () => {

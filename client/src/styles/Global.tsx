@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import { colors, fonts } from './theme';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -22,24 +21,6 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #555;
-  }
-
-  input,
-  textarea {
-    color: ${colors.text};
-    font-size: ${fonts.size.sm};
-    width: 100%;
-
-    resize: none;
-    border: 1px solid ${colors.line};
-
-    ::placeholder {
-      color: ${colors.placeholder};
-    }
-
-    :focus {
-      outline: none;
-    }
   }
 
   body {
