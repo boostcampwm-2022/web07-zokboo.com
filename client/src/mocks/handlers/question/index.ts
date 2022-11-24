@@ -4,7 +4,7 @@ import PostCreateQuestionBody from '../../../types/question';
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export default [
-  rest.post<PostCreateQuestionBody>(`${baseUrl}/question`, (req, res, ctx) => {
+  rest.post<PostCreateQuestionBody>(`${baseUrl}/questions`, (req, res, ctx) => {
     const { question, questionType, answer, commentary, difficulty, hashtags } = req.body;
     const { userId } = req.cookies;
 
