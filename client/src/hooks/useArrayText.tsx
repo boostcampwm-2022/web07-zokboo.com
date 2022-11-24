@@ -8,6 +8,7 @@ interface Return {
   add: (defaultData?: string) => void;
   erase: (eraseKey: number) => void;
   reset: () => void;
+  search: (searchKey: number) => string;
 }
 
 const useArrayText = (): Return => {
@@ -38,9 +39,15 @@ const useArrayText = (): Return => {
     setState(updateState);
   };
 
+  const search = (searchKey: number) => {
+    const data = state.filter(([key, _]) => key === searchKey);
+
+    return data[0][1];
+  };
+
   const values = state.map(([_, data]) => data);
 
-  return { state, values, change, add, erase, reset };
+  return { state, values, change, add, erase, reset, search };
 };
 
 export default useArrayText;

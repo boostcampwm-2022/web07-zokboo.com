@@ -72,6 +72,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     add: handleOptionAdd,
     erase: handleOptionDelete,
     reset: handleOptionListReset,
+    search: handleOptionSearch,
   } = useArrayText();
   const [subject, handleSubjectChange, _s, handleSubjectReset] = useInput('');
 
@@ -118,7 +119,11 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   };
 
   const handleQuestionCreate = () => {
-    const answer = questionType === QUESTION_TYPE.SUBJECTIVE ? subject : optionValues[answerIdx];
+    let answer;
+    if (questionType === QUESTION_TYPE.SUBJECTIVE) answer = subject;
+    else {
+      answer = handleOptionSearch(answerIdx);
+    }
 
     if (!question || question.trim() === '') {
       setCurrentStep(1);
@@ -192,7 +197,13 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
         {currentStep === 1 && (
           <Step>
             <SubTitle>문제 지문</SubTitle>
-            <TextArea id="question" rows={4} placeholder="지문을 입력하세요." onChange={handleQuestionChange} />
+            <TextArea
+              id="question"
+              rows={4}
+              placeholder="지문을 입력하세요."
+              value={question}
+              onChange={handleQuestionChange}
+            />
 
             <SubTitle>문제 이미지</SubTitle>
             <Label htmlFor="file">
@@ -252,7 +263,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
           (questionType === QUESTION_TYPE.SUBJECTIVE ? (
             <Step>
               <SubTitle>모범 답안 작성</SubTitle>
-              <TextArea id="answer" rows={18} onChange={handleSubjectChange} />
+              <TextArea id="answer" rows={18} value={subject} onChange={handleSubjectChange} />
             </Step>
           ) : (
             <Step>
@@ -265,7 +276,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
                   <QuestionBox key={key}>
                     <QuestionInput value={data} onChange={({ target }) => handleOptionChange(key, target.value)} />
 
-                    <QuestionButton type="button" isActive={answerIdx === idx} onClick={() => setAnswerIdx(idx)}>
+                    <QuestionButton type="button" isActive={answerIdx === key} onClick={() => setAnswerIdx(key)}>
                       <BsCheckLg size={20} />
                     </QuestionButton>
 
@@ -282,7 +293,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
         {currentStep === 3 && (
           <Step>
             <SubTitle>해설 작성</SubTitle>
-            <TextArea id="commentary" rows={15} onChange={onCommentaryChange} />
+            <TextArea id="commentary" rows={15} value={commentary} onChange={onCommentaryChange} />
 
             <TitleBox>
               <SubTitle>문제 난이도</SubTitle>

@@ -22,7 +22,7 @@ const Modal = ({ type, onToggle, handleProblemAdd }: Props) => {
         {type === 'create' && <CreateProblemModal handleProblemAdd={handleProblemAdd} />}
         {type === 'search' && <SearchProblemModal handleProblemAdd={handleProblemAdd} />}
       </ModalInner>
-      <ModalBackground onClick={onToggle} />
+      <ModalBackground />
     </ModalContainer>
   );
 };

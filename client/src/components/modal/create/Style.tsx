@@ -60,7 +60,7 @@ export const ImageBox = styled.div`
   align-items: center;
 
   width: 100%;
-  height: 100px;
+  height: 150px;
 
   background-color: ${colors.white};
   border: 1px solid ${colors.line};
@@ -100,7 +100,7 @@ export const HashTagItemBox = styled.div`
 
 export const HashTagItem = styled.div`
   font-size: ${fonts.size.sm};
-  margin: 0 5px 5px;
+  margin: 0 10px 5px;
 `;
 
 export const QuestionInput = styled(Input)`
@@ -249,6 +249,9 @@ export const DropDownSelector = styled.div`
 `;
 
 export const DropDownTitle = styled(SubTitle)`
+  display: flex;
+  justify-content: center;
+
   width: calc(100% - 30px);
   font-size: ${fonts.size.sm};
 
@@ -282,6 +285,6 @@ export const StepContainer = styled.div`
   }
 
   ${ContentBox},${TextArea}, ${ImageBox} {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 `;
