@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import useToggle from '../../../hooks/useToggle';
 import { Container, DropdownItem, DropdownList, Selector } from './Style';
-import DIREACTION from './Types';
+import Direction from './Types';
 
 interface Props {
   title: JSX.Element;
   values: string[];
-  direction: DIREACTION;
+  direction: Direction;
 }
 
 const DropDown = ({ title, values, direction }: Props) => {

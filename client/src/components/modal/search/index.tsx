@@ -1,93 +1,48 @@
+import { useState } from 'react';
 import {
   ProblemItem,
   ProblemItemHashTagItem,
   ProblemItemHashTagList,
   ProblemItemTitle,
   ProblemItemUnderLine,
-} from '../../../pages/problemCreate/Style';
-import { SearchModalContainer, SearchModalInputBox, SearchModalItem, SearchModalList } from './Style';
+  ProblemList,
+} from '../../../styles/problemList';
+import { Problem } from '../../../types/workbook';
+import { Container, SearchBox, SearchInput, SearchButton } from './Style';
 
-const SearchProblemModal = () => {
+interface Props {
+  handleProblemAdd: (problem: Problem) => void;
+}
+
+const SearchProblemModal = ({ handleProblemAdd }: Props) => {
+  const [problemList, setProblemList] = useState<Problem[]>([]);
+
   return (
-    <SearchModalContainer>
-      <SearchModalInputBox>
-        <input />
-        <button type="button">검색</button>
-      </SearchModalInputBox>
+    <Container>
+      <SearchBox>
+        <SearchInput />
+        <SearchButton type="button">검색</SearchButton>
+      </SearchBox>
 
-      <SearchModalList>
-        <ProblemItem>
-          <ProblemItemTitle>
-            정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-            모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말
-            긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
-          </ProblemItemTitle>
-          <ProblemItemUnderLine>
-            <ProblemItemHashTagList>
-              <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
-            </ProblemItemHashTagList>
-          </ProblemItemUnderLine>
-        </ProblemItem>
-        <ProblemItem>
-          <ProblemItemTitle>
-            정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-            모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말
-            긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
-          </ProblemItemTitle>
-          <ProblemItemUnderLine>
-            <ProblemItemHashTagList>
-              <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
-            </ProblemItemHashTagList>
-          </ProblemItemUnderLine>
-        </ProblemItem>
-        <ProblemItem>
-          <ProblemItemTitle>
-            정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-            모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말
-            긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
-          </ProblemItemTitle>
-          <ProblemItemUnderLine>
-            <ProblemItemHashTagList>
-              <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
-            </ProblemItemHashTagList>
-          </ProblemItemUnderLine>
-        </ProblemItem>
-        <ProblemItem>
-          <ProblemItemTitle>
-            정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-            모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말
-            긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
-          </ProblemItemTitle>
-          <ProblemItemUnderLine>
-            <ProblemItemHashTagList>
-              <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
-            </ProblemItemHashTagList>
-          </ProblemItemUnderLine>
-        </ProblemItem>
-        <ProblemItem>
-          <ProblemItemTitle>
-            정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴
-            모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말
-            긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이
-            입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다 정말 긴 모시깽이 입니다
-          </ProblemItemTitle>
-          <ProblemItemUnderLine>
-            <ProblemItemHashTagList>
-              <ProblemItemHashTagItem>1</ProblemItemHashTagItem>
-            </ProblemItemHashTagList>
-          </ProblemItemUnderLine>
-        </ProblemItem>
-      </SearchModalList>
-    </SearchModalContainer>
+      <ProblemList>
+        {problemList.map((problem) => {
+          const { id, question, hashtags } = problem;
+
+          return (
+            <ProblemItem key={id} onClick={() => handleProblemAdd(problem)}>
+              <ProblemItemTitle>{question}</ProblemItemTitle>
+              <ProblemItemUnderLine>
+                <ProblemItemHashTagList>
+                  {hashtags.map((hashtag) => (
+                    <ProblemItemHashTagItem key={hashtag}>{hashtag}</ProblemItemHashTagItem>
+                  ))}
+                </ProblemItemHashTagList>
+              </ProblemItemUnderLine>
+            </ProblemItem>
+          );
+        })}
+      </ProblemList>
+    </Container>
   );
 };
 

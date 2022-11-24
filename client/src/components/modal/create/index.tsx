@@ -3,11 +3,11 @@ import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { BiCircle, BiImageAdd } from 'react-icons/bi';
 import { FaCircle } from 'react-icons/fa';
 import { useMutation } from 'react-query';
+import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
+import { MdArrowDropDown } from 'react-icons/md';
 import createQuestion from '../../../api/question';
 import useToggle from '../../../hooks/useToggle';
 import { colors } from '../../../styles/theme';
-import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
-import { MdArrowDropDown } from 'react-icons/md';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
 
 import {
@@ -25,8 +25,7 @@ import {
   Container,
   StepBarItem,
   QuestionButton,
-  Question
-  ,
+  QuestionInput,
   DropDownTitle,
   DropDownContainer,
   DropDownSelector,
@@ -35,10 +34,15 @@ import {
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
 import QUESTION_TYPE from './constants';
+import { Problem } from '../../../types/workbook';
 
 const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 
-const CreateProblemModal = () => {
+interface Props {
+  handleProblemAdd: (problem: Problem) => void;
+}
+
+const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.SUBJECTIVE);
 

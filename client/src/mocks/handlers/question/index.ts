@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import PostCreateQuestionBody from '../../../types/question';
+import { PostCreateQuestionBody } from '../../../types/workbook';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
