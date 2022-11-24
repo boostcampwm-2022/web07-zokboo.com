@@ -1,9 +1,15 @@
 import { BadRequestException } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import User from '../../domain/User';
 
 class SigninResponse {
+  @ApiProperty()
   public userId: number;
+
+  @ApiProperty()
   public nickname: string;
+
+  @ApiProperty()
   public avatar: string;
 
   constructor(record: User) {
