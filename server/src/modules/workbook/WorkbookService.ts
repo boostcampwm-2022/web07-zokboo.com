@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { QuestionRepository } from '../question/QuestionRepository';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import { WorkbookRepository } from './WorkbookRepository';
+import SaveWorkbookToListRequest from './dto/request/SaveWorkbookToListRequest';
+import WorkbookLike from './domain/WorkbookLike';
+import SaveWorkbookToListResponse from './dto/response/SaveWorkbookToListResponse';
 
 @Injectable()
 export class WorkbookService {
@@ -19,5 +22,20 @@ export class WorkbookService {
     workbook.setQuestions(questions.map((question) => WorkbookQuestion.new(undefined, question)));
     await this.workbookRepository.save(workbook);
     return new CreateWorkbookResponse(workbook);
+  }
+
+  async saveWorkbookToList(request: SaveWorkbookToListRequest, userId: string) {
+    const workbook = await this.workbookRepository.findWorkbookById(request.workbookId);
+    const likeList = await this.workbookRepository.findWorkbookLikesByUserId(BigInt(userId));
+
+    if (likeList.filter((l) => l.workbookId === workbook.workbookId).length) {
+      throw new BadRequestException('이미 등록된 문제집');
+    }
+
+    const workbookLike = WorkbookLike.new(BigInt(userId), workbook.workbookId);
+
+    const result = await this.workbookRepository.createWorkbookLike(workbookLike);
+
+    return new SaveWorkbookToListResponse(result);
   }
 }
