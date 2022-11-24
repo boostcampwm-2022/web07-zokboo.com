@@ -31,7 +31,7 @@ export class WorkbookRepository {
 
   async create(workbook: Workbook) {
     if (workbook.questions === undefined) {
-      throw new BadRequestException('문제없는 문제집은 만들 수 없습니다.');
+      throw new BadRequestException('문제 없는 문제집은 만들 수 없습니다.');
     }
     const newWorkbook = await this.prisma.workbook.create({
       data: {
@@ -59,6 +59,7 @@ export class WorkbookRepository {
         written_answer: workbookQuestion.writtenAnswer,
       },
     });
+    workbookQuestion.setWorkbookId(workbookId);
     workbookQuestion.setId(newWorkbookQuestion.workbook_question_id);
     return workbookQuestion;
   }

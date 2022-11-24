@@ -4,9 +4,10 @@ import { GlobalExceptionFilter } from './GlobalExceptionFilter';
 import { AuthModule } from './modules/auth';
 import { ConfigModule } from '@nestjs/config';
 import { QuestionModule } from './modules/question/QuestionModule';
+import { WorkbookModule } from './modules/workbook/WorkbookModule';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, QuestionModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, QuestionModule, WorkbookModule],
   controllers: [],
   providers: [
     {

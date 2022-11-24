@@ -8,5 +8,6 @@ import { QuestionService } from './QuestionService';
   imports: [CommonModule],
   controllers: [QuestionController],
   providers: [QuestionRepository, QuestionService],
+  exports: [QuestionRepository],
 })
 export class QuestionModule {}
