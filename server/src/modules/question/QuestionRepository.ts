@@ -179,7 +179,7 @@ export class QuestionRepository {
 
     return result.map((r) => {
       const question = Question.of(r);
-      question.setHashtags(r.QuestionHashtag.map((h) => h.hashtag));
+      question.setHashtags(r.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
 
       return question;
     });
