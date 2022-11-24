@@ -37,6 +37,11 @@ const WorkBookCreate = () => {
     setProblemList((prev) => [...prev, problem]);
   };
 
+  const handleProblemDelete = (index: number) => {
+    const updateProblemList = problemList.filter((_, idx) => idx !== index);
+    setProblemList(updateProblemList);
+  };
+
   return (
     <>
       <MainTitle title="문제집 만들기" />
@@ -67,11 +72,11 @@ const WorkBookCreate = () => {
           </ButtonList>
 
           <ProblemList>
-            {problemList.map((problem) => {
-              const { id, question, hashtags } = problem;
+            {problemList.map((problem, idx) => {
+              const { questionId, question, hashtags } = problem;
 
               return (
-                <ProblemItem key={id} onClick={() => handleProblemAdd(problem)}>
+                <ProblemItem key={questionId}>
                   <ProblemItemTitle>{question}</ProblemItemTitle>
                   <ProblemItemUnderLine>
                     <ProblemItemHashTagList>
@@ -79,7 +84,7 @@ const WorkBookCreate = () => {
                         <ProblemItemHashTagItem key={hashtag}>{hashtag}</ProblemItemHashTagItem>
                       ))}
                     </ProblemItemHashTagList>
-                    <ProblemItemButton>제거</ProblemItemButton>
+                    <ProblemItemButton onClick={() => handleProblemDelete(idx)}>제거</ProblemItemButton>
                   </ProblemItemUnderLine>
                 </ProblemItem>
               );

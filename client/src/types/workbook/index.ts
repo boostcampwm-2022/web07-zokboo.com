@@ -1,11 +1,16 @@
 export interface Problem {
-  id: string;
+  questionId: string;
   question: string;
+  questionType: string;
+  difficulty: number;
   hashtags: string[];
 }
-export interface PostCreateQuestionBody extends Problem {
+export interface PostCreateQuestionBody {
+  question: string;
   questionType: string;
   answer: string;
   commentary: string;
   difficulty: number;
+  hashtags: string[];
+  options: string[];
 }

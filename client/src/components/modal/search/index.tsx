@@ -26,10 +26,10 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
 
       <ProblemList>
         {problemList.map((problem) => {
-          const { id, question, hashtags } = problem;
+          const { questionId, question, hashtags } = problem;
 
           return (
-            <ProblemItem key={id} onClick={() => handleProblemAdd(problem)}>
+            <ProblemItem key={questionId} onClick={() => handleProblemAdd(problem)}>
               <ProblemItemTitle>{question}</ProblemItemTitle>
               <ProblemItemUnderLine>
                 <ProblemItemHashTagList>
