@@ -46,11 +46,14 @@ interface Props {
 }
 
 const DIFFICULTY = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
+const VERIFICATION = {
+  blank: /^\s+$/,
+};
 
 const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('');
+  const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('', VERIFICATION.blank);
   const [file, handleFileChange, f_, handleFileReset] = useInput('');
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.SUBJECTIVE);
   const {
@@ -101,7 +104,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     }
   };
 
-  const handleInputReset = () => {
+  const handleModalReset = () => {
     setCurrentStep(1);
     handleQuestionReset();
     handleFileReset();
@@ -118,11 +121,12 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     const answer = questionType === QUESTION_TYPE.SUBJECTIVE ? subject : optionValues[answerIdx];
 
     if (!question || question.trim() === '') {
-      console.log('오류 체크');
+      setCurrentStep(1);
+      console.log('문제 지문이; 없습니다');
       return;
     }
     if (!commentary || commentary.trim() === '') {
-      console.log('오류 체크');
+      console.log('해설이없습니다~~');
       return;
     }
     if (!answer || answer.trim() === '') {
@@ -148,7 +152,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
         onSuccess: (data: Problem) => {
           console.log('성공', data);
           handleProblemAdd(data);
-          handleInputReset();
+          handleModalReset();
         },
         onError: () => {
           console.log('실패');
@@ -271,7 +275,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
                   </QuestionBox>
                 ))}
 
-                {optionList.length <= 8 && <AddButton onClick={() => handleOptionAdd()}>추가</AddButton>}
+                {optionList.length <= 5 && <AddButton onClick={() => handleOptionAdd()}>추가</AddButton>}
               </ContentBox>
             </Step>
           ))}

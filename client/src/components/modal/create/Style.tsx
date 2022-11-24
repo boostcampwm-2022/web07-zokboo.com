@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Input, SubTitle } from '../../../styles/common';
+import { Button, Input, SubTitle, TextArea } from '../../../styles/common';
 import { colors, fonts, media } from '../../../styles/theme';
 
 export const Container = styled.div`
@@ -10,22 +10,6 @@ export const Container = styled.div`
 
   ${media.tablet} {
     padding: 0 20px;
-  }
-`;
-
-export const StepContainer = styled.div`
-  width: calc(100% - 60px);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-
-  padding-top: 30px;
-
-  ${media.tablet} {
-    width: calc(100%);
   }
 `;
 
@@ -44,7 +28,6 @@ export const ContentBox = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin-bottom: 10px;
 `;
 
 export const ModalButton = styled(Button)<{ isActive: boolean; isDisplay: boolean }>`
@@ -81,8 +64,6 @@ export const ImageBox = styled.div`
 
   background-color: ${colors.white};
   border: 1px solid ${colors.line};
-
-  margin-bottom: 10px;
 
   svg {
     width: 100px;
@@ -283,4 +264,24 @@ export const DropDownIcon = styled(Button)`
   border: none;
 
   border-radius: 0 5px 5px 0;
+`;
+
+export const StepContainer = styled.div`
+  width: calc(100% - 60px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  padding-top: 30px;
+
+  ${media.tablet} {
+    width: calc(100%);
+  }
+
+  ${ContentBox},${TextArea}, ${ImageBox} {
+    margin-bottom: 30px;
+  }
 `;
