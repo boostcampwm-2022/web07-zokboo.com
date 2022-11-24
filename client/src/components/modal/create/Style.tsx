@@ -21,6 +21,7 @@ export const StepContainer = styled.div`
   justify-content: space-between;
 
   box-sizing: border-box;
+
   padding-top: 30px;
 
   ${media.tablet} {

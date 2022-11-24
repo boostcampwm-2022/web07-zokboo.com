@@ -23,6 +23,7 @@ export const ModalInner = styled.div`
   width: 40%;
   height: 600px;
 
+
   padding: 20px 0;
 
   border-radius: 10px;

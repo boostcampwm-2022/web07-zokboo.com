@@ -25,6 +25,7 @@ export class QuestionRepository {
         user_id: question.userId,
         answer: question.answer,
         commentary: question.commentary,
+        difficulty: question.difficulty,
         created_at: question.createdAt,
         updated_at: question.updatedAt,
       },
@@ -32,7 +33,7 @@ export class QuestionRepository {
     question.setId(newQuestion.question_id);
 
     if (question.images) {
-      question.images.forEach(async (image) => await this.createQuestionImage(image));
+      question.images.forEach(async (image) => await this.createQuestionImage(image, question.questionId));
     }
 
     if (question.hashtags) {
@@ -43,7 +44,7 @@ export class QuestionRepository {
     }
 
     if (question.questionType === QuestionType.MULTIPLE && question.options) {
-      question.options.forEach(async (option) => await this.createOption(option));
+      question.options.forEach(async (option) => await this.createOption(option, question.questionId));
     }
 
     return question;
@@ -58,17 +59,18 @@ export class QuestionRepository {
         question: question.question,
         answer: question.answer,
         commentary: question.commentary,
+        difficulty: question.difficulty,
         updated_at: question.updatedAt,
       },
     });
     return question;
   }
 
-  async createQuestionImage(questionImage: QuestionImage) {
+  async createQuestionImage(questionImage: QuestionImage, questionId: bigint) {
     const newImage = await this.prisma.questionImage.create({
       data: {
         path: questionImage.path,
-        question_id: questionImage.questionId,
+        question_id: questionId,
       },
     });
     questionImage.setId(newImage.question_id);
@@ -98,11 +100,11 @@ export class QuestionRepository {
     });
   }
 
-  async createOption(option: Option) {
+  async createOption(option: Option, questionId: bigint) {
     const newOption = this.prisma.option.create({
       data: {
         content: option.content,
-        question_id: option.questionId,
+        question_id: questionId,
       },
     });
     option.setId((await newOption).option_id);
@@ -137,9 +139,9 @@ export class QuestionRepository {
     });
     return questions.map((q) => {
       const question = Question.of(q);
-      question.setImages(q.QuestionImage);
-      question.setOptions(q.Option);
-      question.setHashtags(q.QuestionHashtag.map((h) => h.Hashtag));
+      question.setImages(q.QuestionImage.map((image) => QuestionImage.of(image)));
+      question.setOptions(q.Option.map((option) => Option.of(option)));
+      question.setHashtags(q.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
     });
   }
 
@@ -178,9 +180,9 @@ export class QuestionRepository {
     });
     return result.map((r) => {
       const question = Question.of(r.Question);
-      question.setHashtags(r.Question.QuestionHashtag.map((h) => h.Hashtag));
-      question.setImages(r.Question.QuestionImage);
-      question.setOptions(r.Question.Option);
+      question.setHashtags(r.Question.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
+      question.setImages(r.Question.QuestionImage.map((image) => QuestionImage.of(image)));
+      question.setOptions(r.Question.Option.map((option) => Option.of(option)));
     });
   }
 }

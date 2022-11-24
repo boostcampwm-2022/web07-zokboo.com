@@ -1,8 +1,15 @@
-export default class ApiResponse<T> {
+import { ApiProperty } from '@nestjs/swagger';
+
+class ApiResponse<T> {
+  @ApiProperty()
   public msg: string;
-  public data: T | undefined;
-  constructor(msg: string, data?: T) {
+
+  public data: T;
+
+  constructor(msg: string, data: T) {
     this.msg = msg;
     this.data = data;
   }
 }
+
+export default ApiResponse;

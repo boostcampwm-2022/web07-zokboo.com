@@ -25,6 +25,7 @@ import {
 
 const ProblemCreate = () => {
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
+  const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
   return (
     <>
@@ -75,6 +76,7 @@ const ProblemCreate = () => {
       </Container>
 
       {isCreateModal && <Modal type="create" onToggle={onCreateModalToggle} />}
+      {isSearchModal && <Modal type="search" onToggle={onSearchModalToggle} />}
     </>
   );
 };
