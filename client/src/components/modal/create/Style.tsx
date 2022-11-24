@@ -15,7 +15,6 @@ export const CreateModalStepContainer = styled.div`
   justify-content: space-between;
 
   box-sizing: border-box;
-  padding-top: 30px;
 `;
 
 export const CreateModalLabel = styled.label`

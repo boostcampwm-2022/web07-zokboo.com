@@ -23,7 +23,7 @@ export const ModalInner = styled.div`
   width: 40%;
   height: 600px;
 
-  padding: 20px;
+  padding: 50px 20px 20px 20px;
 
   border-radius: 10px;
   background-color: ${colors.offWhite};
