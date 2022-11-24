@@ -37,5 +37,5 @@ const searchData = [
 ];
 
 export default {
-  search: searchData,
+  list: searchData,
 };

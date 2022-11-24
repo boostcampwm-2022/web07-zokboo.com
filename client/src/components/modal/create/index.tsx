@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { AiOutlineCheckSquare } from 'react-icons/ai';
+import { BiCircle, BiImageAdd } from 'react-icons/bi';
+import { FaCircle } from 'react-icons/fa';
+import { useMutation } from 'react-query';
+import createQuestion from '../../../api/question';
+import useToggle from '../../../hooks/useToggle';
+import { colors } from '../../../styles/theme';
 import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
-import { BiImageAdd } from 'react-icons/bi';
-
 import { MdArrowDropDown } from 'react-icons/md';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
+
 import {
   ButtonList,
   StepContainer,
@@ -19,7 +25,8 @@ import {
   Container,
   StepBarItem,
   QuestionButton,
-  QuestionInput,
+  Question
+  ,
   DropDownTitle,
   DropDownContainer,
   DropDownSelector,
@@ -41,10 +48,11 @@ const CreateProblemModal = () => {
     if (isElement && questionType !== target.value) setQuestionType(target.value);
   };
 
+  const questionCreate = useMutation(createQuestion);
+
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
   };
-
   const handleBeforeStep = () => {
     if (currentStep > 1) setCurrentStep((prev) => prev - 1);
   };
