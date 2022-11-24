@@ -1,50 +1,70 @@
 import { useState } from 'react';
-import ButtonComponent from '../common/Button';
+import { BiSearchAlt2 } from 'react-icons/bi';
+import { MdArrowDropDown } from 'react-icons/md';
+import { Button } from '../../styles/common';
+import DropDown from '../common/dropdown/Dropdown';
 import Logo from '../common/Logo';
 import {
-  HeaderButtonList,
-  HeaderContainer,
-  HeaderLogoInner,
-  HeaderButtonInner,
-  HeaderInnerContainer,
-  HeaderLogo,
-  HeaderMobileContainer,
-  HeaderSearchInput,
-  HeaderSearchButton,
-  HeaderSearchContainer,
+  ButtonList,
+  Container,
+  LogoInner,
+  ButtonInner,
+  InnerContainer,
+  MobileContainer,
+  SearchInput,
+  SearchButton,
+  SearchContainer,
+  DropDownSelector,
+  DropDownImage,
+  DropDownIcon,
+  DropDownContainer,
 } from './Style';
-
-import Search from '../../assets/images/search.png';
 
 const Header = () => {
   const [isToggle, setIsToggle] = useState(false);
   return (
-    <HeaderContainer>
-      <HeaderInnerContainer>
-        <HeaderLogoInner>
-          <HeaderLogo>
-            <Logo />
-          </HeaderLogo>
-        </HeaderLogoInner>
+    <Container>
+      <InnerContainer>
+        <LogoInner>
+          <Logo />
+        </LogoInner>
 
-        <HeaderButtonInner>
-          <HeaderSearchContainer isToggle={isToggle}>
-            <HeaderSearchInput placeholder="검색어를 입력하세요." />
-            <HeaderSearchButton onClick={() => setIsToggle((prev) => !prev)}>
-              <img src={Search} alt="Search" />
-            </HeaderSearchButton>
-          </HeaderSearchContainer>
-          <HeaderButtonList>
-            <ButtonComponent buttonText="로그인" />
-            <ButtonComponent buttonText="회원가입" />
-          </HeaderButtonList>
-        </HeaderButtonInner>
-      </HeaderInnerContainer>
+        <ButtonInner>
+          <SearchContainer isToggle={isToggle}>
+            <SearchInput placeholder="검색어를 입력하세요." />
+            <SearchButton onClick={() => setIsToggle((prev) => !prev)}>
+              <BiSearchAlt2 size={30} />
+            </SearchButton>
+          </SearchContainer>
+          <ButtonList>
+            {
+              // <>
+              //   <Button>로그인</Button>
+              //   <Button>회원가입</Button>
+              // </>
+              <DropDownContainer>
+                <DropDown
+                  title={
+                    <DropDownSelector>
+                      <DropDownImage />
+                      <DropDownIcon>
+                        <MdArrowDropDown size={30} />
+                      </DropDownIcon>
+                    </DropDownSelector>
+                  }
+                  values={['마이페이지']}
+                  direction="right"
+                />
+              </DropDownContainer>
+            }
+          </ButtonList>
+        </ButtonInner>
+      </InnerContainer>
 
-      <HeaderMobileContainer>
-        <HeaderSearchInput placeholder="검색어를 입력하세요." />
-      </HeaderMobileContainer>
-    </HeaderContainer>
+      <MobileContainer>
+        <SearchInput placeholder="검색어를 입력하세요." />
+      </MobileContainer>
+    </Container>
   );
 };
 export default Header;
