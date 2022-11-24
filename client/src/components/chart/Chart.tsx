@@ -10,60 +10,11 @@ import {
   LineElement,
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
-import styled from 'styled-components';
 import useArrayValue from '../../hooks/useArrayValue';
 import useToggleValue from '../../hooks/useToggleValue';
 import { colors } from '../../styles/theme';
 import Toggle from '../common/Toggle';
-
-const ChartContainer = styled.div<{ bgColor: string }>`
-  position: relative;
-
-  width: 100%;
-  height: 400px;
-
-  padding: 20px;
-  margin: 25px 0 10px 0;
-
-  box-sizing: border-box;
-
-  background-color: ${(props) => props.bgColor};
-  border-radius: 0 10px 10px 10px;
-`;
-
-const ChartToggle = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-
-  width: 40px;
-  height: 20px;
-`;
-
-const ChartCategory = styled.button`
-  position: absolute;
-  top: -25px;
-  left: 0;
-
-  width: 120px;
-  height: 25px;
-
-  border: none;
-  border-radius: 10px 10px 0 0;
-  background-color: ${colors.gray1};
-
-  text-align: center;
-  cursor: pointer;
-
-  :nth-child(2) {
-    left: 120px;
-    background-color: ${colors.gray2};
-  }
-  :nth-child(3) {
-    left: 240px;
-    background-color: ${colors.gray3};
-  }
-`;
+import { Category, Container, ChartToggle } from './Style';
 
 interface CATEGORY {
   name: string;
@@ -117,11 +68,7 @@ const CategoryInfo = [
 ];
 
 const Chart = () => {
-  const [Graph, setToggle] = useToggleValue<GRAPH>({
-    falseValue: Line,
-    trueValue: Bar,
-    initialState: false,
-  });
+  const [Graph, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
   const [category, handleChange] = useArrayValue<CATEGORY>(CategoryInfo);
 
   const labels = ['11/10', '11/11', '11/12', '11/13', '11/14', '11/15', '11/16'];
@@ -157,12 +104,12 @@ const Chart = () => {
   };
 
   return (
-    <ChartContainer bgColor={category.color}>
+    <Container bgColor={category.color}>
       {CategoryInfo.map(({ name }, idx) => {
         return (
-          <ChartCategory key={name} onClick={() => handleChange(idx)}>
+          <Category key={name} onClick={() => handleChange(idx)}>
             {name}
-          </ChartCategory>
+          </Category>
         );
       })}
 
@@ -171,7 +118,7 @@ const Chart = () => {
       </ChartToggle>
 
       <Graph options={options} data={data} />
-    </ChartContainer>
+    </Container>
   );
 };
 
