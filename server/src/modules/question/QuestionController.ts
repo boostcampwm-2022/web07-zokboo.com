@@ -1,18 +1,32 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { QuestionService } from './QuestionService';
-import GetQuestionsQuery from './dto/query/GetQuestionsQuery';
+import { Body, Controller, Get, Post, UseGuards, Query } from '@nestjs/common';
+import { ApiExtraModels } from '@nestjs/swagger';
+import { Api201Response } from 'src/decorators/ApiResponseDecorator';
+import { User } from 'src/decorators/UserDecorator';
+import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
+import CreateQuestionRequest from './dto/request/CreateQuestionRequest';
+import CreateQuestionResponse from './dto/response/CreateQuestionResponse';
+import GetQuestionsQuery from './dto/query/GetQuestionsQuery';
+import { QuestionService } from './QuestionService';
 
 @Controller('questions')
+@ApiExtraModels(ApiResponse, CreateQuestionResponse)
 export class QuestionController {
-  constructor(private questionService: QuestionService) {}
+  constructor(private readonly questionService: QuestionService) {}
 
   @Get('/')
-  async getQuestions(@Query() query: GetQuestionsQuery) {
-    // TODO: 머지된 부분에서 User Decorator 사용하기
-    const id = BigInt(100000000);
+  @UseGuards(JwtAuthGuard)
+  async getQuestions(@User('id') id: bigint, @Query() query: GetQuestionsQuery) {
     const response = await this.questionService.getQuestions(query, id);
 
     return new ApiResponse('조회 완료', response);
+  }
+
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  @Api201Response(CreateQuestionResponse, '문제 생성 완료')
+  async createQuestion(@User('id') userId: string, @Body() request: CreateQuestionRequest) {
+    const response = await this.questionService.createQuestion(request, Number(userId));
+    return new ApiResponse('문제 생성 완료', response);
   }
 }
