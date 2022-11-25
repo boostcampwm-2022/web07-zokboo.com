@@ -14,15 +14,3 @@ export interface PostCreateQuestionBody {
   hashtags: string[];
   options: string[];
 }
-
-export interface GetQuestionResponse {
-  questionId: string;
-  question: string;
-  questionType: string;
-  difficulty: number;
-  commentary: string;
-  answer: string;
-  hashtags: string[];
-  createdAt: Date;
-  updatedAt: Date;
-}
