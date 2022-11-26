@@ -83,6 +83,7 @@ const SignUp = () => {
               onChange={onIdChange}
               value={idValue}
               isCorrect={handleIsCorrectCheck.id()}
+              name="idInput"
             />
             {handleIsCorrectCheck.id() ? null : (
               <InputAlert>아이디는 영문 소문자, 숫자 조합 6-16자 여야합니다.</InputAlert>
@@ -97,9 +98,10 @@ const SignUp = () => {
                 onChange={onPwChange}
                 value={pwValue}
                 isCorrect={handleIsCorrectCheck.pw()}
+                name="password"
               />
 
-              <div role="presentation" onClick={() => setVisibleInputPw((prev) => !prev)}>
+              <div role="presentation" className="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
                 {visibleInputPw ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
               </div>
             </InputBoxContainer>
@@ -114,7 +116,11 @@ const SignUp = () => {
                 value={pwCheckValue}
                 isCorrect={handleIsCorrectCheck.pwCheck()}
               />
-              <div role="presentation" onClick={() => setVisibleInputPwCheck((prev) => !prev)}>
+              <div
+                role="presentation"
+                className="pwCheckToggleVisible"
+                onClick={() => setVisibleInputPwCheck((prev) => !prev)}
+              >
                 {visibleInputPwCheck ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
               </div>
             </InputBoxContainer>
@@ -150,6 +156,7 @@ const SignUp = () => {
                   value="확인"
                   onClick={handleCheckCertifiedNumber}
                   disabled={!isCertifiedNumberCorrectInput}
+                  data-testid="certifiedNumberCheck"
                 />
               </InputBoxContainer>
             </InputContainer>
@@ -157,6 +164,7 @@ const SignUp = () => {
           <Button
             type="button"
             value="회원가입"
+            data-testid="signup"
             onClick={handleSignup}
             disabled={
               !isIdCorrectInput ||
