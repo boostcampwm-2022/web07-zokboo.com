@@ -1,11 +1,20 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  CORRECT_CERTIFIED_NUMBER,
+  CORRECT_EMAIL,
+  CORRECT_ID,
+  CORRECT_PW,
+  WRONG_EMAIL,
+  WRONG_ID,
+  WRONG_PW,
+} from './constants';
 import SignUp from './SignUp';
 
-jest.mock('react-router-dom', () => {
-  return {
-    Redirect: jest.fn(({ to }) => `Redirected to ${to}`),
-  };
-});
+// jest.mock('react-router-dom', () => {
+//   return {
+//     Redirect: jest.fn(({ to }) => `Redirected to ${to}`),
+//   };
+// });
 
 describe('아이디 입력 테스트', () => {
   test('잘못된 값 입력 시 안내문 생성', () => {
@@ -35,7 +44,7 @@ describe('아이디 입력 테스트', () => {
     // const idInputElement = await screen.findByPlaceholderText('영문 소문자, 숫자 조합 6-16자');
     const idInputElement = screen.getByPlaceholderText('영문 소문자, 숫자 조합 6-16자');
 
-    fireEvent.change(idInputElement, { target: { value: 'aaaa' } });
+    fireEvent.change(idInputElement, { target: { value: WRONG_ID } });
 
     // expect(await screen.findByText(/아이디는 영문 소문자, 숫자 조합 6-16자 여야합니다./i)).toBeInTheDocument();
     // expect(screen.getByText(/아이디는 영문 소문자, 숫자 조합 6-16자 여야합니다./i)).toBeInTheDocument();
@@ -47,7 +56,7 @@ describe('아이디 입력 테스트', () => {
 
     const idInputElement = screen.getByPlaceholderText('영문 소문자, 숫자 조합 6-16자');
 
-    fireEvent.change(idInputElement, { target: { value: 'kaka1313' } });
+    fireEvent.change(idInputElement, { target: { value: CORRECT_ID } });
 
     // 이 경우 안내문이 없는게 정상이므로 해당 element가 없을때 null을 반환하는 queryBy를 사용.
     expect(screen.queryByText(/아이디는 영문 소문자, 숫자 조합 6-16자 여야합니다./i)).toBeNull();
@@ -60,7 +69,7 @@ describe('비밀번호 입력 테스트', () => {
 
     const pwInputElement = screen.getByPlaceholderText('영문, 숫자, 특수기호 조합 8-16자');
 
-    fireEvent.change(pwInputElement, { target: { value: 'wronginput' } });
+    fireEvent.change(pwInputElement, { target: { value: WRONG_PW } });
 
     expect(screen.queryByText(/비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다./i)).not.toBeNull();
   });
@@ -69,7 +78,7 @@ describe('비밀번호 입력 테스트', () => {
     render(<SignUp />);
     const pwInputElement = screen.getByPlaceholderText('영문, 숫자, 특수기호 조합 8-16자');
 
-    fireEvent.change(pwInputElement, { target: { value: 'correct123!@#' } });
+    fireEvent.change(pwInputElement, { target: { value: CORRECT_PW } });
     expect(screen.queryByText(/비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다./i)).toBeNull();
   });
 
@@ -91,7 +100,7 @@ describe('이메일 입력 테스트', () => {
   test('옳바른 값 입력 시 [인증번호 전송]버튼 활성화, 클릭 시 인증번호 창 생성, 인증번호 입력', () => {
     render(<SignUp />);
     const emailInputElement = screen.getByPlaceholderText('이메일');
-    fireEvent.change(emailInputElement, { target: { value: 'sample@naver.com' } });
+    fireEvent.change(emailInputElement, { target: { value: CORRECT_EMAIL } });
 
     expect(screen.getByText('인증번호 전송')).not.toBeDisabled();
 
@@ -100,7 +109,7 @@ describe('이메일 입력 테스트', () => {
     expect(screen.getByText('인증번호')).not.toBeNull();
 
     const CertifiedNumberInputElement = screen.getByPlaceholderText('인증번호');
-    fireEvent.change(CertifiedNumberInputElement, { target: { value: '1313' } });
+    fireEvent.change(CertifiedNumberInputElement, { target: { value: CORRECT_CERTIFIED_NUMBER } });
 
     // 이런식으로 element의 data-testid 속성을 통해 불러올 수도 있다.
     // 물론 querySelector로 className을 통해 불러올 수도 있다.
@@ -111,7 +120,7 @@ describe('이메일 입력 테스트', () => {
   test('잘못된 값 입력 시 [인증번호 전송]버튼 비활성화', () => {
     render(<SignUp />);
     const emailInputElement = screen.getByPlaceholderText('이메일');
-    fireEvent.change(emailInputElement, { target: { value: 'wrongemail.naver.com' } });
+    fireEvent.change(emailInputElement, { target: { value: WRONG_EMAIL } });
     expect(screen.getByText('인증번호 전송')).toBeDisabled();
   });
 });
@@ -120,22 +129,22 @@ describe('회원가입 전체 과정 테스트', () => {
   test('', () => {
     render(<SignUp />);
     const idInputElement = screen.getByPlaceholderText('영문 소문자, 숫자 조합 6-16자');
-    fireEvent.change(idInputElement, { target: { value: 'kaka1313' } });
+    fireEvent.change(idInputElement, { target: { value: CORRECT_ID } });
 
     const pwInputElement = screen.getByPlaceholderText('영문, 숫자, 특수기호 조합 8-16자');
-    fireEvent.change(pwInputElement, { target: { value: 'correct123!@#' } });
+    fireEvent.change(pwInputElement, { target: { value: CORRECT_PW } });
 
     const pwCheckInputElement = screen.getByPlaceholderText('비밀번호 재입력');
-    fireEvent.change(pwCheckInputElement, { target: { value: 'correct123!@#' } });
+    fireEvent.change(pwCheckInputElement, { target: { value: CORRECT_PW } });
 
     const emailInputElement = screen.getByPlaceholderText('이메일');
-    fireEvent.change(emailInputElement, { target: { value: 'sample@naver.com' } });
+    fireEvent.change(emailInputElement, { target: { value: CORRECT_EMAIL } });
 
     const CertifiedNumberSendElement = screen.getByText('인증번호 전송');
     fireEvent.click(CertifiedNumberSendElement);
 
     const CertifiedNumberInputElement = screen.getByPlaceholderText('인증번호');
-    fireEvent.change(CertifiedNumberInputElement, { target: { value: '1313' } });
+    fireEvent.change(CertifiedNumberInputElement, { target: { value: CORRECT_CERTIFIED_NUMBER } });
 
     fireEvent.click(screen.getByTestId('certifiedNumberCheck'));
 
