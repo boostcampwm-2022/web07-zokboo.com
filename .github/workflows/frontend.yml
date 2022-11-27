@@ -14,7 +14,7 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd web07-zokboo.com/client
+            cd web07-zokboo.com
             git pull
             npm install
             pm2 restart 0
