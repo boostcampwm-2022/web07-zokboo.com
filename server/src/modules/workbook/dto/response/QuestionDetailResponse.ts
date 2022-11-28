@@ -1,15 +1,36 @@
+import { ApiProperty } from '@nestjs/swagger';
 import Question from 'src/modules/question/domain/Question';
 import QuestionType from 'src/modules/question/enum/QuestionType';
 
 class QuestionDetailResponse {
+  @ApiProperty()
   public questionId: number;
+
+  @ApiProperty()
   public question: string;
+
+  @ApiProperty()
   public difficulty: number;
+
+  @ApiProperty()
   public answer: string;
+
+  @ApiProperty()
   public commentary: string;
+
+  @ApiProperty({
+    enum: QuestionType,
+    enumName: 'Question Type',
+  })
   public questionType: QuestionType;
+
+  @ApiProperty()
   public images: string[];
+
+  @ApiProperty()
   public options: string[] | undefined;
+
+  @ApiProperty()
   public hashtags: string[];
 
   constructor(question: Question) {

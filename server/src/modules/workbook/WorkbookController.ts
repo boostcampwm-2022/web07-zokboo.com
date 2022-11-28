@@ -6,11 +6,12 @@ import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
+import QuestionDetailResponse from './dto/response/QuestionDetailResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import { WorkbookService } from './WorkbookService';
 
 @Controller('workbooks')
-@ApiExtraModels(ApiResponse, CreateWorkbookResponse, WorkbookDetailResponse)
+@ApiExtraModels(ApiResponse, CreateWorkbookResponse, WorkbookDetailResponse, QuestionDetailResponse)
 export class WorkbookController {
   constructor(private readonly workbookService: WorkbookService) {}
 
