@@ -7,11 +7,10 @@ import ApiResponse from '../common/response/ApiResponse';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import { WorkbookService } from './WorkbookService';
-import SaveWorkbookToListRequest from './dto/request/SaveWorkbookToListRequest';
-import SaveWorkbookToListResponse from './dto/response/SaveWorkbookToListResponse';
+import DuplicateWorkbookRequest from './dto/request/DuplicateWorkbookRequest';
 
 @Controller('workbooks')
-@ApiExtraModels(ApiResponse, CreateWorkbookResponse, SaveWorkbookToListResponse)
+@ApiExtraModels(ApiResponse, CreateWorkbookResponse)
 export class WorkbookController {
   constructor(private readonly workbookService: WorkbookService) {}
 
@@ -25,9 +24,9 @@ export class WorkbookController {
 
   @Post('save')
   @UseGuards(JwtAuthGuard)
-  @Api200Response(SaveWorkbookToListResponse, '문제집 저장 성공')
-  async saveWorkbookToList(@User('id') userId: string, @Body() request: SaveWorkbookToListRequest) {
-    const response = await this.workbookService.saveWorkbookToList(request, userId);
+  @Api200Response(CreateWorkbookResponse, '문제집 저장 성공')
+  async saveWorkbookToList(@User('id') userId: string, @Body() request: DuplicateWorkbookRequest) {
+    const response = await this.workbookService.duplicateWorkbook(request, Number(userId));
 
     return new ApiResponse('문제집 저장 성공', response);
   }

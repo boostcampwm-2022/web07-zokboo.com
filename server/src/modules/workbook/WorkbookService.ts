@@ -1,13 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QuestionRepository } from '../question/QuestionRepository';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import { WorkbookRepository } from './WorkbookRepository';
-import SaveWorkbookToListRequest from './dto/request/SaveWorkbookToListRequest';
-import WorkbookLike from './domain/WorkbookLike';
-import SaveWorkbookToListResponse from './dto/response/SaveWorkbookToListResponse';
+import DuplicateWorkbookRequest from './dto/request/DuplicateWorkbookRequest';
 
 @Injectable()
 export class WorkbookService {
@@ -24,18 +22,22 @@ export class WorkbookService {
     return new CreateWorkbookResponse(workbook);
   }
 
-  async saveWorkbookToList(request: SaveWorkbookToListRequest, userId: string) {
+  async duplicateWorkbook(request: DuplicateWorkbookRequest, userId: number) {
     const workbook = await this.workbookRepository.findWorkbookById(request.workbookId);
-    const likeList = await this.workbookRepository.findWorkbookLikesByUserId(BigInt(userId));
+    const questions = await this.questionRepository.findQuestionsByIds(
+      workbook.questions.map((q) => Number(q.question.questionId)),
+    );
 
-    if (likeList.filter((l) => l.workbookId === workbook.workbookId).length) {
-      throw new BadRequestException('이미 등록된 문제집');
-    }
+    const newWorkbook = Workbook.new(workbook.title, workbook.description, workbook.isPublic, userId);
 
-    const workbookLike = WorkbookLike.new(BigInt(userId), workbook.workbookId);
+    newWorkbook.originalId = workbook.workbookId;
 
-    const result = await this.workbookRepository.createWorkbookLike(workbookLike);
+    newWorkbook.setQuestions(questions.map((question) => WorkbookQuestion.new(workbook.workbookId, question)));
 
-    return new SaveWorkbookToListResponse(result);
+    const savedResult = await this.workbookRepository.save(newWorkbook);
+
+    newWorkbook.setId(savedResult.workbookId);
+
+    return new CreateWorkbookResponse(newWorkbook);
   }
 }

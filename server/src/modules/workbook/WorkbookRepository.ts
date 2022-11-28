@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaInstance } from '../common/PrismaInstance';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
-import WorkbookLike from './domain/WorkbookLike';
 
 @Injectable()
 export class WorkbookRepository {
@@ -52,17 +51,6 @@ export class WorkbookRepository {
     return workbook;
   }
 
-  async createWorkbookLike(workbookLike: WorkbookLike) {
-    const newWorkbookLike = await this.prisma.workbookLike.create({
-      data: {
-        workbook_id: workbookLike.workbookId,
-        user_id: workbookLike.userId,
-      },
-    });
-
-    return WorkbookLike.of(newWorkbookLike);
-  }
-
   async createWorkbookQuestion(workbookId: bigint, workbookQuestion: WorkbookQuestion) {
     const newWorkbookQuestion = await this.prisma.workbookQuestion.create({
       data: {
@@ -84,15 +72,5 @@ export class WorkbookRepository {
     });
 
     return Workbook.of(workbook);
-  }
-
-  async findWorkbookLikesByUserId(userId: bigint) {
-    const likes = await this.prisma.workbookLike.findMany({
-      where: {
-        user_id: userId,
-      },
-    });
-
-    return likes.map((l) => WorkbookLike.of(l));
   }
 }
