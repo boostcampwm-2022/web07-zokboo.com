@@ -180,6 +180,8 @@ export class QuestionRepository {
     return result.map((r) => {
       const question = Question.of(r);
       question.setHashtags(r.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
+      question.setImages(r.QuestionImage.map((i) => QuestionImage.of(i)));
+      question.setOptions(r.Option.map((o) => Option.of(o)));
 
       return question;
     });
