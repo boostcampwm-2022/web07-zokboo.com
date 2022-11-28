@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiExtraModels } from '@nestjs/swagger';
-import { Api201Response } from 'src/decorators/ApiResponseDecorator';
+import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 import { User } from 'src/decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
@@ -15,7 +15,7 @@ export class QuestionController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @Api201Response(CreateQuestionResponse, '문제 생성 완료')
+  @ApiSingleResponse(201, CreateQuestionResponse, '문제 생성 완료')
   async createQuestion(@User('id') userId: string, @Body() request: CreateQuestionRequest) {
     const response = await this.questionService.createQuestion(request, Number(userId));
     return new ApiResponse('문제 생성 완료', response);

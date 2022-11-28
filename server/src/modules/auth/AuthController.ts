@@ -12,8 +12,8 @@ import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
-import { Api201Response } from 'src/decorators/ApiResponseDecorator';
 import { MailService } from '../common/MailService';
+import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 
 @Controller('auth')
 @ApiExtraModels(ApiResponse, SigninResponse, SignupResponse)
@@ -25,7 +25,7 @@ export class AuthController {
   ) {}
 
   @Post('signup')
-  @Api201Response(SignupResponse, '회원가입 완료')
+  @ApiSingleResponse(201, SignupResponse, '회원가입 완료')
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
@@ -41,7 +41,7 @@ export class AuthController {
   }
 
   @Post('signin')
-  @Api201Response(SigninResponse, '로그인 완료')
+  @ApiSingleResponse(200, SigninResponse, '로그인 완료')
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
     const user = await this.authService.signin(request);
     const token = this.authService.issueJwtAccessToken(user.userId);
