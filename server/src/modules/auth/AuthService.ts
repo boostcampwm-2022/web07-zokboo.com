@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import OauthUser from '../user/domain/OauthUser';
@@ -20,6 +20,9 @@ export class AuthService {
 
   public async signin(request: SigninRequest) {
     const user = await this.userRepository.findUserByEmail(request.email);
+    if (!user) {
+      throw new UnauthorizedException('이메일 혹은 패스워드가 잘못되었습니다.');
+    }
     user.authenticate(request.password);
     return new SigninResponse(user);
   }

@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { BiImageAdd, BiX } from 'react-icons/bi';
+import { useMutation } from 'react-query';
 import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
-import { BiImageAdd } from 'react-icons/bi';
-
 import { MdArrowDropDown } from 'react-icons/md';
+import createQuestion from '../../../api/question';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
 import {
   ButtonList,
@@ -25,28 +26,144 @@ import {
   DropDownSelector,
   DropDownIcon,
   StepBarButton,
+  DeleteButton,
+  HashTagBox,
+  HashTagButton,
+  HashTagItemBox,
+  HashTagItem,
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
 import QUESTION_TYPE from './constants';
+import { Problem } from '../../../types/workbook';
+import useInput from '../../../hooks/useInput';
+import useArrayText from '../../../hooks/useArrayText';
+import { DropdownItem } from '../../common/dropdown/Style';
 
 const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 
-const CreateProblemModal = () => {
+interface Props {
+  handleProblemAdd: (problem: Problem) => void;
+}
+
+const DIFFICULTY = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
+const VERIFICATION = {
+  blank: /^\s+$/,
+};
+
+const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
+
+  const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('', VERIFICATION.blank);
+  const [file, handleFileChange, f_, handleFileReset] = useInput('');
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.SUBJECTIVE);
+  const {
+    state: hashTagList,
+    values: hashTagValues,
+    add: handleHashTagAdd,
+    erase: handleHashTagDelete,
+    reset: handleHashTagListReset,
+  } = useArrayText();
+  const [hashTag, handleHashTagChange, __, handleHashTagReset] = useInput('');
+
+  const {
+    state: optionList,
+    values: optionValues,
+    change: handleOptionChange,
+    add: handleOptionAdd,
+    erase: handleOptionDelete,
+    reset: handleOptionListReset,
+    search: handleOptionSearch,
+  } = useArrayText();
+  const [subject, handleSubjectChange, _s, handleSubjectReset] = useInput('');
+
+  const [commentary, onCommentaryChange, _c, handleCommentaryReset] = useInput('');
+  const [difficultValue, setDifficultValue] = useState(0);
+  const [answerIdx, setAnswerIdx] = useState<number>(0);
 
   const handleUpdateType = ({ target }: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const isElement = target instanceof HTMLButtonElement;
 
-    if (isElement && questionType !== target.value) setQuestionType(target.value);
+    if (isElement && questionType !== target.value) {
+      setQuestionType(target.value);
+      setAnswerIdx(0);
+    }
   };
+
+  const questionCreate = useMutation(createQuestion);
 
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
   };
-
   const handleBeforeStep = () => {
     if (currentStep > 1) setCurrentStep((prev) => prev - 1);
+  };
+
+  const handleHashTagAddCheck = () => {
+    if (hashTag) {
+      handleHashTagAdd(hashTag);
+      handleHashTagReset();
+    }
+  };
+
+  const handleModalReset = () => {
+    setCurrentStep(1);
+    handleQuestionReset();
+    handleFileReset();
+    handleHashTagListReset();
+    handleHashTagReset();
+    handleOptionListReset();
+    handleSubjectReset();
+    handleCommentaryReset();
+    setDifficultValue(0);
+    setAnswerIdx(0);
+  };
+
+  const handleQuestionCreate = () => {
+    let answer;
+    if (questionType === QUESTION_TYPE.SUBJECTIVE) answer = subject;
+    else {
+      answer = handleOptionSearch(answerIdx);
+    }
+
+    if (!question || question.trim() === '') {
+      setCurrentStep(1);
+      console.log('문제 지문이; 없습니다');
+      return;
+    }
+    if (!commentary || commentary.trim() === '') {
+      console.log('해설이없습니다~~');
+      return;
+    }
+    if (!answer || answer.trim() === '') {
+      console.log('오류 체크');
+      return;
+    }
+    if (hashTagValues.length === 0) {
+      console.log('오류 체크');
+      return;
+    }
+
+    questionCreate.mutate(
+      {
+        question,
+        questionType,
+        answer,
+        commentary,
+        difficulty: difficultValue,
+        hashtags: hashTagValues,
+        options: optionValues,
+      },
+      {
+        onSuccess: (data: Problem) => {
+          console.log('성공', data);
+          handleProblemAdd(data);
+          handleModalReset();
+        },
+        onError: () => {
+          console.log('실패');
+        },
+      },
+    );
   };
 
   return (
@@ -80,11 +197,17 @@ const CreateProblemModal = () => {
         {currentStep === 1 && (
           <Step>
             <SubTitle>문제 지문</SubTitle>
-            <TextArea id="question" rows={5} placeholder="지문을 입력하세요." />
+            <TextArea
+              id="question"
+              rows={4}
+              placeholder="지문을 입력하세요."
+              value={question}
+              onChange={handleQuestionChange}
+            />
 
             <SubTitle>문제 이미지</SubTitle>
             <Label htmlFor="file">
-              <Input type="file" hidden id="file" />
+              <Input type="file" hidden id="file" onChange={handleFileChange} />
               <ImageBox>
                 <BiImageAdd size={50} />
               </ImageBox>
@@ -113,50 +236,64 @@ const CreateProblemModal = () => {
                 객관식
               </ModalButton>
             </ContentBox>
+
+            <TitleBox>
+              <SubTitle>해쉬태그 등록</SubTitle>
+              {hashTagList.length < 5 && (
+                <HashTagBox>
+                  <QuestionInput value={hashTag} onChange={handleHashTagChange} />
+                  <HashTagButton onClick={handleHashTagAddCheck}>추가</HashTagButton>
+                </HashTagBox>
+              )}
+            </TitleBox>
+            <ContentBox>
+              {hashTagList.map(([key, data]) => (
+                <HashTagItemBox key={key}>
+                  <HashTagItem>{data}</HashTagItem>
+
+                  <DeleteButton onClick={() => handleHashTagDelete(key)}>
+                    <BiX />
+                  </DeleteButton>
+                </HashTagItemBox>
+              ))}
+            </ContentBox>
           </Step>
         )}
         {currentStep === 2 &&
-          (questionType ? (
+          (questionType === QUESTION_TYPE.SUBJECTIVE ? (
+            <Step>
+              <SubTitle>모범 답안 작성</SubTitle>
+              <TextArea id="answer" rows={18} value={subject} onChange={handleSubjectChange} />
+            </Step>
+          ) : (
             <Step>
               <TitleBox>
                 <SubTitle>보기 등록</SubTitle>
                 <SubTitle>정답</SubTitle>
               </TitleBox>
               <ContentBox>
-                <QuestionBox>
-                  <QuestionInput />
+                {optionList.map(([key, data], idx) => (
+                  <QuestionBox key={key}>
+                    <QuestionInput value={data} onChange={({ target }) => handleOptionChange(key, target.value)} />
 
-                  <QuestionButton type="button">
-                    <BsCheckLg size={20} />
-                  </QuestionButton>
-                </QuestionBox>
-                <QuestionBox>
-                  <QuestionInput />
+                    <QuestionButton type="button" isActive={answerIdx === key} onClick={() => setAnswerIdx(key)}>
+                      <BsCheckLg size={20} />
+                    </QuestionButton>
 
-                  <QuestionButton type="button">
-                    <BsCheckLg size={20} />
-                  </QuestionButton>
-                </QuestionBox>
-                <QuestionBox>
-                  <QuestionInput />
+                    <DeleteButton onClick={() => handleOptionDelete(key)}>
+                      <BiX />
+                    </DeleteButton>
+                  </QuestionBox>
+                ))}
 
-                  <QuestionButton type="button">
-                    <BsCheckLg size={20} />
-                  </QuestionButton>
-                </QuestionBox>
-                <AddButton>추가</AddButton>
+                {optionList.length <= 5 && <AddButton onClick={() => handleOptionAdd()}>추가</AddButton>}
               </ContentBox>
-            </Step>
-          ) : (
-            <Step>
-              <SubTitle>모범 답안 작성</SubTitle>
-              <TextArea id="commentary" rows={18} />
             </Step>
           ))}
         {currentStep === 3 && (
           <Step>
             <SubTitle>해설 작성</SubTitle>
-            <TextArea id="commentary" rows={15} />
+            <TextArea id="commentary" rows={15} value={commentary} onChange={onCommentaryChange} />
 
             <TitleBox>
               <SubTitle>문제 난이도</SubTitle>
@@ -166,15 +303,20 @@ const CreateProblemModal = () => {
               <DropDown
                 title={
                   <DropDownSelector>
-                    <DropDownTitle>123</DropDownTitle>
+                    <DropDownTitle>{DIFFICULTY[difficultValue]}</DropDownTitle>
                     <DropDownIcon>
                       <MdArrowDropDown size={30} />
                     </DropDownIcon>
                   </DropDownSelector>
                 }
-                values={['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F']}
                 direction="right"
-              />
+              >
+                {DIFFICULTY.map((data, idx) => (
+                  <DropdownItem key={data} onClick={() => setDifficultValue(idx)}>
+                    {data}
+                  </DropdownItem>
+                ))}
+              </DropDown>
             </DropDownContainer>
           </Step>
         )}
@@ -204,7 +346,7 @@ const CreateProblemModal = () => {
               isDisplay
               isActive={false}
               //
-              onClick={handleNextStep}
+              onClick={handleQuestionCreate}
             >
               추가
             </ModalButton>

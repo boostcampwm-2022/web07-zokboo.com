@@ -88,7 +88,6 @@ const MoreButtons = styled.div`
 const SSOTitle = styled.div`
   margin: 12px;
 
-
   color: ${colors.gray1};
   font-size: 14px;
 `;
@@ -114,7 +113,7 @@ const handleLocalLogin = {
     /** */
   },
   register: () => {
-    /** */
+    window.location.href = '/signup';
   },
 };
 

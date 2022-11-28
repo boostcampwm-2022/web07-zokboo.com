@@ -1,55 +1,29 @@
 import styled from 'styled-components';
-import { colors, fonts } from '../../../styles/theme';
+import { Button, Input } from '../../../styles/common';
+import { colors, fonts, media } from '../../../styles/theme';
 
-export const SearchModalContainer = styled.div`
+export const Container = styled.div`
   height: 100%;
+  padding: 30px 20px;
+
+  ${media.tablet} {
+    padding: 0 20px;
+  }
 `;
 
-export const SearchModalInputBox = styled.div`
+export const SearchBox = styled.div`
   display: flex;
   justify-content: space-between;
 
   margin-bottom: 10px;
-
-  input {
-    height: 30px;
-    width: calc(100% - 60px);
-  }
-
-  button {
-    border: 1px solid ${colors.primary};
-    background: none;
-
-    width: 50px;
-    height: 30px;
-
-    border-radius: 5px;
-
-    font-size: ${fonts.size.sm};
-    color: ${colors.primary};
-
-    cursor: pointer;
-    transition: all 0.5s;
-
-    :hover {
-      background-color: ${colors.primary};
-      color: ${colors.white};
-    }
-  }
 `;
 
-export const SearchModalList = styled.ul`
-  height: calc(100% - 40px);
-  overflow-y: auto;
-
-  list-style: none;
-  padding: 0;
-  margin: 0;
+export const SearchInput = styled(Input)`
+  height: 30px;
+  width: calc(100% - 60px);
 `;
 
-export const SearchModalItem = styled.li`
-  width: 100%;
-  height: 50px;
-
-  background-color: ${colors.secondary};
+export const SearchButton = styled(Button)`
+  width: 50px;
+  height: 30px;
 `;
