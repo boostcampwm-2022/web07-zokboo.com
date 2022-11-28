@@ -1,15 +1,16 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiExtraModels } from '@nestjs/swagger';
-import { Api201Response } from 'src/decorators/ApiResponseDecorator';
+import { Api200Response, Api201Response } from 'src/decorators/ApiResponseDecorator';
 import { User } from 'src/decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
+import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import { WorkbookService } from './WorkbookService';
 
 @Controller('workbooks')
-@ApiExtraModels(ApiResponse, CreateWorkbookResponse)
+@ApiExtraModels(ApiResponse, CreateWorkbookResponse, WorkbookDetailResponse)
 export class WorkbookController {
   constructor(private readonly workbookService: WorkbookService) {}
 
@@ -19,5 +20,13 @@ export class WorkbookController {
   async createWorkbook(@User('id') userId: string, @Body() request: CreateWorkbookRequest) {
     const response = await this.workbookService.createWorkbook(request, Number(userId));
     return new ApiResponse('문제집 제작 성공', response);
+  }
+
+  @Get(':workbookId')
+  @UseGuards(JwtAuthGuard)
+  @Api200Response(WorkbookDetailResponse, '문제집 조회 성공')
+  async showWorkbook(@User('id') userId: string, @Param('workbookId', ParseIntPipe) workbookId: number) {
+    const response = await this.workbookService.getWorkbook(workbookId, Number(userId));
+    return new ApiResponse('문제집 조회 성공', response);
   }
 }
