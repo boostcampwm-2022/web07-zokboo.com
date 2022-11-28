@@ -68,7 +68,7 @@ export class WorkbookRepository {
     return workbookQuestion;
   }
 
-  async findWorkbook(workbookId: bigint) {
+  async findWorkbook(workbookId: number) {
     const workbook = await this.prisma.workbook.findUnique({
       where: {
         workbook_id: workbookId,
