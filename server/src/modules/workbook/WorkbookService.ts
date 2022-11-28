@@ -5,6 +5,7 @@ import WorkbookQuestion from './domain/WorkbookQuestion';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
+import WorkbookSimpleResponse from './dto/response/WorkbookSimpleResponse';
 import { WorkbookRepository } from './WorkbookRepository';
 
 @Injectable()
@@ -20,6 +21,11 @@ export class WorkbookService {
     workbook.setQuestions(questions.map((question) => WorkbookQuestion.new(undefined, question)));
     await this.workbookRepository.save(workbook);
     return new CreateWorkbookResponse(workbook);
+  }
+
+  async searchWorkbooks(title: string, content: string) {
+    const workbooks = await this.workbookRepository.searchWorkbooks(title, content);
+    return workbooks.map((w) => new WorkbookSimpleResponse(w));
   }
 
   async getWorkbook(workbookId: number, userId: number) {
