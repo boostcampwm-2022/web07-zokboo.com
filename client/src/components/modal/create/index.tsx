@@ -34,7 +34,7 @@ import {
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
 import QUESTION_TYPE from './constants';
-import { Problem } from '../../../types/workbook';
+import { Question } from '../../../types/question';
 import useInput from '../../../hooks/useInput';
 import useArrayText from '../../../hooks/useArrayText';
 import { DropdownItem } from '../../common/dropdown/Style';
@@ -42,7 +42,7 @@ import { DropdownItem } from '../../common/dropdown/Style';
 const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 
 interface Props {
-  handleProblemAdd: (problem: Problem) => void;
+  handleProblemAdd: (problem: Question) => void;
 }
 
 const DIFFICULTY = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
@@ -154,7 +154,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
         options: optionValues,
       },
       {
-        onSuccess: (data: Problem) => {
+        onSuccess: (data: Question) => {
           console.log('성공', data);
           handleProblemAdd(data);
           handleModalReset();

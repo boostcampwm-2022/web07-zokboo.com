@@ -1,4 +1,4 @@
-export interface Problem {
+export interface Question {
   questionId: string;
   question: string;
   questionType: string;

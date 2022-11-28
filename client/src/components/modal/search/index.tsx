@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
 import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 import { getQuestion } from '../../../api/question';
 import useInput from '../../../hooks/useInput';
 import useToggle from '../../../hooks/useToggle';
@@ -12,14 +13,14 @@ import {
   ProblemItemTitle,
   ProblemItemUnderLine,
 } from '../../../styles/problemList';
-import { Problem } from '../../../types/workbook';
+import { GetQuestionResponse, Question } from '../../../types/question';
 import DropDown from '../../common/dropdown/Dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import { DropDownIcon, DropDownSelector, DropDownTitle } from '../create/Style';
 import { Container, SearchBox, SearchInput, SearchButton, SearchDropDownContainer, SearchProblemList } from './Style';
 
 interface Props {
-  handleProblemAdd: (problem: Problem) => void;
+  handleProblemAdd: (problem: Question) => void;
 }
 
 interface SearchType {
@@ -33,13 +34,12 @@ const DROPBOX_LIST = [
 ];
 
 const SearchProblemModal = ({ handleProblemAdd }: Props) => {
-  const [problemList, setProblemList] = useState<Problem[]>([]);
   const [searchType, setSearchType] = useState<SearchType>(DROPBOX_LIST[0]);
   const [searchInput, handleSearchInputChange] = useInput('');
 
   const [isSearch, handleSerachToggle] = useToggle(false);
 
-  const search = useQuery(
+  const { data } = useQuery<GetQuestionResponse[]>(
     QUESTION_KEYS.search,
     async () => {
       const result = await getQuestion({ type: searchType.value, value: searchInput });
@@ -51,10 +51,13 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       onSuccess: () => {
         handleSerachToggle();
       },
+      onError: () => {
+        toast.error('오류');
+      },
     },
   );
 
-  console.log(search);
+  const problemList = data ?? [];
 
   return (
     <Container>

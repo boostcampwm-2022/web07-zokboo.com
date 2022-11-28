@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Input } from '../../../styles/common';
-import { ProblemList } from '../../../styles/problemList';
+import { ProblemItem, ProblemList } from '../../../styles/problemList';
 import { colors, fonts, media } from '../../../styles/theme';
 import { DropDownContainer } from '../create/Style';
 
@@ -41,4 +41,8 @@ export const SearchButton = styled(Button)`
 
 export const SearchProblemList = styled(ProblemList)`
   height: calc(100% - 45px);
+
+  ${ProblemItem} {
+    cursor: pointer;
+  }
 `;
