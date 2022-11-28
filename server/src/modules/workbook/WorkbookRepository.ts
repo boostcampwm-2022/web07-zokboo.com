@@ -68,11 +68,14 @@ export class WorkbookRepository {
     return workbookQuestion;
   }
 
-  async searchWorkbooks(content: string) {
+  async searchWorkbooks(title: string, content: string) {
     const workbooks = await this.prisma.workbook.findMany({
       where: {
         title: {
-          contains: content,
+          search: title,
+        },
+        description: {
+          search: content,
         },
         is_public: true,
       },
@@ -88,6 +91,7 @@ export class WorkbookRepository {
       const questions = w.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question)));
       const workbook = Workbook.of(w);
       workbook.setQuestions(questions);
+      return workbook;
     });
   }
 
