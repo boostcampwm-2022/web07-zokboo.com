@@ -1,5 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaInstance } from '../common/PrismaInstance';
+import Hashtag from '../question/domain/Hashtag';
+import Option from '../question/domain/Option';
+import Question from '../question/domain/Question';
+import QuestionImage from '../question/domain/QuestionImage';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
 
@@ -62,5 +66,43 @@ export class WorkbookRepository {
     workbookQuestion.setWorkbookId(workbookId);
     workbookQuestion.setId(newWorkbookQuestion.workbook_question_id);
     return workbookQuestion;
+  }
+
+  async findWorkbook(workbookId: bigint) {
+    const workbook = await this.prisma.workbook.findUnique({
+      where: {
+        workbook_id: workbookId,
+      },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: {
+              include: {
+                Option: true,
+                QuestionImage: true,
+                QuestionHashtag: {
+                  include: {
+                    Hashtag: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!workbook) {
+      return null;
+    }
+    const questions = workbook.WorkbookQuestion.map((wq) => {
+      const question = Question.of(wq.Question);
+      question.setOptions(wq.Question.Option.map((o) => Option.of(o)));
+      question.setImages(wq.Question.QuestionImage.map((i) => QuestionImage.of(i)));
+      question.setHashtags(wq.Question.QuestionHashtag.map((qh) => Hashtag.of(qh.Hashtag)));
+      return WorkbookQuestion.of(wq, question);
+    });
+    const response = Workbook.of(workbook);
+    response.setQuestions(questions);
+    return response;
   }
 }
