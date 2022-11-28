@@ -68,6 +68,29 @@ export class WorkbookRepository {
     return workbookQuestion;
   }
 
+  async searchWorkbooks(content: string) {
+    const workbooks = await this.prisma.workbook.findMany({
+      where: {
+        title: {
+          contains: content,
+        },
+        is_public: true,
+      },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: true,
+          },
+        },
+      },
+    });
+    return workbooks.map((w) => {
+      const questions = w.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question)));
+      const workbook = Workbook.of(w);
+      workbook.setQuestions(questions);
+    });
+  }
+
   async findWorkbook(workbookId: number) {
     const workbook = await this.prisma.workbook.findUnique({
       where: {
