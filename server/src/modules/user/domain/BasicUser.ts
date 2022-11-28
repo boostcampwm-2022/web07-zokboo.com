@@ -6,6 +6,7 @@ import { BasicUser as pBasicUser, User as pUser } from '@prisma/client';
 export default class BasicUser extends User {
   public email: string;
   public password: string;
+  public isApproved: boolean;
 
   constructor(
     userId: bigint | undefined,
@@ -15,16 +16,17 @@ export default class BasicUser extends User {
     updatedAt: Date,
     email: string,
     password: string,
+    isApproved: boolean,
   ) {
     super(userId, nickname, avatar, createdAt, updatedAt);
     this.email = email;
     this.password = password;
+    this.isApproved = isApproved;
   }
 
-  static new(email: string, nickname: string, password: string) {
+  static new(email: string, nickname: string, password: string, isApproved = false) {
     const now = new Date();
-    return new BasicUser(undefined, nickname, '', now, now, email, password);
-    User;
+    return new BasicUser(undefined, nickname, '', now, now, email, password, isApproved);
   }
 
   static basicOf(
@@ -40,6 +42,7 @@ export default class BasicUser extends User {
       record.User.updated_at,
       record.email,
       record.password,
+      record.is_approved,
     );
   }
 
