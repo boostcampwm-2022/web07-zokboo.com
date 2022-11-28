@@ -13,7 +13,4 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_ID }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: |
-            cd web07-zokboo.com
-            git pull
-            npm install
+          script: ${{ secrets.REMOTE_SCRIPTS }}
