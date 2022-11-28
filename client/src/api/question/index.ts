@@ -3,16 +3,15 @@ import { PostCreateQuestionBody } from '../../types/workbook';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-const getQuestion = async (hashTag: string) => {
-  const { data } = await axios.get(`${baseUrl}?hashtag=${hashTag}`);
+export const getQuestion = async (query: { type: string; value: string }) => {
+  console.log('???');
+  const { data } = await axios.get(`${baseUrl}/questions?${new URLSearchParams({ [query.type]: query.value })}`);
 
   return data;
 };
 
-const createQuestion = async (body: PostCreateQuestionBody) => {
+export const createQuestion = async (body: PostCreateQuestionBody) => {
   const { data } = await axios.post(`${baseUrl}/questions`, body, { withCredentials: true });
 
   return data;
 };
-
-export default createQuestion;

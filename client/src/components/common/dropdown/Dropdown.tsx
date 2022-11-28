@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useToggle from '../../../hooks/useToggle';
-import { Container, DropdownItem, DropdownList, Selector } from './Style';
+import { Container, DropdownList, Selector } from './Style';
 import Direction from './Types';
 
 interface Props {

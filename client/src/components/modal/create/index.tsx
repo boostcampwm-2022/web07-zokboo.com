@@ -3,7 +3,7 @@ import { BiImageAdd, BiX } from 'react-icons/bi';
 import { useMutation } from 'react-query';
 import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
-import createQuestion from '../../../api/question';
+import { createQuestion } from '../../../api/question';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
 import {
   ButtonList,
