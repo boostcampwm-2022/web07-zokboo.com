@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [main]
+    branches: [develop]
 
 jobs:
   build:
@@ -17,4 +17,3 @@ jobs:
             cd web07-zokboo.com
             git pull
             npm install
-            pm2 restart 0
