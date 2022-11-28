@@ -11,7 +11,7 @@ import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import PageNotFound from '../pages/PageNotFound';
 import Problem from '../pages/Problem';
-import ProblemCreate from '../pages/problemCreate/ProblemCreate';
+import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/signup/SignUp';
@@ -25,15 +25,16 @@ const Router = () => {
 
       <Routes>
         <Route path="/" element={<Header />} />
-        <Route path="/problemCreate" element={<Header />} />
+        <Route path="/workbook/new" element={<Header />} />
       </Routes>
 
       {/* Contents */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/problemCreate" element={<ProblemCreate />} />
-        <Route path="/problem/:id " element={<Problem />} />
+        <Route path="/workbook/new" element={<WorkBookCreate />} />
+        <Route path="/workbook/update" element={<WorkBookCreate />} />
+        <Route path="/workbook/:id " element={<Problem />} />
         <Route path="/exam_create" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />

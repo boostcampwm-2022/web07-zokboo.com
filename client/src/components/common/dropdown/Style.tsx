@@ -45,6 +45,8 @@ export const DropdownItem = styled(Item)`
   font-size: ${fonts.size.sm};
   border-bottom: 1px solid ${colors.line};
 
+  cursor: pointer;
+
   :last-child {
     border: none;
   }

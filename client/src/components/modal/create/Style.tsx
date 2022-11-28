@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Input, SubTitle } from '../../../styles/common';
+import { Button, Input, SubTitle, TextArea } from '../../../styles/common';
 import { colors, fonts, media } from '../../../styles/theme';
 
 export const Container = styled.div`
@@ -10,22 +10,6 @@ export const Container = styled.div`
 
   ${media.tablet} {
     padding: 0 20px;
-  }
-`;
-
-export const StepContainer = styled.div`
-  width: calc(100% - 60px);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-
-  padding-top: 30px;
-
-  ${media.tablet} {
-    width: calc(100%);
   }
 `;
 
@@ -81,8 +65,6 @@ export const ImageBox = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.line};
 
-  margin-bottom: 10px;
-
   svg {
     width: 100px;
     height: 100px;
@@ -103,6 +85,8 @@ export const AddButton = styled(Button)`
 `;
 
 export const QuestionBox = styled.div`
+  position: relative;
+
   display: flex;
   justify-content: space-between;
 
@@ -110,12 +94,36 @@ export const QuestionBox = styled.div`
   margin: 5px 0;
 `;
 
+export const HashTagItemBox = styled.div`
+  position: relative;
+`;
+
+export const HashTagItem = styled.div`
+  font-size: ${fonts.size.sm};
+  margin: 0 10px 5px;
+`;
+
 export const QuestionInput = styled(Input)`
   width: calc(100% - 55px);
   height: 40px;
 `;
 
-export const QuestionButton = styled(Button)`
+export const HashTagBox = styled.div`
+  width: 50%;
+
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const HashTagButton = styled(Button)`
+  width: 40px;
+  height: 40px;
+
+  font-size: ${fonts.size.xs};
+`;
+
+export const QuestionButton = styled(Button)<{ isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,6 +135,40 @@ export const QuestionButton = styled(Button)`
   height: 40px;
 
   color: ${colors.text};
+
+  ${(props) =>
+    props.isActive &&
+    `color: ${colors.white};
+    background-color: ${colors.primary};`}
+`;
+
+export const DeleteButton = styled(Button)`
+  position: absolute;
+  left: -10px;
+  top: -10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 20px;
+  height: 20px;
+
+  color: ${colors.error};
+  background-color: ${colors.white};
+  border-radius: 50%;
+
+  border: none;
+  background: none;
+
+  padding: 0;
+
+  :hover {
+    color: ${colors.error};
+
+    border: none;
+    background: none;
+  }
 `;
 
 export const StepBar = styled.div`
@@ -207,6 +249,9 @@ export const DropDownSelector = styled.div`
 `;
 
 export const DropDownTitle = styled(SubTitle)`
+  display: flex;
+  justify-content: center;
+
   width: calc(100% - 30px);
   font-size: ${fonts.size.sm};
 
@@ -222,4 +267,24 @@ export const DropDownIcon = styled(Button)`
   border: none;
 
   border-radius: 0 5px 5px 0;
+`;
+
+export const StepContainer = styled.div`
+  width: calc(100% - 60px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  padding-top: 30px;
+
+  ${media.tablet} {
+    width: calc(100%);
+  }
+
+  ${ContentBox},${TextArea}, ${ImageBox} {
+    margin-bottom: 20px;
+  }
 `;

@@ -38,24 +38,24 @@ const Header = () => {
           </SearchContainer>
           <ButtonList>
             {
-              // <>
-              //   <Button>로그인</Button>
-              //   <Button>회원가입</Button>
-              // </>
-              <DropDownContainer>
-                <DropDown
-                  title={
-                    <DropDownSelector>
-                      <DropDownImage />
-                      <DropDownIcon>
-                        <MdArrowDropDown size={30} />
-                      </DropDownIcon>
-                    </DropDownSelector>
-                  }
-                  values={['마이페이지']}
-                  direction="right"
-                />
-              </DropDownContainer>
+              <>
+                <Button>로그인</Button>
+                <Button>회원가입</Button>
+              </>
+              // <DropDownContainer>
+              //   <DropDown
+              //     title={
+              //       <DropDownSelector>
+              //         <DropDownImage />
+              //         <DropDownIcon>
+              //           <MdArrowDropDown size={30} />
+              //         </DropDownIcon>
+              //       </DropDownSelector>
+              //     }
+              //     values={['마이페이지']}
+              //     direction="right"
+              //   />
+              // </DropDownContainer>
             }
           </ButtonList>
         </ButtonInner>

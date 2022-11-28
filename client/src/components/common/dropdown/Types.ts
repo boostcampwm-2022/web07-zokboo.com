@@ -1,3 +1,3 @@
-type DIREACTION = 'left' | 'right';
+type Direction = 'left' | 'right';
 
-export default DIREACTION;
+export default Direction;

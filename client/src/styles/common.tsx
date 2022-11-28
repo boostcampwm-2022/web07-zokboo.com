@@ -32,6 +32,7 @@ export const Input = styled.input`
 
   :focus {
     outline: none;
+    border: 1px solid ${colors.primary};
   }
 `;
 
@@ -49,6 +50,7 @@ export const TextArea = styled.textarea`
 
   :focus {
     outline: none;
+    border: 1px solid ${colors.primary};
   }
 `;
 

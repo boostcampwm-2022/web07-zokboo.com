@@ -21,8 +21,7 @@ export const ModalInner = styled.div`
   z-index: 2;
 
   width: 40%;
-  height: 600px;
-
+  height: 700px;
 
   padding: 20px 0;
 
