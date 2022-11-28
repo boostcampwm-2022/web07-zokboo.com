@@ -1,0 +1,6 @@
+export const QUESTION_TYPE = {
+  MULTIPLE: 'MULTIPLE',
+  SUBJECTIVE: 'SUBJECTIVE',
+};
+
+export default QUESTION_TYPE;

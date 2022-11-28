@@ -8,11 +8,11 @@ datasource db {
 }
 
 model BasicUser {
-  user_id  BigInt @id
-  password String @db.Char(60)
+  user_id     BigInt  @id
+  password    String  @db.Char(60)
   is_approved Boolean @default(false)
-  email    String @unique(map: "email") @db.VarChar(254)
-  User     User   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_BasicUser_1")
+  email       String  @unique(map: "email") @db.VarChar(254)
+  User        User    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_BasicUser_1")
 }
 
 model Hashtag {
@@ -134,38 +134,38 @@ model TestPaperQuestion {
 }
 
 model User {
-  user_id                            BigInt         @id @default(autoincrement())
-  created_at                         DateTime       @db.DateTime(0)
-  updated_at                         DateTime       @db.DateTime(0)
-  nickname                           String         @unique(map: "nickname") @db.VarChar(64)
-  avatar                             String         @db.VarChar(2083)
-  BasicUser                          BasicUser?
-  OauthUser                          OauthUser?
-  Question                           Question[]
-  QuestionLike                       QuestionLike[]
-  Test                               Test[]
-  Workbook_UserToWorkbook_user_id    Workbook[]     @relation("UserToWorkbook_user_id")
-  Workbook_UserToWorkbook_creator_id Workbook[]     @relation("UserToWorkbook_creator_id")
-  WorkbookLike                       WorkbookLike[]
+  user_id                         BigInt         @id @default(autoincrement())
+  created_at                      DateTime       @db.DateTime(0)
+  updated_at                      DateTime       @db.DateTime(0)
+  nickname                        String         @unique(map: "nickname") @db.VarChar(64)
+  avatar                          String         @db.VarChar(2083)
+  BasicUser                       BasicUser?
+  OauthUser                       OauthUser?
+  Question                        Question[]
+  QuestionLike                    QuestionLike[]
+  Test                            Test[]
+  Workbook_UserToWorkbook_user_id Workbook[]     @relation("UserToWorkbook_user_id")
+  WorkbookLike                    WorkbookLike[]
 }
 
 model Workbook {
-  workbook_id                    BigInt             @id @default(autoincrement())
-  title                          String             @db.VarChar(62)
-  is_public                      Boolean            @default(false)
-  user_id                        BigInt
-  created_at                     DateTime           @db.DateTime(0)
-  updated_at                     DateTime           @db.DateTime(0)
-  creator_id                     BigInt
-  description                    String?            @db.VarChar(1000)
-  User_UserToWorkbook_user_id    User               @relation("UserToWorkbook_user_id", fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_Workbook_1")
-  User_UserToWorkbook_creator_id User               @relation("UserToWorkbook_creator_id", fields: [creator_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_Workbook_2")
-  WorkbookLike                   WorkbookLike[]
-  WorkbookQuestion               WorkbookQuestion[]
-  WorkbookTest                   WorkbookTest[]
+  workbook_id                 BigInt             @id @default(autoincrement())
+  title                       String             @db.VarChar(62)
+  is_public                   Boolean            @default(false)
+  user_id                     BigInt
+  created_at                  DateTime           @db.DateTime(0)
+  updated_at                  DateTime           @db.DateTime(0)
+  description                 String?            @db.VarChar(1000)
+  original_id                 BigInt?
+  User_UserToWorkbook_user_id User               @relation("UserToWorkbook_user_id", fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_Workbook_1")
+  Workbook                    Workbook?          @relation("WorkbookToWorkbook", fields: [original_id], references: [workbook_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Workbook_To_Workbook")
+  other_Workbook              Workbook[]         @relation("WorkbookToWorkbook")
+  WorkbookLike                WorkbookLike[]
+  WorkbookQuestion            WorkbookQuestion[]
+  WorkbookTest                WorkbookTest[]
 
   @@index([user_id], map: "FK_User_TO_Workbook_1")
-  @@index([creator_id], map: "FK_User_TO_Workbook_2")
+  @@index([original_id], map: "FK_Workbook_To_Workbook")
 }
 
 model WorkbookLike {

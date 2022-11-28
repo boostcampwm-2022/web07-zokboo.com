@@ -29,7 +29,7 @@ export class AuthController {
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
-    await this.mailService.sendVerifyMail(request.email, verifyToken);
+    this.mailService.sendVerifyMail(request.email, verifyToken);
     return new ApiResponse('signup 완료', response);
   }
 

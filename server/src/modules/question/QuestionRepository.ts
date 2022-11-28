@@ -227,4 +227,13 @@ export class QuestionRepository {
 
     return Hashtag.of(result);
   }
+
+  async findQuestionsByIds(questionIds: number[]) {
+    const questions = await this.prisma.question.findMany({
+      where: {
+        question_id: { in: questionIds },
+      },
+    });
+    return questions.map((question) => Question.of(question));
+  }
 }

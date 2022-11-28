@@ -23,6 +23,7 @@ export const fonts = {
     title: '',
   },
   size: {
+    xxs: '8px',
     xs: '12px',
     sm: '16px',
     lg: '18px',

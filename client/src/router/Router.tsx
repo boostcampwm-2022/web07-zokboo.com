@@ -4,8 +4,8 @@ import Header from '../components/header/Header';
 
 import Exam from '../pages/Exam';
 import ExamCreate from '../pages/ExamCreate';
-import FindId from '../pages/FindId';
-import FindPw from '../pages/FindPw';
+import FindId from '../pages/FindId/FindId';
+import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home/Home';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
@@ -14,7 +14,7 @@ import Problem from '../pages/Problem';
 import ProblemCreate from '../pages/problemCreate/ProblemCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
-import SignUp from '../pages/SignUp';
+import SignUp from '../pages/signup/SignUp';
 import GlobalStyle from '../styles/Global';
 
 const Router = () => {

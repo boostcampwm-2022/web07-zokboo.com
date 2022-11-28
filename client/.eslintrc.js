@@ -38,6 +38,10 @@ module.exports = {
         '': 'never',
       },
     ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
+    ],
   },
   settings: {
     'import/resolver': {

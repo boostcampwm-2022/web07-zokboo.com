@@ -4,6 +4,9 @@ import QuestionType from '../../enum/QuestionType';
 
 class CreateQuestionResponse {
   @ApiProperty()
+  public questionId: number;
+
+  @ApiProperty()
   public question: string;
 
   @ApiProperty({
@@ -16,6 +19,7 @@ class CreateQuestionResponse {
   public difficulty: number;
 
   constructor(record: Question) {
+    this.questionId = Number(record.questionId);
     this.question = record.question;
     this.questionType = record.questionType;
     this.difficulty = record.difficulty;

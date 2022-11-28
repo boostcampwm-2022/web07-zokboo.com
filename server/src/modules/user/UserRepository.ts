@@ -82,6 +82,18 @@ export class UserRepository {
     return User.of(user);
   }
 
+  async findUserByNickname(nickname: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        nickname,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    return User.of(user);
+  }
+
   async findUserByEmail(email: string): Promise<BasicUser> {
     const basicUser = await this.prisma.basicUser.findUnique({
       where: {
