@@ -54,7 +54,10 @@ class Workbook {
     return new Workbook(undefined, title, description, isPublic, BigInt(userId), undefined, undefined, now, now);
   }
 
-  static duplicate(workbook: Workbook, originalId: bigint, userId: number) {
+  static duplicate(workbook: Workbook, userId: number) {
+    if (!workbook.isPublic) {
+      throw new BadRequestException('Private 문제집을 복사할 수 없습니다.');
+    }
     const now = new Date();
     return new Workbook(
       undefined,
@@ -62,7 +65,7 @@ class Workbook {
       workbook.description,
       workbook.isPublic,
       BigInt(userId),
-      originalId,
+      workbook.originalId || workbook.workbookId,
       undefined,
       now,
       now,
