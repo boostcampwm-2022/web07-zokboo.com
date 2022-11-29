@@ -9,7 +9,6 @@ import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import QuestionDetailResponse from './dto/response/QuestionDetailResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import { WorkbookService } from './WorkbookService';
-import DuplicateWorkbookRequest from './dto/request/DuplicateWorkbookRequest';
 
 @Controller('workbooks')
 @ApiExtraModels(ApiResponse, CreateWorkbookResponse, WorkbookDetailResponse, QuestionDetailResponse)
