@@ -5,12 +5,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: dev_front
     steps:
       - name: deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.REMOTE_IP }}
           username: ${{ secrets.REMOTE_SSH_ID }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: ${{ secrets.REMOTE_SCRIPTS }}
+          script: |
+            cd web07-zokboo.com
+            git pull
+            npm install
+            pm2 restart front-dev-server
