@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/header/Header';
 
@@ -16,13 +15,10 @@ import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/signup/SignUp';
-import GlobalStyle from '../styles/Global';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <ToastContainer />
-      <GlobalStyle />
       {/* Header */}
 
       <Routes>

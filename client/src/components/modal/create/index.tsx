@@ -159,9 +159,6 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
           handleProblemAdd(data);
           handleModalReset();
         },
-        onError: () => {
-          console.log('실패');
-        },
       },
     );
   };
