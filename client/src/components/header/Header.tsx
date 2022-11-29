@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
 import { Button } from '../../styles/common';
 import DropDown from '../common/dropdown/Dropdown';
-import Logo from '../common/Logo';
+import Logo from '../common/logo';
 import {
   ButtonList,
   Container,
@@ -41,7 +41,7 @@ const Header = () => {
     <Container>
       <InnerContainer>
         <LogoInner>
-          <Logo />
+          <Logo type="large" />
         </LogoInner>
 
         <ButtonInner>

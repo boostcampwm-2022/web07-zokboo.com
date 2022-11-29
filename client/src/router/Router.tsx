@@ -11,7 +11,7 @@ import Home from '../pages/home/Home';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import PageNotFound from '../pages/PageNotFound';
-import Problem from '../pages/Problem';
+import WorkBook from '../pages/workBook/WorkBook';
 import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
@@ -36,7 +36,7 @@ const Router = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/workbook/new" element={<WorkBookCreate />} />
         <Route path="/workbook/update" element={<WorkBookCreate />} />
-        <Route path="/workbook/:id " element={<Problem />} />
+        <Route path="/workbook/:id" element={<WorkBook />} />
         <Route path="/exam_create" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />
