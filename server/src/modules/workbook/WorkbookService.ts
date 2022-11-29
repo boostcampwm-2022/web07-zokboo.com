@@ -6,6 +6,7 @@ import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import WorkbookSimpleResponse from './dto/response/WorkbookSimpleResponse';
+import WorkbookStateResponse from './dto/response/WorkbookStateResponse';
 import { WorkbookRepository } from './WorkbookRepository';
 
 @Injectable()
@@ -34,6 +35,14 @@ export class WorkbookService {
       throw new BadRequestException('잘못된 문제집 ID 입니다.');
     }
     return new WorkbookDetailResponse(workbook);
+  }
+
+  async getWorkbookToSolve(workbookId: number, userId: number) {
+    const workbook = await this.workbookRepository.findWorkbook(workbookId);
+    if (!workbook || workbook.userId !== BigInt(userId)) {
+      throw new BadRequestException('잘못된 문제집 ID 입니다.');
+    }
+    return new WorkbookStateResponse(workbook);
   }
 
   async duplicateWorkbook(workbookId: number, userId: number) {
