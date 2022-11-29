@@ -68,6 +68,18 @@ export class WorkbookRepository {
     return workbookQuestion;
   }
 
+  async updateWorkbookQuestion(workbookQuestion: WorkbookQuestion) {
+    await this.prisma.workbookQuestion.update({
+      where: {
+        workbook_question_id: workbookQuestion.workbookQuestionId,
+      },
+      data: {
+        written_answer: workbookQuestion.writtenAnswer,
+      },
+    });
+    return workbookQuestion;
+  }
+
   async searchWorkbooks(title: string, content: string) {
     const workbooks = await this.prisma.workbook.findMany({
       where: {
