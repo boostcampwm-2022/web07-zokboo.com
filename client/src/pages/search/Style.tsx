@@ -19,7 +19,7 @@ export const TitleContainer = styled.div`
   justify-content: space-between;
 `;
 
-export const SortContainer = styled.div`
+export const RadioContainer = styled.fieldset`
   border: 1px solid ${colors.gray3};
   border-radius: 8px;
   padding: 4px 6px;

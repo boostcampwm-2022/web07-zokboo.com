@@ -17,6 +17,7 @@ import Review from '../pages/Review';
 import Search from '../pages/search/Search';
 import SignUp from '../pages/signup/SignUp';
 import GlobalStyle from '../styles/Global';
+import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 
 const Router = () => {
   return (
@@ -28,12 +29,14 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Header />} />
         <Route path="/workbook/new" element={<Header />} />
+        <Route path="/search/view" element={<Header />} />
       </Routes>
 
       {/* Contents */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/search/view" element={<WorkbookDetail />} />
         <Route path="/workbook/new" element={<WorkBookCreate />} />
         <Route path="/workbook/update" element={<WorkBookCreate />} />
         <Route path="/workbook/:id " element={<Problem />} />

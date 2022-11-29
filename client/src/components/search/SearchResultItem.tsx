@@ -1,8 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { AiOutlineHeart, AiFillHeart, AiFillFile, AiOutlineFile } from 'react-icons/ai';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import { colors, device } from '../../styles/theme';
+
+const LinkView = styled(Link)``;
 
 const SearchResultItemContainer = styled.div`
   border: 1px solid ${colors.gray3};
@@ -58,7 +61,6 @@ const ItemInfo = styled.div`
 `;
 
 const Heart = styled.div``;
-const Scrap = styled.div``;
 
 const ContentButtons = styled.div`
   float: right;
@@ -78,20 +80,47 @@ const TestButton = styled.input``;
 const SaveButton = styled.input``;
 
 interface SearchResultItemProps {
+  id: number;
   title: string;
   creatorId: string;
   createAt: string;
   description: string;
+  like: boolean;
 }
 
-const SearchResultItem = ({ title, creatorId, createAt, description }: SearchResultItemProps) => {
+const SearchResultItem = ({ id, title, creatorId, createAt, description, like }: SearchResultItemProps) => {
   const [isLike, setIsLike] = useState<boolean>(false);
-  const [isScrap, setIsScrap] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [scrapCount, setScrapCount] = useState<number>(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLike(like);
+  }, []);
+
+  const handleLike = () => {
+    if (isLike) {
+      /** 좋아요 취소 api */
+    } else {
+      /** 좋아요 입력 api */
+    }
+
+    setIsLike((prev) => !prev);
+  };
+
+  const handleMoveWorkbookView = () => {
+    console.log(13);
+    navigate(`./view?id=${id}`);
+  };
+
+  const handleTestButton = () => {
+    alert('시험 응시 뻐튼');
+  };
+
+  const handleSaveButton = () => {
+    alert('문제집 저장 뻐튼');
+  };
 
   return (
-    <SearchResultItemContainer>
+    <SearchResultItemContainer onClick={handleMoveWorkbookView}>
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
@@ -99,18 +128,11 @@ const SearchResultItem = ({ title, creatorId, createAt, description }: SearchRes
       <ItemCreateAt>{`생성일 : ${createAt}`}</ItemCreateAt>
       <Buttons>
         <ItemInfo>
-          <Heart onClick={() => setIsLike((prev) => !prev)}>
-            {isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}
-            {likeCount}
-          </Heart>
-          <Scrap onClick={() => setIsScrap((prev) => !prev)}>
-            {isScrap ? <AiFillFile className="fillStyled" /> : <AiOutlineFile />}
-            {scrapCount}
-          </Scrap>
+          <Heart onClick={handleLike}>{isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}</Heart>
         </ItemInfo>
         <ContentButtons>
-          <TestButton type="button" value="시험 응시하기" />
-          <SaveButton type="button" value="저장하기" />
+          <TestButton type="button" value="시험 응시하기" onClick={handleTestButton} />
+          <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />
         </ContentButtons>
       </Buttons>
     </SearchResultItemContainer>
