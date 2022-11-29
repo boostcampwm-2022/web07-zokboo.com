@@ -17,6 +17,7 @@ jobs:
           script: |
             cd web07-zokboo.com/client
             git pull
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             npm install
-            npm run build
-            npm install -g pm2 && pm2 serve build 3389 --spa
+            pm2 restart front-dev-server
