@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Input } from '../../styles/common';
-import { colors, media, paddings, widths } from '../../styles/theme';
+import { colors, fonts, media, paddings, widths } from '../../styles/theme';
 
 export const Container = styled.header`
   border-bottom: 1px solid ${colors.gray1};
@@ -39,22 +40,6 @@ export const SearchInput = styled(Input)`
   margin: 0 0 0 20px;
 `;
 
-export const MobileContainer = styled.div`
-  display: none;
-
-  padding: ${paddings.responsive};
-
-  ${SearchInput} {
-    width: 100%;
-    margin: 0;
-  }
-
-  ${media.tablet} {
-    display: flex;
-    justify-content: center;
-  }
-`;
-
 export const ButtonList = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -63,6 +48,27 @@ export const ButtonList = styled.div`
 
   button {
     margin-left: 10px;
+  }
+`;
+
+export const AuthLink = styled(Link)`
+  color: ${colors.primary};
+  border: 1px solid ${colors.primary};
+  background-color: ${colors.white};
+  border-radius: 5px;
+
+  font-size: ${fonts.size.sm};
+
+  padding: 2px 5px;
+  margin-left: 10px;
+  text-decoration: none;
+
+  transition: all 0.5s;
+  cursor: pointer;
+
+  :hover {
+    color: ${colors.white};
+    background-color: ${colors.primary};
   }
 `;
 
@@ -99,7 +105,7 @@ export const SearchContainer = styled.div<{ isToggle: boolean }>`
   ${SearchInput} {
     position: absolute;
 
-    right: -10px;
+    right: -8px;
 
     width: ${(props) => (props.isToggle ? `100%` : `0`)};
     opacity: ${(props) => (props.isToggle ? `1` : `0`)};
@@ -109,6 +115,31 @@ export const SearchContainer = styled.div<{ isToggle: boolean }>`
 
   ${media.tablet} {
     display: none;
+  }
+`;
+
+export const MobileContainer = styled.div`
+  display: none;
+
+  height: 50px;
+
+  margin: ${paddings.responsive};
+  padding: 0 10px;
+
+  ${SearchInput} {
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+  }
+
+  ${media.tablet} {
+    position: relative;
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
   }
 `;
 

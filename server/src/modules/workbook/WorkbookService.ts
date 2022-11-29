@@ -29,4 +29,15 @@ export class WorkbookService {
     }
     return new WorkbookDetailResponse(workbook);
   }
+
+  async duplicateWorkbook(workbookId: number, userId: number) {
+    const workbook = await this.workbookRepository.findWorkbook(workbookId);
+    const newWorkbook = Workbook.duplicate(workbook, userId);
+    newWorkbook.setQuestions(
+      workbook.questions.map((question) => WorkbookQuestion.new(workbook.workbookId, question.question)),
+    );
+    const savedResult = await this.workbookRepository.save(newWorkbook);
+    newWorkbook.setId(savedResult.workbookId);
+    return new CreateWorkbookResponse(newWorkbook);
+  }
 }
