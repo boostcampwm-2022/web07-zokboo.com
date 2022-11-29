@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
-  width: ${widths.base};
+  ${widths.base};
 
   box-sizing: border-box;
   padding: ${paddings.responsive};

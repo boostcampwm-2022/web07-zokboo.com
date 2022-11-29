@@ -15,7 +15,7 @@ export const InnerContainer = styled.div`
 
   position: relative;
 
-  width: ${widths.base};
+  ${widths.base};
   padding: ${paddings.responsive};
 
   margin: 0 auto;
