@@ -15,7 +15,7 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd web07-zokboo.com
+            cd web07-zokboo.com/client
             git pull
             npm install
             npm run build
