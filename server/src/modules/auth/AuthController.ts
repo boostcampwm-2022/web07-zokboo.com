@@ -81,8 +81,8 @@ export class AuthController {
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
   @ApiExcludeEndpoint()
-  async kakaoSignup(@User('id') oauthId: string, @Res() res: Response) {
-    const ApiResponse = await this.oauthCallback(oauthId, OauthType['KAKAO'], res);
+  async kakaoSignup(@User('id') oauthId: number, @Res() res: Response) {
+    const ApiResponse = await this.oauthCallback(String(oauthId), OauthType['KAKAO'], res);
     return res.status(200).json(ApiResponse);
   }
 
