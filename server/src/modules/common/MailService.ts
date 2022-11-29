@@ -37,6 +37,29 @@ export class MailService {
     }
   }
 
+  public sendResetMail(to: string, token: string) {
+    const template = `<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+  <title>족부닷컴</title>
+  <meta charset="utf-8">
+</head>
+<body>
+<h1>족부닷컴</h1>
+<p>
+<div>비밀번호 재설정 메일입니다. 링크를 클릭해 비밀번호 재설정을 진행해주세요. 제공되는 링크는 비밀번호 재설정 요청 시점으로부터 30분간 유효합니다.</div>
+<div>
+  <a href="${this.configService.get<string>(
+    'WEB_SERVER_URL',
+  )}/auth/verify/reset?token=${token}" target="_blank">링크 클릭</a>
+</div>
+</p>
+</body>
+</html>`;
+
+    return this.sendMail({ to, subject: '[족부닷컴] 비밀번호 재설정 메일입니다.', description: template });
+  }
+
   public sendVerifyMail(to: string, token: string) {
     // TODO: 추후에 ejs, pug 형태로 템플릿을 관리하면 좋을 것 같습니다.
     const template = `<!DOCTYPE HTML>
@@ -50,7 +73,9 @@ export class MailService {
 <p>
 <div>회원가입이 완료되었습니다. 링크를 클릭해 계정 인증을 완료해주세요! 제공되는 링크는 회원가입 시점으로부터 30분간 유효합니다.</div>
 <div>
-  <a href="http://localhost:8080/auth/verify?token=${token}" target="_blank">링크 클릭</a>
+  <a href="${this.configService.get<string>(
+    'WEB_SERVER_URL',
+  )}/auth/reset/password?token=${token}" target="_blank">링크 클릭</a>
 </div>
 </p>
 </body>

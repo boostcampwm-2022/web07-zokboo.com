@@ -12,8 +12,11 @@ import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
-import { Api201Response } from 'src/decorators/ApiResponseDecorator';
+import { Api200Response, Api201Response } from 'src/decorators/ApiResponseDecorator';
 import { MailService } from '../common/MailService';
+import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
+import ResetTokenResponse from './dto/response/ResetTokenResponse';
+import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
 
 @Controller('auth')
 @ApiExtraModels(ApiResponse, SigninResponse, SignupResponse)
@@ -29,13 +32,13 @@ export class AuthController {
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
-    this.mailService.sendVerifyMail(request.email, verifyToken);
+    await this.mailService.sendVerifyMail(request.email, verifyToken);
     return new ApiResponse('signup 완료', response);
   }
 
   @Get('verify')
   async verify(@Query('token') token: string) {
-    const verifyResult = await this.authService.verify(token);
+    const verifyResult = await this.authService.verifySignupToken(token);
 
     return new ApiResponse('verify status', verifyResult);
   }
@@ -47,6 +50,23 @@ export class AuthController {
     const token = this.authService.issueJwtAccessToken(user.userId);
     response.cookie('accessToken', token);
     return response.status(200).json(new ApiResponse('signin 완료', user));
+  }
+
+  @Post('reset')
+  @Api200Response(ResetTokenResponse, '패스워드 재설정 요청 성공')
+  async resetPasswordRequest(@Body('email') email: string) {
+    const token = this.authService.issueResetToken(email);
+    await this.mailService.sendResetMail(email, token);
+
+    return new ApiResponse('패스워드 재설정 요청 성공', new ResetTokenResponse(token));
+  }
+
+  @Post('reset/password')
+  @Api201Response(ResetPasswordResponse, '패스워드 재설정 성공')
+  async resetPassword(@Body() request: ResetPasswordRequest) {
+    const response = await this.authService.resetPassword(request);
+
+    return new ApiResponse('패스워드 재설정 완료', response);
   }
 
   @Get('kakao')

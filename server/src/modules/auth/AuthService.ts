@@ -9,6 +9,9 @@ import OauthType from '../user/enum/OauthType';
 import { UserRepository } from '../user/UserRepository';
 import VerifyResponse from './dto/response/VerifyResponse';
 import BasicUser from '../user/domain/BasicUser';
+import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
+import * as bcrypt from 'bcrypt';
+import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +40,25 @@ export class AuthService {
     return new SigninResponse(newUser);
   }
 
+  public async resetPassword(request: ResetPasswordRequest) {
+    const verifyResult = this.jwtService.verify<{ email: string }>(request.token);
+
+    if (!verifyResult) {
+      throw new BadRequestException('INVALID_TOKEN');
+    }
+
+    if (request.password !== request.passwordConfirmation) {
+      throw new BadRequestException('PASSWORD_DOES_NOT_MATCH');
+    }
+
+    const user = await this.userRepository.findUserByEmail(verifyResult.email);
+
+    user.password = bcrypt.hashSync(request.password, 11);
+    const savedUser = await this.userRepository.save(user);
+
+    return new ResetPasswordResponse(savedUser);
+  }
+
   public issueJwtAccessToken(userId: number) {
     const payload = { userId };
     return this.jwtService.sign(payload, {
@@ -53,7 +75,15 @@ export class AuthService {
     });
   }
 
-  public async verify(token: string) {
+  public issueResetToken(email: string) {
+    const payload = { email };
+    return this.jwtService.sign(payload, {
+      expiresIn: '30m',
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
+  }
+
+  public async verifySignupToken(token: string) {
     const verifyResult = this.jwtService.verify<{ userId: number; email: string; type: string }>(token, {
       secret: this.configService.get<string>('JWT_SECRET'),
     });
