@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import WorkbookQuestion from '../../domain/WorkbookQuestion';
-import QuestionDetailResponse from '../../../question/dto/response/QuestionDetailResponse';
+import QuestionSimpleResponse from 'src/modules/question/dto/response/QuestionSimpleResponse';
 
-class WorkbookQuestionDetailResponse extends QuestionDetailResponse {
+class WorkbookQuestionSimpleResponse extends QuestionSimpleResponse {
   @ApiProperty()
   public workbookQuestionId: number;
 
@@ -16,4 +16,4 @@ class WorkbookQuestionDetailResponse extends QuestionDetailResponse {
   }
 }
 
-export default WorkbookQuestionDetailResponse;
+export default WorkbookQuestionSimpleResponse;

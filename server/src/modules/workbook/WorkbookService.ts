@@ -6,7 +6,7 @@ import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
 import SolveWorkbookQuestionRequest from './dto/request/SolveWorkbookQuestionRequest';
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
-import WorkbookQuestionDetailResponse from './dto/response/WorkbookQuestionDetailResponse';
+import WorkbookQuestionSimpleResponse from './dto/response/WorkbookQuestionSimpleResponse';
 import WorkbookSimpleResponse from './dto/response/WorkbookSimpleResponse';
 import WorkbookStateResponse from './dto/response/WorkbookStateResponse';
 import { WorkbookRepository } from './WorkbookRepository';
@@ -63,7 +63,7 @@ export class WorkbookService {
     }
     workbookQuestion.solve(request.newAnswer);
     await this.workbookRepository.updateWorkbookQuestion(workbookQuestion);
-    return new WorkbookQuestionDetailResponse(workbookQuestion);
+    return new WorkbookQuestionSimpleResponse(workbookQuestion);
   }
 
   async duplicateWorkbook(workbookId: number, userId: number) {
