@@ -63,4 +63,14 @@ export class WorkbookRepository {
     workbookQuestion.setId(newWorkbookQuestion.workbook_question_id);
     return workbookQuestion;
   }
+
+  async findWorkbookById(workbookId: bigint) {
+    const workbook = await this.prisma.workbook.findUnique({
+      where: {
+        workbook_id: workbookId,
+      },
+    });
+
+    return Workbook.of(workbook);
+  }
 }

@@ -54,6 +54,21 @@ class Workbook {
     return new Workbook(undefined, title, description, isPublic, BigInt(userId), undefined, undefined, now, now);
   }
 
+  static duplicate(workbook: Workbook, originalId: bigint, userId: number) {
+    const now = new Date();
+    return new Workbook(
+      undefined,
+      workbook.title,
+      workbook.description,
+      workbook.isPublic,
+      BigInt(userId),
+      originalId,
+      undefined,
+      now,
+      now,
+    );
+  }
+
   setId(workbookId: bigint) {
     this.workbookId = workbookId;
   }
