@@ -9,6 +9,7 @@ import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import QuestionDetailResponse from './dto/response/QuestionDetailResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import WorkbookSimpleResponse from './dto/response/WorkbookSimpleResponse';
+import WorkbookStateResponse from './dto/response/WorkbookStateResponse';
 import { WorkbookService } from './WorkbookService';
 
 @Controller('workbooks')
@@ -48,11 +49,18 @@ export class WorkbookController {
   }
 
   @Get(':workbookId')
-  @UseGuards(JwtAuthGuard)
   @ApiSingleResponse(200, WorkbookDetailResponse, '문제집 조회 성공')
-  async showWorkbook(@User('id') userId: string, @Param('workbookId', ParseIntPipe) workbookId: number) {
-    const response = await this.workbookService.getWorkbook(workbookId, Number(userId));
+  async showWorkbook(@Param('workbookId', ParseIntPipe) workbookId: number) {
+    const response = await this.workbookService.getWorkbook(workbookId);
     return new ApiResponse('문제집 조회 성공', response);
+  }
+
+  @Get(':workbookId/solve')
+  @UseGuards(JwtAuthGuard)
+  @ApiSingleResponse(200, WorkbookStateResponse, '문제집 풀이용 조회 성공')
+  async showWorkbookToSolve(@User('id') userId: string, @Param('workbookId', ParseIntPipe) workbookId: number) {
+    const response = await this.workbookService.getWorkbookToSolve(workbookId, Number(userId));
+    return new ApiResponse('문제집 풀이용 조회 성공', response);
   }
 
   @Post(':workbookId/save')

@@ -29,9 +29,9 @@ export class WorkbookService {
     return workbooks.map((w) => new WorkbookSimpleResponse(w));
   }
 
-  async getWorkbook(workbookId: number, userId: number) {
+  async getWorkbook(workbookId: number) {
     const workbook = await this.workbookRepository.findWorkbook(workbookId);
-    if (!workbook || workbook.userId !== BigInt(userId)) {
+    if (!workbook || !workbook.isPublic) {
       throw new BadRequestException('잘못된 문제집 ID 입니다.');
     }
     return new WorkbookDetailResponse(workbook);
