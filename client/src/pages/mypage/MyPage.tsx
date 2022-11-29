@@ -25,8 +25,6 @@ const MyPage = () => {
 
   const checkActiveService = (service: string) => {
     if (query.service === service) return true;
-    if (query.service === service) return true;
-    if (query.service === service) return true;
 
     return false;
   };
