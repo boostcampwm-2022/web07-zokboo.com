@@ -1,30 +1,93 @@
 import { useState } from 'react';
+import { MdArrowDropDown } from 'react-icons/md';
+import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
+import { getQuestion } from '../../../api/question';
+import useInput from '../../../hooks/useInput';
+import useToggle from '../../../hooks/useToggle';
+import QUESTION_KEYS from '../../../react-query/keys/question';
 import {
   ProblemItem,
   ProblemItemHashTagItem,
   ProblemItemHashTagList,
   ProblemItemTitle,
   ProblemItemUnderLine,
-  ProblemList,
 } from '../../../styles/problemList';
-import { Problem } from '../../../types/workbook';
-import { Container, SearchBox, SearchInput, SearchButton } from './Style';
+import { GetQuestionResponse, Question } from '../../../types/question';
+import DropDown from '../../common/dropdown/Dropdown';
+import { DropdownItem } from '../../common/dropdown/Style';
+import { DropDownIcon, DropDownSelector, DropDownTitle } from '../create/Style';
+import DROPBOX_LIST from './constants';
+import { Container, SearchBox, SearchInput, SearchButton, SearchDropDownContainer, SearchProblemList } from './Style';
 
 interface Props {
-  handleProblemAdd: (problem: Problem) => void;
+  handleProblemAdd: (problem: Question) => void;
+}
+
+interface SearchType {
+  text: string;
+  value: string;
 }
 
 const SearchProblemModal = ({ handleProblemAdd }: Props) => {
-  const [problemList, setProblemList] = useState<Problem[]>([]);
+  const [searchType, setSearchType] = useState<SearchType>(DROPBOX_LIST[0]);
+  const [searchInput, handleSearchInputChange] = useInput('');
+
+  const [isSearch, handleSerachToggle] = useToggle(false);
+
+  const { data } = useQuery<GetQuestionResponse[]>(
+    QUESTION_KEYS.search,
+    async () => {
+      const result = await getQuestion({ type: searchType.value, value: searchInput });
+      return result;
+    },
+    {
+      enabled: isSearch,
+
+      onSuccess: () => {
+        handleSerachToggle();
+      },
+      onError: () => {
+        toast.error('오류');
+      },
+    },
+  );
+
+  const problemList = data ?? [];
 
   return (
     <Container>
       <SearchBox>
-        <SearchInput />
-        <SearchButton type="button">검색</SearchButton>
+        <SearchDropDownContainer>
+          <DropDown
+            title={
+              <DropDownSelector>
+                <DropDownTitle>{searchType.text}</DropDownTitle>
+                <DropDownIcon>
+                  <MdArrowDropDown size={30} />
+                </DropDownIcon>
+              </DropDownSelector>
+            }
+            direction="right"
+          >
+            {DROPBOX_LIST.map((item) => {
+              const { text, value } = item;
+
+              return (
+                <DropdownItem key={text} onClick={() => setSearchType(item)}>
+                  {text}
+                </DropdownItem>
+              );
+            })}
+          </DropDown>
+        </SearchDropDownContainer>
+        <SearchInput onChange={handleSearchInputChange} />
+        <SearchButton type="button" onClick={handleSerachToggle}>
+          검색
+        </SearchButton>
       </SearchBox>
 
-      <ProblemList>
+      <SearchProblemList>
         {problemList.map((problem) => {
           const { questionId, question, hashtags } = problem;
 
@@ -41,7 +104,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
             </ProblemItem>
           );
         })}
-      </ProblemList>
+      </SearchProblemList>
     </Container>
   );
 };

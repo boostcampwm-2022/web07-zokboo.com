@@ -32,7 +32,7 @@ export const ProblemListContainer = styled.div`
   }
 `;
 
-export const Form = styled.form`
+export const InfoContainer = styled.div`
   width: 45%;
 
   @media screen and (max-width: ${device.tablet}) {
@@ -40,16 +40,16 @@ export const Form = styled.form`
   }
 `;
 
-export const FormItem = styled.div`
+export const InfoItem = styled.div`
   margin-bottom: 16px;
 `;
 
-export const FormToggle = styled.div`
+export const InfoToggle = styled.div`
   width: 40px;
   height: 20px;
 `;
 
-export const FormInput = styled(Input)`
+export const InfoInput = styled(Input)`
   width: 100%;
   height: 48px;
 
@@ -59,7 +59,7 @@ export const FormInput = styled(Input)`
   padding: 0px 16px;
 `;
 
-export const FormTextArea = styled(TextArea)`
+export const InfoTextArea = styled(TextArea)`
   width: 100%;
   height: 80px;
 
@@ -74,7 +74,7 @@ export const ButtonList = styled.div`
   justify-content: flex-end;
 `;
 
-export const FormButton = styled(Button)`
+export const InfoButton = styled(Button)`
   display: block;
 
   width: 200px;

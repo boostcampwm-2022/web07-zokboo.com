@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
+import createWorkbook from '../../api/workbook';
 import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
+import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
 import { SubTitle } from '../../styles/common';
 import {
@@ -13,28 +17,36 @@ import {
   ProblemItemUnderLine,
   ProblemList,
 } from '../../styles/problemList';
-import { Problem } from '../../types/workbook';
+import { Question } from '../../types/question';
 import {
   ListButton,
   ButtonList,
   Container,
-  Form,
-  FormButton,
-  FormInput,
-  FormItem,
-  FormToggle,
+  InfoContainer,
+  InfoButton,
+  InfoInput,
+  InfoItem,
+  InfoToggle,
   ProblemListContainer,
-  FormTextArea,
+  InfoTextArea,
 } from './Style';
 
 const WorkBookCreate = () => {
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
   const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
-  const [problemList, setProblemList] = useState<Problem[]>([]);
+  const [titleInput, handleTitleChange, t_, handleTitleReset] = useInput('');
+  const [descriptionInput, handleDescriptionChange, d_, handleDescriptionReset] = useInput('');
+  const [isPublic, handlePublicChange] = useToggle(false);
 
-  const handleProblemAdd = (problem: Problem) => {
-    setProblemList((prev) => [...prev, problem]);
+  const [problemList, setProblemList] = useState<Question[]>([]);
+
+  const workbookCreate = useMutation(createWorkbook);
+
+  const handleProblemAdd = (problem: Question) => {
+    const listFilter = problemList.filter((currProblem) => problem === currProblem);
+
+    if (listFilter.length === 0) setProblemList((prev) => [...prev, problem]);
   };
 
   const handleProblemDelete = (index: number) => {
@@ -42,28 +54,78 @@ const WorkBookCreate = () => {
     setProblemList(updateProblemList);
   };
 
+  const handleFormReset = () => {
+    handleTitleReset();
+    handleDescriptionReset();
+    setProblemList([]);
+  };
+
+  const handleWorkbookCreate = () => {
+    if (!titleInput || titleInput.trim() === '') {
+      console.log('문제집 제목 오류');
+      return;
+    }
+    if (!descriptionInput || descriptionInput.trim() === '') {
+      console.log('문제집 설명 오류');
+      return;
+    }
+
+    if (problemList.length === 0) {
+      console.log('문제 등록 오류');
+      return;
+    }
+
+    const questions = problemList.map(({ questionId }) => questionId);
+
+    workbookCreate.mutate(
+      {
+        title: titleInput,
+        description: descriptionInput,
+        questions,
+        isPublic,
+      },
+      {
+        onSuccess: () => {
+          handleFormReset();
+          toast.success('문제집을 추가하였습니다.');
+        },
+      },
+    );
+  };
+
   return (
     <>
       <MainTitle title="문제집 만들기" />
       <Container>
-        <Form>
-          <FormItem>
+        <InfoContainer>
+          <InfoItem>
             <SubTitle>문제집 제목</SubTitle>
-            <FormInput type="text" id="title" placeholder="문제집 제목을 입력하세요." />
-          </FormItem>
-          <FormItem>
+            <InfoInput
+              type="text"
+              id="title"
+              placeholder="문제집 제목을 입력하세요."
+              value={titleInput}
+              onChange={handleTitleChange}
+            />
+          </InfoItem>
+          <InfoItem>
             <SubTitle>문제집 설명</SubTitle>
-            <FormTextArea id="category" placeholder="문제집 설명을 입력하세요." />
-          </FormItem>
-          <FormItem>
+            <InfoTextArea
+              id="category"
+              placeholder="문제집 설명을 입력하세요."
+              value={descriptionInput}
+              onChange={handleDescriptionChange}
+            />
+          </InfoItem>
+          <InfoItem>
             <SubTitle>공유</SubTitle>
-            <FormToggle>
-              <Toggle />
-            </FormToggle>
-          </FormItem>
+            <InfoToggle>
+              <Toggle checked={isPublic} setToggle={handlePublicChange} />
+            </InfoToggle>
+          </InfoItem>
 
-          <FormButton>문제집 생성</FormButton>
-        </Form>
+          <InfoButton onClick={handleWorkbookCreate}>문제집 생성</InfoButton>
+        </InfoContainer>
 
         <ProblemListContainer>
           <ButtonList>

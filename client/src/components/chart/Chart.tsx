@@ -68,7 +68,7 @@ const CategoryInfo = [
 ];
 
 const Chart = () => {
-  const [Graph, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
+  const [Graph, toggle, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
   const [category, handleChange] = useArrayValue<CATEGORY>(CategoryInfo);
 
   const labels = ['11/10', '11/11', '11/12', '11/13', '11/14', '11/15', '11/16'];
@@ -114,7 +114,7 @@ const Chart = () => {
       })}
 
       <ChartToggle>
-        <Toggle setToggle={setToggle} />
+        <Toggle checked={toggle} setToggle={setToggle} />
       </ChartToggle>
 
       <Graph options={options} data={data} />

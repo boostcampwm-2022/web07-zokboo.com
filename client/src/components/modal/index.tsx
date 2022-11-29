@@ -1,5 +1,5 @@
 import { AiOutlineClose } from 'react-icons/ai';
-import { Problem } from '../../types/workbook';
+import { Question } from '../../types/question';
 import CreateProblemModal from './create';
 import SearchProblemModal from './search';
 import { ModalBackground, ModalCloseButton, ModalContainer, ModalInner } from './Style';
@@ -9,7 +9,7 @@ type MODAL_TYPE = 'create' | 'search';
 interface Props {
   type: MODAL_TYPE;
   onToggle: () => void;
-  handleProblemAdd: (problem: Problem) => void;
+  handleProblemAdd: (problem: Question) => void;
 }
 
 const Modal = ({ type, onToggle, handleProblemAdd }: Props) => {
