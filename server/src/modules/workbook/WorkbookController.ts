@@ -54,4 +54,13 @@ export class WorkbookController {
     const response = await this.workbookService.getWorkbook(workbookId, Number(userId));
     return new ApiResponse('문제집 조회 성공', response);
   }
+
+  @Post(':workbookId/save')
+  @UseGuards(JwtAuthGuard)
+  @Api200Response(CreateWorkbookResponse, '문제집 저장 성공')
+  async saveWorkbookToList(@User('id') userId: string, @Param('workbookId', ParseIntPipe) workbookId: number) {
+    const response = await this.workbookService.duplicateWorkbook(workbookId, Number(userId));
+
+    return new ApiResponse('문제집 저장 성공', response);
+  }
 }
