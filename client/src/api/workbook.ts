@@ -1,11 +1,15 @@
 import axios from 'axios';
-import PostCreateWorkBookBody from '../types/workbook';
-import SERVER_URL from '../utils/constants';
+import { PostCreateWorkBookBody } from '../types/workbook';
+import { SERVER_URL } from '../utils/constants';
 
-const createWorkbook = async (body: PostCreateWorkBookBody) => {
-  const { data } = await axios.post(`${SERVER_URL}/workbooks`, body, { withCredentials: true });
+export const getWorkbookList = async (params: string) => {
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/${params}`);
 
   return data;
 };
 
-export default createWorkbook;
+export const createWorkbook = async (body: PostCreateWorkBookBody) => {
+  const { data } = await axios.post(`${SERVER_URL}/workbooks`, body, { withCredentials: true });
+
+  return data;
+};

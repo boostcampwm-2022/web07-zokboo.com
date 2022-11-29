@@ -33,11 +33,11 @@ import {
   HashTagItem,
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
-import QUESTION_TYPE from './constants';
 import { Question } from '../../../types/question';
 import useInput from '../../../hooks/useInput';
 import useArrayText from '../../../hooks/useArrayText';
 import { DropdownItem } from '../../common/dropdown/Style';
+import { QUESTION_TYPE } from '../../../utils/constants';
 
 const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 

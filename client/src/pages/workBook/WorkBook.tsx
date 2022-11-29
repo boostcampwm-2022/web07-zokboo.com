@@ -1,6 +1,13 @@
+import { useRef } from 'react';
 import { BsFillCaretDownFill, BsList } from 'react-icons/bs';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { getWorkbookList } from '../../api/workbook';
 import Logo from '../../components/common/logo';
 import useToggle from '../../hooks/useToggle';
+import KEYS from '../../react-query/keys/workbook';
+import { GetWorkBookListResponse } from '../../types/workbook';
+import { QUESTION_TYPE } from '../../utils/constants';
 import {
   Container,
   Contents,
@@ -28,7 +35,24 @@ import {
 } from './Style';
 
 const WorkBook = () => {
+  const { id } = useParams<{ id: string }>();
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
+  const contentsRef = useRef<HTMLDivElement>(null);
+  const questionItemRef = useRef<HTMLLIElement[]>([]);
+
+  const { data } = useQuery<GetWorkBookListResponse>(KEYS.detail, () => {
+    const workbookId = id ?? '';
+    return getWorkbookList(workbookId);
+  });
+
+  const handleScrollMove = (idx: number) => {
+    const contentContainer = contentsRef.current;
+    const questionItem = questionItemRef.current;
+
+    if (contentContainer) contentContainer.scrollTop = questionItem[idx].offsetTop - 30;
+  };
+
+  if (!data) return <div>Loading</div>;
 
   return (
     <Container>
@@ -44,85 +68,57 @@ const WorkBook = () => {
         <SideBar isSideBar={IsSideBar}>
           <SideBarListTitle>문제 목록</SideBarListTitle>
           <SideBarList>
-            <SideBarItem>
-              <SideBarButton>1</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>2</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>3</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>4</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>5</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>6</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>7</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>8</SideBarButton>
-            </SideBarItem>
-            <SideBarItem>
-              <SideBarButton>9</SideBarButton>
-            </SideBarItem>
+            {data.questions.map(({ questionId }, idx) => {
+              return (
+                <SideBarItem key={questionId}>
+                  <SideBarButton
+                    onClick={() => {
+                      handleScrollMove(idx);
+                    }}
+                  >
+                    {idx + 1}
+                  </SideBarButton>
+                </SideBarItem>
+              );
+            })}
           </SideBarList>
         </SideBar>
-        <Contents>
+        <Contents ref={contentsRef}>
           <QuestionList>
-            <QuestionItem>
-              <QuestionTitle>1. 이것은 지문입니다</QuestionTitle>
-              <QuestionOptionList>
-                <QuestionOptionItem>
-                  <QuestionCheckButton isActive>1. 선택지 1입니다.</QuestionCheckButton>
-                </QuestionOptionItem>
-                <QuestionOptionItem>
-                  <QuestionCheckButton isActive={false}>2. 선택지 2입니다.</QuestionCheckButton>
-                </QuestionOptionItem>
-                <QuestionOptionItem>
-                  <QuestionCheckButton isActive={false}>3. 선택지 3입니다.</QuestionCheckButton>
-                </QuestionOptionItem>
-                <QuestionOptionItem>
-                  <QuestionCheckButton isActive={false}>4. 선택지 4입니다.</QuestionCheckButton>
-                </QuestionOptionItem>
-                <QuestionOptionItem>
-                  <QuestionCheckButton isActive={false}>5. 선택지 5입니다.</QuestionCheckButton>
-                </QuestionOptionItem>
-              </QuestionOptionList>
+            {data.questions.map((questionData, idx) => {
+              const { questionId, question, questionType, commentary, answer, options } = questionData;
+              return (
+                <QuestionItem
+                  key={questionId}
+                  ref={(el) => {
+                    if (el) questionItemRef.current[idx] = el;
+                  }}
+                >
+                  <QuestionTitle>{question}</QuestionTitle>
+                  {questionType === QUESTION_TYPE.MULTIPLE ? (
+                    <QuestionOptionList>
+                      {options.map((option) => (
+                        <QuestionOptionItem key={option}>
+                          <QuestionCheckButton isActive={false}>{option}</QuestionCheckButton>
+                        </QuestionOptionItem>
+                      ))}
+                    </QuestionOptionList>
+                  ) : (
+                    <QuestionAnswerArea />
+                  )}
+                  <QuestionButtonList>
+                    <QuestionAnswerButton isActive>
+                      <BsFillCaretDownFill /> 정답 보기
+                    </QuestionAnswerButton>
+                    <QuestionAnswerButton isActive={false}>
+                      <BsFillCaretDownFill /> 해설 보기
+                    </QuestionAnswerButton>
+                  </QuestionButtonList>
 
-              <QuestionButtonList>
-                <QuestionAnswerButton isActive>
-                  <BsFillCaretDownFill /> 정답 보기
-                </QuestionAnswerButton>
-                <QuestionAnswerButton isActive={false}>
-                  <BsFillCaretDownFill /> 해설 보기
-                </QuestionAnswerButton>
-              </QuestionButtonList>
-
-              <QuestionDescription>123</QuestionDescription>
-            </QuestionItem>
-
-            <QuestionItem>
-              <QuestionTitle>2. 이것은 지문입니다</QuestionTitle>
-
-              <QuestionAnswerArea />
-
-              <QuestionButtonList>
-                <QuestionAnswerButton isActive>
-                  <BsFillCaretDownFill /> 정답 보기
-                </QuestionAnswerButton>
-                <QuestionAnswerButton isActive={false}>
-                  <BsFillCaretDownFill /> 해설 보기
-                </QuestionAnswerButton>
-              </QuestionButtonList>
-
-              <QuestionDescription>123</QuestionDescription>
-            </QuestionItem>
+                  <QuestionDescription>123</QuestionDescription>
+                </QuestionItem>
+              );
+            })}
           </QuestionList>
         </Contents>
 

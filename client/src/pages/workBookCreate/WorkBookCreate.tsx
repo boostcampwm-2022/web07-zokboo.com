@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
-import createWorkbook from '../../api/workbook';
+import { createWorkbook } from '../../api/workbook';
 import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';

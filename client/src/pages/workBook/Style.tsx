@@ -29,9 +29,19 @@ const sideBarHidden = keyframes`
     }
 `;
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  padding-top: 50px;
+`;
 
 export const Header = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 5;
+
+  width: 100%;
+
   background-color: ${colors.secondary};
   padding: 10px 15px;
 `;
@@ -54,11 +64,19 @@ export const HeaderTitle = styled.h2`
 
 export const ContentsContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 
   height: calc(100vh - 50px);
 `;
 
 export const SideBar = styled.div<{ isSideBar: boolean }>`
+  position: fixed;
+  top: 50px;
+  left: 0;
+
+  z-index: 5;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,6 +107,8 @@ export const SideBarList = styled(List)`
   flex-direction: column;
 
   width: 100%;
+
+  overflow: initial;
 `;
 export const SideBarItem = styled(Item)`
   height: 30px;
@@ -106,14 +126,19 @@ export const Contents = styled.div`
   background-color: ${colors.white};
 
   width: calc(100% - 150px);
+  height: calc(100vh - 50px);
+
   padding: 30px 50px;
 
+  overflow-y: auto;
   ${media.mobileLength} {
     width: 100%;
   }
 `;
 
-export const QuestionList = styled(List)``;
+export const QuestionList = styled(List)`
+  overflow: initial;
+`;
 
 export const QuestionItem = styled(Item)`
   margin-bottom: 40px;

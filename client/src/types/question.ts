@@ -25,4 +25,5 @@ export interface GetQuestionResponse {
   hashtags: string[];
   createdAt: Date;
   updatedAt: Date;
+  options: string[];
 }
