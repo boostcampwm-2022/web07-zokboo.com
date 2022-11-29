@@ -142,6 +142,8 @@ export class QuestionRepository {
       question.setImages(q.QuestionImage.map((image) => QuestionImage.of(image)));
       question.setOptions(q.Option.map((option) => Option.of(option)));
       question.setHashtags(q.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
+
+      return question;
     });
   }
 
@@ -155,6 +157,34 @@ export class QuestionRepository {
       },
     });
     return result.map((r) => Question.of(r.Question));
+  }
+
+  async findQuestionsWithDetailsByQuestion(question: string) {
+    const result = await this.prisma.question.findMany({
+      where: {
+        question: {
+          contains: question,
+        },
+      },
+      include: {
+        QuestionImage: true,
+        Option: true,
+        QuestionHashtag: {
+          include: {
+            Hashtag: true,
+          },
+        },
+      },
+    });
+
+    return result.map((r) => {
+      const question = Question.of(r);
+      question.setHashtags(r.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
+      question.setImages(r.QuestionImage.map((i) => QuestionImage.of(i)));
+      question.setOptions(r.Option.map((o) => Option.of(o)));
+
+      return question;
+    });
   }
 
   async findQuestionsWithDetailsByHashtag(hashtag: Hashtag) {
@@ -183,7 +213,19 @@ export class QuestionRepository {
       question.setHashtags(r.Question.QuestionHashtag.map((h) => Hashtag.of(h.Hashtag)));
       question.setImages(r.Question.QuestionImage.map((image) => QuestionImage.of(image)));
       question.setOptions(r.Question.Option.map((option) => Option.of(option)));
+
+      return question;
     });
+  }
+
+  async findHashtagByName(name: string) {
+    const result = await this.prisma.hashtag.findUnique({
+      where: {
+        name,
+      },
+    });
+
+    return Hashtag.of(result);
   }
 
   async findQuestionsByIds(questionIds: number[]) {
