@@ -17,6 +17,7 @@ import { GetQuestionResponse, Question } from '../../../types/question';
 import DropDown from '../../common/dropdown/Dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import { DropDownIcon, DropDownSelector, DropDownTitle } from '../create/Style';
+import DROPBOX_LIST from './constants';
 import { Container, SearchBox, SearchInput, SearchButton, SearchDropDownContainer, SearchProblemList } from './Style';
 
 interface Props {
@@ -27,11 +28,6 @@ interface SearchType {
   text: string;
   value: string;
 }
-
-const DROPBOX_LIST = [
-  { text: '해쉬태그', value: 'hashtag' },
-  { text: '문제명', value: 'text' },
-];
 
 const SearchProblemModal = ({ handleProblemAdd }: Props) => {
   const [searchType, setSearchType] = useState<SearchType>(DROPBOX_LIST[0]);
