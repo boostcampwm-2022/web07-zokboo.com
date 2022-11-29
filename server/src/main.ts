@@ -7,6 +7,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  });
+
   const { httpAdapter } = app.get(HttpAdapterHost);
 
   const config = new DocumentBuilder()
@@ -28,6 +33,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(8080);
 }
 bootstrap();

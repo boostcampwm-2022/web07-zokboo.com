@@ -1,4 +1,4 @@
-export enum OauthType {
+enum OauthType {
   GITHUB = 'GITHUB',
   NAVER = 'NAVER',
   KAKAO = 'KAKAO',

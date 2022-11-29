@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { colors, device, paddings, widths } from '../../styles/theme';
+import { Input } from '../../styles/common';
+import { colors, fonts, media, paddings, widths } from '../../styles/theme';
 
-export const HeaderContainer = styled.header`
+export const Container = styled.header`
   border-bottom: 1px solid ${colors.gray1};
   padding: 10px 0;
 `;
 
-export const HeaderInnerContainer = styled.div`
+export const InnerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,14 +20,14 @@ export const HeaderInnerContainer = styled.div`
 
   margin: 0 auto;
 
-  @media screen and (max-width: ${device.tablet}) {
+  ${media.tablet} {
     width: ${widths.responsive};
 
     margin: 0 0 10px;
   }
 `;
 
-export const HeaderSearchInput = styled.input`
+export const SearchInput = styled(Input)`
   width: 100%;
   height: 50px;
 
@@ -36,49 +38,41 @@ export const HeaderSearchInput = styled.input`
 
   padding: 0px 17px;
   margin: 0 0 0 20px;
-
-  font-size: 16px;
-  color: ${colors.text};
-
-  ::placeholder {
-    color: ${colors.placeholder};
-  }
-
-  :focus {
-    outline: none;
-  }
 `;
 
-export const HeaderMobileContainer = styled.div`
-  display: none;
-
-  padding: ${paddings.responsive};
-
-  ${HeaderSearchInput} {
-    width: 100%;
-    margin: 0;
-  }
-
-  @media screen and (max-width: ${device.tablet}) {
-    display: flex;
-    justify-content: center;
-  }
-`;
-
-export const HeaderLogo = styled.div``;
-
-export const HeaderButtonList = styled.div`
+export const ButtonList = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  width: 170px;
+  width: auto;
 
   button {
     margin-left: 10px;
   }
 `;
 
-export const HeaderSearchButton = styled.button`
+export const AuthLink = styled(Link)`
+  color: ${colors.primary};
+  border: 1px solid ${colors.primary};
+  background-color: ${colors.white};
+  border-radius: 5px;
+
+  font-size: ${fonts.size.sm};
+
+  padding: 2px 5px;
+  margin-left: 10px;
+  text-decoration: none;
+
+  transition: all 0.5s;
+  cursor: pointer;
+
+  :hover {
+    color: ${colors.white};
+    background-color: ${colors.primary};
+  }
+`;
+
+export const SearchButton = styled.button`
   position: relative;
   z-index: 2;
 
@@ -95,12 +89,10 @@ export const HeaderSearchButton = styled.button`
   background-color: ${colors.white};
   border-radius: 50%;
 
-  img {
-    width: 100%;
-  }
+  color: ${colors.primary};
 `;
 
-export const HeaderSearchContainer = styled.div<{ isToggle: boolean }>`
+export const SearchContainer = styled.div<{ isToggle: boolean }>`
   position: relative;
 
   display: flex;
@@ -110,10 +102,10 @@ export const HeaderSearchContainer = styled.div<{ isToggle: boolean }>`
   width: calc(100% - 170px);
   height: 55px;
 
-  ${HeaderSearchInput} {
+  ${SearchInput} {
     position: absolute;
 
-    right: -10px;
+    right: -8px;
 
     width: ${(props) => (props.isToggle ? `100%` : `0`)};
     opacity: ${(props) => (props.isToggle ? `1` : `0`)};
@@ -121,24 +113,49 @@ export const HeaderSearchContainer = styled.div<{ isToggle: boolean }>`
     transition: all 1s;
   }
 
-  @media screen and (max-width: ${device.tablet}) {
+  ${media.tablet} {
     display: none;
   }
 `;
 
-export const HeaderLogoInner = styled.div`
+export const MobileContainer = styled.div`
+  display: none;
+
+  height: 50px;
+
+  margin: ${paddings.responsive};
+  padding: 0 10px;
+
+  ${SearchInput} {
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+  }
+
+  ${media.tablet} {
+    position: relative;
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+`;
+
+export const LogoInner = styled.div`
   display: flex;
   align-items: center;
 
   width: 350px;
   height: 100%;
 
-  @media screen and (max-width: ${device.tablet}) {
+  ${media.tablet} {
     width: 200px;
   }
 `;
 
-export const HeaderButtonInner = styled.div`
+export const ButtonInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
@@ -146,7 +163,33 @@ export const HeaderButtonInner = styled.div`
   width: calc(100% - 350px);
   height: 100%;
 
-  @media screen and (max-width: ${device.tablet}) {
+  ${media.tablet} {
     width: calc(100% - 200px);
   }
+`;
+
+export const DropDownContainer = styled.div`
+  width: 70px;
+
+  margin-left: 10px;
+  cursor: pointer;
+`;
+
+export const DropDownSelector = styled.div`
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+`;
+
+export const DropDownImage = styled.img`
+  width: 40px;
+  height: 40px;
+
+  background-color: red;
+  border-radius: 50%;
+`;
+
+export const DropDownIcon = styled.div`
+  width: 30px;
 `;

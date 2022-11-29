@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { colors, device, fonts, paddings, widths } from '../../styles/theme';
+import { SubTitle } from '../../styles/common';
+import { colors, fonts, media, paddings, widths } from '../../styles/theme';
 
 export const HomeContainer = styled.div`
   display: flex;
@@ -11,15 +12,16 @@ export const HomeContainer = styled.div`
   margin: 80px auto 0px;
   padding: ${paddings.responsive};
 
-  @media screen and (max-width: ${device.tablet}) {
+  ${media.tablet} {
     width: ${widths.responsive};
     margin: 10px auto 0px;
   }
 `;
 
-export const HomeTitle = styled.h1`
+export const HomeTitle = styled(SubTitle)`
   font-size: ${fonts.size.xxl};
-  span {
+
+  strong {
     color: ${colors.primary};
   }
 `;

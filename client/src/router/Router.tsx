@@ -1,39 +1,42 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/header/Header';
 
 import Exam from '../pages/Exam';
 import ExamCreate from '../pages/ExamCreate';
-import FindId from '../pages/FindId';
-import FindPw from '../pages/FindPw';
+import FindId from '../pages/FindId/FindId';
+import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home/Home';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import PageNotFound from '../pages/PageNotFound';
 import Problem from '../pages/Problem';
-import ProblemCreate from '../pages/problemCreate/ProblemCreate';
+import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
-import SignUp from '../pages/SignUp';
+import SignUp from '../pages/signup/SignUp';
 import GlobalStyle from '../styles/Global';
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <GlobalStyle />
       {/* Header */}
 
       <Routes>
         <Route path="/" element={<Header />} />
-        <Route path="/problemCreate" element={<Header />} />
+        <Route path="/workbook/new" element={<Header />} />
       </Routes>
 
       {/* Contents */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/problemCreate" element={<ProblemCreate />} />
-        <Route path="/problem/:id " element={<Problem />} />
+        <Route path="/workbook/new" element={<WorkBookCreate />} />
+        <Route path="/workbook/update" element={<WorkBookCreate />} />
+        <Route path="/workbook/:id " element={<Problem />} />
         <Route path="/exam_create" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />

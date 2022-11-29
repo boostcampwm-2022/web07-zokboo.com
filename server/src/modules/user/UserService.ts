@@ -11,6 +11,14 @@ export class UserService {
 
   public async signupBasicUser(request: SignupRequest) {
     this.comparePassword(request.password, request.passwordConfirmation);
+    const checkEmail = await this.userRepository.findUserByEmail(request.email);
+    if (checkEmail) {
+      throw new BadRequestException('중복된 Email입니다.');
+    }
+    const checkNickname = await this.userRepository.findUserByNickname(request.nickname);
+    if (checkNickname) {
+      throw new BadRequestException('중복된 Nickname입니다.');
+    }
     const user = BasicUser.new(request.email, request.nickname, bcrypt.hashSync(request.password, 11));
     const savedUser = await this.userRepository.save(user);
     return new SignupResponse(savedUser);

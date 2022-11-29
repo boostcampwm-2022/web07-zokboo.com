@@ -38,6 +38,12 @@ module.exports = {
         '': 'never',
       },
     ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
+    ],
+
+    'react/require-default-props': 'off',
   },
   settings: {
     'import/resolver': {
