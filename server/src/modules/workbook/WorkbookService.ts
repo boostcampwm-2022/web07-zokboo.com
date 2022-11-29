@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { QuestionRepository } from '../question/QuestionRepository';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
@@ -28,10 +28,11 @@ export class WorkbookService {
       workbook.questions.map((q) => Number(q.question.questionId)),
     );
 
-    const newWorkbook = Workbook.new(workbook.title, workbook.description, workbook.isPublic, userId);
+    if (!workbook.isPublic) {
+      throw new BadRequestException('Private 문제집을 복사할 수 없습니다.');
+    }
 
-    newWorkbook.originalId = workbook.workbookId;
-
+    const newWorkbook = Workbook.duplicate(workbook, workbook.originalId || workbook.workbookId, userId);
     newWorkbook.setQuestions(questions.map((question) => WorkbookQuestion.new(workbook.workbookId, question)));
 
     const savedResult = await this.workbookRepository.save(newWorkbook);
