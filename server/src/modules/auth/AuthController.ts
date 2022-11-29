@@ -14,9 +14,12 @@ import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagg
 import SigninResponse from '../user/dto/response/SigninResponse';
 import { MailService } from '../common/MailService';
 import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
+import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
+import ResetTokenResponse from './dto/response/ResetTokenResponse';
+import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
 
 @Controller('auth')
-@ApiExtraModels(ApiResponse, SigninResponse, SignupResponse)
+@ApiExtraModels(ApiResponse, SigninResponse, SignupResponse, ResetTokenResponse, ResetPasswordResponse)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -35,7 +38,7 @@ export class AuthController {
 
   @Get('verify')
   async verify(@Query('token') token: string) {
-    const verifyResult = await this.authService.verify(token);
+    const verifyResult = await this.authService.verifySignupToken(token);
 
     return new ApiResponse('verify status', verifyResult);
   }
@@ -47,6 +50,23 @@ export class AuthController {
     const token = this.authService.issueJwtAccessToken(user.userId);
     response.cookie('accessToken', token);
     return response.status(200).json(new ApiResponse('signin 완료', user));
+  }
+
+  @Post('reset')
+  @ApiSingleResponse(200, ResetTokenResponse, '패스워드 재설정 요청 성공')
+  async resetPasswordRequest(@Body('email') email: string) {
+    const token = this.authService.issueResetToken(email);
+    this.mailService.sendResetMail(email, token);
+
+    return new ApiResponse('패스워드 재설정 요청 성공', new ResetTokenResponse(token));
+  }
+
+  @Post('reset/password')
+  @ApiSingleResponse(200, ResetPasswordResponse, '패스워드 재설정 성공')
+  async resetPassword(@Body() request: ResetPasswordRequest) {
+    const response = await this.authService.resetPassword(request);
+
+    return new ApiResponse('패스워드 재설정 완료', response);
   }
 
   @Get('kakao')
