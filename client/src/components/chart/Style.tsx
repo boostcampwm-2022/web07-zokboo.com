@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../styles/theme';
+import { colors, media } from '../../styles/theme';
 
 export const Container = styled.div<{ bgColor: string }>`
   position: relative;
@@ -47,5 +47,18 @@ export const Category = styled.button`
   :nth-child(3) {
     left: 240px;
     background-color: ${colors.gray3};
+  }
+
+  ${media.mobileLength} {
+    width: 100px;
+
+    :nth-child(2) {
+      left: 100px;
+      background-color: ${colors.gray2};
+    }
+    :nth-child(3) {
+      left: 200px;
+      background-color: ${colors.gray3};
+    }
   }
 `;

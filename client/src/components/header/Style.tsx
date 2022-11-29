@@ -70,6 +70,10 @@ export const AuthLink = styled(Link)`
     color: ${colors.white};
     background-color: ${colors.primary};
   }
+
+  ${media.mobileLength} {
+    font-size: ${fonts.size.xs};
+  }
 `;
 
 export const SearchButton = styled.button`
