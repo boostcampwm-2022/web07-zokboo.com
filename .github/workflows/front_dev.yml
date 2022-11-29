@@ -18,4 +18,5 @@ jobs:
             cd web07-zokboo.com
             git pull
             npm install
+            pm2 list
             pm2 restart front-dev-server
