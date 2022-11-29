@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [frontend_cicd]
+    branches: [fix/frontend_cicd]
 
 jobs:
   build:
