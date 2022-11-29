@@ -14,7 +14,7 @@ import PageNotFound from '../pages/PageNotFound';
 import Problem from '../pages/Problem';
 import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
 import Review from '../pages/Review';
-import Search from '../pages/Search';
+import Search from '../pages/search/Search';
 import SignUp from '../pages/signup/SignUp';
 import GlobalStyle from '../styles/Global';
 

@@ -1,40 +1,7 @@
-import styled from 'styled-components';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import Header from '../components/header/Header';
-import { colors, device, paddings } from '../styles/theme';
-import SearchResultItem from '../components/search/SearchResultItem';
-
-const SearchResultContainer = styled.div`
-  width: 80%;
-  //max-width: 800px;
-
-  box-sizing: border-box;
-  margin: 80px auto 0px;
-  padding: ${paddings.responsive};
-
-  @media screen and (max-width: ${device.tablet}) {
-    width: 100%;
-  }
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const SortContainer = styled.div`
-  border: 1px solid ${colors.gray3};
-  border-radius: 8px;
-  padding: 4px 6px;
-
-  color: ${colors.gray4};
-  font-size: 14px;
-
-  display: flex;
-  align-items: center;
-`;
-
-const SearchResultTitle = styled.div``;
+import Header from '../../components/header/Header';
+import SearchResultItem from '../../components/search/SearchResultItem';
+import { SearchResultContainer, SearchResultTitle, SortContainer, TitleContainer } from './Style';
 
 const researchMockData = [
   {
@@ -73,6 +40,7 @@ const researchMockData = [
     description: '정처기 한번에 붙으시길 바랍니다.',
   },
 ];
+
 const Search = () => {
   return (
     <div>
