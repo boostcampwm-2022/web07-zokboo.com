@@ -32,7 +32,7 @@ export class AuthController {
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
-    await this.mailService.sendVerifyMail(request.email, verifyToken);
+    this.mailService.sendVerifyMail(request.email, verifyToken);
     return new ApiResponse('signup 완료', response);
   }
 
@@ -56,7 +56,7 @@ export class AuthController {
   @Api201Response(ResetTokenResponse, '패스워드 재설정 요청 성공')
   async resetPasswordRequest(@Body('email') email: string) {
     const token = this.authService.issueResetToken(email);
-    await this.mailService.sendResetMail(email, token);
+    this.mailService.sendResetMail(email, token);
 
     return new ApiResponse('패스워드 재설정 요청 성공', new ResetTokenResponse(token));
   }

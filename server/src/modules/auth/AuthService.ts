@@ -47,13 +47,10 @@ export class AuthService {
       throw new BadRequestException('INVALID_TOKEN');
     }
 
-    if (request.password !== request.passwordConfirmation) {
-      throw new BadRequestException('PASSWORD_DOES_NOT_MATCH');
-    }
-
     const user = await this.userRepository.findUserByEmail(verifyResult.email);
 
-    user.password = bcrypt.hashSync(request.password, 11);
+    user.updatePassword(request.password, request.passwordConfirmation);
+
     const savedUser = await this.userRepository.save(user);
 
     return new ResetPasswordResponse(savedUser);
