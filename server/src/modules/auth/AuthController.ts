@@ -12,14 +12,14 @@ import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
-import { Api200Response, Api201Response } from 'src/decorators/ApiResponseDecorator';
+import { Api201Response } from 'src/decorators/ApiResponseDecorator';
 import { MailService } from '../common/MailService';
 import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
 import ResetTokenResponse from './dto/response/ResetTokenResponse';
 import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
 
 @Controller('auth')
-@ApiExtraModels(ApiResponse, SigninResponse, SignupResponse)
+@ApiExtraModels(ApiResponse, SigninResponse, SignupResponse, ResetTokenResponse, ResetPasswordResponse)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -53,7 +53,7 @@ export class AuthController {
   }
 
   @Post('reset')
-  @Api200Response(ResetTokenResponse, '패스워드 재설정 요청 성공')
+  @Api201Response(ResetTokenResponse, '패스워드 재설정 요청 성공')
   async resetPasswordRequest(@Body('email') email: string) {
     const token = this.authService.issueResetToken(email);
     await this.mailService.sendResetMail(email, token);
