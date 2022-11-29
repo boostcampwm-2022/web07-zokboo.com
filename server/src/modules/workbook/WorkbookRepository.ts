@@ -107,6 +107,15 @@ export class WorkbookRepository {
     });
   }
 
+  async findOnlyWorkbook(workbookId: number) {
+    const workbook = await this.prisma.workbook.findUnique({
+      where: {
+        workbook_id: workbookId,
+      },
+    });
+    return Workbook.of(workbook);
+  }
+
   async findWorkbook(workbookId: number) {
     const workbook = await this.prisma.workbook.findUnique({
       where: {
@@ -143,5 +152,20 @@ export class WorkbookRepository {
     const response = Workbook.of(workbook);
     response.setQuestions(questions);
     return response;
+  }
+
+  async findWorkbookQuestion(workbookQuestionId: number) {
+    const workbookQuestion = await this.prisma.workbookQuestion.findUnique({
+      where: {
+        workbook_question_id: workbookQuestionId,
+      },
+      include: {
+        Question: true,
+      },
+    });
+    if (!workbookQuestion) {
+      return null;
+    }
+    return WorkbookQuestion.of(workbookQuestion, Question.of(workbookQuestion.Question));
   }
 }

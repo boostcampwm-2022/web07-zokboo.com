@@ -9,9 +9,6 @@ class WorkbookQuestionDetailResponse extends QuestionDetailResponse {
   @ApiProperty()
   public writtenAnswer: string;
 
-  @ApiProperty()
-  public test: number;
-
   constructor(workbookQuestion: WorkbookQuestion) {
     super(workbookQuestion.question);
     this.workbookQuestionId = Number(workbookQuestion.workbookQuestionId);

@@ -34,6 +34,10 @@ class WorkbookQuestion {
   setWorkbookId(workbookId: bigint) {
     this.workbookId = workbookId;
   }
+
+  solve(newAnswer: string) {
+    this.writtenAnswer = newAnswer;
+  }
 }
 
 export default WorkbookQuestion;
