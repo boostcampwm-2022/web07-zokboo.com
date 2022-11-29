@@ -16,6 +16,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
             cd web07-zokboo.com/client
+            git checkout develop
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
