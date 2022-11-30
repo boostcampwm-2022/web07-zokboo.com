@@ -48,7 +48,11 @@ export class AuthController {
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
     const user = await this.authService.signin(request);
     const token = this.authService.issueJwtAccessToken(user.userId);
-    response.cookie('accessToken', token);
+    response.cookie('accessToken', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return response.status(200).json(new ApiResponse('signin 완료', user));
   }
 
@@ -144,7 +148,11 @@ export class AuthController {
     };
     const user = await this.authService.signinByOauth(oauthRequest);
     const token = this.authService.issueJwtAccessToken(user.userId);
-    res.cookie('accessToken', token);
+    res.cookie('accessToken', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return new ApiResponse('signin 완료', user);
   }
 }
