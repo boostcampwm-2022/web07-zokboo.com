@@ -114,9 +114,16 @@ export const SideBarItem = styled(Item)`
   height: 30px;
 `;
 
-export const SideBarButton = styled(Button)`
+export const SideBarButton = styled(Button)<{ isActive: boolean }>`
   width: 100%;
   height: 100%;
+
+  ${(props) =>
+    props.isActive &&
+    `
+    background-color: ${colors.primary};
+    color: ${colors.white};
+  `}
 `;
 
 export const Contents = styled.div`
@@ -131,6 +138,8 @@ export const Contents = styled.div`
   padding: 30px 50px;
 
   overflow-y: auto;
+  scroll-behavior: smooth;
+
   ${media.mobileLength} {
     width: 100%;
   }
@@ -196,7 +205,9 @@ export const QuestionAnswerButton = styled.button<{ isActive: boolean }>`
   `}
 `;
 
-export const QuestionDescription = styled.div`
+export const QuestionDescription = styled.pre<{ isActive: boolean }>`
+  display: ${(props) => (props.isActive ? `block` : `none`)};
+
   margin-top: 20px;
 
   padding: 10px;

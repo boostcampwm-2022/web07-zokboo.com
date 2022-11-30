@@ -11,7 +11,7 @@ const workbookList = [
         question: '면접대비',
         creator_id: 'CS마스터',
         questionType: 'MULTIPLE',
-        commentary: 'CS면접대비를 위한 문제집입니다 많이 데여보고 만들어봤습니다.',
+        commentary: 'CS면접대비를 위한 문제집입니다 많이 데여보고 만!!!!!!',
         answer: 'CS면접대비를 위한 문제집입니다 많이 데여보고 만들어봤습니다.',
         hashtags: ['해쉬태그', '이것저것', '이걸 풀어?', '무요!'],
         updatedAt: '20221117',
