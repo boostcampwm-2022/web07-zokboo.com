@@ -10,7 +10,7 @@ export default [
     const hashtag = req.url.searchParams.get('hashtag');
 
     if (!hashtag) return res(ctx.status(400));
-
+    return res(ctx.status(400));
     const { search } = questionData;
     const result = search.filter((data) => data.hashtags[0] === hashtag);
 

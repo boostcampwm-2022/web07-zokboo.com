@@ -1,8 +1,8 @@
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import Workbook from '../../domain/Workbook';
-import QuestionDetailResponse from '../../../question/dto/response/QuestionDetailResponse';
+import WorkbookQuestionDetailResponse from './WorkbookQuestionDetailResponse';
 
-class WorkbookDetailResponse {
+class WorkbookStateResponse {
   @ApiProperty()
   public workbookId: number;
 
@@ -18,18 +18,18 @@ class WorkbookDetailResponse {
   @ApiProperty({
     type: 'array',
     items: {
-      $ref: getSchemaPath(QuestionDetailResponse),
+      $ref: getSchemaPath(WorkbookQuestionDetailResponse),
     },
   })
-  public questions: QuestionDetailResponse[];
+  public questions: WorkbookQuestionDetailResponse[];
 
   constructor(workbook: Workbook) {
     this.workbookId = Number(workbook.workbookId);
     this.title = workbook.title;
     this.description = workbook.description;
     this.isPublic = workbook.isPublic;
-    this.questions = workbook.questions.map((wq) => new QuestionDetailResponse(wq.question));
+    this.questions = workbook.questions.map((wq) => new WorkbookQuestionDetailResponse(wq));
   }
 }
 
-export default WorkbookDetailResponse;
+export default WorkbookStateResponse;

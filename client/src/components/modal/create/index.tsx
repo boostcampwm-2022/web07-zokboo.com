@@ -55,7 +55,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
   const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('', VERIFICATION.blank);
   const [file, handleFileChange, f_, handleFileReset] = useInput('');
-  const [questionType, setQuestionType] = useState(QUESTION_TYPE.SUBJECTIVE);
+  const [questionType, setQuestionType] = useState(QUESTION_TYPE.subjective);
   const {
     state: hashTagList,
     values: hashTagValues,
@@ -120,7 +120,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
   const handleQuestionCreate = () => {
     let answer;
-    if (questionType === QUESTION_TYPE.SUBJECTIVE) answer = subject;
+    if (questionType === QUESTION_TYPE.subjective) answer = subject;
     else {
       answer = handleOptionSearch(answerIdx);
     }
@@ -158,9 +158,6 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
           console.log('성공', data);
           handleProblemAdd(data);
           handleModalReset();
-        },
-        onError: () => {
-          console.log('실패');
         },
       },
     );
@@ -220,8 +217,8 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
               <ModalButton
                 type="button"
                 isDisplay
-                isActive={questionType === QUESTION_TYPE.SUBJECTIVE}
-                value={QUESTION_TYPE.SUBJECTIVE}
+                isActive={questionType === QUESTION_TYPE.subjective}
+                value={QUESTION_TYPE.subjective}
                 onClick={handleUpdateType}
               >
                 주관식
@@ -229,8 +226,8 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
               <ModalButton
                 type="button"
                 isDisplay
-                isActive={questionType === QUESTION_TYPE.MULTIPLE}
-                value={QUESTION_TYPE.MULTIPLE}
+                isActive={questionType === QUESTION_TYPE.multiple}
+                value={QUESTION_TYPE.multiple}
                 onClick={handleUpdateType}
               >
                 객관식
@@ -260,7 +257,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
           </Step>
         )}
         {currentStep === 2 &&
-          (questionType === QUESTION_TYPE.SUBJECTIVE ? (
+          (questionType === QUESTION_TYPE.subjective ? (
             <Step>
               <SubTitle>모범 답안 작성</SubTitle>
               <TextArea id="answer" rows={18} value={subject} onChange={handleSubjectChange} />
