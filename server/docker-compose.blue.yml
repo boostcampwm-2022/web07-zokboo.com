@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  blue-container:
+    container_name: 'zokboo-prod-blue'
+    image: hooo0503/zokboo-dev:latest
+    env_file:
+      - ./.env
+    ports:
+      - '13370:8080'
+
+networks:
+  default:
+
+volumes:
+  blue-container:
