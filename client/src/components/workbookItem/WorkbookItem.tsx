@@ -4,7 +4,7 @@ import { AiOutlineHeart, AiFillHeart, AiFillFile, AiOutlineFile } from 'react-ic
 import { useState } from 'react';
 import { colors, device } from '../../styles/theme';
 
-const SearchResultItemContainer = styled.div`
+const WorkbookItemContainer = styled.div`
   border: 1px solid ${colors.gray3};
   border-radius: 4px;
   box-shadow: 2px 2px ${colors.gray1};
@@ -77,21 +77,21 @@ const ContentButtons = styled.div`
 const TestButton = styled.input``;
 const SaveButton = styled.input``;
 
-interface SearchResultItemProps {
+interface WorkbookItemProps {
   title: string;
   creatorId: string;
   createAt: string;
   description: string;
 }
 
-const SearchResultItem = ({ title, creatorId, createAt, description }: SearchResultItemProps) => {
+const WorkbookItem = ({ title, creatorId, createAt, description }: WorkbookItemProps) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isScrap, setIsScrap] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [scrapCount, setScrapCount] = useState<number>(0);
 
   return (
-    <SearchResultItemContainer>
+    <WorkbookItemContainer>
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
@@ -113,8 +113,8 @@ const SearchResultItem = ({ title, creatorId, createAt, description }: SearchRes
           <SaveButton type="button" value="저장하기" />
         </ContentButtons>
       </Buttons>
-    </SearchResultItemContainer>
+    </WorkbookItemContainer>
   );
 };
 
-export default SearchResultItem;
+export default WorkbookItem;

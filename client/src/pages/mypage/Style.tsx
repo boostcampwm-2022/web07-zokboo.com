@@ -151,8 +151,6 @@ export const CategoryItem = styled(Item)<{ isActive: boolean }>`
 export const ContentsContainer = styled.div`
   width: calc(100% - 300px - 20px);
   height: 600px;
-  background-color: red;
-
   ${media.tablet} {
     width: 100%;
   }
