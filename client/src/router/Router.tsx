@@ -11,8 +11,8 @@ import Home from '../pages/home/Home';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import PageNotFound from '../pages/PageNotFound';
-import WorkBook from '../pages/workBook/WorkBook';
-import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
+import Workbook from '../pages/workbook/Workbook';
+import WorkbookCreate from '../pages/workbookCreate/WorkbookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/signup/SignUp';
@@ -34,9 +34,9 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/workbook/new" element={<WorkBookCreate />} />
-        <Route path="/workbook/update" element={<WorkBookCreate />} />
-        <Route path="/workbook/:id" element={<WorkBook />} />
+        <Route path="/workbook/new" element={<WorkbookCreate />} />
+        <Route path="/workbook/update" element={<WorkbookCreate />} />
+        <Route path="/workbook/:id" element={<Workbook />} />
         <Route path="/exam_create" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />

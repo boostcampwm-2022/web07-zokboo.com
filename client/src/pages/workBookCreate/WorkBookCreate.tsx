@@ -31,7 +31,7 @@ import {
   InfoTextArea,
 } from './Style';
 
-const WorkBookCreate = () => {
+const WorkbookCreate = () => {
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
   const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
@@ -161,4 +161,4 @@ const WorkBookCreate = () => {
   );
 };
 
-export default WorkBookCreate;
+export default WorkbookCreate;

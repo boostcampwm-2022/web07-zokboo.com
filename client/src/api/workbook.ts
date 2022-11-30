@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PatchSolveWorkbookQuestionProps, PostCreateWorkBookBody } from '../types/workbook';
+import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody } from '../types/workbook';
 import { SERVER_URL } from '../utils/constants';
 
 export const getWorkbookList = async (params: number) => {
@@ -8,7 +8,7 @@ export const getWorkbookList = async (params: number) => {
   return data;
 };
 
-export const createWorkbook = async (body: PostCreateWorkBookBody) => {
+export const createWorkbook = async (body: PostCreateWorkbookBody) => {
   const { data } = await axios.post(`${SERVER_URL}/workbooks`, body, { withCredentials: true });
 
   return data;

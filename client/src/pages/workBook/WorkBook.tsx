@@ -7,7 +7,7 @@ import Logo from '../../components/common/logo';
 import useArrayText from '../../hooks/useArrayText';
 import useToggle from '../../hooks/useToggle';
 import KEYS from '../../react-query/keys/workbook';
-import { GetWorkBookListResponse } from '../../types/workbook';
+import { GetWorkbookListResponse } from '../../types/workbook';
 import { QUESTION_TYPE } from '../../utils/constants';
 import DESCRIPTION_TYPE from './constants';
 import {
@@ -36,7 +36,7 @@ import {
   MobileSideBarShowButton,
 } from './Style';
 
-const WorkBook = () => {
+const Workbook = () => {
   const { id } = useParams<{ id: string }>();
   const workbookId = id ? Number(id) : -1;
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
@@ -45,13 +45,13 @@ const WorkBook = () => {
   const [descriptionType, setDescriptionType] = useState<string[]>([]);
   const { values: answerList, set: initAnswerList, change: handleAnswerListUpdate } = useArrayText();
 
-  const { data } = useQuery<GetWorkBookListResponse>(
+  const { data } = useQuery<GetWorkbookListResponse>(
     KEYS.detail,
     () => {
       return getWorkbookList(workbookId);
     },
     {
-      onSuccess: (workbooks: GetWorkBookListResponse) => {
+      onSuccess: (workbooks: GetWorkbookListResponse) => {
         setDescriptionType(new Array(workbooks.questions.length).fill(''));
       },
     },
@@ -191,4 +191,4 @@ const WorkBook = () => {
   );
 };
 
-export default WorkBook;
+export default Workbook;
