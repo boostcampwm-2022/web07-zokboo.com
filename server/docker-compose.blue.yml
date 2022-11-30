@@ -5,7 +5,7 @@ services:
     container_name: 'zokboo-prod-blue'
     image: hooo0503/zokboo-dev:latest
     env_file:
-      - ./.env
+      - /build/.env
     ports:
       - '13370:8080'
 
