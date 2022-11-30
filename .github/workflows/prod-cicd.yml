@@ -4,7 +4,6 @@ on:
     branches: ["main", "feat/production-cicd"]
     paths:
       - "server/**"
-  workflow-dispatch:
 
 jobs:
   build:
