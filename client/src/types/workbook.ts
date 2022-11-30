@@ -25,7 +25,7 @@ interface solveWorkbookQuestionParams {
   workbookQuestionId: number;
 }
 
-interface solveWorkbookQuestionBody {
+export interface solveWorkbookQuestionBody {
   newAnswer: string;
 }
 

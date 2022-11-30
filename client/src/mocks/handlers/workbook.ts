@@ -1,10 +1,10 @@
 import { rest } from 'msw';
-import { GetWorkbookListResponse, PostCreateWorkbookBody } from '../../types/workbook';
+import { PostCreateWorkbookBody } from '../../types/workbook';
 import { SERVER_URL } from '../../utils/constants';
 import workbookData from '../data/workbook';
 
 export default [
-  rest.get<GetWorkbookListResponse>(`${SERVER_URL}/workbooks/:id/questions`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/workbooks/:id/questions`, (req, res, ctx) => {
     const { id } = req.params;
 
     const result = workbookData.workbookList.filter(({ workbookId }) => workbookId.toString() === id);
