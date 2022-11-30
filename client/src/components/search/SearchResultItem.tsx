@@ -1,11 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { FiMoreHorizontal } from 'react-icons/fi';
-import { AiOutlineHeart, AiFillHeart, AiFillFile, AiOutlineFile } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { colors, device } from '../../styles/theme';
-
-const LinkView = styled(Link)``;
 
 const SearchResultItemContainer = styled.div`
   border: 1px solid ${colors.gray3};
@@ -107,7 +105,6 @@ const SearchResultItem = ({ id, title, creatorId, createAt, description, like }:
   };
 
   const handleMoveWorkbookView = () => {
-    console.log(13);
     navigate(`./view?id=${id}`);
   };
 
