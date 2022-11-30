@@ -1,7 +1,7 @@
 name: production CI/CD
 on:
   push:
-    branches: ["main", "feat/production-cicd"]
+    branches: ["main"]
     paths:
       - "server/**"
 
