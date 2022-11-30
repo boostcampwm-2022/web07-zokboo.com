@@ -20,16 +20,16 @@ export interface GetWorkbookListResponse {
   questions: WorkbookQuestions[];
 }
 
-interface solveWorkbookQuestionParams {
+interface SolveWorkbookQuestionParams {
   workbookId: number;
   workbookQuestionId: number;
 }
 
-export interface solveWorkbookQuestionBody {
+export interface SolveWorkbookQuestionBody {
   newAnswer: string;
 }
 
 export interface PatchSolveWorkbookQuestionProps {
-  params: solveWorkbookQuestionParams;
-  body: solveWorkbookQuestionBody;
+  params: SolveWorkbookQuestionParams;
+  body: SolveWorkbookQuestionBody;
 }
