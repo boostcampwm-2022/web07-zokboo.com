@@ -12,8 +12,8 @@ import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
-import { Api201Response } from 'src/decorators/ApiResponseDecorator';
 import { MailService } from '../common/MailService';
+import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
 import ResetTokenResponse from './dto/response/ResetTokenResponse';
 import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
@@ -28,7 +28,7 @@ export class AuthController {
   ) {}
 
   @Post('signup')
-  @Api201Response(SignupResponse, '회원가입 완료')
+  @ApiSingleResponse(201, SignupResponse, '회원가입 완료')
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
@@ -44,7 +44,7 @@ export class AuthController {
   }
 
   @Post('signin')
-  @Api201Response(SigninResponse, '로그인 완료')
+  @ApiSingleResponse(200, SigninResponse, '로그인 완료')
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
     const user = await this.authService.signin(request);
     const token = this.authService.issueJwtAccessToken(user.userId);
@@ -57,7 +57,7 @@ export class AuthController {
   }
 
   @Post('reset')
-  @Api201Response(ResetTokenResponse, '패스워드 재설정 요청 성공')
+  @ApiSingleResponse(200, ResetTokenResponse, '패스워드 재설정 요청 성공')
   async resetPasswordRequest(@Body('email') email: string) {
     const token = this.authService.issueResetToken(email);
     this.mailService.sendResetMail(email, token);
@@ -66,7 +66,7 @@ export class AuthController {
   }
 
   @Post('reset/password')
-  @Api201Response(ResetPasswordResponse, '패스워드 재설정 성공')
+  @ApiSingleResponse(200, ResetPasswordResponse, '패스워드 재설정 성공')
   async resetPassword(@Body() request: ResetPasswordRequest) {
     const response = await this.authService.resetPassword(request);
 
