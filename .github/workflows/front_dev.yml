@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [develop]
+    branches: [fix/frontend_cicd]
 
 jobs:
   build:
@@ -15,7 +15,11 @@ jobs:
           password: ${{ secrets.REMOTE_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd web07-zokboo.com
+            cd web07-zokboo.com/client
+            git checkout develop
             git pull
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             npm install
+            npm run build
             pm2 restart front-dev-server

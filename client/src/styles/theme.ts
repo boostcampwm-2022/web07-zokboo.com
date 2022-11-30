@@ -1,5 +1,7 @@
 export const widths = {
-  base: '65%',
+  base: `width: 1200px; 
+  @media screen and (max-width: 1200px) { width: 1000px; }
+  `,
   responsive: '100%',
 };
 
