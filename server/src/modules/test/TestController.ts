@@ -18,7 +18,7 @@ export class TestController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiSingleResponse(201, TestSimpleResponse, '시험 생성 완료')
-  async createTest(@User('id') userId, @Body() request: CreateTestRequest) {
+  async createTest(@User('id') userId: string, @Body() request: CreateTestRequest) {
     const response = await this.testService.createTest(request, Number(userId));
     return new ApiResponse('시험 생성 완료', response);
   }
