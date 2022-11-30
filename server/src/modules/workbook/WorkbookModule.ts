@@ -9,5 +9,6 @@ import { WorkbookService } from './WorkbookService';
   imports: [CommonModule, QuestionModule],
   controllers: [WorkbookController],
   providers: [WorkbookRepository, WorkbookService],
+  exports: [WorkbookRepository],
 })
 export class WorkbookModule {}
