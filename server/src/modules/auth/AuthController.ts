@@ -48,7 +48,11 @@ export class AuthController {
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
     const user = await this.authService.signin(request);
     const token = this.authService.issueJwtAccessToken(user.userId);
-    response.cookie('accessToken', token);
+    response.cookie('accessToken', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return response.status(200).json(new ApiResponse('signin 완료', user));
   }
 
@@ -81,8 +85,8 @@ export class AuthController {
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
   @ApiExcludeEndpoint()
-  async kakaoSignup(@User('id') oauthId: string, @Res() res: Response) {
-    const ApiResponse = await this.oauthCallback(oauthId, OauthType['KAKAO'], res);
+  async kakaoSignup(@User('id') oauthId: number, @Res() res: Response) {
+    const ApiResponse = await this.oauthCallback(String(oauthId), OauthType['KAKAO'], res);
     return res.status(200).json(ApiResponse);
   }
 
@@ -144,7 +148,11 @@ export class AuthController {
     };
     const user = await this.authService.signinByOauth(oauthRequest);
     const token = this.authService.issueJwtAccessToken(user.userId);
-    res.cookie('accessToken', token);
+    res.cookie('accessToken', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return new ApiResponse('signin 완료', user);
   }
 }
