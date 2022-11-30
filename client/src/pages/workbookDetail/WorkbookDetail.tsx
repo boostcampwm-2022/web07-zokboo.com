@@ -2,20 +2,25 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { fonts, widths } from '../../styles/theme';
+import { colors, fonts, widths } from '../../styles/theme';
 import { DEV_SERVER_URL } from '../../utils/constants';
 
 const PageContainer = styled.div`
   width: ${widths.base};
   height: 100%;
-
   margin: 0 auto;
+  margin-top: 30px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
+
+  margin: 10px;
+  padding: 12px 16px;
+  border: 1px solid ${colors.gray2};
+  border-radius: 8px;
 `;
 const Title = styled.div``;
 const IsPublic = styled.div`
