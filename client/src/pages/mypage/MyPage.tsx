@@ -86,7 +86,8 @@ const MyPage = () => {
         </MobileContainer>
       </SideContainer>
       <ContentsContainer>
-        <MypageWorkbook type="shared" />
+        {/* <MypageWorkbook type="shared" /> */}
+        {/* <MypageWorkbook type="my" /> */}
       </ContentsContainer>
     </Container>
   );
