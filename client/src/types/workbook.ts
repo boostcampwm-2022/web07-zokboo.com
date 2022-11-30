@@ -4,7 +4,12 @@ export interface PostCreateWorkBookBody {
   title: string;
   description: string;
   isPublic: boolean;
-  questions: string[];
+  questions: number[];
+}
+
+interface WorkBookQuestions extends GetQuestionResponse {
+  workbookQuestionId: number;
+  writtenAnswer: string;
 }
 
 export interface GetWorkBookListResponse {
@@ -12,5 +17,19 @@ export interface GetWorkBookListResponse {
   title: string;
   description: string;
   isPublic: boolean;
-  questions: GetQuestionResponse[];
+  questions: WorkBookQuestions[];
+}
+
+interface solveWorkbookQuestionParams {
+  workbookId: number;
+  workbookQuestionId: number;
+}
+
+interface solveWorkbookQuestionBody {
+  newAnswer: string;
+}
+
+export interface PatchSolveWorkbookQuestionProps {
+  params: solveWorkbookQuestionParams;
+  body: solveWorkbookQuestionBody;
 }

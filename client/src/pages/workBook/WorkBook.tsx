@@ -1,11 +1,10 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { BsFillCaretDownFill, BsList } from 'react-icons/bs';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { getWorkbookList } from '../../api/workbook';
+import { createWorkbook, getWorkbookList, solveWorkbookQuestion } from '../../api/workbook';
 import Logo from '../../components/common/logo';
 import useArrayText from '../../hooks/useArrayText';
-import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
 import KEYS from '../../react-query/keys/workbook';
 import { GetWorkBookListResponse } from '../../types/workbook';
@@ -39,27 +38,26 @@ import {
 
 const WorkBook = () => {
   const { id } = useParams<{ id: string }>();
+  const workbookId = id ? Number(id) : -1;
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
   const contentsRef = useRef<HTMLDivElement>(null);
   const questionItemRef = useRef<HTMLLIElement[]>([]);
-
   const [descriptionType, setDescriptionType] = useState<string[]>([]);
-
-  const { values: answerList, addMulti: initAnswerList, change: handleAnswerListUpdate } = useArrayText();
+  const { values: answerList, set: initAnswerList, change: handleAnswerListUpdate } = useArrayText();
 
   const { data } = useQuery<GetWorkBookListResponse>(
     KEYS.detail,
     () => {
-      const workbookId = id ?? '';
       return getWorkbookList(workbookId);
     },
     {
       onSuccess: (workbooks: GetWorkBookListResponse) => {
         setDescriptionType(new Array(workbooks.questions.length).fill(''));
-        initAnswerList(workbooks.questions.length);
       },
     },
   );
+
+  const workbookQuestionSolve = useMutation(solveWorkbookQuestion);
 
   const handleScrollMove = (idx: number) => {
     const contentContainer = contentsRef.current;
@@ -81,6 +79,21 @@ const WorkBook = () => {
     if (descriptionType[idx] === type) return true;
     return false;
   };
+
+  const handleWorkbookQuestionSolve = (questionId: number, idx: number, value: string) => {
+    workbookQuestionSolve.mutate({
+      params: { workbookId, workbookQuestionId: questionId },
+      body: { newAnswer: value },
+    });
+    handleAnswerListUpdate(idx, value);
+  };
+
+  useEffect(() => {
+    if (data) {
+      const writtenList = data.questions.map(({ writtenAnswer }) => writtenAnswer);
+      initAnswerList(writtenList);
+    }
+  }, [data]);
 
   if (!data) return <div>Loading</div>;
 
@@ -133,7 +146,7 @@ const WorkBook = () => {
                         <QuestionOptionItem key={option}>
                           <QuestionCheckButton
                             isActive={answerList[idx] === option}
-                            onClick={() => handleAnswerListUpdate(idx, option)}
+                            onClick={() => handleWorkbookQuestionSolve(questionId, idx, option)}
                           >
                             {option}
                           </QuestionCheckButton>
@@ -141,7 +154,10 @@ const WorkBook = () => {
                       ))}
                     </QuestionOptionList>
                   ) : (
-                    <QuestionAnswerArea onChange={(e) => handleAnswerListUpdate(idx, e.target.value)} />
+                    <QuestionAnswerArea
+                      value={answerList[idx]}
+                      onChange={(e) => handleWorkbookQuestionSolve(questionId, idx, e.target.value)}
+                    />
                   )}
                   <QuestionButtonList>
                     <QuestionAnswerButton

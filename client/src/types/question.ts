@@ -1,5 +1,5 @@
 export interface Question {
-  questionId: string;
+  questionId: number;
   question: string;
   questionType: string;
   difficulty: number;
@@ -16,7 +16,7 @@ export interface PostCreateQuestionBody {
 }
 
 export interface GetQuestionResponse {
-  questionId: string;
+  questionId: number;
   question: string;
   questionType: string;
   difficulty: number;

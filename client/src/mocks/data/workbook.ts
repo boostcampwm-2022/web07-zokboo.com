@@ -17,6 +17,8 @@ const workbookList = [
         updatedAt: '20221117',
         createdAt: '20221117',
         options: ['1번 선택지', '2번 선택지', '3번 선택지', '4번 선택지', '5번 선택지'],
+        writtenAnswer: '1번 선택지',
+        workbookQuestionId: 0,
       },
       {
         questionId: 2,
@@ -30,6 +32,8 @@ const workbookList = [
         updatedAt: '20221116',
         createdAt: '20221116',
         options: ['1번 선택지', '2번 선택지', '3번 선택지', '4번 선택지', '5번 선택지'],
+        writtenAnswer: '2번 선택지',
+        workbookQuestionId: 1,
       },
       {
         questionId: 3,
@@ -43,6 +47,8 @@ const workbookList = [
         updatedAt: '20221114',
         createdAt: '20221114',
         options: ['1번 선택지', '2번 선택지', '3번 선택지', '4번 선택지', '5번 선택지'],
+        writtenAnswer: '4번 선택지',
+        workbookQuestionId: 30,
       },
       {
         questionId: 4,
@@ -56,6 +62,8 @@ const workbookList = [
         updatedAt: '20221113',
         createdAt: '20221113',
         options: [],
+        writtenAnswer: 'qweqwe',
+        workbookQuestionId: 20,
       },
       {
         questionId: 5,
@@ -69,6 +77,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: 'qweqwe123',
+        workbookQuestionId: 50,
       },
       {
         questionId: 6,
@@ -82,6 +92,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 230,
       },
       {
         questionId: 7,
@@ -95,6 +107,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 120,
       },
       {
         questionId: 8,
@@ -108,6 +122,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 420,
       },
       {
         questionId: 9,
@@ -121,6 +137,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 4330,
       },
       {
         questionId: 10,
@@ -134,6 +152,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 123320,
       },
       {
         questionId: 11,
@@ -147,6 +167,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 5350,
       },
       {
         questionId: 12,
@@ -160,6 +182,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 4560,
       },
       {
         questionId: 13,
@@ -173,6 +197,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 70,
       },
       {
         questionId: 14,
@@ -186,6 +212,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 850,
       },
       {
         questionId: 15,
@@ -199,6 +227,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 360,
       },
       {
         questionId: 25,
@@ -212,6 +242,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 2560,
       },
       {
         questionId: 35,
@@ -225,6 +257,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 1233410,
       },
       {
         questionId: 145,
@@ -238,6 +272,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 31230,
       },
       {
         questionId: 525,
@@ -251,6 +287,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 5430,
       },
       {
         questionId: 5465,
@@ -264,6 +302,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 75620,
       },
       {
         questionId: 432245,
@@ -277,6 +317,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 61340,
       },
       {
         questionId: 55555345,
@@ -290,6 +332,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 8760,
       },
       {
         questionId: 64522345,
@@ -303,6 +347,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 9667780,
       },
       {
         questionId: 5555555555552345,
@@ -316,6 +362,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 5345,
       },
       {
         questionId: 543512352351245,
@@ -329,6 +377,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 12630,
       },
       {
         questionId: 156489798789495,
@@ -342,6 +392,8 @@ const workbookList = [
         updatedAt: '20221111',
         createdAt: '20221111',
         options: [],
+        writtenAnswer: '',
+        workbookQuestionId: 543170,
       },
     ],
   },

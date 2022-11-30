@@ -6,7 +6,7 @@ interface Return {
   values: string[];
   change: (updateKey: number, data: string) => void;
   add: (defaultData?: string) => void;
-  addMulti: (length: number, defaultData?: string) => void;
+  set: (values: string[]) => void;
   erase: (eraseKey: number) => void;
   reset: () => void;
   search: (searchKey: number) => string;
@@ -25,12 +25,12 @@ const useArrayText = (): Return => {
     setState((prev) => [...prev, [lastKey, defaultData]]);
   };
 
-  const addMulti = (length: number, defaultData = '') => {
-    const lastKey = state[state.length - 1] ? state[state.length - 1][0] + 1 : 0;
+  const set = (values: string[]) => {
     const updateList: ArrayText[] = [];
 
-    for (let i = 0; i < length; i += 1) {
-      updateList.push([lastKey + i, defaultData]);
+    for (let i = 0; i < values.length; i += 1) {
+      const value = values[i];
+      updateList.push([i, value]);
     }
 
     setState((prev) => [...prev, ...updateList]);
@@ -59,7 +59,7 @@ const useArrayText = (): Return => {
 
   const values = state.map(([_, data]) => data);
 
-  return { state, values, change, add, addMulti, erase, reset, search };
+  return { state, values, change, add, set, erase, reset, search };
 };
 
 export default useArrayText;
