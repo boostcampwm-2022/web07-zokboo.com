@@ -8,7 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://175.45.201.93:3389', 'https://zokboo.shop'],
+    origin: ['http://localhost:3000', 'http://175.45.201.93:3389', 'https://zokboo.shop', 'https://localhost:3000'],
     credentials: true,
   });
 
