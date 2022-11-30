@@ -1,10 +1,23 @@
+import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import Test from '../../domain/Test';
 import WorkbookTestSimpleResponse from './WorkbookTestSimpleResponse';
 
 class TestSimpleResponse {
+  @ApiProperty()
   public testId: number;
+
+  @ApiProperty()
   public totalCount: number;
+
+  @ApiProperty()
   public timeout: number;
+
+  @ApiProperty({
+    type: 'array',
+    items: {
+      $ref: getSchemaPath(WorkbookTestSimpleResponse),
+    },
+  })
   public workbooks: WorkbookTestSimpleResponse[];
 
   constructor(test: Test) {
