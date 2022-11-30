@@ -89,7 +89,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     }
   };
 
-  const questionCreate = useMutation(createQuestion);
+  const createQuestionMutation = useMutation(createQuestion);
 
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
@@ -143,7 +143,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
       return;
     }
 
-    questionCreate.mutate(
+    createQuestionMutation.mutate(
       {
         question,
         questionType,

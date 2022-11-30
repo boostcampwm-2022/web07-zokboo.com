@@ -57,7 +57,7 @@ const Workbook = () => {
     },
   );
 
-  const workbookQuestionSolve = useMutation(solveWorkbookQuestion);
+  const solveWOrkbookQuestionMutation = useMutation(solveWorkbookQuestion);
 
   const handleScrollMove = (idx: number) => {
     const contentContainer = contentsRef.current;
@@ -81,7 +81,7 @@ const Workbook = () => {
   };
 
   const handleWorkbookQuestionSolve = (questionId: number, idx: number, value: string) => {
-    workbookQuestionSolve.mutate({
+    solveWOrkbookQuestionMutation.mutate({
       params: { workbookId, workbookQuestionId: questionId },
       body: { newAnswer: value },
     });

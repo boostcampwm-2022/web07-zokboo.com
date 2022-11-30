@@ -41,7 +41,7 @@ const WorkbookCreate = () => {
 
   const [problemList, setProblemList] = useState<Question[]>([]);
 
-  const workbookCreate = useMutation(createWorkbook);
+  const createWorkbookMutation = useMutation(createWorkbook);
 
   const handleProblemAdd = (problem: Question) => {
     const listFilter = problemList.filter((currProblem) => problem === currProblem);
@@ -77,7 +77,7 @@ const WorkbookCreate = () => {
 
     const questions = problemList.map(({ questionId }) => questionId);
 
-    workbookCreate.mutate(
+    createWorkbookMutation.mutate(
       {
         title: titleInput,
         description: descriptionInput,
