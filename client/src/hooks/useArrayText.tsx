@@ -42,7 +42,7 @@ const useArrayText = (): Return => {
   const search = (searchKey: number) => {
     const data = state.filter(([key, _]) => key === searchKey);
 
-    return data[0][1];
+    return data.length !== 0 ? data[0][1] : ``;
   };
 
   const values = state.map(([_, data]) => data);

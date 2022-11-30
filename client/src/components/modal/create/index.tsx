@@ -3,6 +3,7 @@ import { BiImageAdd, BiX } from 'react-icons/bi';
 import { useMutation } from 'react-query';
 import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import { createQuestion } from '../../../api/question';
 import { Input, SubTitle, TextArea } from '../../../styles/common';
 import {
@@ -33,7 +34,7 @@ import {
   HashTagItem,
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
-import QUESTION_TYPE from './constants';
+import QUESTION_TYPE, { DIFFICULTY } from './constants';
 import { Question } from '../../../types/question';
 import useInput from '../../../hooks/useInput';
 import useArrayText from '../../../hooks/useArrayText';
@@ -45,15 +46,10 @@ interface Props {
   handleProblemAdd: (problem: Question) => void;
 }
 
-const DIFFICULTY = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
-const VERIFICATION = {
-  blank: /^\s+$/,
-};
-
 const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('', VERIFICATION.blank);
+  const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('');
   const [file, handleFileChange, f_, handleFileReset] = useInput('');
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.subjective);
   const {
@@ -119,27 +115,38 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   };
 
   const handleQuestionCreate = () => {
-    let answer;
-    if (questionType === QUESTION_TYPE.subjective) answer = subject;
-    else {
-      answer = handleOptionSearch(answerIdx);
-    }
+    const isSubjective = questionType === QUESTION_TYPE.subjective;
+    const answer = isSubjective ? subject : handleOptionSearch(answerIdx);
+
+    const checkOptionLength = new Set(optionValues).size;
 
     if (!question || question.trim() === '') {
       setCurrentStep(1);
-      console.log('문제 지문이; 없습니다');
+      toast.error('문제 지문을 입력해주세요.');
       return;
     }
-    if (!commentary || commentary.trim() === '') {
-      console.log('해설이없습니다~~');
+
+    if (!isSubjective && optionValues.length < 5) {
+      setCurrentStep(2);
+      toast.error('문제의 보기는 최소 5개가 추가되어야 합니다.');
       return;
     }
+
+    if (checkOptionLength !== optionValues.length) {
+      setCurrentStep(2);
+      toast.error('문제의 보기에 중복된 답이 있습니다.');
+      return;
+    }
+
     if (!answer || answer.trim() === '') {
-      console.log('오류 체크');
+      setCurrentStep(2);
+      toast.error(`문제의 정답을 ${isSubjective ? `입력` : `선택`} 해주세요.`);
       return;
     }
-    if (hashTagValues.length === 0) {
-      console.log('오류 체크');
+
+    if (!commentary || commentary.trim() === '') {
+      setCurrentStep(3);
+      toast.error('문제 해설을 입력해주세요.');
       return;
     }
 
@@ -155,7 +162,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
       },
       {
         onSuccess: (data: Question) => {
-          console.log('성공', data);
+          toast.success('문제를 생성하였습니다.');
           handleProblemAdd(data);
           handleModalReset();
         },

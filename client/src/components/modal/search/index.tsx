@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { MdArrowDropDown } from 'react-icons/md';
 import { useQuery } from 'react-query';
-import { toast } from 'react-toastify';
 import { getQuestion } from '../../../api/question';
 import useInput from '../../../hooks/useInput';
 import useToggle from '../../../hooks/useToggle';
@@ -16,6 +15,7 @@ import {
 import { GetQuestionResponse, Question } from '../../../types/question';
 import DropDown from '../../common/dropdown/Dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
+import Loading from '../../common/Loading';
 import { DropDownIcon, DropDownSelector, DropDownTitle } from '../create/Style';
 import DROPBOX_LIST from './constants';
 import { Container, SearchBox, SearchInput, SearchButton, SearchDropDownContainer, SearchProblemList } from './Style';
@@ -35,7 +35,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
 
   const [isSearch, handleSerachToggle] = useToggle(false);
 
-  const { data } = useQuery<GetQuestionResponse[]>(
+  const { data: problemList = [], isLoading } = useQuery<GetQuestionResponse[]>(
     QUESTION_KEYS.search,
     async () => {
       const result = await getQuestion({ type: searchType.value, value: searchInput });
@@ -49,8 +49,6 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       },
     },
   );
-
-  const problemList = data ?? [];
 
   return (
     <Container>
@@ -78,13 +76,19 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
             })}
           </DropDown>
         </SearchDropDownContainer>
-        <SearchInput onChange={handleSearchInputChange} />
+        <SearchInput
+          onChange={handleSearchInputChange}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') handleSerachToggle();
+          }}
+        />
         <SearchButton type="button" onClick={handleSerachToggle}>
           검색
         </SearchButton>
       </SearchBox>
 
       <SearchProblemList>
+        {isLoading && <Loading />}
         {problemList.map((problem) => {
           const { questionId, question, hashtags } = problem;
 

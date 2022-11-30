@@ -3,4 +3,6 @@ export const QUESTION_TYPE = {
   subjective: 'SUBJECTIVE',
 };
 
+export const DIFFICULTY = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
+
 export default QUESTION_TYPE;
