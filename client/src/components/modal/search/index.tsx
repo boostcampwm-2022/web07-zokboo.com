@@ -47,9 +47,6 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       onSuccess: () => {
         handleSerachToggle();
       },
-      onError: () => {
-        toast.error('오류');
-      },
     },
   );
 
