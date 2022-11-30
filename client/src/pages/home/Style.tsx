@@ -6,7 +6,7 @@ export const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: ${widths.base};
+  ${widths.base};
 
   box-sizing: border-box;
   margin: 80px auto 0px;

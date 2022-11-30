@@ -1,6 +1,6 @@
 export const QUESTION_TYPE = {
-  MULTIPLE: 'MULTIPLE',
-  SUBJECTIVE: 'SUBJECTIVE',
+  multiple: 'MULTIPLE',
+  subjective: 'SUBJECTIVE',
 };
 
 export default QUESTION_TYPE;

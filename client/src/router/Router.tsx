@@ -9,7 +9,7 @@ import FindId from '../pages/FindId/FindId';
 import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home/Home';
 import Login from '../pages/Login';
-import MyPage from '../pages/MyPage';
+import MyPage from '../pages/mypage/MyPage';
 import PageNotFound from '../pages/PageNotFound';
 import Problem from '../pages/Problem';
 import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
@@ -28,6 +28,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Header />} />
         <Route path="/workbook/new" element={<Header />} />
+        <Route path="/mypage" element={<Header />} />
       </Routes>
 
       {/* Contents */}
