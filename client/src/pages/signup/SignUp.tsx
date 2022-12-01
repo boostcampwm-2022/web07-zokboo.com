@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import useInput from '../../hooks/useInput';
+import { MAX_INPUT_LENGTH } from './constants';
 import {
   Button,
   InputAlert,
@@ -83,6 +84,7 @@ const SignUp = () => {
               onChange={onIdChange}
               value={idValue}
               isCorrect={handleIsCorrectCheck.id()}
+              maxLength={MAX_INPUT_LENGTH}
               name="idInput"
             />
             {handleIsCorrectCheck.id() ? null : (
@@ -98,6 +100,7 @@ const SignUp = () => {
                 onChange={onPwChange}
                 value={pwValue}
                 isCorrect={handleIsCorrectCheck.pw()}
+                maxLength={MAX_INPUT_LENGTH}
                 name="password"
               />
 
@@ -115,6 +118,7 @@ const SignUp = () => {
                 onChange={onPwCheckChange}
                 value={pwCheckValue}
                 isCorrect={handleIsCorrectCheck.pwCheck()}
+                maxLength={MAX_INPUT_LENGTH}
               />
               <div
                 role="presentation"
@@ -135,6 +139,7 @@ const SignUp = () => {
                 onChange={onEmailChange}
                 value={emailValue}
                 isCorrect={handleIsCorrectCheck.email()}
+                maxLength={MAX_INPUT_LENGTH}
               />
               <Button type="button" value="인증번호 전송" onClick={handleSendEmail} disabled={!isEmailCorrectInput} />
             </InputBoxContainer>
@@ -150,6 +155,7 @@ const SignUp = () => {
                   onChange={onCertifiedNumberChange}
                   value={certifiedNumberValue}
                   isCorrect={handleIsCorrectCheck.certifiedNumber()}
+                  maxLength={MAX_INPUT_LENGTH}
                 />
                 <Button
                   type="button"

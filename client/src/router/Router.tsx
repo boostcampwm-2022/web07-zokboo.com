@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/header/Header';
 
@@ -8,26 +7,24 @@ import ExamCreate from '../pages/ExamCreate';
 import FindId from '../pages/FindId/FindId';
 import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home';
-import Login from '../pages/Login';
-import MyPage from '../pages/MyPage';
+import Login from '../pages/login/Login';
 import PageNotFound from '../pages/PageNotFound';
 import Workbook from '../pages/workbook';
 import WorkbookCreate from '../pages/workbookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/signup/SignUp';
-import GlobalStyle from '../styles/Global';
+import MyPage from '../pages/mypage';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <ToastContainer />
-      <GlobalStyle />
       {/* Header */}
 
       <Routes>
         <Route path="/" element={<Header />} />
         <Route path="/workbook/new" element={<Header />} />
+        <Route path="/mypage" element={<Header />} />
       </Routes>
 
       {/* Contents */}

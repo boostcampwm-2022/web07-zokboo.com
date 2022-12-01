@@ -46,7 +46,12 @@ const WorkbookCreate = () => {
   const handleProblemAdd = (problem: Question) => {
     const listFilter = problemList.filter((currProblem) => problem === currProblem);
 
-    if (listFilter.length === 0) setProblemList((prev) => [...prev, problem]);
+    if (listFilter.length === 0) {
+      toast.success('문제를 추가하였습니다.');
+      setProblemList((prev) => [...prev, problem]);
+    } else {
+      toast.error('이미 추가된 문제입니다.');
+    }
   };
 
   const handleProblemDelete = (index: number) => {
@@ -62,16 +67,16 @@ const WorkbookCreate = () => {
 
   const handleWorkbookCreate = () => {
     if (!titleInput || titleInput.trim() === '') {
-      console.log('문제집 제목 오류');
+      toast.error('문제집 제목을 입력해주세요.');
       return;
     }
     if (!descriptionInput || descriptionInput.trim() === '') {
-      console.log('문제집 설명 오류');
+      toast.error('문제집 설명을 입력해주세요.');
       return;
     }
 
     if (problemList.length === 0) {
-      console.log('문제 등록 오류');
+      toast.error('문제에 문제를 추가해주세요.');
       return;
     }
 

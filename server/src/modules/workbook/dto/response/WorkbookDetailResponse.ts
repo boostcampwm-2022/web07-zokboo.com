@@ -1,6 +1,6 @@
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import Workbook from '../../domain/Workbook';
-import QuestionDetailResponse from './QuestionDetailResponse';
+import QuestionDetailResponse from '../../../question/dto/response/QuestionDetailResponse';
 
 class WorkbookDetailResponse {
   @ApiProperty()

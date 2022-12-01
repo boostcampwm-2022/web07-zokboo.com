@@ -15,7 +15,7 @@ export const InnerContainer = styled.div`
 
   position: relative;
 
-  width: ${widths.base};
+  ${widths.base};
   padding: ${paddings.responsive};
 
   margin: 0 auto;
@@ -69,6 +69,10 @@ export const AuthLink = styled(Link)`
   :hover {
     color: ${colors.white};
     background-color: ${colors.primary};
+  }
+
+  ${media.mobileLength} {
+    font-size: ${fonts.size.xs};
   }
 `;
 
