@@ -1,11 +1,15 @@
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
-import { IsNumber, ValidateNested } from 'class-validator';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import CreateWorkbookTestRequest from './CreateWorkbookTestRequest';
 
 class CreateTestRequest {
   @ApiProperty()
   @IsNumber()
   public timeout: number;
+
+  @ApiProperty()
+  @IsString()
+  public title: string;
 
   @ApiProperty({
     type: 'array',
