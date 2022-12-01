@@ -6,7 +6,7 @@ import { CREATOR, WORKBOOK_NAME } from './constants';
 import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
-import getSearchData from '../../api/search';
+import { getMockSearchData } from '../../api/search';
 
 const Search = () => {
   const [searchMockData, setSearchMockData] = useState<SearchWorkbookType[]>([]);
@@ -14,7 +14,7 @@ const Search = () => {
   const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
   const searchWord = searchParams.get('q');
 
-  const { isLoading, data, error } = useQuery([WORKBOOK_SEARCH, searchWord], getSearchData, {
+  const { isLoading, data, error } = useQuery([WORKBOOK_SEARCH, searchWord], getMockSearchData, {
     onSuccess: (d) => {
       console.log(d);
     },
@@ -54,12 +54,11 @@ const Search = () => {
         </TitleContainer>
         {searchMockData.map((workbook, index) => (
           <SearchResultItem
-            key={workbook.workbook_id}
-            id={workbook.workbook_id}
+            key={workbook.workbookId}
+            workbookId={workbook.workbookId}
             title={workbook.title}
-            creatorId={workbook.creator_id}
-            createAt={workbook.create_at}
             description={workbook.description}
+            questionCount={workbook.questionCount}
           />
         ))}
       </SearchResultContainer>

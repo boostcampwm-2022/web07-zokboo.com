@@ -6,8 +6,6 @@ import {
   Buttons,
   ContentButtons,
   Heart,
-  ItemCreateAt,
-  ItemCreator,
   ItemExplain,
   ItemInfo,
   ItemTitle,
@@ -15,16 +13,9 @@ import {
   SearchResultItemContainer,
   TestButton,
 } from './Style';
+import SearchWorkbookType from '../../../types/search';
 
-interface SearchResultItemProps {
-  id: number;
-  title: string;
-  creatorId: string;
-  createAt: string;
-  description: string;
-}
-
-const SearchResultItem = ({ id, title, creatorId, createAt, description }: SearchResultItemProps) => {
+const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -39,7 +30,7 @@ const SearchResultItem = ({ id, title, creatorId, createAt, description }: Searc
   };
 
   const handleMoveWorkbookView = () => {
-    navigate(`./view?id=${id}`);
+    navigate(`./view?id=${workbookId}`);
   };
 
   const handleTestButton = () => {
@@ -55,8 +46,6 @@ const SearchResultItem = ({ id, title, creatorId, createAt, description }: Searc
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
-      <ItemCreator>{`생성자 : ${creatorId}`}</ItemCreator>
-      <ItemCreateAt>{`생성일 : ${createAt}`}</ItemCreateAt>
       <Buttons>
         <ItemInfo>
           <Heart type="button" onClick={handleLike}>
