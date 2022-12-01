@@ -14,12 +14,12 @@ const Search = () => {
   const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
   const searchWord = searchParams.get('q');
 
-  const { isLoading, data, error } = useQuery([WORKBOOK_SEARCH, searchWord], getMockSearchData, {
+  const { isLoading, data, error } = useQuery<SearchWorkbookType[]>([WORKBOOK_SEARCH, searchWord], getMockSearchData, {
     onSuccess: (d) => {
-      console.log(d);
+      console.log('get query success');
     },
-    onError: (e) => {
-      console.log(e);
+    onError: (err) => {
+      console.log(err);
     },
   });
 
@@ -52,15 +52,17 @@ const Search = () => {
             </label>
           </RadioContainer>
         </TitleContainer>
-        {searchMockData.map((workbook, index) => (
-          <SearchResultItem
-            key={workbook.workbookId}
-            workbookId={workbook.workbookId}
-            title={workbook.title}
-            description={workbook.description}
-            questionCount={workbook.questionCount}
-          />
-        ))}
+        {data
+          ? data.map((workbook, index) => (
+              <SearchResultItem
+                key={workbook.workbookId}
+                workbookId={workbook.workbookId}
+                title={workbook.title}
+                description={workbook.description}
+                questionCount={workbook.questionCount}
+              />
+            ))
+          : `검색결과가 없습니다.`}
       </SearchResultContainer>
     </div>
   );

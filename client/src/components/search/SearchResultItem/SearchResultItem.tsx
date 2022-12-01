@@ -3,11 +3,12 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  ButtonContainer,
   Buttons,
   ContentButtons,
   Heart,
+  Infos,
   ItemExplain,
-  ItemInfo,
   ItemTitle,
   SaveButton,
   SearchResultItemContainer,
@@ -46,17 +47,18 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
-      <Buttons>
-        <ItemInfo>
+      <Infos>{`문제 수 : ${questionCount}`}</Infos>
+      <ButtonContainer>
+        <Buttons>
           <Heart type="button" onClick={handleLike}>
             {isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}
           </Heart>
-        </ItemInfo>
+        </Buttons>
         <ContentButtons>
           <TestButton type="button" value="시험 응시하기" onClick={handleTestButton} />
           <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />
         </ContentButtons>
-      </Buttons>
+      </ButtonContainer>
     </SearchResultItemContainer>
   );
 };

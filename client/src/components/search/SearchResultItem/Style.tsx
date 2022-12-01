@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device } from '../../../styles/theme';
+import { colors, fonts, media } from '../../../styles/theme';
 
 export const SearchResultItemContainer = styled.div`
   border: 1px solid ${colors.gray3};
@@ -10,7 +10,7 @@ export const SearchResultItemContainer = styled.div`
   .more-button {
     float: right;
   }
-  @media screen and (max-width: ${device.mobileWidth}) {
+  ${media.mobileWidth} {
     border: none;
     border-radius: 0px;
     border-bottom: 1px solid ${colors.gray3};
@@ -24,24 +24,20 @@ export const ItemExplain = styled.div`
   color: ${colors.gray4};
   padding: 8px 0px;
 `;
-export const ItemCreator = styled.div`
-  font-size: 8px;
-  color: ${colors.gray3};
+
+export const Infos = styled.div`
+  font-size: ${fonts.size.xs};
+  color: ${colors.gray4};
 `;
 
-export const ItemCreateAt = styled.div`
-  font-size: 8px;
-  color: ${colors.gray3};
-`;
-
-export const Buttons = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-top: 16px;
 `;
 
-export const ItemInfo = styled.div`
+export const Buttons = styled.div`
   display: flex;
   align-items: flex-end;
   font-size: 14px;

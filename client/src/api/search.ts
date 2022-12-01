@@ -14,7 +14,7 @@ export const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
 export const getMockSearchData = async ({ queryKey }: QueryFunctionContext) => {
   const [_key, searchWord] = queryKey;
   const { data } = await axios
-    .get(`${SERVER_URL}/workbooks/search`, { params: { title: searchWord, content: '213123213' } })
+    .get(`/workbooks/search`, { params: { title: searchWord, content: '213123213' } })
     .catch((err) => err.response);
 
   return data;
