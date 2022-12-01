@@ -14,6 +14,7 @@ const Search = () => {
   const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
   const searchWord = searchParams.get('q');
 
+  // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
   const { isLoading, data, error } = useQuery<SearchWorkbookType[]>([WORKBOOK_SEARCH, searchWord], getMockSearchData, {
     onSuccess: (d) => {
       console.log('get query success');
