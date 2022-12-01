@@ -20,6 +20,7 @@ export class TestRepository {
         test_id: test.testId,
       },
       data: {
+        title: test.title,
         timeout: test.timeout,
         total_count: test.totalCount,
         updated_at: test.updatedAt,
@@ -30,6 +31,7 @@ export class TestRepository {
   async create(test: Test) {
     const newTest = await this.prisma.test.create({
       data: {
+        title: test.title,
         total_count: test.totalCount,
         user_id: test.userId,
         timeout: test.timeout,

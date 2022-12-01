@@ -4,6 +4,7 @@ import { BadRequestException } from '@nestjs/common';
 
 class Test {
   public testId: bigint | undefined;
+  public title: string;
   public totalCount: number;
   public userId: bigint;
   public timeout: number;
@@ -13,6 +14,7 @@ class Test {
 
   constructor(
     testId: bigint | undefined,
+    title: string,
     totalCount: number,
     userId: bigint,
     timeout: number,
@@ -21,6 +23,7 @@ class Test {
     updatedAt: Date,
   ) {
     this.testId = testId;
+    this.title = title;
     this.totalCount = totalCount;
     this.userId = userId;
     this.timeout = timeout;
@@ -32,6 +35,7 @@ class Test {
   static of(record: pTest) {
     return new Test(
       record.test_id,
+      record.title,
       record.total_count,
       record.user_id,
       record.timeout,
@@ -41,9 +45,9 @@ class Test {
     );
   }
 
-  static new(userId: bigint, timeout: number) {
+  static new(userId: bigint, title: string, timeout: number) {
     const now = new Date();
-    return new Test(undefined, 0, userId, timeout, undefined, now, now);
+    return new Test(undefined, title, 0, userId, timeout, undefined, now, now);
   }
 
   setWorkbooks(workbooks: WorkbookTest[]) {
