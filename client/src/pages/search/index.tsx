@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 import { CREATOR, WORKBOOK_NAME } from './constants';
-import { Header } from '../workbook/Style';
 import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
