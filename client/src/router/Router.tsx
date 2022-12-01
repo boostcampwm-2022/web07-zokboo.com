@@ -15,7 +15,7 @@ import Search from '../pages/search/Search';
 import SignUp from '../pages/signup/SignUp';
 import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 import MyPage from '../pages/mypage';
-import WorkbookCreate from '../pages/workBookCreate';
+import WorkbookCreate from '../pages/workbookCreate';
 
 const Router = () => {
   return (
