@@ -15,14 +15,15 @@ const Search = () => {
   const searchWord = searchParams.get('q');
 
   // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
-  const { isLoading, data, error } = useQuery<SearchWorkbookType[]>([WORKBOOK_SEARCH, searchWord], getMockSearchData, {
-    onSuccess: (d) => {
-      console.log('get query success');
+  const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
+    [WORKBOOK_SEARCH, searchWord],
+    getMockSearchData,
+    {
+      onError: (err) => {
+        console.log(err);
+      },
     },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+  );
 
   const handleSearchOption = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchOption(e.target.value);
@@ -53,17 +54,19 @@ const Search = () => {
             </label>
           </RadioContainer>
         </TitleContainer>
-        {data
-          ? data.map((workbook, index) => (
-              <SearchResultItem
-                key={workbook.workbookId}
-                workbookId={workbook.workbookId}
-                title={workbook.title}
-                description={workbook.description}
-                questionCount={workbook.questionCount}
-              />
-            ))
-          : `검색결과가 없습니다.`}
+        {isLoading && '로딩중'}
+        {isSuccess &&
+          (data
+            ? data.map((workbook, index) => (
+                <SearchResultItem
+                  key={workbook.workbookId}
+                  workbookId={workbook.workbookId}
+                  title={workbook.title}
+                  description={workbook.description}
+                  questionCount={workbook.questionCount}
+                />
+              ))
+            : `검색결과가 없습니다.`)}
       </SearchResultContainer>
     </div>
   );
