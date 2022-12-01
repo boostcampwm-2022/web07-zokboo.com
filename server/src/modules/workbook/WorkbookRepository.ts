@@ -168,4 +168,27 @@ export class WorkbookRepository {
     }
     return WorkbookQuestion.of(workbookQuestion, Question.of(workbookQuestion.Question));
   }
+
+  async findWorkbooksByIds(workbookIds: number[]) {
+    const workbooks = await this.prisma.workbook.findMany({
+      where: {
+        workbook_id: {
+          in: workbookIds,
+        },
+      },
+    });
+    return workbooks.map((w) => Workbook.of(w));
+  }
+
+  async findWorkbooksByIdsWithAuthorization(workbookIds: number[], userId: number) {
+    const workbooks = await this.prisma.workbook.findMany({
+      where: {
+        workbook_id: {
+          in: workbookIds,
+        },
+        user_id: userId,
+      },
+    });
+    return workbooks.map((w) => Workbook.of(w));
+  }
 }

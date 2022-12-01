@@ -3,11 +3,16 @@ import { WorkbookQuestion as pWorkbookQuestion } from '@prisma/client';
 
 class WorkbookQuestion {
   public workbookQuestionId: bigint | undefined;
-  public workbookId: bigint;
+  public workbookId: bigint | undefined;
   public question: Question;
   public writtenAnswer: string;
 
-  constructor(workbookQuestionId: bigint | undefined, workbookId: bigint, question: Question, writtenAnswer: string) {
+  constructor(
+    workbookQuestionId: bigint | undefined,
+    workbookId: bigint | undefined,
+    question: Question,
+    writtenAnswer: string,
+  ) {
     this.workbookQuestionId = workbookQuestionId;
     this.workbookId = workbookId;
     this.question = question;
