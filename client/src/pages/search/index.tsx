@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import { RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 import { CREATOR, WORKBOOK_NAME } from './constants';
 import { Header } from '../workbook/Style';
 import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import SearchWorkbookType from '../../types/search';
+import WORKBOOK_SEARCH from '../../react-query/keys/search';
+import getSearchData from '../../api/search';
 
 const Search = () => {
   const [searchMockData, setSearchMockData] = useState<SearchWorkbookType[]>([]);
@@ -13,20 +16,21 @@ const Search = () => {
   const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
   const searchWord = searchParams.get('q');
 
+  const { isLoading, data, error } = useQuery([WORKBOOK_SEARCH, searchWord], getSearchData, {
+    onSuccess: (d) => {
+      console.log(d);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+
   const handleSearchOption = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchOption(e.target.value);
   };
 
-  useEffect(() => {
-    axios
-      .get('search')
-      .then((res) => res.data)
-      .then((data) => setSearchMockData(data));
-  });
-
   return (
     <div>
-      <Header />
       <SearchResultContainer>
         <TitleContainer>
           <SearchResultTitle>

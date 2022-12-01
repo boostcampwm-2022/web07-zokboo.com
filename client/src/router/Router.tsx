@@ -11,7 +11,7 @@ import Login from '../pages/login';
 import PageNotFound from '../pages/PageNotFound';
 import Workbook from '../pages/workbook';
 import Review from '../pages/Review';
-import Search from '../pages/search/Search';
+import Search from '../pages/search';
 import SignUp from '../pages/signup/SignUp';
 import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 import MyPage from '../pages/mypage';
@@ -26,6 +26,7 @@ const Router = () => {
         <Route path="/" element={<Header />} />
         <Route path="/workbook/new" element={<Header />} />
         <Route path="/mypage" element={<Header />} />
+        <Route path="/search" element={<Header />} />
       </Routes>
 
       {/* Contents */}
