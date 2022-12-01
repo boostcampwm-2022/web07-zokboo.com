@@ -1,7 +1,7 @@
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SampleImage from '../../images/sample-image.jpeg';
+import SampleImage from '../../../images/sample-image.jpeg';
 import {
   Container,
   CreateAt,
@@ -48,7 +48,7 @@ const NewSearchResultItem = ({ id, title, creatorId, createAt, description, like
             <Creator>글쓴이</Creator>
             <CreateAt>생성일</CreateAt>
           </CreatorContainer>
-          <Heart onClick={() => setIsLike((prev) => !prev)}>
+          <Heart type="button" onClick={() => setIsLike((prev) => !prev)}>
             {isLike ? <AiFillHeart className="fillStyled" size={20} /> : <AiOutlineHeart size={20} />}
           </Heart>
         </Info>

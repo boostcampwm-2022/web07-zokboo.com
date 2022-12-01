@@ -54,7 +54,10 @@ export const ItemInfo = styled.div`
   }
 `;
 
-export const Heart = styled.div``;
+export const Heart = styled.button`
+  background: none;
+  border: none;
+`;
 
 export const ContentButtons = styled.div`
   float: right;

@@ -59,7 +59,7 @@ interface Workbook {
 const WorkbookDetail = () => {
   const [workbookData, setWorkbookData] = useState<Workbook>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const workbookId = Number(searchParams.get('id'));
+  const workbookId = searchParams.get('id');
 
   useEffect(() => {
     axios

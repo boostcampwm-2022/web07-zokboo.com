@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { useSearchParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
-import SearchResultItem from '../../components/search/SearchResultItem';
+import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import { CREATOR, WORKBOOK_NAME } from './constants';
 import { RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 

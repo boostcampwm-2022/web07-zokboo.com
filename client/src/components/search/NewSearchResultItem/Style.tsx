@@ -73,7 +73,9 @@ export const Creator = styled.div`
   padding-right: 8px;
 `;
 export const CreateAt = styled.div``;
-export const Heart = styled.div`
+export const Heart = styled.button`
+  background: none;
+  border: none;
   .fillStyled {
     color: ${colors.primary};
   }
