@@ -6,8 +6,17 @@ import githubIcon from '../../assets/images/github-icon.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import kakaoIcon from '../../assets/images/kakao-icon.png';
 import naverIcon from '../../assets/images/naver-icon.png';
-import { InputBox, LoginButton, Modal, ModalBody, MoreButtons, SSOButtons, SSOIcon, SSOTitle } from './Style';
-import SSORequest from '../../api/login';
+import {
+  InputBox,
+  LoginButton,
+  Modal,
+  ModalBody,
+  MoreButtons,
+  RedirectButton,
+  SSOButtons,
+  SSOIcon,
+  SSOTitle,
+} from './Style';
 import { DEV_SERVER_URL } from '../../utils/constants';
 
 const handleSSO = {
@@ -32,29 +41,21 @@ const Login = () => {
   const [emailValue, setEmailValue] = useState<string>('');
   const [pwValue, setPwValue] = useState<string>('');
 
-  const handleLocalLogin = {
-    login: async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      await axios
-        .post(`${DEV_SERVER_URL}/auth/signin`, { email: emailValue, password: pwValue })
-        .then((res) => {
-          alert('로그인 되었습니다.');
-          window.location.href = '/';
-        })
-        .catch((err) => {
-          const errorMessage = err.response.data.message;
-          toast.error(errorMessage);
-        });
-    },
-    findID: () => {
-      /** */
-    },
-    findPW: () => {
-      /** */
-    },
-    register: () => {
-      window.location.href = '/signup';
-    },
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await axios
+      .post(`${DEV_SERVER_URL}/auth/signin`, { email: emailValue, password: pwValue })
+      .then((res) => {
+        alert('로그인 되었습니다.');
+        window.location.href = '/';
+      })
+      .catch((err) => {
+        const errorMessage = err.response.data.message;
+        toast.error(errorMessage);
+
+        // setEmailValue('');
+        setPwValue('');
+      });
   };
 
   return (
@@ -62,7 +63,7 @@ const Login = () => {
       <Modal>
         <Logo type="large" />
         <ModalBody>
-          <form onSubmit={handleLocalLogin.login}>
+          <form onSubmit={handleLogin}>
             <InputBox
               type="text"
               placeholder="이메일"
@@ -82,9 +83,9 @@ const Login = () => {
             <LoginButton type="submit" value="로그인" />
           </form>
           <MoreButtons>
-            <input type="button" value="아이디 찾기" onClick={handleLocalLogin.findID} />
-            <input type="button" value="비밀번호 찾기" onClick={handleLocalLogin.findPW} />
-            <input type="button" value="회원가입" onClick={handleLocalLogin.register} />
+            <RedirectButton to="/find_id">아이디 찾기</RedirectButton>
+            <RedirectButton to="/find_pw">비밀번호 찾기</RedirectButton>
+            <RedirectButton to="/signup">회원가입</RedirectButton>
           </MoreButtons>
           <SSOTitle>간편로그인</SSOTitle>
           <SSOButtons>
