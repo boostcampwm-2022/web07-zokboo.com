@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device } from '../../styles/theme';
+import { colors, media } from '../../styles/theme';
 
 export const WorkbookItemContainer = styled.div`
   border: 1px solid ${colors.gray3};
@@ -10,7 +10,7 @@ export const WorkbookItemContainer = styled.div`
   .more-button {
     float: right;
   }
-  @media screen and (max-width: ${device.mobileWidth}) {
+  ${media.mobileWidth} {
     border: none;
     border-radius: 0px;
     border-bottom: 1px solid ${colors.gray3};
