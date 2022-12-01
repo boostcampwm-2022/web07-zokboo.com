@@ -6,15 +6,15 @@ import Exam from '../pages/Exam';
 import ExamCreate from '../pages/ExamCreate';
 import FindId from '../pages/FindId/FindId';
 import FindPw from '../pages/findPw/FindPw';
-import Home from '../pages/home/Home';
+import Home from '../pages/home';
 import Login from '../pages/login/Login';
-import MyPage from '../pages/mypage/MyPage';
 import PageNotFound from '../pages/PageNotFound';
-import Problem from '../pages/Problem';
-import WorkBookCreate from '../pages/workBookCreate/WorkBookCreate';
+import Workbook from '../pages/workbook';
+import WorkbookCreate from '../pages/workbookCreate';
 import Review from '../pages/Review';
 import Search from '../pages/Search';
 import SignUp from '../pages/signup/SignUp';
+import MyPage from '../pages/mypage';
 
 const Router = () => {
   return (
@@ -31,9 +31,9 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/workbook/new" element={<WorkBookCreate />} />
-        <Route path="/workbook/update" element={<WorkBookCreate />} />
-        <Route path="/workbook/:id " element={<Problem />} />
+        <Route path="/workbook/new" element={<WorkbookCreate />} />
+        <Route path="/workbook/update" element={<WorkbookCreate />} />
+        <Route path="/workbook/:id" element={<Workbook />} />
         <Route path="/exam_create" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />

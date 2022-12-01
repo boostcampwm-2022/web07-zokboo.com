@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PostCreateQuestionBody } from '../types/question';
-import SERVER_URL from '../utils/constants';
+import { SERVER_URL } from '../utils/constants';
 
 export const getQuestion = async (query: { type: string; value: string }) => {
   const { data } = await axios.get(`${SERVER_URL}/questions?${new URLSearchParams({ [query.type]: query.value })}`);

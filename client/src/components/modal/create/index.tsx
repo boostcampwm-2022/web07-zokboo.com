@@ -34,7 +34,7 @@ import {
   HashTagItem,
 } from './Style';
 import DropDown from '../../common/dropdown/Dropdown';
-import QUESTION_TYPE, { DIFFICULTY } from './constants';
+import { QUESTION_TYPE, DIFFICULTY } from './constants';
 import { Question } from '../../../types/question';
 import useInput from '../../../hooks/useInput';
 import useArrayText from '../../../hooks/useArrayText';
@@ -85,7 +85,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     }
   };
 
-  const questionCreate = useMutation(createQuestion);
+  const createQuestionMutation = useMutation(createQuestion);
 
   const handleNextStep = () => {
     if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
@@ -150,7 +150,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
       return;
     }
 
-    questionCreate.mutate(
+    createQuestionMutation.mutate(
       {
         question,
         questionType,

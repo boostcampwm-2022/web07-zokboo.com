@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
-import createWorkbook from '../../api/workbook';
+import { createWorkbook } from '../../api/workbook';
 import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
@@ -31,7 +31,7 @@ import {
   InfoTextArea,
 } from './Style';
 
-const WorkBookCreate = () => {
+const WorkbookCreate = () => {
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
   const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
@@ -41,7 +41,7 @@ const WorkBookCreate = () => {
 
   const [problemList, setProblemList] = useState<Question[]>([]);
 
-  const workbookCreate = useMutation(createWorkbook);
+  const createWorkbookMutation = useMutation(createWorkbook);
 
   const handleProblemAdd = (problem: Question) => {
     const listFilter = problemList.filter((currProblem) => problem === currProblem);
@@ -82,7 +82,7 @@ const WorkBookCreate = () => {
 
     const questions = problemList.map(({ questionId }) => questionId);
 
-    workbookCreate.mutate(
+    createWorkbookMutation.mutate(
       {
         title: titleInput,
         description: descriptionInput,
@@ -166,4 +166,4 @@ const WorkBookCreate = () => {
   );
 };
 
-export default WorkBookCreate;
+export default WorkbookCreate;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Logo from '../../components/common/Logo';
+import Logo from '../../components/common/logo';
 import githubIcon from '../../assets/images/github-icon.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import kakaoIcon from '../../assets/images/kakao-icon.png';
@@ -44,7 +44,7 @@ const Login = () => {
   return (
     <div>
       <Modal>
-        <Logo />
+        <Logo type="large" />
         <ModalBody>
           <form onSubmit={() => handleLocalLogin.login()}>
             <InputBox placeholder="아이디" />

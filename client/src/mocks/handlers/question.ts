@@ -1,12 +1,12 @@
 import { rest } from 'msw';
-import { GetQuestionResponse, PostCreateQuestionBody } from '../../types/question';
-import SERVER_URL from '../../utils/constants';
+import { PostCreateQuestionBody } from '../../types/question';
+import { SERVER_URL } from '../../utils/constants';
 import questionData from '../data/question';
 
 let tempId = 0;
 
 export default [
-  rest.get<GetQuestionResponse>(`${SERVER_URL}/questions`, (req, res, ctx) => {
+  rest.get(`${SERVER_URL}/questions`, (req, res, ctx) => {
     const hashtag = req.url.searchParams.get('hashtag');
 
     if (!hashtag) return res(ctx.status(400));
