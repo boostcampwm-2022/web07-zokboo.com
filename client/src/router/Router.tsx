@@ -10,11 +10,12 @@ import Home from '../pages/home';
 import Login from '../pages/login/Login';
 import PageNotFound from '../pages/PageNotFound';
 import Workbook from '../pages/workbook';
-import WorkbookCreate from '../pages/workbookCreate';
 import Review from '../pages/Review';
-import Search from '../pages/Search';
+import Search from '../pages/search/Search';
 import SignUp from '../pages/signup/SignUp';
+import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 import MyPage from '../pages/mypage';
+import WorkbookCreate from '../pages/workBookCreate';
 
 const Router = () => {
   return (
@@ -31,6 +32,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/search/view" element={<WorkbookDetail />} />
         <Route path="/workbook/new" element={<WorkbookCreate />} />
         <Route path="/workbook/update" element={<WorkbookCreate />} />
         <Route path="/workbook/:id" element={<Workbook />} />
