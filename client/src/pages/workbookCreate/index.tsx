@@ -35,8 +35,8 @@ const WorkbookCreate = () => {
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
   const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
-  const [titleInput, handleTitleChange, t_, handleTitleReset] = useInput('');
-  const [descriptionInput, handleDescriptionChange, d_, handleDescriptionReset] = useInput('');
+  const { text: title, onChange: handleTitleChange, reset: handleTitleReset } = useInput('');
+  const { text: description, onChange: handleDescriptionChange, reset: handleDescriptionReset } = useInput('');
   const [isPublic, handlePublicChange] = useToggle(false);
 
   const [problemList, setProblemList] = useState<Question[]>([]);
@@ -66,11 +66,11 @@ const WorkbookCreate = () => {
   };
 
   const handleWorkbookCreate = () => {
-    if (!titleInput || titleInput.trim() === '') {
+    if (!title || title.trim() === '') {
       toast.error('문제집 제목을 입력해주세요.');
       return;
     }
-    if (!descriptionInput || descriptionInput.trim() === '') {
+    if (!description || description.trim() === '') {
       toast.error('문제집 설명을 입력해주세요.');
       return;
     }
@@ -84,8 +84,8 @@ const WorkbookCreate = () => {
 
     createWorkbookMutation.mutate(
       {
-        title: titleInput,
-        description: descriptionInput,
+        title,
+        description,
         questions,
         isPublic,
       },
@@ -109,7 +109,7 @@ const WorkbookCreate = () => {
               type="text"
               id="title"
               placeholder="문제집 제목을 입력하세요."
-              value={titleInput}
+              value={title}
               onChange={handleTitleChange}
             />
           </InfoItem>
@@ -118,7 +118,7 @@ const WorkbookCreate = () => {
             <InfoTextArea
               id="category"
               placeholder="문제집 설명을 입력하세요."
-              value={descriptionInput}
+              value={description}
               onChange={handleDescriptionChange}
             />
           </InfoItem>
