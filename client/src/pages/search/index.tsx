@@ -9,7 +9,6 @@ import WORKBOOK_SEARCH from '../../react-query/keys/search';
 import { getMockSearchData } from '../../api/search';
 
 const Search = () => {
-  const [searchMockData, setSearchMockData] = useState<SearchWorkbookType[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
   const searchWord = searchParams.get('q');
