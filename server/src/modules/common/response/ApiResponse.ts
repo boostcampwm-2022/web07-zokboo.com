@@ -6,7 +6,7 @@ class ApiResponse<T> {
 
   public data: T;
 
-  constructor(msg: string, data: T) {
+  constructor(msg: string, data?: T) {
     this.msg = msg;
     this.data = data;
   }

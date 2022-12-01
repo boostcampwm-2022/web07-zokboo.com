@@ -18,6 +18,7 @@ import {
   UserInfoBox,
 } from './Style';
 import SERVICE_ROUTE from './constants';
+import MypageWorkbook from '../../components/mypage/Workbook';
 
 const MyPage = () => {
   const location = useLocation();
@@ -84,7 +85,10 @@ const MyPage = () => {
           </CategoryList>
         </MobileContainer>
       </SideContainer>
-      <ContentsContainer>{/* 이곳에 넣으면 됩니다. */}</ContentsContainer>
+      <ContentsContainer>
+        {/* <MypageWorkbook type="shared" /> */}
+        {/* <MypageWorkbook type="my" /> */}
+      </ContentsContainer>
     </Container>
   );
 };

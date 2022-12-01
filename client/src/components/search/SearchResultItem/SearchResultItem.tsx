@@ -22,16 +22,11 @@ interface SearchResultItemProps {
   creatorId: string;
   createAt: string;
   description: string;
-  like: boolean;
 }
 
-const SearchResultItem = ({ id, title, creatorId, createAt, description, like }: SearchResultItemProps) => {
+const SearchResultItem = ({ id, title, creatorId, createAt, description }: SearchResultItemProps) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setIsLike(like);
-  }, []);
 
   const handleLike = () => {
     if (isLike) {
@@ -64,7 +59,9 @@ const SearchResultItem = ({ id, title, creatorId, createAt, description, like }:
       <ItemCreateAt>{`생성일 : ${createAt}`}</ItemCreateAt>
       <Buttons>
         <ItemInfo>
-          <Heart onClick={handleLike}>{isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}</Heart>
+          <Heart type="button" onClick={handleLike}>
+            {isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}
+          </Heart>
         </ItemInfo>
         <ContentButtons>
           <TestButton type="button" value="시험 응시하기" onClick={handleTestButton} />
