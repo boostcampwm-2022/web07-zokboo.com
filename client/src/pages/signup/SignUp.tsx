@@ -23,10 +23,14 @@ const verification = {
 };
 
 const SignUp = () => {
-  const [idValue, onIdChange, isIdCorrectInput] = useInput('', verification.id);
-  const [pwValue, onPwChange, isPwCorrectInput] = useInput('', verification.pw);
-  const [pwCheckValue, onPwCheckChange, isPwCheckCorrectInput] = useInput('', verification.pw);
-  const [emailValue, onEmailChange, isEmailCorrectInput] = useInput('', verification.email);
+  const { text: idValue, onChange: onIdChange, correct: isIdCorrectInput } = useInput('', verification.id);
+  const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', verification.pw);
+  const {
+    text: pwCheckValue,
+    onChange: onPwCheckChange,
+    correct: isPwCheckCorrectInput,
+  } = useInput('', verification.pw);
+  const { text: emailValue, onChange: onEmailChange, correct: isEmailCorrectInput } = useInput('', verification.email);
   const [visibleInputPw, setVisibleInputPw] = useState<boolean>(false);
   const [visibleInputPwCheck, setVisibleInputPwCheck] = useState<boolean>(false);
 

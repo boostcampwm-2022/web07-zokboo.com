@@ -7,6 +7,9 @@ class TestSimpleResponse {
   public testId: number;
 
   @ApiProperty()
+  public title: string;
+
+  @ApiProperty()
   public totalCount: number;
 
   @ApiProperty()
@@ -22,6 +25,7 @@ class TestSimpleResponse {
 
   constructor(test: Test) {
     this.testId = Number(test.testId);
+    this.title = test.title;
     this.totalCount = test.totalCount;
     this.timeout = test.timeout;
     this.workbooks = test.workbooks.map((w) => new WorkbookTestSimpleResponse(w));
