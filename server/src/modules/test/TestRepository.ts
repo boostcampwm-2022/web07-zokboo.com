@@ -62,4 +62,18 @@ export class TestRepository {
     test.setWorkbooks(newTest.WorkbookTest.map((w) => WorkbookTest.of(w, Workbook.of(w.Workbook))));
     return test;
   }
+
+  async createWorkbookTest(testId: bigint, workbookTest: WorkbookTest, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newWorkbookTest = await prisma.workbookTest.create({
+      data: {
+        test_id: testId,
+        workbook_id: workbookTest.workbook.workbookId,
+        count: workbookTest.count,
+      },
+    });
+    workbookTest.setId(newWorkbookTest.workbook_test_id);
+    workbookTest.setTestId(testId);
+    return workbookTest;
+  }
 }

@@ -49,12 +49,25 @@ export class WorkbookRepository {
         original_id: workbook.originalId,
         created_at: workbook.createdAt,
         updated_at: workbook.updatedAt,
+        WorkbookQuestion: {
+          create: workbook.questions.map((q) => {
+            return {
+              question_id: q.question.questionId,
+              written_answer: q.writtenAnswer,
+            };
+          }),
+        },
+      },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: true,
+          },
+        },
       },
     });
     workbook.setId(newWorkbook.workbook_id);
-    workbook.questions.forEach(async (question) => {
-      await this.createWorkbookQuestion(workbook.workbookId, question, tx);
-    });
+    workbook.setQuestions(newWorkbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))));
     return workbook;
   }
 
