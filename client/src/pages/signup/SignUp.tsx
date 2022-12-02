@@ -14,7 +14,7 @@ import {
   Modal,
   ModalContainer,
 } from './Style';
-import { DEV_SERVER_URL } from '../../utils/constants';
+import { SERVER_URL } from '../../utils/constants';
 
 const verification = {
   id: /^(?=.*[a-z])(?=.*[0-9]).{6,16}$/,
@@ -51,7 +51,7 @@ const SignUp = () => {
 
   const handleSignup = async () => {
     await axios
-      .post(`${DEV_SERVER_URL}/auth/signup`, {
+      .post(`${SERVER_URL}/auth/signup`, {
         email: emailValue,
         password: pwValue,
         passwordConfirmation: pwCheckValue,
