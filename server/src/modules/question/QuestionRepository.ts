@@ -30,23 +30,34 @@ export class QuestionRepository {
         difficulty: question.difficulty,
         created_at: question.createdAt,
         updated_at: question.updatedAt,
+        QuestionImage: {
+          create: question.images.map((i) => {
+            return {
+              path: i.path,
+            };
+          }),
+        },
+      },
+      include: {
+        QuestionImage: true,
       },
     });
     question.setId(newQuestion.question_id);
-
-    if (question.images) {
-      question.images.forEach(async (image) => await this.createQuestionImage(image, question.questionId));
-    }
+    question.setImages(newQuestion.QuestionImage.map((i) => QuestionImage.of(i)));
 
     if (question.hashtags) {
       question.hashtags.forEach(async (hashtag) => {
         await this.createHashtag(hashtag, tx);
-        await this.createQuestionHashtag(question.questionId, hashtag.hashtagId, tx);
+        const questionHashtagId = await this.createQuestionHashtag(question.questionId, hashtag.hashtagId, tx);
+        hashtag.setId(questionHashtagId);
       });
     }
 
     if (question.questionType === QuestionType.MULTIPLE && question.options) {
-      question.options.forEach(async (option) => await this.createOption(option, question.questionId, tx));
+      question.options.forEach(async (option) => {
+        const newOption = await this.createOption(option, question.questionId, tx);
+        option.setId(newOption.optionId);
+      });
     }
 
     return question;
@@ -98,12 +109,13 @@ export class QuestionRepository {
 
   async createQuestionHashtag(questionId: bigint, hashtagId: bigint, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
-    await prisma.questionHashtag.create({
+    const questionHashtag = await prisma.questionHashtag.create({
       data: {
         question_id: questionId,
         hashtag_id: hashtagId,
       },
     });
+    return questionHashtag.question_hashtag_id;
   }
 
   async createOption(option: Option, questionId: bigint, tx?: Prisma.TransactionClient) {
