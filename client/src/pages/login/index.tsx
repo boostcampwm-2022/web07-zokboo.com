@@ -17,7 +17,7 @@ import {
   SSOIcon,
   SSOTitle,
 } from './Style';
-import { DEV_SERVER_URL } from '../../utils/constants';
+import { SERVER_URL } from '../../utils/constants';
 
 const handleSSO = {
   github: () => {
@@ -30,7 +30,7 @@ const handleSSO = {
     window.location.href = 'https://zokboo.shop/auth/naver';
   },
   kakao: async () => {
-    await axios.get(`https://zokboo.shop/auth/kakao`).then((res) => {
+    await axios.get(`${SERVER_URL}/auth/kakao`).then((res) => {
       /** 임시 */
       console.log(res);
     });
@@ -44,7 +44,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await axios
-      .post(`${DEV_SERVER_URL}/auth/signin`, { email: emailValue, password: pwValue })
+      .post(`${SERVER_URL}/auth/signin`, { email: emailValue, password: pwValue })
       .then((res) => {
         alert('로그인 되었습니다.');
         window.location.href = '/';
