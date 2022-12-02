@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
+import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import Logo from '../../components/common/logo';
 import githubIcon from '../../assets/images/github-icon.png';
@@ -17,45 +17,41 @@ import {
   SSOIcon,
   SSOTitle,
 } from './Style';
-import { SERVER_URL } from '../../utils/constants';
-
-const handleSSO = {
-  github: () => {
-    window.location.href = 'https://zokboo.shop/auth/github';
-  },
-  google: () => {
-    window.location.href = 'https://zokboo.shop/auth/google';
-  },
-  naver: () => {
-    window.location.href = 'https://zokboo.shop/auth/naver';
-  },
-  kakao: async () => {
-    await axios.get(`${SERVER_URL}/auth/kakao`).then((res) => {
-      /** 임시 */
-      console.log(res);
-    });
-  },
-};
+import { getLocalLoginData, getSSOData } from '../../api/login';
+import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 
 const Login = () => {
-  const [emailValue, setEmailValue] = useState<string>('');
-  const [pwValue, setPwValue] = useState<string>('');
+  const SSOMutation = useMutation(getSSOData, {
+    onSuccess: (data) => {
+      alert('로그인에 성공하였습니다.');
+      window.location.href = '/';
+    },
+    onError: (message: string) => {
+      toast.error(message);
+    },
+  });
+
+  const loginMutation = useMutation(getLocalLoginData, {
+    onSuccess: (data) => {
+      alert('로그인에 성공하였습니다.');
+      window.location.href = '/';
+    },
+    onError: (message: string) => {
+      toast.error(message);
+      (document.getElementById('password') as HTMLInputElement).value = '';
+    },
+  });
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await axios
-      .post(`${SERVER_URL}/auth/signin`, { email: emailValue, password: pwValue })
-      .then((res) => {
-        alert('로그인 되었습니다.');
-        window.location.href = '/';
-      })
-      .catch((err) => {
-        const errorMessage = err.response.data.message;
-        toast.error(errorMessage);
 
-        // setEmailValue('');
-        setPwValue('');
-      });
+    // eslint-disable-next-line no-shadow
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+
+    // eslint-disable-next-line no-shadow
+    const pw = (document.getElementById('password') as HTMLInputElement).value;
+
+    loginMutation.mutate([email, pw]);
   };
 
   return (
@@ -64,22 +60,8 @@ const Login = () => {
         <Logo type="large" />
         <ModalBody>
           <form onSubmit={handleLogin}>
-            <InputBox
-              type="text"
-              placeholder="이메일"
-              name="id"
-              maxLength={30}
-              value={emailValue}
-              onChange={(e) => setEmailValue(e.target.value)}
-            />
-            <InputBox
-              type="password"
-              placeholder="비밀번호"
-              name="pw"
-              maxLength={30}
-              value={pwValue}
-              onChange={(e) => setPwValue(e.target.value)}
-            />
+            <InputBox type="text" placeholder="이메일" id="email" name="email" maxLength={30} />
+            <InputBox type="password" placeholder="비밀번호" id="password" name="password" maxLength={30} />
             <LoginButton type="submit" value="로그인" />
           </form>
           <MoreButtons>
@@ -89,10 +71,10 @@ const Login = () => {
           </MoreButtons>
           <SSOTitle>간편로그인</SSOTitle>
           <SSOButtons>
-            <SSOIcon src={githubIcon} alt="github" onClick={() => handleSSO.github()} />
-            <SSOIcon src={googleIcon} alt="google" onClick={() => handleSSO.google()} />
-            <SSOIcon src={naverIcon} alt="naver" onClick={() => handleSSO.naver()} />
-            <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => handleSSO.kakao()} />
+            <SSOIcon src={githubIcon} alt="github" onClick={() => SSOMutation.mutate(GITHUB)} />
+            <SSOIcon src={googleIcon} alt="google" onClick={() => SSOMutation.mutate(GOOGLE)} />
+            <SSOIcon src={naverIcon} alt="naver" onClick={() => SSOMutation.mutate(NAVER)} />
+            <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => SSOMutation.mutate(KAKAO)} />
           </SSOButtons>
         </ModalBody>
       </Modal>
