@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
 import Hashtag from '../question/domain/Hashtag';
 import Option from '../question/domain/Option';
@@ -9,17 +10,18 @@ import WorkbookQuestion from './domain/WorkbookQuestion';
 
 @Injectable()
 export class WorkbookRepository {
-  constructor(private readonly prisma: PrismaInstance) {}
+  constructor(private readonly prismaInstance: PrismaInstance) {}
 
-  async save(workbook: Workbook) {
+  async save(workbook: Workbook, tx?: Prisma.TransactionClient) {
     if (workbook.workbookId) {
-      return await this.update(workbook);
+      return await this.update(workbook, tx);
     }
-    return await this.create(workbook);
+    return await this.create(workbook, tx);
   }
 
-  async update(workbook: Workbook) {
-    await this.prisma.workbook.update({
+  async update(workbook: Workbook, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    await prisma.workbook.update({
       where: {
         workbook_id: workbook.workbookId,
       },
@@ -33,11 +35,12 @@ export class WorkbookRepository {
     return workbook;
   }
 
-  async create(workbook: Workbook) {
+  async create(workbook: Workbook, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
     if (workbook.questions === undefined) {
       throw new BadRequestException('문제 없는 문제집은 만들 수 없습니다.');
     }
-    const newWorkbook = await this.prisma.workbook.create({
+    const newWorkbook = await prisma.workbook.create({
       data: {
         title: workbook.title,
         description: workbook.description,
@@ -50,13 +53,14 @@ export class WorkbookRepository {
     });
     workbook.setId(newWorkbook.workbook_id);
     workbook.questions.forEach(async (question) => {
-      await this.createWorkbookQuestion(workbook.workbookId, question);
+      await this.createWorkbookQuestion(workbook.workbookId, question, tx);
     });
     return workbook;
   }
 
-  async createWorkbookQuestion(workbookId: bigint, workbookQuestion: WorkbookQuestion) {
-    const newWorkbookQuestion = await this.prisma.workbookQuestion.create({
+  async createWorkbookQuestion(workbookId: bigint, workbookQuestion: WorkbookQuestion, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newWorkbookQuestion = await prisma.workbookQuestion.create({
       data: {
         workbook_id: workbookId,
         question_id: workbookQuestion.question.questionId,
@@ -68,8 +72,9 @@ export class WorkbookRepository {
     return workbookQuestion;
   }
 
-  async updateWorkbookQuestion(workbookQuestion: WorkbookQuestion) {
-    await this.prisma.workbookQuestion.update({
+  async updateWorkbookQuestion(workbookQuestion: WorkbookQuestion, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    await prisma.workbookQuestion.update({
       where: {
         workbook_question_id: workbookQuestion.workbookQuestionId,
       },
@@ -80,8 +85,9 @@ export class WorkbookRepository {
     return workbookQuestion;
   }
 
-  async searchWorkbooks(title: string, content: string) {
-    const workbooks = await this.prisma.workbook.findMany({
+  async searchWorkbooks(title: string, content: string, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbooks = await prisma.workbook.findMany({
       where: {
         title: {
           search: title,
@@ -107,8 +113,9 @@ export class WorkbookRepository {
     });
   }
 
-  async findOnlyWorkbook(workbookId: number) {
-    const workbook = await this.prisma.workbook.findUnique({
+  async findOnlyWorkbook(workbookId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbook = await prisma.workbook.findUnique({
       where: {
         workbook_id: workbookId,
       },
@@ -116,8 +123,9 @@ export class WorkbookRepository {
     return Workbook.of(workbook);
   }
 
-  async findWorkbook(workbookId: number) {
-    const workbook = await this.prisma.workbook.findUnique({
+  async findWorkbook(workbookId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbook = await prisma.workbook.findUnique({
       where: {
         workbook_id: workbookId,
       },
@@ -154,8 +162,9 @@ export class WorkbookRepository {
     return response;
   }
 
-  async findWorkbookQuestion(workbookQuestionId: number) {
-    const workbookQuestion = await this.prisma.workbookQuestion.findUnique({
+  async findWorkbookQuestion(workbookQuestionId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbookQuestion = await prisma.workbookQuestion.findUnique({
       where: {
         workbook_question_id: workbookQuestionId,
       },
@@ -169,8 +178,9 @@ export class WorkbookRepository {
     return WorkbookQuestion.of(workbookQuestion, Question.of(workbookQuestion.Question));
   }
 
-  async findWorkbooksByIds(workbookIds: number[]) {
-    const workbooks = await this.prisma.workbook.findMany({
+  async findWorkbooksByIds(workbookIds: number[], tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbooks = await prisma.workbook.findMany({
       where: {
         workbook_id: {
           in: workbookIds,
@@ -180,8 +190,9 @@ export class WorkbookRepository {
     return workbooks.map((w) => Workbook.of(w));
   }
 
-  async findWorkbooksByIdsWithAuthorization(workbookIds: number[], userId: number) {
-    const workbooks = await this.prisma.workbook.findMany({
+  async findWorkbooksByIdsWithAuthorization(workbookIds: number[], userId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbooks = await prisma.workbook.findMany({
       where: {
         workbook_id: {
           in: workbookIds,
