@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
+import Workbook from '../workbook/domain/Workbook';
 import Test from './domain/Test';
 import WorkbookTest from './domain/WorkbookTest';
 
@@ -40,26 +41,25 @@ export class TestRepository {
         timeout: test.timeout,
         created_at: test.createdAt,
         updated_at: test.updatedAt,
+        WorkbookTest: {
+          create: test.workbooks.map((w) => {
+            return {
+              workbook_id: w.workbook.workbookId,
+              count: w.count,
+            };
+          }),
+        },
+      },
+      include: {
+        WorkbookTest: {
+          include: {
+            Workbook: true,
+          },
+        },
       },
     });
     test.setId(newTest.test_id);
-    test.workbooks.forEach(async (w) => {
-      await this.createWorkbookTest(newTest.test_id, w, tx);
-    });
+    test.setWorkbooks(newTest.WorkbookTest.map((w) => WorkbookTest.of(w, Workbook.of(w.Workbook))));
     return test;
-  }
-
-  async createWorkbookTest(testId: bigint, workbookTest: WorkbookTest, tx?: Prisma.TransactionClient) {
-    const prisma = tx ? tx : this.prismaInstance;
-    const newWorkbookTest = await prisma.workbookTest.create({
-      data: {
-        test_id: testId,
-        workbook_id: workbookTest.workbook.workbookId,
-        count: workbookTest.count,
-      },
-    });
-    workbookTest.setId(newWorkbookTest.workbook_test_id);
-    workbookTest.setTestId(testId);
-    return workbookTest;
   }
 }
