@@ -30,4 +30,14 @@ export const RadioContainer = styled.fieldset`
   align-items: center;
 `;
 
+export const Items = styled.div`
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  gap: 20px;
+`;
+
 export const SearchResultTitle = styled.div``;
