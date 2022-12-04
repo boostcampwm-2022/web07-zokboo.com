@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { toast } from 'react-toastify';
 import useInput from '../../hooks/useInput';
 import { MAX_INPUT_LENGTH } from './constants';
 import {
@@ -12,12 +14,12 @@ import {
   Modal,
   ModalContainer,
 } from './Style';
+import { SERVER_URL } from '../../utils/constants';
 
 const verification = {
   id: /^(?=.*[a-z])(?=.*[0-9]).{6,16}$/,
   pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
   email: /[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-  certifiedNumber: /.*$/, // 인증번호도 입력값 검증이 필요할까?
 };
 
 const SignUp = () => {
@@ -29,15 +31,8 @@ const SignUp = () => {
     correct: isPwCheckCorrectInput,
   } = useInput('', verification.pw);
   const { text: emailValue, onChange: onEmailChange, correct: isEmailCorrectInput } = useInput('', verification.email);
-  const {
-    text: certifiedNumberValue,
-    onChange: onCertifiedNumberChange,
-    correct: isCertifiedNumberCorrectInput,
-  } = useInput('', verification.certifiedNumber);
   const [visibleInputPw, setVisibleInputPw] = useState<boolean>(false);
   const [visibleInputPwCheck, setVisibleInputPwCheck] = useState<boolean>(false);
-  const [visibleCertifiedNumberInput, setVisibleCertifiedNumberInput] = useState<boolean>(false);
-  const [isCorrectCertifiedNumber, setIsCorrectCertifiedNumber] = useState<boolean>(false);
 
   const handleIsCorrectCheck = {
     id: () => {
@@ -52,28 +47,25 @@ const SignUp = () => {
     email: () => {
       return isEmailCorrectInput || emailValue === '';
     },
-    certifiedNumber: () => {
-      return isCertifiedNumberCorrectInput || certifiedNumberValue === '';
-    },
   };
 
-  const handleSendEmail = () => {
-    /** 중복이메일 검사 로직 + 인증메일 보내는 로직 */
-
-    alert('인증번호가 발송되었습니다.');
-    setVisibleCertifiedNumberInput(true);
-  };
-
-  const handleCheckCertifiedNumber = () => {
-    /** 인증번호 검증하는 로직 */
-    alert('인증번호가 확인되었습니다.');
-    setIsCorrectCertifiedNumber(true);
-  };
-
-  const handleSignup = () => {
-    /** 중복아이디 검사 로직 */
-    alert('회원가입이 완료되었습니다.');
-    window.location.href = '/login';
+  const handleSignup = async () => {
+    await axios
+      .post(`${SERVER_URL}/auth/signup`, {
+        email: emailValue,
+        password: pwValue,
+        passwordConfirmation: pwCheckValue,
+        nickname: idValue,
+      })
+      .then((res) => {
+        // eslint-disable-next-line no-alert
+        alert('회원가입이 완료되었습니다.\n입력하신 이메일에서 인증을 진행해주세요.');
+        window.location.href = '/login';
+      })
+      .catch((err) => {
+        const statusMessage = err.response.data.message;
+        toast.error(statusMessage);
+      });
   };
 
   return (
@@ -146,32 +138,9 @@ const SignUp = () => {
                 isCorrect={handleIsCorrectCheck.email()}
                 maxLength={MAX_INPUT_LENGTH}
               />
-              <Button type="button" value="인증번호 전송" onClick={handleSendEmail} disabled={!isEmailCorrectInput} />
             </InputBoxContainer>
             {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
           </InputContainer>
-          {visibleCertifiedNumberInput ? (
-            <InputContainer>
-              <InputTitle>인증번호</InputTitle>
-              <InputBoxContainer>
-                <InputBox
-                  type="text"
-                  placeholder="인증번호"
-                  onChange={onCertifiedNumberChange}
-                  value={certifiedNumberValue}
-                  isCorrect={handleIsCorrectCheck.certifiedNumber()}
-                  maxLength={MAX_INPUT_LENGTH}
-                />
-                <Button
-                  type="button"
-                  value="확인"
-                  onClick={handleCheckCertifiedNumber}
-                  disabled={!isCertifiedNumberCorrectInput}
-                  data-testid="certifiedNumberCheck"
-                />
-              </InputBoxContainer>
-            </InputContainer>
-          ) : null}
           <Button
             type="button"
             value="회원가입"
@@ -182,8 +151,6 @@ const SignUp = () => {
               !isPwCorrectInput ||
               !isPwCheckCorrectInput ||
               !isEmailCorrectInput ||
-              !isCertifiedNumberCorrectInput ||
-              !isCorrectCertifiedNumber ||
               !(pwValue === pwCheckValue)
             }
           />
