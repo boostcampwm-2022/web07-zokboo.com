@@ -162,7 +162,6 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
       },
       {
         onSuccess: (data: Question) => {
-          toast.success('문제를 생성하였습니다.');
           handleProblemAdd(data);
           handleModalReset();
         },

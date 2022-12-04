@@ -16,9 +16,16 @@ import { GetQuestionResponse, Question } from '../../../types/question';
 import DropDown from '../../common/dropdown/Dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import Loading from '../../common/Loading';
-import { DropDownIcon, DropDownSelector, DropDownTitle } from '../create/Style';
+import { DropDownIcon, DropDownSelector, DropDownTitle } from '../createQuestion/Style';
 import DROPBOX_LIST from './constants';
-import { Container, SearchBox, SearchInput, SearchButton, SearchDropDownContainer, SearchProblemList } from './Style';
+import {
+  Container,
+  SearchContainer,
+  SearchInput,
+  SearchButton,
+  SearchDropDownContainer,
+  SearchProblemList,
+} from './Style';
 
 interface Props {
   handleProblemAdd: (problem: Question) => void;
@@ -33,7 +40,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
   const [searchType, setSearchType] = useState<SearchType>(DROPBOX_LIST[0]);
   const [searchInput, handleSearchInputChange] = useInput('');
 
-  const [isSearch, handleSerachToggle] = useToggle(false);
+  const [isSearch, handleSearchToggle] = useToggle(false);
 
   const { data: problemList = [], isLoading } = useQuery<GetQuestionResponse[]>(
     QUESTION_KEYS.search,
@@ -45,14 +52,14 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       enabled: isSearch,
 
       onSuccess: () => {
-        handleSerachToggle();
+        handleSearchToggle();
       },
     },
   );
 
   return (
     <Container>
-      <SearchBox>
+      <SearchContainer>
         <SearchDropDownContainer>
           <DropDown
             title={
@@ -79,13 +86,13 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
         <SearchInput
           onChange={handleSearchInputChange}
           onKeyUp={(e) => {
-            if (e.key === 'Enter') handleSerachToggle();
+            if (e.key === 'Enter') handleSearchToggle();
           }}
         />
-        <SearchButton type="button" onClick={handleSerachToggle}>
+        <SearchButton type="button" onClick={handleSearchToggle}>
           검색
         </SearchButton>
-      </SearchBox>
+      </SearchContainer>
 
       <SearchProblemList>
         {isLoading && <Loading />}

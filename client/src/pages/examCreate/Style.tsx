@@ -45,6 +45,25 @@ export const InfoInput = styled(Input)`
   padding: 0px 16px;
 `;
 
+export const InfoInputBox = styled.div`
+  display: flex;
+`;
+
+export const InfoTimeInput = styled(InfoInput)`
+  width: calc(50% - 5% - 10px);
+`;
+
+export const InfoText = styled.p`
+  display: flex;
+  align-items: flex-end;
+
+  width: 5%;
+  margin: 0 5px;
+
+  font-size: ${fonts.size.lg};
+  font-weight: ${fonts.weight.bold};
+`;
+
 export const WorkbookContainer = styled.div`
   padding: 20px;
 
@@ -57,16 +76,31 @@ export const WorkbookBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  width: 100%;
 `;
 
 export const WorkbookList = styled(List)``;
+
+export const WorkbookHeader = styled(Item)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: ${fonts.size.lg};
+  font-weight: ${fonts.weight.bold};
+
+  padding: 20px;
+
+  background-color: ${colors.secondary};
+`;
 
 export const WorkbookItem = styled(Item)`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  background-color: ${colors.secondary};
+  background-color: ${colors.line};
 
   padding: 10px 20px;
 `;
