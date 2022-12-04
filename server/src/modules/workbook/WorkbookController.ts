@@ -37,7 +37,7 @@ export class WorkbookController {
     return new ApiResponse('문제집 제작 성공', response);
   }
 
-  @Get('search')
+  @Get()
   @ApiQuery({
     name: 'title',
     type: String,
@@ -48,13 +48,13 @@ export class WorkbookController {
     type: String,
     required: false,
   })
-  @ApiMultiResponse(200, WorkbookSimpleResponse, '문제집 검색 성공')
+  @ApiMultiResponse(200, WorkbookSimpleResponse, '문제집 조회 / 검색 성공')
   async searchWorkbooks(@Query('title') title?: string, @Query('content') content?: string) {
     const response = await this.workbookService.searchWorkbooks(title, content);
-    return new ApiResponse('문제집 검색 성공', response);
+    return new ApiResponse('문제집 조회 / 검색 성공', response);
   }
 
-  @Get('my/search')
+  @Get('my')
   @UseGuards(JwtAuthGuard)
   @ApiQuery({
     name: 'title',
@@ -66,21 +66,21 @@ export class WorkbookController {
     type: String,
     required: false,
   })
-  @ApiMultiResponse(200, WorkbookSimpleResponse, '내 문제집 검색 성공')
+  @ApiMultiResponse(200, WorkbookSimpleResponse, '내 문제집 조회 / 검색 성공')
   async searchMyWorkbooks(
     @User('id') userId: string,
     @Query('title') title?: string,
     @Query('content') content?: string,
   ) {
     const response = await this.workbookService.searchWorkbooksByUser(title, content, Number(userId));
-    return new ApiResponse('내 문제집 검색 성공', response);
+    return new ApiResponse('내 문제집 조회 / 검색 성공', response);
   }
 
   @Get(':workbookId')
-  @ApiSingleResponse(200, WorkbookDetailResponse, '문제집 조회 성공')
+  @ApiSingleResponse(200, WorkbookDetailResponse, '문제집 상세 조회 성공')
   async showWorkbook(@Param('workbookId', ParseIntPipe) workbookId: number) {
     const response = await this.workbookService.getWorkbook(workbookId);
-    return new ApiResponse('문제집 조회 성공', response);
+    return new ApiResponse('문제집 상세 조회 성공', response);
   }
 
   @Get(':workbookId/questions')

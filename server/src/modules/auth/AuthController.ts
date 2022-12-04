@@ -28,12 +28,12 @@ export class AuthController {
   ) {}
 
   @Post('signup')
-  @ApiSingleResponse(201, SignupResponse, '회원가입 완료')
+  @ApiSingleResponse(201, SignupResponse, '회원가입 성공')
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
     this.mailService.sendVerifyMail(request.email, verifyToken);
-    return new ApiResponse('signup 완료', response);
+    return new ApiResponse('signup 성공', response);
   }
 
   @Get('verify')
@@ -44,7 +44,7 @@ export class AuthController {
   }
 
   @Post('signin')
-  @ApiSingleResponse(200, SigninResponse, '로그인 완료')
+  @ApiSingleResponse(200, SigninResponse, '로그인 성공')
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
     const user = await this.authService.signin(request);
     const token = this.authService.issueJwtAccessToken(user.userId);
@@ -53,7 +53,7 @@ export class AuthController {
       sameSite: 'none',
       secure: true,
     });
-    return response.status(200).json(new ApiResponse('signin 완료', user));
+    return response.status(200).json(new ApiResponse('signin 성공', user));
   }
 
   @Post('reset')
@@ -70,7 +70,7 @@ export class AuthController {
   async resetPassword(@Body() request: ResetPasswordRequest) {
     const response = await this.authService.resetPassword(request);
 
-    return new ApiResponse('패스워드 재설정 완료', response);
+    return new ApiResponse('패스워드 재설정 성공', response);
   }
 
   @Get('kakao')
@@ -153,6 +153,6 @@ export class AuthController {
       sameSite: 'none',
       secure: true,
     });
-    return new ApiResponse('signin 완료', user);
+    return new ApiResponse('signin 성공', user);
   }
 }
