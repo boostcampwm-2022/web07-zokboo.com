@@ -41,6 +41,11 @@ export class WorkbookService {
     return result;
   }
 
+  async searchWorkbooksByUser(title: string, content: string, userId: number) {
+    const workbooks = await this.workbookRepository.searchWorkbooksByUser(title, content, userId);
+    return workbooks.map((w) => new WorkbookSimpleResponse(w));
+  }
+
   async getWorkbook(workbookId: number) {
     let result: WorkbookDetailResponse;
     await this.prisma.$transaction(async (tx) => {

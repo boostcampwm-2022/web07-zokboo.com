@@ -54,6 +54,28 @@ export class WorkbookController {
     return new ApiResponse('문제집 검색 성공', response);
   }
 
+  @Get('my/search')
+  @UseGuards(JwtAuthGuard)
+  @ApiQuery({
+    name: 'title',
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'content',
+    type: String,
+    required: false,
+  })
+  @ApiMultiResponse(200, WorkbookSimpleResponse, '내 문제집 검색 성공')
+  async searchMyWorkbooks(
+    @User('id') userId: string,
+    @Query('title') title?: string,
+    @Query('content') content?: string,
+  ) {
+    const response = await this.workbookService.searchWorkbooksByUser(title, content, Number(userId));
+    return new ApiResponse('내 문제집 검색 성공', response);
+  }
+
   @Get(':workbookId')
   @ApiSingleResponse(200, WorkbookDetailResponse, '문제집 조회 성공')
   async showWorkbook(@Param('workbookId', ParseIntPipe) workbookId: number) {
