@@ -51,6 +51,13 @@ export const InfoInputBox = styled.div`
 
 export const InfoTimeInput = styled(InfoInput)`
   width: calc(50% - 5% - 10px);
+
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
 `;
 
 export const InfoText = styled.p`
@@ -139,6 +146,13 @@ export const WorkbookDesc = styled.p`
 export const WorkbookInput = styled(Input)`
   width: 50px;
   height: 30px;
+
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
 `;
 
 export const WorkbookDeleteButton = styled(Button)`
@@ -153,4 +167,17 @@ export const WorkbookDeleteButton = styled(Button)`
     color: ${colors.white};
     background-color: ${colors.error};
   }
+`;
+
+export const Total = styled.h3`
+  text-align: right;
+`;
+
+export const CreateButton = styled(Button)`
+  display: block;
+
+  width: 200px;
+
+  height: 50px;
+  margin: 50px auto;
 `;

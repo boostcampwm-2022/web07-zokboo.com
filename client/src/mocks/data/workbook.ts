@@ -8,7 +8,7 @@ const workbookList = [
       {
         questionId: 1,
         hashtag: '면접대비',
-        question: '면접대비',
+        question: '1+1이 무언인가요?',
         creator_id: 'CS마스터',
         questionType: 'MULTIPLE',
         commentary: 'CS면접대비를 위한 문제집입니다 많이 데여보고 만!!!!!!',
@@ -16,7 +16,7 @@ const workbookList = [
         hashtags: ['해쉬태그', '이것저것', '이걸 풀어?', '무요!'],
         updatedAt: '20221117',
         createdAt: '20221117',
-        options: ['1번 선택지', '2번 선택지', '3번 선택지', '4번 선택지', '5번 선택지'],
+        options: ['1번 2', '2번 3', '3번 4', '4번 선택지', '5번 선택지'],
         writtenAnswer: '1번 선택지',
         workbookQuestionId: 0,
       },

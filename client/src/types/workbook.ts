@@ -1,5 +1,12 @@
 import { GetQuestionResponse } from './question';
 
+export interface Workbook {
+  workbookId: number;
+  title: string;
+  description: string;
+  questions: GetQuestionResponse[];
+}
+
 export interface PostCreateWorkbookBody {
   title: string;
   description: string;
@@ -32,4 +39,11 @@ export interface SolveWorkbookQuestionBody {
 export interface PatchSolveWorkbookQuestionProps {
   params: SolveWorkbookQuestionParams;
   body: SolveWorkbookQuestionBody;
+}
+
+export interface GetWorkbookListByTitleResponse {
+  workbookId: number;
+  title: string;
+  description: string;
+  questions: GetQuestionResponse[];
 }

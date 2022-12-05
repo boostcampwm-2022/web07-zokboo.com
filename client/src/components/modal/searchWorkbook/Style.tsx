@@ -13,6 +13,9 @@ export const Container = styled.div`
 `;
 
 export const SearchContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
   height: 32px;
   margin-bottom: 10px;
 `;
