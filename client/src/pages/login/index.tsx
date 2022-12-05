@@ -45,10 +45,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // eslint-disable-next-line no-shadow
     const email = (document.getElementById('email') as HTMLInputElement).value;
-
-    // eslint-disable-next-line no-shadow
     const pw = (document.getElementById('password') as HTMLInputElement).value;
 
     loginMutation.mutate([email, pw]);
