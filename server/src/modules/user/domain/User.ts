@@ -24,6 +24,10 @@ export default class User {
     this.userId = userId;
   }
 
+  setAvatar(path: string) {
+    this.avatar = path;
+  }
+
   authenticate(password: string) {
     throw new BadRequestException('password로 인증이 불가한 User입니다.');
   }
