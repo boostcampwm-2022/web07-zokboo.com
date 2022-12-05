@@ -11,7 +11,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'no-param-reassign': 0,
+    'no-param-reassign': ['error', { props: false }],
 
     'prettier/prettier': 0,
 

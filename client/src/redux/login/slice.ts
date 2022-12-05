@@ -20,7 +20,10 @@ const loginSlice = createSlice({
       state.userId = action.payload.userId;
     },
     signoutSuccess: (state) => {
-      state = { ...initialState };
+      state.isLogined = initialState.isLogined;
+      state.avatar = initialState.avatar;
+      state.nickname = initialState.nickname;
+      state.userId = initialState.userId;
     },
   },
 });
