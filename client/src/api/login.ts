@@ -9,8 +9,10 @@ export const getSSOData = async (SSOType: string) => {
 };
 
 export const getLocalLoginData = async ([email, password]: [string, string]) => {
-  const { data } = await axios.post(`${SERVER_URL}/auth/signin`, { email, password }).catch((err) => {
-    throw err.response.data.message;
-  });
+  const { data } = await axios
+    .post(`${SERVER_URL}/auth/signin`, { email, password }, { withCredentials: true })
+    .catch((err) => {
+      throw err.response.data.message;
+    });
   return data;
 };

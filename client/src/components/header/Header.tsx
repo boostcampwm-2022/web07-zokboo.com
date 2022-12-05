@@ -3,6 +3,8 @@ import { BiSearchAlt2 } from 'react-icons/bi';
 import { MdArrowDropDown } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
+import { useAppSelector } from '../../redux/hooks';
+import { selectUserData } from '../../redux/login/slice';
 import { Button } from '../../styles/common';
 import DropDown from '../common/dropdown/Dropdown';
 import Logo from '../common/logo';
@@ -24,6 +26,7 @@ import {
 } from './Style';
 
 const Header = () => {
+  const userData = useAppSelector(selectUserData);
   const [isToggle, handleToggle] = useToggle(false);
   const [input, setInput] = useState('');
   const navigate = useNavigate();
@@ -53,10 +56,18 @@ const Header = () => {
           </SearchContainer>
           <ButtonList>
             {
-              <>
-                <AuthLink to="login">로그인</AuthLink>
-                <AuthLink to="signup">회원가입</AuthLink>
-              </>
+              userData.isLogined ? (
+                <>
+                  <div>{`안녕하세요 ${userData.nickname}님`}</div>
+                  <button type="button">로그아웃</button>
+                </>
+              ) : (
+                <>
+                  <AuthLink to="login">로그인</AuthLink>
+                  <AuthLink to="signup">회원가입</AuthLink>
+                </>
+              )
+
               // <DropDownContainer>
               //   <DropDown
               //     title={

@@ -19,11 +19,17 @@ import {
 } from './Style';
 import { getLocalLoginData, getSSOData } from '../../api/login';
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { selectUserData, signinSuccess } from '../../redux/login/slice';
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector(selectUserData);
+
   const SSOMutation = useMutation(getSSOData, {
     onSuccess: (data) => {
       alert('로그인에 성공하였습니다.');
+      dispatch(signinSuccess({ isLogined: true, ...data.data }));
       window.location.href = '/';
     },
     onError: (message: string) => {
@@ -33,7 +39,9 @@ const Login = () => {
 
   const loginMutation = useMutation(getLocalLoginData, {
     onSuccess: (data) => {
+      console.log(data);
       alert('로그인에 성공하였습니다.');
+      dispatch(signinSuccess({ isLogined: true, ...data.data }));
       window.location.href = '/';
     },
     onError: (message: string) => {
