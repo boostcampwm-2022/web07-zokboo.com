@@ -14,17 +14,12 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     signinSuccess: (state, action: PayloadAction<LoginState>) => {
-      // eslint-disable-next-line no-param-reassign
       state.isLogined = true;
-      // eslint-disable-next-line no-param-reassign
       state.avatar = action.payload.avatar;
-      // eslint-disable-next-line no-param-reassign
       state.nickname = action.payload.nickname;
-      // eslint-disable-next-line no-param-reassign
       state.userId = action.payload.userId;
     },
     signoutSuccess: (state) => {
-      // eslint-disable-next-line no-param-reassign
       state = { ...initialState };
     },
   },
