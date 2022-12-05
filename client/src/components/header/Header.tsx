@@ -3,9 +3,11 @@ import { BiSearchAlt2 } from 'react-icons/bi';
 import { MdArrowDropDown } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectUserData from '../../redux/login/selector';
+import { signoutSuccess } from '../../redux/login/slice';
 import { Button } from '../../styles/common';
+import ButtonComponent from '../common/Button';
 import DropDown from '../common/dropdown/Dropdown';
 import Logo from '../common/logo';
 import {
@@ -23,9 +25,13 @@ import {
   DropDownIcon,
   DropDownContainer,
   AuthLink,
+  UserData,
+  UserAvatar,
 } from './Style';
+import DefaultAvatar from '../../images/default-avatar.jpg';
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const userData = useAppSelector(selectUserData);
   const [isToggle, handleToggle] = useToggle(false);
   const [input, setInput] = useState('');
@@ -58,8 +64,15 @@ const Header = () => {
             {
               userData.isLogined ? (
                 <>
-                  <div>{`안녕하세요 ${userData.nickname}님`}</div>
-                  <button type="button">로그아웃</button>
+                  <UserData>
+                    <UserAvatar src={userData.avatar ? userData.avatar : DefaultAvatar} alt="" />
+                    <div>{userData.nickname}</div>
+                  </UserData>
+                  <ButtonComponent
+                    handleButton={() => dispatch(signoutSuccess())}
+                    buttonText="로그아웃"
+                    buttonWidth="80px"
+                  />
                 </>
               ) : (
                 <>
