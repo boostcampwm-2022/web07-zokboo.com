@@ -19,12 +19,11 @@ import {
 } from './Style';
 import { getLocalLoginData, getSSOData } from '../../api/login';
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectUserData, signinSuccess } from '../../redux/login/slice';
+import { useAppDispatch } from '../../redux/hooks';
+import { signinSuccess } from '../../redux/login/slice';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const userData = useAppSelector(selectUserData);
 
   const SSOMutation = useMutation(getSSOData, {
     onSuccess: (data) => {

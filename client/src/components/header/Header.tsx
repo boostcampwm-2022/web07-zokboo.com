@@ -4,7 +4,7 @@ import { MdArrowDropDown } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
 import { useAppSelector } from '../../redux/hooks';
-import { selectUserData } from '../../redux/login/slice';
+import selectUserData from '../../redux/login/selector';
 import { Button } from '../../styles/common';
 import DropDown from '../common/dropdown/Dropdown';
 import Logo from '../common/logo';
