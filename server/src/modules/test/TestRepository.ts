@@ -1,21 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
+import Workbook from '../workbook/domain/Workbook';
 import Test from './domain/Test';
 import WorkbookTest from './domain/WorkbookTest';
 
 @Injectable()
 export class TestRepository {
-  constructor(private readonly prisma: PrismaInstance) {}
+  constructor(private readonly prismaInstance: PrismaInstance) {}
 
-  async save(test: Test) {
+  async save(test: Test, tx?: Prisma.TransactionClient) {
     if (test.testId) {
-      return await this.update(test);
+      return await this.update(test, tx);
     }
-    return await this.create(test);
+    return await this.create(test, tx);
   }
 
-  async update(test: Test) {
-    await this.prisma.test.update({
+  async update(test: Test, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    await prisma.test.update({
       where: {
         test_id: test.testId,
       },
@@ -28,8 +31,9 @@ export class TestRepository {
     });
   }
 
-  async create(test: Test) {
-    const newTest = await this.prisma.test.create({
+  async create(test: Test, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newTest = await prisma.test.create({
       data: {
         title: test.title,
         total_count: test.totalCount,
@@ -37,17 +41,31 @@ export class TestRepository {
         timeout: test.timeout,
         created_at: test.createdAt,
         updated_at: test.updatedAt,
+        WorkbookTest: {
+          create: test.workbooks.map((w) => {
+            return {
+              workbook_id: w.workbook.workbookId,
+              count: w.count,
+            };
+          }),
+        },
+      },
+      include: {
+        WorkbookTest: {
+          include: {
+            Workbook: true,
+          },
+        },
       },
     });
     test.setId(newTest.test_id);
-    test.workbooks.forEach(async (w) => {
-      await this.createWorkbookTest(newTest.test_id, w);
-    });
+    test.setWorkbooks(newTest.WorkbookTest.map((w) => WorkbookTest.of(w, Workbook.of(w.Workbook))));
     return test;
   }
 
-  async createWorkbookTest(testId: bigint, workbookTest: WorkbookTest) {
-    const newWorkbookTest = await this.prisma.workbookTest.create({
+  async createWorkbookTest(testId: bigint, workbookTest: WorkbookTest, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newWorkbookTest = await prisma.workbookTest.create({
       data: {
         test_id: testId,
         workbook_id: workbookTest.workbook.workbookId,

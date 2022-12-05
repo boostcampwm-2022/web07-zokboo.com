@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
 import Hashtag from './domain/Hashtag';
 import Option from './domain/Option';
@@ -8,17 +9,18 @@ import QuestionType from './enum/QuestionType';
 
 @Injectable()
 export class QuestionRepository {
-  constructor(private readonly prisma: PrismaInstance) {}
+  constructor(private readonly prismaInstance: PrismaInstance) {}
 
-  async save(question: Question) {
+  async save(question: Question, tx?: Prisma.TransactionClient) {
     if (question.questionId) {
-      return await this.updateQuestion(question);
+      return await this.updateQuestion(question, tx);
     }
-    return await this.createQuestion(question);
+    return await this.createQuestion(question, tx);
   }
 
-  async createQuestion(question: Question) {
-    const newQuestion = await this.prisma.question.create({
+  async createQuestion(question: Question, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newQuestion = await prisma.question.create({
       data: {
         question: question.question,
         question_type: question.questionType,
@@ -28,30 +30,42 @@ export class QuestionRepository {
         difficulty: question.difficulty,
         created_at: question.createdAt,
         updated_at: question.updatedAt,
+        QuestionImage: {
+          create: question.images.map((i) => {
+            return {
+              path: i.path,
+            };
+          }),
+        },
+      },
+      include: {
+        QuestionImage: true,
       },
     });
     question.setId(newQuestion.question_id);
-
-    if (question.images) {
-      question.images.forEach(async (image) => await this.createQuestionImage(image, question.questionId));
-    }
+    question.setImages(newQuestion.QuestionImage.map((i) => QuestionImage.of(i)));
 
     if (question.hashtags) {
       question.hashtags.forEach(async (hashtag) => {
-        await this.createHashtag(hashtag);
-        await this.createQuestionHashtag(question.questionId, hashtag.hashtagId);
+        await this.createHashtag(hashtag, tx);
+        const questionHashtagId = await this.createQuestionHashtag(question.questionId, hashtag.hashtagId, tx);
+        hashtag.setId(questionHashtagId);
       });
     }
 
     if (question.questionType === QuestionType.MULTIPLE && question.options) {
-      question.options.forEach(async (option) => await this.createOption(option, question.questionId));
+      question.options.forEach(async (option) => {
+        const newOption = await this.createOption(option, question.questionId, tx);
+        option.setId(newOption.optionId);
+      });
     }
 
     return question;
   }
 
-  async updateQuestion(question: Question) {
-    await this.prisma.question.update({
+  async updateQuestion(question: Question, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    await prisma.question.update({
       where: {
         question_id: question.questionId,
       },
@@ -66,8 +80,9 @@ export class QuestionRepository {
     return question;
   }
 
-  async createQuestionImage(questionImage: QuestionImage, questionId: bigint) {
-    const newImage = await this.prisma.questionImage.create({
+  async createQuestionImage(questionImage: QuestionImage, questionId: bigint, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newImage = await prisma.questionImage.create({
       data: {
         path: questionImage.path,
         question_id: questionId,
@@ -77,8 +92,9 @@ export class QuestionRepository {
     return questionImage;
   }
 
-  async createHashtag(hashtag: Hashtag) {
-    const newHashtag = await this.prisma.hashtag.upsert({
+  async createHashtag(hashtag: Hashtag, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newHashtag = await prisma.hashtag.upsert({
       where: {
         name: hashtag.name,
       },
@@ -91,28 +107,32 @@ export class QuestionRepository {
     return hashtag;
   }
 
-  async createQuestionHashtag(questionId: bigint, hashtagId: bigint) {
-    await this.prisma.questionHashtag.create({
+  async createQuestionHashtag(questionId: bigint, hashtagId: bigint, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const questionHashtag = await prisma.questionHashtag.create({
       data: {
         question_id: questionId,
         hashtag_id: hashtagId,
       },
     });
+    return questionHashtag.question_hashtag_id;
   }
 
-  async createOption(option: Option, questionId: bigint) {
-    const newOption = this.prisma.option.create({
+  async createOption(option: Option, questionId: bigint, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newOption = await prisma.option.create({
       data: {
         content: option.content,
         question_id: questionId,
       },
     });
-    option.setId((await newOption).option_id);
+    option.setId(newOption.option_id);
     return option;
   }
 
-  async findQuestionsByUserId(userId: bigint) {
-    const questions = await this.prisma.question.findMany({
+  async findQuestionsByUserId(userId: bigint, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const questions = await prisma.question.findMany({
       where: {
         user_id: userId,
       },
@@ -120,10 +140,11 @@ export class QuestionRepository {
     return questions.map((question) => Question.of(question));
   }
 
-  async findQuestionsWithDetailsByUserId(userId: bigint) {
+  async findQuestionsWithDetailsByUserId(userId: bigint, tx?: Prisma.TransactionClient) {
     //TODO: 객관식에 한해서만 Option table과 Join하게 할 수는 없을까?
     //TODO: 문제집에 공개범위가 있을게 아니라 문제에 공개범위가 있어야 하나? 왜냐면 한개의 문제가 여러 문제집과 연관되어 있을 수 있는데 그렇다면 어떤 문제집을 기준으로...? 첫 문제집..? 그렇다면 차라리 공개여부 column을 문제에도 만들어 두는건 어떨까?
-    const questions = await this.prisma.question.findMany({
+    const prisma = tx ? tx : this.prismaInstance;
+    const questions = await prisma.question.findMany({
       where: {
         user_id: userId,
       },
@@ -147,8 +168,9 @@ export class QuestionRepository {
     });
   }
 
-  async findQuestionByHashtag(hashtag: Hashtag) {
-    const result = await this.prisma.questionHashtag.findMany({
+  async findQuestionByHashtag(hashtag: Hashtag, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.questionHashtag.findMany({
       where: {
         hashtag_id: hashtag.hashtagId,
       },
@@ -159,8 +181,9 @@ export class QuestionRepository {
     return result.map((r) => Question.of(r.Question));
   }
 
-  async findQuestionsWithDetailsByQuestion(question: string) {
-    const result = await this.prisma.question.findMany({
+  async findQuestionsWithDetailsByQuestion(question: string, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.question.findMany({
       where: {
         question: {
           contains: question,
@@ -187,10 +210,11 @@ export class QuestionRepository {
     });
   }
 
-  async findQuestionsWithDetailsByHashtag(hashtag: Hashtag) {
+  async findQuestionsWithDetailsByHashtag(hashtag: Hashtag, tx?: Prisma.TransactionClient) {
     //TODO: 객관식에 한해서만 Option table과 Join하게 할 수는 없을까?
     //TODO: 문제집에 공개범위가 있을게 아니라 문제에 공개범위가 있어야 하나? 왜냐면 한개의 문제가 여러 문제집과 연관되어 있을 수 있는데 그렇다면 어떤 문제집을 기준으로...? 첫 문제집..? 그렇다면 차라리 공개여부 column을 문제에도 만들어 두는건 어떨까?
-    const result = await this.prisma.questionHashtag.findMany({
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.questionHashtag.findMany({
       where: {
         hashtag_id: hashtag.hashtagId,
       },
@@ -218,8 +242,9 @@ export class QuestionRepository {
     });
   }
 
-  async findHashtagByName(name: string) {
-    const result = await this.prisma.hashtag.findUnique({
+  async findHashtagByName(name: string, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.hashtag.findUnique({
       where: {
         name,
       },
@@ -228,8 +253,9 @@ export class QuestionRepository {
     return Hashtag.of(result);
   }
 
-  async findQuestionsByIds(questionIds: number[]) {
-    const questions = await this.prisma.question.findMany({
+  async findQuestionsByIds(questionIds: number[], tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const questions = await prisma.question.findMany({
       where: {
         question_id: { in: questionIds },
       },
