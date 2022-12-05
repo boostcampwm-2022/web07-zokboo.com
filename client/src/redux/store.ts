@@ -1,4 +1,4 @@
-import { Action, combineReducers, configureStore, createAsyncThunk, ThunkAction } from '@reduxjs/toolkit';
+import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import storageSession from 'redux-persist/lib/storage/session';
 import { persistReducer, persistStore } from 'redux-persist';
 import { createLogger } from 'redux-logger';

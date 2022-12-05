@@ -1,6 +1,6 @@
-// import { RootState } from '../store';
-// import { LoginState } from './interface';
+import { RootState } from '../store';
+import { LoginState } from './interface';
 
-// export default selectUserData;
+const selectUserData = (state: RootState): LoginState => state.login;
 
-export {};
+export default { selectUserData };
