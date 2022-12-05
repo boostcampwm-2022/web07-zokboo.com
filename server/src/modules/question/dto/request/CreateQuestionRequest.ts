@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsObject, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 import QuestionType from '../../enum/QuestionType';
 
 class CreateQuestionRequest {
@@ -39,9 +39,6 @@ class CreateQuestionRequest {
   public options: string[];
 
   @ApiProperty()
-  @IsObject({
-    each: true,
-  })
   public images: Express.Multer.File[];
 }
 
