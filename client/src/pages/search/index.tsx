@@ -1,32 +1,35 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
+import { useQuery } from 'react-query';
+import { Items, RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 import { CREATOR, WORKBOOK_NAME } from './constants';
-import { Header } from '../workbook/Style';
-import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import SearchWorkbookType from '../../types/search';
+import WORKBOOK_SEARCH from '../../react-query/keys/search';
+import { getMockSearchData } from '../../api/search';
+import NewSearchResultItem from '../../components/search/NewSearchResultItem/NewSearchResultItem';
 
 const Search = () => {
-  const [searchMockData, setSearchMockData] = useState<SearchWorkbookType[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
   const searchWord = searchParams.get('q');
+
+  // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
+  const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
+    [WORKBOOK_SEARCH, searchWord],
+    getMockSearchData,
+    {
+      onError: (err) => {
+        console.log(err);
+      },
+    },
+  );
 
   const handleSearchOption = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchOption(e.target.value);
   };
 
-  useEffect(() => {
-    axios
-      .get('search')
-      .then((res) => res.data)
-      .then((data) => setSearchMockData(data));
-  });
-
   return (
     <div>
-      <Header />
       <SearchResultContainer>
         <TitleContainer>
           <SearchResultTitle>
@@ -50,16 +53,21 @@ const Search = () => {
             </label>
           </RadioContainer>
         </TitleContainer>
-        {searchMockData.map((workbook, index) => (
-          <SearchResultItem
-            key={workbook.workbook_id}
-            id={workbook.workbook_id}
-            title={workbook.title}
-            creatorId={workbook.creator_id}
-            createAt={workbook.create_at}
-            description={workbook.description}
-          />
-        ))}
+        <Items>
+          {isLoading && '로딩중'}
+          {isSuccess &&
+            (data
+              ? data.map((workbook, index) => (
+                  <NewSearchResultItem
+                    key={workbook.workbookId}
+                    workbookId={workbook.workbookId}
+                    title={workbook.title}
+                    description={workbook.description}
+                    questionCount={workbook.questionCount}
+                  />
+                ))
+              : `검색결과가 없습니다.`)}
+        </Items>
       </SearchResultContainer>
     </div>
   );

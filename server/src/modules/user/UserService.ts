@@ -4,24 +4,29 @@ import SignupRequest from './dto/request/SignupRequest';
 import SignupResponse from './dto/response/SignupResponse';
 import { UserRepository } from './UserRepository';
 import * as bcrypt from 'bcrypt';
+import { PrismaInstance } from '../common/PrismaInstance';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository, private readonly prisma: PrismaInstance) {}
 
   public async signupBasicUser(request: SignupRequest) {
-    this.comparePassword(request.password, request.passwordConfirmation);
-    const checkEmail = await this.userRepository.findUserByEmail(request.email);
-    if (checkEmail) {
-      throw new BadRequestException('중복된 Email입니다.');
-    }
-    const checkNickname = await this.userRepository.findUserByNickname(request.nickname);
-    if (checkNickname) {
-      throw new BadRequestException('중복된 Nickname입니다.');
-    }
-    const user = BasicUser.new(request.email, request.nickname, bcrypt.hashSync(request.password, 11));
-    const savedUser = await this.userRepository.save(user);
-    return new SignupResponse(savedUser);
+    let result: SignupResponse;
+    await this.prisma.$transaction(async (tx) => {
+      this.comparePassword(request.password, request.passwordConfirmation);
+      const checkEmail = await this.userRepository.findUserByEmail(request.email, tx);
+      if (checkEmail) {
+        throw new BadRequestException('중복된 Email입니다.');
+      }
+      const checkNickname = await this.userRepository.findUserByNickname(request.nickname, tx);
+      if (checkNickname) {
+        throw new BadRequestException('중복된 Nickname입니다.');
+      }
+      const user = BasicUser.new(request.email, request.nickname, bcrypt.hashSync(request.password, 11));
+      const savedUser = await this.userRepository.save(user, tx);
+      result = new SignupResponse(savedUser);
+    });
+    return result;
   }
 
   private comparePassword(password: string, passwordConfirmation: string) {

@@ -38,11 +38,11 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
       <Header>{type === 'shared' ? '공유 받은 문제집' : '나의 문제집'}</Header>
       {workbookData.map((workbook, index) => (
         <WorkbookItem
-          key={workbook.workbook_id}
+          key={workbook.workbookId}
+          workbookId={workbook.workbookId}
           title={workbook.title}
-          creatorId={workbook.creator_id}
-          createAt={workbook.create_at}
           description={workbook.description}
+          questionCount={workbook.questionCount}
         />
       ))}
     </WorkbookContainer>
