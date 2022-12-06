@@ -4,11 +4,17 @@ import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getWorkbookById } from '../../api/workbook';
-import { colors, fonts, widths } from '../../styles/theme';
+import ButtonComponent from '../../components/common/Button';
+import { colors, fonts, media, widths } from '../../styles/theme';
 import { SERVER_URL } from '../../utils/constants';
+import SampleImage from '../../images/sample-image.jpeg';
 
 const PageContainer = styled.div`
-  width: ${widths.base};
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
   height: 100%;
   margin: 0 auto;
   margin-top: 30px;
@@ -19,21 +25,46 @@ const TitleContainer = styled.div`
   flex-direction: row;
   gap: 8px;
 
-  margin: 10px;
-  padding: 12px 16px;
-  border: 1px solid ${colors.gray2};
-  border-radius: 8px;
+  background-color: ${colors.secondary};
+  padding: 20px 0;
 `;
-const Title = styled.div``;
+const LeftContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 4px;
+  padding-left: 34px;
+`;
+const RightContainer = styled.div`
+  gap: 10px;
+`;
+
+const Title = styled.div`
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  line-height: 1.5;
+`;
 const IsPublic = styled.div`
-  border: 0.5px solid black;
+  display: inline-block;
+
+  background-color: ${colors.primary};
+  color: ${colors.white};
+
+  border: none;
+  border-radius: 4px;
   font-size: ${fonts.size.xs};
-  border-radius: 8px;
+  font-weight: 500;
   padding: 2px 4px;
 `;
-const Description = styled.div``;
+const Description = styled.div`
+  width: 400px;
+`;
 const ProblemList = styled.div``;
-const Problem = styled.div``;
+const Problem = styled.div`
+  background-color: ${colors.gray4};
+`;
 
 interface Question {
   questionId: number;
@@ -71,11 +102,30 @@ const WorkbookDetail = () => {
       {isSuccess && (
         <>
           <TitleContainer>
-            <Title>{`제목 : ${data.title}`}</Title>
-            <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
+            <LeftContainer>
+              <img src={SampleImage} width="400px" alt="" />
+            </LeftContainer>
+            <RightContainer>
+              <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
+              <Title>{`제목 : ${data.title}`}</Title>
+              <Description>{data.description}asdasd123213213</Description>
+              {/* <ButtonComponent buttonText="문제집 저장" /> */}
+            </RightContainer>
           </TitleContainer>
           <Description>{data.description}</Description>
-          <ProblemList>{JSON.stringify(data.questions)}</ProblemList>
+          <ProblemList>
+            {data.questions.map((x, idx) => {
+              return (
+                <Problem key={x.questionId}>
+                  <div>{x.question}</div>
+                  <div>{x.difficulty}</div>
+                  <div>{x.commentary}</div>
+                  <div>{x.questionType}</div>
+                  <div>{x.hashtags}</div>
+                </Problem>
+              );
+            })}
+          </ProblemList>
         </>
       )}
     </PageContainer>
