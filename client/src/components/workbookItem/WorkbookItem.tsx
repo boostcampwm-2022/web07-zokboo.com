@@ -5,8 +5,6 @@ import {
   Buttons,
   ContentButtons,
   Heart,
-  ItemCreateAt,
-  ItemCreator,
   ItemExplain,
   ItemInfo,
   ItemTitle,
@@ -15,15 +13,9 @@ import {
   TestButton,
   WorkbookItemContainer,
 } from './Style';
+import SearchWorkbookType from '../../types/search';
 
-interface WorkbookItemProps {
-  title: string;
-  creatorId: string;
-  createAt: string;
-  description: string;
-}
-
-const WorkbookItem = ({ title, creatorId, createAt, description }: WorkbookItemProps) => {
+const WorkbookItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isScrap, setIsScrap] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
@@ -34,8 +26,6 @@ const WorkbookItem = ({ title, creatorId, createAt, description }: WorkbookItemP
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
-      <ItemCreator>{`생성자 : ${creatorId}`}</ItemCreator>
-      <ItemCreateAt>{`생성일 : ${createAt}`}</ItemCreateAt>
       <Buttons>
         <ItemInfo>
           <Heart onClick={() => setIsLike((prev) => !prev)}>

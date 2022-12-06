@@ -8,6 +8,12 @@ export const getWorkbookList = async (params: number) => {
   return data;
 };
 
+export const getWorkbookListByTitle = async (title: string) => {
+  const { data } = await axios.get(`${SERVER_URL}/workbooks?title=${title}`);
+
+  return data;
+};
+
 export const createWorkbook = async (body: PostCreateWorkbookBody) => {
   const { data } = await axios.post(`${SERVER_URL}/workbooks`, body, { withCredentials: true });
 
