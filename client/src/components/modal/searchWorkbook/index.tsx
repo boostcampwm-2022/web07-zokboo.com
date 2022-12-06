@@ -28,7 +28,7 @@ interface Props {
 }
 
 const SearchWorkbookModal = ({ handleWorkbookAdd }: Props) => {
-  const [titleValue, handleTitleChange] = useInput('');
+  const { text: titleValue, onChange: handleTitleChange } = useInput('');
   const [questionToggleList, setQuestionToggleList] = useState<boolean[]>([]);
   const [isSearch, handleSearchToggle] = useToggle(false);
 
