@@ -28,6 +28,7 @@ const Router = () => {
         <Route path="/mypage" element={<Header />} />
         <Route path="/exam/new" element={<Header />} />
         <Route path="/search" element={<Header />} />
+        <Route path="/search/view" element={<Header />} />
       </Routes>
 
       {/* Contents */}
