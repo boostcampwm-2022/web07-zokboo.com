@@ -7,7 +7,7 @@ export interface PostCreateWorkbookBody {
   questions: number[];
 }
 
-interface WorkbookQuestions extends GetQuestionResponse {
+export interface WorkbookQuestions extends GetQuestionResponse {
   workbookQuestionId: number;
   writtenAnswer: string;
 }

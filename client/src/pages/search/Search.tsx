@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 import { CREATOR, WORKBOOK_NAME } from './constants';
-import { Header } from '../workbook/Style';
 import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import SearchWorkbookType from '../../types/search';
 
@@ -26,7 +25,6 @@ const Search = () => {
 
   return (
     <div>
-      <Header />
       <SearchResultContainer>
         <TitleContainer>
           <SearchResultTitle>
