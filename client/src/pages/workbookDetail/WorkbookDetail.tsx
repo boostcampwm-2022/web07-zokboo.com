@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors, fonts, widths } from '../../styles/theme';
-import { DEV_SERVER_URL } from '../../utils/constants';
+import { SERVER_URL } from '../../utils/constants';
 
 const PageContainer = styled.div`
   width: ${widths.base};
@@ -63,7 +63,7 @@ const WorkbookDetail = () => {
 
   useEffect(() => {
     axios
-      .get(`${DEV_SERVER_URL}/workbooks/${workbookId}`)
+      .get(`${SERVER_URL}/workbooks/${workbookId}`)
       .then((res) => res.data)
       .then((data) => setWorkbookData(data));
   });

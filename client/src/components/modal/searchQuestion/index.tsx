@@ -38,14 +38,14 @@ interface SearchType {
 
 const SearchProblemModal = ({ handleProblemAdd }: Props) => {
   const [searchType, setSearchType] = useState<SearchType>(DROPBOX_LIST[0]);
-  const [searchInput, handleSearchInputChange] = useInput('');
+  const { text: searchValue, onChange: handleSearchInputChange } = useInput('');
 
   const [isSearch, handleSearchToggle] = useToggle(false);
 
   const { data: problemList = [], isLoading } = useQuery<GetQuestionResponse[]>(
     QUESTION_KEYS.search,
     async () => {
-      const result = await getQuestion({ type: searchType.value, value: searchInput });
+      const result = await getQuestion({ type: searchType.value, value: searchValue });
       return result;
     },
     {

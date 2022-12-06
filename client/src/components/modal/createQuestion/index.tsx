@@ -49,8 +49,8 @@ interface Props {
 const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  const [question, handleQuestionChange, q_, handleQuestionReset] = useInput('');
-  const [file, handleFileChange, f_, handleFileReset] = useInput('');
+  const { text: question, onChange: handleQuestionChange, reset: handleQuestionReset } = useInput('');
+  const { text: file, onChange: handleFileChange, reset: handleFileReset } = useInput('');
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.subjective);
   const {
     state: hashTagList,
@@ -59,7 +59,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     erase: handleHashTagDelete,
     reset: handleHashTagListReset,
   } = useArrayText();
-  const [hashTag, handleHashTagChange, __, handleHashTagReset] = useInput('');
+  const { text: hashTag, onChange: handleHashTagChange, reset: handleHashTagReset } = useInput('');
 
   const {
     state: optionList,
@@ -70,9 +70,9 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     reset: handleOptionListReset,
     search: handleOptionSearch,
   } = useArrayText();
-  const [subject, handleSubjectChange, _s, handleSubjectReset] = useInput('');
+  const { text: subject, onChange: handleSubjectChange, reset: handleSubjectReset } = useInput('');
 
-  const [commentary, onCommentaryChange, _c, handleCommentaryReset] = useInput('');
+  const { text: commentary, onChange: onCommentaryChange, reset: handleCommentaryReset } = useInput('');
   const [difficultValue, setDifficultValue] = useState(0);
   const [answerIdx, setAnswerIdx] = useState<number>(0);
 
