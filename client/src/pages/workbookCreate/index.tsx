@@ -9,6 +9,7 @@ import CreateProblemModal from '../../components/modal/createQuestion';
 import SearchProblemModal from '../../components/modal/searchQuestion';
 import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
+import useUserData from '../../hooks/useUserData';
 import { SubTitle } from '../../styles/common';
 import {
   ProblemItem,
@@ -34,6 +35,8 @@ import {
 } from './Style';
 
 const WorkbookCreate = () => {
+  const userData = useUserData();
+
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
   const [isSearchModal, onSearchModalToggle] = useToggle(false);
 

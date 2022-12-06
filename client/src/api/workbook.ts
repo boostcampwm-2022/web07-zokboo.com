@@ -2,14 +2,14 @@ import axios from 'axios';
 import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody } from '../types/workbook';
 import { SERVER_URL } from '../utils/constants';
 
-export const getWorkbookList = async (params: number) => {
-  const { data } = await axios.get(`${SERVER_URL}/workbooks/${params}/questions`);
+export const getWorkbook = async (params: number) => {
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/${params}/questions`, { withCredentials: true });
 
   return data;
 };
 
 export const getWorkbookListByTitle = async (title: string) => {
-  const { data } = await axios.get(`${SERVER_URL}/workbooks?title=${title}`);
+  const { data } = await axios.get(`${SERVER_URL}/workbooks?title=${title}`, { withCredentials: true });
 
   return data;
 };

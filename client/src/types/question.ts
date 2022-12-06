@@ -1,21 +1,24 @@
-export interface RawQuestion {
+export interface AddQuestion {
   question: string;
   questionType: string;
   difficulty: number;
-}
-
-export interface AddQuestion extends RawQuestion {
   questionId: number;
   hashtags: string[];
 }
-export interface PostCreateQuestionBody extends RawQuestion {
+export interface PostCreateQuestionBody {
+  question: string;
+  questionType: string;
+  difficulty: number;
   answer: string;
   commentary: string;
   hashtags: string[];
   options: string[];
 }
 
-export interface GetQuestionResponse extends RawQuestion {
+export interface GetQuestionResponse {
+  question: string;
+  questionType: string;
+  difficulty: number;
   questionId: number;
   commentary: string;
   answer: string;
@@ -30,7 +33,10 @@ export interface WorkbookQuestion extends GetQuestionResponse {
   writtenAnswer: string;
 }
 
-export interface SolveQuestion extends RawQuestion {
+export interface SolveQuestion {
+  question: string;
+  questionType: string;
+  difficulty: number;
   questionId: number;
   commentary: string;
   answer: string;

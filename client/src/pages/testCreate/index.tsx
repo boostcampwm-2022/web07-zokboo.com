@@ -8,6 +8,7 @@ import Modal from '../../components/modal';
 import SearchWorkbookModal from '../../components/modal/searchWorkbook';
 import useArrayText from '../../hooks/useArrayText';
 import useToggle from '../../hooks/useToggle';
+import useUserData from '../../hooks/useUserData';
 import { Button, SubTitle } from '../../styles/common';
 import { Workbook } from '../../types/workbook';
 import {
@@ -32,14 +33,15 @@ import {
   WorkbookTitle,
 } from './Style';
 
-const ExamCreate = () => {
+const TestCreate = () => {
+  const userData = useUserData();
   const navigate = useNavigate();
 
   const [isAddModal, onAddModalToggle] = useToggle(false);
   const [workbookList, setWorkbookList] = useState<Workbook[]>([]);
-  const [examTitle, setExamTitle] = useState('');
-  const [examMinute, setExamMinute] = useState('0');
-  const [examSecond, setExamSecond] = useState('0');
+  const [testTitle, setTestTitle] = useState('');
+  const [testMinute, setTestMinute] = useState('0');
+  const [testSecond, setTestSecond] = useState('0');
 
   const {
     state: questionList,
@@ -87,28 +89,28 @@ const ExamCreate = () => {
     return questionValues.reduce((prev, curr) => prev + Number(curr), 0);
   };
 
-  const handleExamCreate = () => {
+  const handleTestCreate = () => {
     const workbooks = workbookList.map(({ workbookId }, idx) => ({
       workbookId,
       count: Number(questionValues[idx]),
     }));
 
-    if (!examTitle || examTitle.trim() === '') {
+    if (!testTitle || testTitle.trim() === '') {
       toast.error('시험명을 입력해주세요.');
       return;
     }
 
-    if (!examMinute) {
+    if (!testMinute) {
       toast.error('시험 시간(분)을 입력해주세요.');
       return;
     }
 
-    if (!examSecond) {
+    if (!testSecond) {
       toast.error('시험 시간(초)을 입력해주세요.');
       return;
     }
 
-    if (examMinute === '0' && examSecond === '0') {
+    if (testMinute === '0' && testSecond === '0') {
       toast.error('시험 시간이 0초 입니다.');
       return;
     }
@@ -120,9 +122,9 @@ const ExamCreate = () => {
 
     createTestMutation.mutate(
       {
-        title: examTitle,
-        minute: Number(examMinute),
-        second: Number(examSecond),
+        title: testTitle,
+        minute: Number(testMinute),
+        second: Number(testSecond),
         workbooks,
       },
       {
@@ -143,13 +145,13 @@ const ExamCreate = () => {
         <InfoContainer>
           <InfoBox>
             <SubTitle>시험명</SubTitle>
-            <InfoInput onChange={(e) => setExamTitle(e.target.value)} />
+            <InfoInput onChange={(e) => setTestTitle(e.target.value)} />
           </InfoBox>
           <InfoBox>
             <SubTitle>시험 시간</SubTitle>
             <InfoInputBox>
-              <InfoTimeInput type="number" onChange={(e) => setExamMinute(e.target.value)} /> <InfoText>분</InfoText>
-              <InfoTimeInput type="number" onChange={(e) => setExamSecond(e.target.value)} /> <InfoText>초</InfoText>
+              <InfoTimeInput type="number" onChange={(e) => setTestMinute(e.target.value)} /> <InfoText>분</InfoText>
+              <InfoTimeInput type="number" onChange={(e) => setTestSecond(e.target.value)} /> <InfoText>초</InfoText>
             </InfoInputBox>
           </InfoBox>
         </InfoContainer>
@@ -190,7 +192,7 @@ const ExamCreate = () => {
           <Total>총 문제수 : {total}</Total>
         </WorkbookContainer>
 
-        <CreateButton onClick={handleExamCreate}>시험 생성</CreateButton>
+        <CreateButton onClick={handleTestCreate}>시험 생성</CreateButton>
       </Container>
 
       {isAddModal && (
@@ -202,4 +204,4 @@ const ExamCreate = () => {
   );
 };
 
-export default ExamCreate;
+export default TestCreate;

@@ -43,8 +43,8 @@ const Contents = () => {
 
   const checkSolveType = () => {
     return {
-      isWorkbook: type === 'workbooks',
-      isTest: type === 'tests',
+      isWorkbook: type === 'workbook',
+      isTest: type === 'test',
     };
   };
 
@@ -56,10 +56,12 @@ const Contents = () => {
   };
 
   const handleWorkbookQuestionSolve = (questionId: number, idx: number, value: string) => {
-    solveWorkbookQuestionMutation.mutate({
-      params: { workbookId: id, workbookQuestionId: questionId },
-      body: { newAnswer: value },
-    });
+    if (solveType.isWorkbook) {
+      solveWorkbookQuestionMutation.mutate({
+        params: { workbookId: id, workbookQuestionId: questionId },
+        body: { newAnswer: value },
+      });
+    }
     handleAnswerListUpdate(idx, value);
   };
 
@@ -83,10 +85,8 @@ const Contents = () => {
     if (questions) {
       setDescriptionType(new Array(questions.length).fill(''));
 
-      if (type === 'workbooks') {
-        const writtenList = questions.map(({ writtenAnswer }) => writtenAnswer) as string[];
-        initAnswerList(writtenList);
-      }
+      const dumpAnswerList = questions.map(({ writtenAnswer }) => writtenAnswer ?? '');
+      initAnswerList(dumpAnswerList);
     }
   }, [questions]);
 
@@ -123,7 +123,10 @@ const Contents = () => {
                   if (el) questionItemRef.current[idx] = el;
                 }}
               >
-                <QuestionTitle>{question}</QuestionTitle>
+                <QuestionTitle>
+                  {`${idx + 1}. `}
+                  {question}
+                </QuestionTitle>
                 {questionType === QUESTION_TYPE.MULTIPLE ? (
                   <QuestionOptionList>
                     {options.map((option) => (
