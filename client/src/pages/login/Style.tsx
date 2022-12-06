@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { colors, device } from '../../styles/theme';
+import { colors, device, fonts } from '../../styles/theme';
 
 export const Modal = styled.div`
   position: absolute;
@@ -63,24 +64,28 @@ export const LoginButton = styled.input`
 `;
 export const MoreButtons = styled.div`
   margin: 12px;
+`;
 
-  input {
-    background: none;
-    border: none;
-    text-decoration: underline;
+export const RedirectButton = styled(Link)`
+  background: none;
+  border: none;
+  text-decoration: underline;
 
-    color: ${colors.gray1};
+  color: ${colors.gray2};
 
-    :hover {
-      opacity: 0.7;
-    }
+  font-size: ${fonts.size.xs};
+
+  margin: 0px 4px;
+
+  :hover {
+    opacity: 0.7;
   }
 `;
 
 export const SSOTitle = styled.div`
   margin: 12px;
 
-  color: ${colors.gray1};
+  color: ${colors.gray3};
   font-size: 14px;
 `;
 

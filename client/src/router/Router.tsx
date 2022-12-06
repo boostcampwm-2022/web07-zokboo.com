@@ -7,7 +7,7 @@ import ExamCreate from '../pages/ExamCreate';
 import FindId from '../pages/FindId/FindId';
 import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home';
-import Login from '../pages/login/Login';
+import Login from '../pages/login';
 import PageNotFound from '../pages/PageNotFound';
 import Workbook from '../pages/workbook';
 import Review from '../pages/Review';
