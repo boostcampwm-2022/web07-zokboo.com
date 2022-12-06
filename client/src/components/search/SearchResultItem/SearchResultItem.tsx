@@ -3,28 +3,20 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  ButtonContainer,
   Buttons,
   ContentButtons,
   Heart,
-  ItemCreateAt,
-  ItemCreator,
+  Infos,
   ItemExplain,
-  ItemInfo,
   ItemTitle,
   SaveButton,
   SearchResultItemContainer,
   TestButton,
 } from './Style';
+import SearchWorkbookType from '../../../types/search';
 
-interface SearchResultItemProps {
-  id: number;
-  title: string;
-  creatorId: string;
-  createAt: string;
-  description: string;
-}
-
-const SearchResultItem = ({ id, title, creatorId, createAt, description }: SearchResultItemProps) => {
+const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -39,7 +31,7 @@ const SearchResultItem = ({ id, title, creatorId, createAt, description }: Searc
   };
 
   const handleMoveWorkbookView = () => {
-    navigate(`./view?id=${id}`);
+    navigate(`./view?id=${workbookId}`);
   };
 
   const handleTestButton = () => {
@@ -55,19 +47,18 @@ const SearchResultItem = ({ id, title, creatorId, createAt, description }: Searc
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
-      <ItemCreator>{`생성자 : ${creatorId}`}</ItemCreator>
-      <ItemCreateAt>{`생성일 : ${createAt}`}</ItemCreateAt>
-      <Buttons>
-        <ItemInfo>
+      <Infos>{`문제 수 : ${questionCount}`}</Infos>
+      <ButtonContainer>
+        <Buttons>
           <Heart type="button" onClick={handleLike}>
             {isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}
           </Heart>
-        </ItemInfo>
+        </Buttons>
         <ContentButtons>
           <TestButton type="button" value="시험 응시하기" onClick={handleTestButton} />
           <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />
         </ContentButtons>
-      </Buttons>
+      </ButtonContainer>
     </SearchResultItemContainer>
   );
 };

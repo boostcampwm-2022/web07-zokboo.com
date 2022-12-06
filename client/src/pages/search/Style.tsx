@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { colors, device, paddings } from '../../styles/theme';
+import { colors, media, paddings } from '../../styles/theme';
 
 export const SearchResultContainer = styled.div`
   width: 80%;
-  //max-width: 800px;
 
   box-sizing: border-box;
   margin: 80px auto 0px;
   padding: ${paddings.responsive};
 
-  @media screen and (max-width: ${device.tablet}) {
+  ${media.tablet} {
     width: 100%;
   }
 `;
@@ -29,6 +28,16 @@ export const RadioContainer = styled.fieldset`
 
   display: flex;
   align-items: center;
+`;
+
+export const Items = styled.div`
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  gap: 20px;
 `;
 
 export const SearchResultTitle = styled.div``;
