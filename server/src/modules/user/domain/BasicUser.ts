@@ -51,4 +51,12 @@ export default class BasicUser extends User {
       throw new BadRequestException('잘못된 password');
     }
   }
+
+  updatePassword(password: string, passwordConfirmation: string) {
+    if (password !== passwordConfirmation) {
+      throw new BadRequestException('패스워드 불일치');
+    }
+
+    this.password = bcrypt.hashSync(password, 11);
+  }
 }

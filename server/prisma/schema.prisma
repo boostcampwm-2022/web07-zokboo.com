@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -98,6 +99,7 @@ model Test {
   created_at   DateTime       @db.DateTime(0)
   updated_at   DateTime       @db.DateTime(0)
   timeout      Int
+  title        String         @db.VarChar(64)
   User         User           @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_Test_1")
   TestPaper    TestPaper[]
   WorkbookTest WorkbookTest[]
@@ -166,6 +168,9 @@ model Workbook {
 
   @@index([user_id], map: "FK_User_TO_Workbook_1")
   @@index([original_id], map: "FK_Workbook_To_Workbook")
+  @@fulltext([description])
+  @@fulltext([title, description])
+  @@fulltext([title])
 }
 
 model WorkbookLike {

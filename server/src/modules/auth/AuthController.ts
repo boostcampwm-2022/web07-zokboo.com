@@ -12,11 +12,14 @@ import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
-import { Api201Response } from 'src/decorators/ApiResponseDecorator';
 import { MailService } from '../common/MailService';
+import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
+import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
+import ResetTokenResponse from './dto/response/ResetTokenResponse';
+import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
 
 @Controller('auth')
-@ApiExtraModels(ApiResponse, SigninResponse, SignupResponse)
+@ApiExtraModels(ApiResponse, SigninResponse, SignupResponse, ResetTokenResponse, ResetPasswordResponse)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -25,7 +28,7 @@ export class AuthController {
   ) {}
 
   @Post('signup')
-  @Api201Response(SignupResponse, '회원가입 완료')
+  @ApiSingleResponse(201, SignupResponse, '회원가입 완료')
   async signup(@Body() request: SignupRequest) {
     const response = await this.userService.signupBasicUser(request);
     const verifyToken = this.authService.issueVerifyToken(response.userId, request.email, 'SIGNUP');
@@ -35,18 +38,39 @@ export class AuthController {
 
   @Get('verify')
   async verify(@Query('token') token: string) {
-    const verifyResult = await this.authService.verify(token);
+    const verifyResult = await this.authService.verifySignupToken(token);
 
     return new ApiResponse('verify status', verifyResult);
   }
 
   @Post('signin')
-  @Api201Response(SigninResponse, '로그인 완료')
+  @ApiSingleResponse(200, SigninResponse, '로그인 완료')
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
     const user = await this.authService.signin(request);
     const token = this.authService.issueJwtAccessToken(user.userId);
-    response.cookie('accessToken', token);
+    response.cookie('accessToken', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return response.status(200).json(new ApiResponse('signin 완료', user));
+  }
+
+  @Post('reset')
+  @ApiSingleResponse(200, ResetTokenResponse, '패스워드 재설정 요청 성공')
+  async resetPasswordRequest(@Body('email') email: string) {
+    const token = this.authService.issueResetToken(email);
+    this.mailService.sendResetMail(email, token);
+
+    return new ApiResponse('패스워드 재설정 요청 성공', new ResetTokenResponse(token));
+  }
+
+  @Post('reset/password')
+  @ApiSingleResponse(200, ResetPasswordResponse, '패스워드 재설정 성공')
+  async resetPassword(@Body() request: ResetPasswordRequest) {
+    const response = await this.authService.resetPassword(request);
+
+    return new ApiResponse('패스워드 재설정 완료', response);
   }
 
   @Get('kakao')
@@ -61,8 +85,8 @@ export class AuthController {
   @Get('kakao/callback')
   @UseGuards(AuthGuard('kakao'))
   @ApiExcludeEndpoint()
-  async kakaoSignup(@User('id') oauthId: string, @Res() res: Response) {
-    const ApiResponse = await this.oauthCallback(oauthId, OauthType['KAKAO'], res);
+  async kakaoSignup(@User('id') oauthId: number, @Res() res: Response) {
+    const ApiResponse = await this.oauthCallback(String(oauthId), OauthType['KAKAO'], res);
     return res.status(200).json(ApiResponse);
   }
 
@@ -124,7 +148,11 @@ export class AuthController {
     };
     const user = await this.authService.signinByOauth(oauthRequest);
     const token = this.authService.issueJwtAccessToken(user.userId);
-    res.cookie('accessToken', token);
+    res.cookie('accessToken', token, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
     return new ApiResponse('signin 완료', user);
   }
 }
