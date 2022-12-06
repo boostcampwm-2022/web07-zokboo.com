@@ -1,7 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getWorkbookById } from '../../api/workbook';
 import { colors, fonts, widths } from '../../styles/theme';
 import { SERVER_URL } from '../../utils/constants';
 
@@ -46,41 +48,36 @@ interface Question {
 }
 
 interface Workbook {
+  workbookId: number;
+  title: string;
+  description: string;
+  isPublic: boolean;
+  questions: Question[];
+}
+interface WorkbookResponse {
   msg: string;
-  data: {
-    workbookId: number;
-    title: string;
-    description: string;
-    isPublic: boolean;
-    questions: Question[] | Question;
-  };
+  data: Workbook[] | Workbook;
 }
 
 const WorkbookDetail = () => {
-  const [workbookData, setWorkbookData] = useState<Workbook>();
   const [searchParams, setSearchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
-
-  useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/workbooks/${workbookId}`)
-      .then((res) => res.data)
-      .then((data) => setWorkbookData(data));
-  });
+  const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
 
   return (
     <PageContainer>
-      <TitleContainer>
-        <Title>제목 : {workbookData?.data.title}</Title>
-        <IsPublic>public</IsPublic>
-      </TitleContainer>
-      <Description>설명</Description>
-      <ProblemList>
-        <Problem>문제 1</Problem>
-        <Problem>문제 2</Problem>
-        <Problem>문제 3</Problem>
-        <Problem>문제 4</Problem>
-      </ProblemList>
+      {isLoading && <div>로딩중</div>}
+      {isError && <div>다시 시도해 주세요</div>}
+      {isSuccess && (
+        <>
+          <TitleContainer>
+            <Title>{`제목 : ${data.title}`}</Title>
+            <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
+          </TitleContainer>
+          <Description>{data.description}</Description>
+          <ProblemList>{JSON.stringify(data.questions)}</ProblemList>
+        </>
+      )}
     </PageContainer>
   );
 };

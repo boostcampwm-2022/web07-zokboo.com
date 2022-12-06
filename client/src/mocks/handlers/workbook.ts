@@ -24,4 +24,9 @@ export default [
   rest.patch(`${SERVER_URL}/workbooks/:workbookId/:questionId`, (req, res, ctx) => {
     return res(ctx.status(200));
   }),
+  rest.get(`${SERVER_URL}/workbooks/:workbookId`, (req, res, ctx) => {
+    const { workbookId } = req.params;
+    const [result] = workbookData.workbookList.filter(({ workbookId: id }) => Number(workbookId) === id);
+    return res(ctx.status(200), ctx.json(result));
+  }),
 ];

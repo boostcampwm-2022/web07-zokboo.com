@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { QueryFunctionContext } from 'react-query';
 import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody } from '../types/workbook';
 import { SERVER_URL } from '../utils/constants';
 
@@ -11,6 +12,12 @@ export const getWorkbookList = async (params: number) => {
 export const getWorkbookListByTitle = async (title: string) => {
   const { data } = await axios.get(`${SERVER_URL}/workbooks?title=${title}`);
 
+  return data;
+};
+
+export const getWorkbookById = async ({ queryKey }: QueryFunctionContext) => {
+  const [_key, workbookId] = queryKey;
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/${workbookId}`);
   return data;
 };
 
