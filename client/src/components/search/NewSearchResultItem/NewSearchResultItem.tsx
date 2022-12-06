@@ -15,22 +15,14 @@ import {
   WorkbookContent,
   WorkbookImage,
 } from './Style';
+import SearchWorkbookType from '../../../types/search';
 
-interface SearchResultItemProps {
-  id: number;
-  title: string;
-  creatorId: string;
-  createAt: string;
-  description: string;
-  like: boolean;
-}
-
-const NewSearchResultItem = ({ id, title, creatorId, createAt, description, like }: SearchResultItemProps) => {
+const NewSearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleMoveWorkbookView = () => {
-    navigate(`./view?id=${id}`);
+    navigate(`./view?id=${workbookId}`);
   };
 
   return (

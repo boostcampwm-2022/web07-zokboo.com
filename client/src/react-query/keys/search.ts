@@ -1,0 +1,3 @@
+const WORKBOOK_SEARCH = 'WORKBOOK_SEARCH';
+
+export default WORKBOOK_SEARCH;
