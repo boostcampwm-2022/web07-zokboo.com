@@ -43,6 +43,13 @@ export class AuthController {
     return new ApiResponse('verify status', verifyResult);
   }
 
+  @Get('logout')
+  async logout(@Res() res: Response) {
+    res.clearCookie('accessToken');
+
+    res.status(204).send();
+  }
+
   @Post('signin')
   @ApiSingleResponse(200, SigninResponse, '로그인 완료')
   async signin(@Body() request: SigninRequest, @Res() response: Response) {
