@@ -71,7 +71,7 @@ const WorkbookDetail = () => {
   return (
     <PageContainer>
       <TitleContainer>
-        <Title>제목 : 블라블라</Title>
+        <Title>제목 : {workbookData?.data.title}</Title>
         <IsPublic>public</IsPublic>
       </TitleContainer>
       <Description>설명</Description>
