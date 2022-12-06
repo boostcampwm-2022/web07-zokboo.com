@@ -1,13 +1,4 @@
-interface SolveQuestion {
-  questionId: number;
-  question: string;
-  questionType: string;
-  commentary: string;
-  answer: string;
-  options: string[];
-  workbookQuestionId?: number;
-  writtenAnswer?: string;
-}
+import { SolveQuestion } from '../../types/question';
 
 export interface SolveState {
   id: number;

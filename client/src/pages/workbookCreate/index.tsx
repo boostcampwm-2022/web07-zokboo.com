@@ -19,7 +19,7 @@ import {
   ProblemItemUnderLine,
   ProblemList,
 } from '../../styles/problemList';
-import { Question } from '../../types/question';
+import { AddQuestion } from '../../types/question';
 import {
   ListButton,
   ButtonList,
@@ -41,11 +41,11 @@ const WorkbookCreate = () => {
   const { text: description, onChange: handleDescriptionChange, reset: handleDescriptionReset } = useInput('');
   const [isPublic, handlePublicChange] = useToggle(false);
 
-  const [problemList, setProblemList] = useState<Question[]>([]);
+  const [problemList, setProblemList] = useState<AddQuestion[]>([]);
 
   const createWorkbookMutation = useMutation(createWorkbook);
 
-  const handleProblemAdd = (problem: Question) => {
+  const handleProblemAdd = (problem: AddQuestion) => {
     const listFilter = problemList.filter((currProblem) => problem === currProblem);
 
     if (listFilter.length === 0) {
