@@ -2,9 +2,11 @@ import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/t
 import storageSession from 'redux-persist/lib/storage/session';
 import { persistReducer, persistStore } from 'redux-persist';
 import loginSlice from './login/slice';
+import solveSlice from './solve/slice';
 
 const reducers = combineReducers({
   login: loginSlice.reducer,
+  solve: solveSlice.reducer,
 });
 
 export const store = configureStore({

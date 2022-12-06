@@ -1,11 +1,11 @@
+import { useAppSelector } from '../../../redux/hooks';
+import selectSolveData from '../../../redux/solve/selector';
 import Logo from '../../common/logo';
 import { Container, Inner, LogoBox, Title } from './Style';
 
-interface Props {
-  title: string;
-}
+const Header = () => {
+  const { title } = useAppSelector(selectSolveData);
 
-const Header = ({ title }: Props) => {
   return (
     <Container>
       <Inner>

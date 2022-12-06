@@ -183,6 +183,10 @@ export const QuestionDescription = styled.pre<{ isActive: boolean }>`
   border-radius: 10px;
 `;
 
+export const QuestionAnswerContainer = styled.div<{ isShow: boolean }>`
+  display: ${(props) => (props.isShow ? `block` : `none`)};
+`;
+
 export const WorkbookButton = styled(Button)``;
 
 export const MobileSideBarShowButton = styled(Button)`

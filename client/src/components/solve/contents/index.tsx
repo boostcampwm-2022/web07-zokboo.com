@@ -5,6 +5,8 @@ import { solveWorkbookQuestion } from '../../../api/workbook';
 import useArrayText from '../../../hooks/useArrayText';
 import useToggle from '../../../hooks/useToggle';
 import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
+import { useAppSelector } from '../../../redux/hooks';
+import selectSolveData from '../../../redux/solve/selector';
 import { WorkbookQuestions } from '../../../types/workbook';
 import { QUESTION_TYPE } from '../../../utils/constants';
 import {
@@ -12,6 +14,7 @@ import {
   MobileSideBarShowButton,
   QuestionAnswerArea,
   QuestionAnswerButton,
+  QuestionAnswerContainer,
   QuestionButtonList,
   QuestionCheckButton,
   QuestionContainer,
@@ -28,12 +31,9 @@ import {
   SideBarListTitle,
 } from './Style';
 
-interface Props {
-  questions: WorkbookQuestions[];
-  id: number;
-}
+const Contents = () => {
+  const { questions, id, type } = useAppSelector(selectSolveData);
 
-const Contents = ({ id, questions }: Props) => {
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
   const contentsRef = useRef<HTMLDivElement>(null);
   const questionItemRef = useRef<HTMLLIElement[]>([]);
@@ -42,8 +42,17 @@ const Contents = ({ id, questions }: Props) => {
 
   const solveWorkbookQuestionMutation = useMutation(solveWorkbookQuestion);
 
-  const checkDescriptionType = (idx: number, type: string) => {
-    if (descriptionType[idx] === type) return true;
+  const checkSolveType = () => {
+    return {
+      isWorkbook: type === 'workbooks',
+      isTest: type === 'tests',
+    };
+  };
+
+  const solveType = checkSolveType();
+
+  const checkDescriptionType = (idx: number, descType: string) => {
+    if (descriptionType[idx] === descType) return true;
     return false;
   };
 
@@ -62,22 +71,27 @@ const Contents = ({ id, questions }: Props) => {
     if (contentContainer) contentContainer.scrollTop = questionItem[idx].offsetTop - 30;
   };
 
-  const handleDescriptionTypeSelect = (index: number, type: string) => {
+  const handleDescriptionTypeSelect = (index: number, descType: string) => {
     const prevDescriptionType = descriptionType[index];
     let updateType = ``;
 
-    if (prevDescriptionType !== type) updateType = type;
+    if (prevDescriptionType !== descType) updateType = descType;
 
     setDescriptionType((prev) => prev.map((prevType, idx) => (idx !== index ? prevType : updateType)));
   };
 
   useEffect(() => {
     if (questions) {
-      const writtenList = questions.map(({ writtenAnswer }) => writtenAnswer);
       setDescriptionType(new Array(questions.length).fill(''));
-      initAnswerList(writtenList);
+
+      if (type === 'workbooks') {
+        const writtenList = questions.map(({ writtenAnswer }) => writtenAnswer) as string[];
+        initAnswerList(writtenList);
+      }
     }
   }, [questions]);
+
+  console.log(questions);
 
   return (
     <Container>
@@ -132,24 +146,27 @@ const Contents = ({ id, questions }: Props) => {
                     onChange={(e) => handleWorkbookQuestionSolve(questionId, idx, e.target.value)}
                   />
                 )}
-                <QuestionButtonList>
-                  <QuestionAnswerButton
-                    isActive={isAnswer}
-                    onClick={() => handleDescriptionTypeSelect(idx, DESCRIPTION_TYPE.answer)}
-                  >
-                    <BsFillCaretDownFill /> 정답 보기
-                  </QuestionAnswerButton>
-                  <QuestionAnswerButton
-                    isActive={isComment}
-                    onClick={() => handleDescriptionTypeSelect(idx, DESCRIPTION_TYPE.comment)}
-                  >
-                    <BsFillCaretDownFill /> 해설 보기
-                  </QuestionAnswerButton>
-                </QuestionButtonList>
 
-                <QuestionDescription isActive={isAnswer || isComment}>
-                  {descriptionType[idx] === DESCRIPTION_TYPE.answer ? answer : commentary}
-                </QuestionDescription>
+                <QuestionAnswerContainer isShow={solveType.isWorkbook}>
+                  <QuestionButtonList>
+                    <QuestionAnswerButton
+                      isActive={isAnswer}
+                      onClick={() => handleDescriptionTypeSelect(idx, DESCRIPTION_TYPE.answer)}
+                    >
+                      <BsFillCaretDownFill /> 정답 보기
+                    </QuestionAnswerButton>
+                    <QuestionAnswerButton
+                      isActive={isComment}
+                      onClick={() => handleDescriptionTypeSelect(idx, DESCRIPTION_TYPE.comment)}
+                    >
+                      <BsFillCaretDownFill /> 해설 보기
+                    </QuestionAnswerButton>
+                  </QuestionButtonList>
+
+                  <QuestionDescription isActive={isAnswer || isComment}>
+                    {descriptionType[idx] === DESCRIPTION_TYPE.answer ? answer : commentary}
+                  </QuestionDescription>
+                </QuestionAnswerContainer>
               </QuestionItem>
             );
           })}
