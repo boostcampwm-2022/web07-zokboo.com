@@ -51,6 +51,12 @@ export const ButtonList = styled.div`
   }
 `;
 
+export const UserData = styled.div``;
+
+export const UserAvatar = styled.img`
+  width: 20px;
+`;
+
 export const AuthLink = styled(Link)`
   color: ${colors.primary};
   border: 1px solid ${colors.primary};

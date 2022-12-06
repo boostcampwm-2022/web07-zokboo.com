@@ -3,15 +3,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/header/Header';
 
 import Exam from '../pages/Exam';
-import ExamCreate from '../pages/ExamCreate';
+import ExamCreate from '../pages/examCreate';
 import FindId from '../pages/FindId/FindId';
 import FindPw from '../pages/findPw/FindPw';
 import Home from '../pages/home';
-import Login from '../pages/login/Login';
+import Login from '../pages/login';
 import PageNotFound from '../pages/PageNotFound';
 import Workbook from '../pages/workbook';
 import Review from '../pages/Review';
-import Search from '../pages/search/Search';
+import Search from '../pages/search';
 import SignUp from '../pages/signup/SignUp';
 import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 import MyPage from '../pages/mypage';
@@ -26,6 +26,8 @@ const Router = () => {
         <Route path="/" element={<Header />} />
         <Route path="/workbook/new" element={<Header />} />
         <Route path="/mypage" element={<Header />} />
+        <Route path="/exam/new" element={<Header />} />
+        <Route path="/search" element={<Header />} />
       </Routes>
 
       {/* Contents */}
@@ -36,7 +38,7 @@ const Router = () => {
         <Route path="/workbook/new" element={<WorkbookCreate />} />
         <Route path="/workbook/update" element={<WorkbookCreate />} />
         <Route path="/workbook/:id" element={<Workbook />} />
-        <Route path="/exam_create" element={<ExamCreate />} />
+        <Route path="/exam/new" element={<ExamCreate />} />
         <Route path="/exam/:id" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />
         <Route path="/login" element={<Login />} />
