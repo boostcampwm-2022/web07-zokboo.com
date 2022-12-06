@@ -11,10 +11,10 @@ import { GetWorkbookListResponse } from '../../types/workbook';
 
 const Workbook = () => {
   const dispatch = useAppDispatch();
-  const { id } = useParams<{ id: string }>();
-  const numberId = id ? Number(id) : -1;
+  const { workbookId } = useParams<{ workbookId: string }>();
+  const numberId = workbookId ? Number(workbookId) : -1;
 
-  // const { id, type } = useAppSelector(selectSolveData);
+  const { id, type } = useAppSelector(selectSolveData);
 
   const { isLoading, isError } = useQuery<GetWorkbookListResponse>(
     KEYS.detail,
@@ -22,6 +22,7 @@ const Workbook = () => {
       return getWorkbookList(numberId);
     },
     {
+      enabled: numberId !== id && type === 'workbooks',
       onSuccess: (data: GetWorkbookListResponse) => {
         dispatch(
           initSolve({

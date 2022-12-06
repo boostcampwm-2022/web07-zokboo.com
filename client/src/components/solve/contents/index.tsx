@@ -7,7 +7,6 @@ import useToggle from '../../../hooks/useToggle';
 import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
 import { useAppSelector } from '../../../redux/hooks';
 import selectSolveData from '../../../redux/solve/selector';
-import { WorkbookQuestions } from '../../../types/workbook';
 import { QUESTION_TYPE } from '../../../utils/constants';
 import {
   Container,
@@ -90,8 +89,6 @@ const Contents = () => {
       }
     }
   }, [questions]);
-
-  console.log(questions);
 
   return (
     <Container>

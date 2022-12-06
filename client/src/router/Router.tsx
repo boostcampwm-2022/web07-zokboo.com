@@ -37,9 +37,9 @@ const Router = () => {
         <Route path="/search/view" element={<WorkbookDetail />} />
         <Route path="/workbook/new" element={<WorkbookCreate />} />
         <Route path="/workbook/update" element={<WorkbookCreate />} />
-        <Route path="/workbook/:id" element={<Workbook />} />
+        <Route path="/workbook/:workbookId" element={<Workbook />} />
         <Route path="/exam/new" element={<ExamCreate />} />
-        <Route path="/exam/:id" element={<Exam />} />
+        <Route path="/exam/:examId" element={<Exam />} />
         <Route path="/review/:id" element={<Review />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
