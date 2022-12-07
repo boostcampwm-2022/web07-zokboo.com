@@ -10,7 +10,7 @@ import OauthType from '../user/enum/OauthType';
 import { User } from 'src/decorators/UserDecorator';
 import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
-import { ApiExcludeEndpoint, ApiExtraModels, ApiOkResponse } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiExtraModels, ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
 import { MailService } from '../common/MailService';
 import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
@@ -41,6 +41,14 @@ export class AuthController {
     const verifyResult = await this.authService.verifySignupToken(token);
 
     return new ApiResponse('verify status', verifyResult);
+  }
+
+  @Get('logout')
+  @ApiNoContentResponse({ description: '로그아웃 완료' })
+  async logout(@Res() res: Response) {
+    res.clearCookie('accessToken');
+
+    res.status(204).send();
   }
 
   @Post('signin')
