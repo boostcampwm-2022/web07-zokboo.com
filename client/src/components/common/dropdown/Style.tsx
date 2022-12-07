@@ -47,6 +47,10 @@ export const DropdownItem = styled(Item)`
 
   cursor: pointer;
 
+  :hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
   :last-child {
     border: none;
   }

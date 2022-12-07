@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +11,6 @@ import {
   LineElement,
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
-import useArrayValue from '../../hooks/useArrayValue';
 import useToggleValue from '../../hooks/useToggleValue';
 import { colors } from '../../styles/theme';
 import Toggle from '../common/Toggle';
@@ -68,8 +68,10 @@ const CategoryInfo = [
 ];
 
 const Chart = () => {
-  const [Graph, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
-  const [category, handleChange] = useArrayValue<CATEGORY>(CategoryInfo);
+  const [Graph, toggle, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
+  const [categoryIndex, setCategoryIndex] = useState<number>(0);
+
+  const category = CategoryInfo[categoryIndex];
 
   const labels = ['11/10', '11/11', '11/12', '11/13', '11/14', '11/15', '11/16'];
   const data = {
@@ -107,14 +109,14 @@ const Chart = () => {
     <Container bgColor={category.color}>
       {CategoryInfo.map(({ name }, idx) => {
         return (
-          <Category key={name} onClick={() => handleChange(idx)}>
+          <Category key={name} onClick={() => setCategoryIndex(idx)}>
             {name}
           </Category>
         );
       })}
 
       <ChartToggle>
-        <Toggle setToggle={setToggle} />
+        <Toggle checked={toggle} setToggle={setToggle} />
       </ChartToggle>
 
       <Graph options={options} data={data} />

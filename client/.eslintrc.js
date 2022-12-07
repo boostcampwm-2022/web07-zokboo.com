@@ -11,6 +11,8 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'no-param-reassign': ['error', { props: false }],
+
     'prettier/prettier': 0,
 
     'react/function-component-definition': [
@@ -42,6 +44,8 @@ module.exports = {
       'error',
       { devDependencies: true, optionalDependencies: false, peerDependencies: false },
     ],
+
+    'react/require-default-props': 'off',
   },
   settings: {
     'import/resolver': {

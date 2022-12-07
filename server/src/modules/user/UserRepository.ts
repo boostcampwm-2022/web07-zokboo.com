@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
 import BasicUser from './domain/BasicUser';
 import OauthUser from './domain/OauthUser';
@@ -9,18 +10,19 @@ type UserType = User | BasicUser | OauthUser;
 
 @Injectable()
 export class UserRepository {
-  constructor(private prisma: PrismaInstance) {}
+  constructor(private prismaInstance: PrismaInstance) {}
 
-  async save(user: UserType): Promise<UserType> {
+  async save(user: UserType, tx?: Prisma.TransactionClient): Promise<UserType> {
     if (user.userId) {
-      return await this.update(user);
+      return await this.update(user, tx);
     } else {
-      return await this.create(user);
+      return await this.create(user, tx);
     }
   }
 
-  async create(user: User): Promise<User> {
-    const newUser = await this.prisma.user.create({
+  async create(user: User, tx?: Prisma.TransactionClient): Promise<User> {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newUser = await prisma.user.create({
       data: {
         nickname: user.nickname,
         avatar: user.avatar,
@@ -29,7 +31,7 @@ export class UserRepository {
       },
     });
     if (user instanceof BasicUser) {
-      await this.prisma.basicUser.create({
+      await prisma.basicUser.create({
         data: {
           user_id: newUser.user_id,
           email: (user as BasicUser).email,
@@ -37,7 +39,7 @@ export class UserRepository {
         },
       });
     } else if (user instanceof OauthUser) {
-      await this.prisma.oauthUser.create({
+      await prisma.oauthUser.create({
         data: {
           user_id: newUser.user_id,
           oauth_id: (user as OauthUser).oauthId,
@@ -45,7 +47,7 @@ export class UserRepository {
         },
       });
     } else {
-      await this.prisma.user.delete({
+      await prisma.user.delete({
         where: {
           user_id: newUser.user_id,
         },
@@ -56,8 +58,9 @@ export class UserRepository {
     return user;
   }
 
-  async update(user: User) {
-    await this.prisma.user.update({
+  async update(user: User, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    await prisma.user.update({
       where: {
         user_id: user.userId,
       },
@@ -70,8 +73,9 @@ export class UserRepository {
     return user;
   }
 
-  async findUserById(userId: number) {
-    const user = await this.prisma.user.findUnique({
+  async findUserById(userId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const user = await prisma.user.findUnique({
       where: {
         user_id: userId,
       },
@@ -82,8 +86,9 @@ export class UserRepository {
     return User.of(user);
   }
 
-  async findUserByNickname(nickname: string) {
-    const user = await this.prisma.user.findUnique({
+  async findUserByNickname(nickname: string, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const user = await prisma.user.findUnique({
       where: {
         nickname,
       },
@@ -94,8 +99,9 @@ export class UserRepository {
     return User.of(user);
   }
 
-  async findUserByEmail(email: string): Promise<BasicUser> {
-    const basicUser = await this.prisma.basicUser.findUnique({
+  async findUserByEmail(email: string, tx?: Prisma.TransactionClient): Promise<BasicUser> {
+    const prisma = tx ? tx : this.prismaInstance;
+    const basicUser = await prisma.basicUser.findUnique({
       where: {
         email,
       },
@@ -109,8 +115,9 @@ export class UserRepository {
     return BasicUser.basicOf(basicUser);
   }
 
-  async findUserByOauth(oauthId: string, oauthType: OauthType) {
-    const oauthUser = await this.prisma.oauthUser.findUnique({
+  async findUserByOauth(oauthId: string, oauthType: OauthType, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const oauthUser = await prisma.oauthUser.findUnique({
       where: {
         oauth_type_oauth_id: {
           oauth_id: oauthId,

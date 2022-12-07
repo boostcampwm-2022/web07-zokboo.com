@@ -7,3 +7,4 @@ export const WRONG_EMAIL = 'wrongemail.naver.com';
 export const CORRECT_EMAIL = 'sample@naver.com';
 // export const WRONG_CERTIFIED_NUMBER = ''; //
 export const CORRECT_CERTIFIED_NUMBER = '1313';
+export const MAX_INPUT_LENGTH = 30;

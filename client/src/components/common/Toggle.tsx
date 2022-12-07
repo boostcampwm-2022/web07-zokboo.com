@@ -66,13 +66,14 @@ const ToggleContainer = styled.label`
 `;
 
 interface Props {
+  checked: boolean;
   setToggle?: () => void;
 }
 
-const Toggle = ({ setToggle }: Props) => {
+const Toggle = ({ checked, setToggle }: Props) => {
   return (
     <ToggleContainer htmlFor="toggle">
-      <input type="checkbox" id="toggle" onChange={setToggle} />
+      <input type="checkbox" id="toggle" checked={checked} onChange={setToggle} />
       <ToggleButton />
     </ToggleContainer>
   );
