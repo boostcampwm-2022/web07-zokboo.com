@@ -10,6 +10,7 @@ const reducers = combineReducers({
 export const store = configureStore({
   reducer: persistReducer({ key: 'root', storage: storageSession /** redux를 session storage처럼 활용 */ }, reducers),
   devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store);
