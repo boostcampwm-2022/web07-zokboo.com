@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
+import Question from '../question/domain/Question';
 import Workbook from '../workbook/domain/Workbook';
+import WorkbookQuestion from '../workbook/domain/WorkbookQuestion';
 import Test from './domain/Test';
 import WorkbookTest from './domain/WorkbookTest';
 
@@ -75,5 +77,40 @@ export class TestRepository {
     workbookTest.setId(newWorkbookTest.workbook_test_id);
     workbookTest.setTestId(testId);
     return workbookTest;
+  }
+
+  async findTestWithAll(testId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const test = await prisma.test.findUnique({
+      where: {
+        test_id: testId,
+      },
+      include: {
+        WorkbookTest: {
+          include: {
+            Workbook: {
+              include: {
+                WorkbookQuestion: {
+                  include: {
+                    Question: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    const result = Test.of(test);
+    result.setWorkbooks(
+      test.WorkbookTest.map((wt) => {
+        const workbook = Workbook.of(wt.Workbook);
+        workbook.setQuestions(
+          wt.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+        );
+        return WorkbookTest.of(wt, workbook);
+      }),
+    );
+    return result;
   }
 }
