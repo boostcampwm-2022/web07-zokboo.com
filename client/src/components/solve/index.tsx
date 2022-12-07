@@ -14,7 +14,7 @@ interface Props {
 
 const Solve = ({ isLoading, isError }: Props) => {
   const navigate = useNavigate();
-  const userData = useUserData();
+  // const userData = useUserData();
 
   useEffect(() => {
     if (isError) {

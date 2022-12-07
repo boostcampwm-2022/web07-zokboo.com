@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { createWorkbook } from '../../api/workbook';
@@ -35,13 +35,13 @@ import {
 } from './Style';
 
 const WorkbookCreate = () => {
-  const userData = useUserData();
+  // const userData = useUserData();
 
   const [isCreateModal, onCreateModalToggle] = useToggle(false);
   const [isSearchModal, onSearchModalToggle] = useToggle(false);
 
-  const { text: title, onChange: handleTitleChange, reset: handleTitleReset } = useInput('');
-  const { text: description, onChange: handleDescriptionChange, reset: handleDescriptionReset } = useInput('');
+  const titleRef = useRef<HTMLInputElement>(null);
+  const descRef = useRef<HTMLTextAreaElement>(null);
   const [isPublic, handlePublicChange] = useToggle(false);
 
   const [problemList, setProblemList] = useState<AddQuestion[]>([]);
@@ -64,18 +64,20 @@ const WorkbookCreate = () => {
     setProblemList(updateProblemList);
   };
 
-  const handleFormReset = () => {
-    handleTitleReset();
-    handleDescriptionReset();
-    setProblemList([]);
-  };
+  const handleWorkbookCreate = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleWorkbookCreate = () => {
-    if (!title || title.trim() === '') {
+    const target = event.target as HTMLFormElement;
+
+    const title = target.titleValue as HTMLInputElement;
+    const description = target.descriptionValue as HTMLInputElement;
+    const toggle = target.toggleValue as HTMLInputElement;
+
+    if (!title.value || title.value.trim() === '') {
       toast.error('문제집 제목을 입력해주세요.');
       return;
     }
-    if (!description || description.trim() === '') {
+    if (!description.value || description.value.trim() === '') {
       toast.error('문제집 설명을 입력해주세요.');
       return;
     }
@@ -89,14 +91,14 @@ const WorkbookCreate = () => {
 
     createWorkbookMutation.mutate(
       {
-        title,
-        description,
+        title: title.value,
+        description: description.value,
         questions,
-        isPublic,
+        isPublic: toggle.checked,
       },
       {
         onSuccess: () => {
-          handleFormReset();
+          target.reset();
           toast.success('문제집을 추가하였습니다.');
         },
       },
@@ -107,34 +109,23 @@ const WorkbookCreate = () => {
     <>
       <MainTitle title="문제집 만들기" />
       <Container>
-        <InfoContainer>
+        <InfoContainer onSubmit={handleWorkbookCreate}>
           <InfoItem>
             <SubTitle>문제집 제목</SubTitle>
-            <InfoInput
-              type="text"
-              id="title"
-              placeholder="문제집 제목을 입력하세요."
-              value={title}
-              onChange={handleTitleChange}
-            />
+            <InfoInput type="text" id="titleValue" placeholder="문제집 제목을 입력하세요." ref={titleRef} />
           </InfoItem>
           <InfoItem>
             <SubTitle>문제집 설명</SubTitle>
-            <InfoTextArea
-              id="category"
-              placeholder="문제집 설명을 입력하세요."
-              value={description}
-              onChange={handleDescriptionChange}
-            />
+            <InfoTextArea id="descriptionValue" placeholder="문제집 설명을 입력하세요." ref={descRef} />
           </InfoItem>
           <InfoItem>
             <SubTitle>공유</SubTitle>
             <InfoToggle>
-              <Toggle checked={isPublic} setToggle={handlePublicChange} />
+              <Toggle />
             </InfoToggle>
           </InfoItem>
 
-          <InfoButton onClick={handleWorkbookCreate}>문제집 생성</InfoButton>
+          <InfoButton type="submit">문제집 생성</InfoButton>
         </InfoContainer>
 
         <ProblemListContainer>
