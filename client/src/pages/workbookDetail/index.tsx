@@ -1,13 +1,15 @@
 import axios, { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { getWorkbookById } from '../../api/workbook';
 import ButtonComponent from '../../components/common/Button';
 import { colors, fonts, media, widths } from '../../styles/theme';
 import { SERVER_URL } from '../../utils/constants';
 import SampleImage from '../../images/sample-image.jpeg';
+import DropDown from '../../components/common/dropdown/Dropdown';
 
 const PageContainer = styled.div`
   display: flex;
@@ -16,10 +18,9 @@ const PageContainer = styled.div`
   width: 100%;
 
   height: 100%;
-  margin: 0 auto;
 `;
 
-const TitleContainer = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -33,7 +34,13 @@ const TitleContainer = styled.div`
   background-color: ${colors.secondary};
   padding: 20px 0;
 `;
-const LeftContainer = styled.div`
+
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const Left = styled.div`
   display: flex;
   ${media.mobileWidth} {
     display: none;
@@ -44,14 +51,20 @@ const LeftContainer = styled.div`
   gap: 4px;
   padding-left: 20px;
 `;
-const RightContainer = styled.div`
+const Right = styled.div`
   padding-left: 20px;
+  width: 100%;
+  max-width: 400px;
 `;
 
 const WorkbookIntroduce = styled.div`
   margin-bottom: 150px;
 `;
-
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 const WorkbookSaveButton = styled.input`
   padding: 10px 20px;
 
@@ -65,6 +78,11 @@ const WorkbookSaveButton = styled.input`
   :active {
     opacity: 0.5;
   }
+`;
+
+const Heart = styled.button`
+  background: none;
+  border: none;
 `;
 
 const Title = styled.div`
@@ -85,14 +103,91 @@ const IsPublic = styled.div`
   font-weight: 500;
   padding: 2px 4px;
 `;
-const Description = styled.div`
-  width: 400px;
+const Description = styled.div``;
+
+const BodyTitle = styled.div`
+  font-weight: ${fonts.weight.bold};
+  font-size: ${fonts.size.xl};
+
+  margin-top: 20px;
+`;
+
+const ProblemListContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  ${media.mobileWidth} {
+    justify-content: flex-start;
+  }
+
+  margin: 0 10px;
 `;
 const ProblemList = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 70%;
+  ${media.mobileWidth} {
+    width: 100%;
+  }
 `;
-const Problem = styled.div``;
+
+const ProblemDropdown = styled.details`
+  margin-top: 12px;
+
+  > * {
+    padding: 10px 20px;
+
+    border: 1px solid black;
+    border-radius: 4px;
+  }
+`;
+
+const ProblemNumber = styled.summary`
+  white-space: nowrap;
+  overflow: hidden;
+
+  margin-bottom: 8px;
+
+  ::marker {
+    display: none;
+    content: '🔽  ';
+  }
+`;
+
+const Problem = styled.div`
+  background-color: white;
+`;
+
+const ProblemTitle = styled.div`
+  font-weight: 700;
+`;
+const ProblemDifficulty = styled.div`
+  color: ${colors.gray4};
+  font-size: ${fonts.size.xs};
+`;
+const ProblemCommentary = styled.div`
+  color: ${colors.gray4};
+  font-size: ${fonts.size.xs};
+`;
+const ProblemHashtags = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-top: 8px;
+
+  font-size: 14px;
+
+  > * {
+    font-size: 12px;
+
+    border: none;
+    border-radius: 4px;
+
+    margin: 0 4px;
+    padding: 2px 4px;
+
+    background-color: ${colors.primary};
+    color: ${colors.white};
+  }
+`;
 
 interface Question {
   questionId: number;
@@ -103,7 +198,7 @@ interface Question {
   questionType: string;
   images: string[] | string;
   options: string[] | string;
-  hashtags: string[] | string;
+  hashtags: string[];
 }
 
 interface Workbook {
@@ -122,6 +217,17 @@ const WorkbookDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
   const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
+  const [isLike, setIsLike] = useState<boolean>(false);
+
+  const handleLike = useCallback(() => {
+    if (isLike) {
+      /** 좋아요 취소 api */
+    } else {
+      /** 좋아요 입력 api */
+    }
+
+    setIsLike((prev) => !prev);
+  }, []);
 
   return (
     <PageContainer>
@@ -129,33 +235,50 @@ const WorkbookDetail = () => {
       {isError && <div>다시 시도해 주세요</div>}
       {isSuccess && (
         <>
-          <TitleContainer>
-            <LeftContainer>
-              <img src={SampleImage} width="400px" alt="" />
-            </LeftContainer>
-            <RightContainer>
-              <WorkbookIntroduce>
-                <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
-                <Title>{`제목 : ${data.title}`}</Title>
-                <Description>{data.description}asdasd123213213</Description>
-              </WorkbookIntroduce>
-              <WorkbookSaveButton type="button" value="문제집 저장" />
-            </RightContainer>
-          </TitleContainer>
+          <HeaderContainer>
+            <Header>
+              <Left>
+                <img src={SampleImage} width="400px" alt="" />
+              </Left>
+              <Right>
+                <WorkbookIntroduce>
+                  <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
+                  <Title>{`제목 : ${data.title}`}</Title>
+                  <Description>{data.description}asdasd123213213</Description>
+                </WorkbookIntroduce>
+                <ButtonContainer>
+                  <WorkbookSaveButton type="button" value="문제집 저장" />
+                  <Heart type="button" onClick={handleLike}>
+                    {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
+                  </Heart>
+                </ButtonContainer>
+              </Right>
+            </Header>
+          </HeaderContainer>
 
-          <ProblemList>
-            {data.questions.map((x, idx) => {
-              return (
-                <Problem key={x.questionId}>
-                  <div>{x.question}</div>
-                  <div>{x.difficulty}</div>
-                  <div>{x.commentary}</div>
-                  <div>{x.questionType}</div>
-                  <div>{x.hashtags}</div>
-                </Problem>
-              );
-            })}
-          </ProblemList>
+          <ProblemListContainer>
+            <ProblemList>
+              <BodyTitle>문제 미리보기</BodyTitle>
+              {data.questions.map((x, idx) => {
+                return (
+                  <ProblemDropdown key={x.questionId}>
+                    <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
+                    <Problem>
+                      <ProblemTitle>문제 : {x.question}</ProblemTitle>
+                      <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
+                      <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
+                      <ProblemHashtags>
+                        해시태그 :
+                        {x.hashtags.map((hashtag, index) => {
+                          return <div key={hashtag}>{hashtag}</div>;
+                        })}
+                      </ProblemHashtags>
+                    </Problem>
+                  </ProblemDropdown>
+                );
+              })}
+            </ProblemList>
+          </ProblemListContainer>
         </>
       )}
     </PageContainer>
