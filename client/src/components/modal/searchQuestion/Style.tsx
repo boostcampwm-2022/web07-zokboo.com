@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Button, Input } from '../../../styles/common';
 import { ProblemItem, ProblemList } from '../../../styles/problemList';
-import { colors, fonts, media } from '../../../styles/theme';
-import { DropDownContainer } from '../create/Style';
+import { media } from '../../../styles/theme';
+import { DropDownContainer } from '../createQuestion/Style';
 
 export const Container = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const Container = styled.div`
   justify-content: space-between;
 
   height: 100%;
-  padding: 30px 20px;
+  padding: 30px 20px 0;
 
   ${media.tablet} {
     padding: 30px 20px 0;
@@ -21,7 +21,7 @@ export const SearchDropDownContainer = styled(DropDownContainer)`
   width: 150px;
 `;
 
-export const SearchBox = styled.div`
+export const SearchContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
@@ -40,7 +40,7 @@ export const SearchButton = styled(Button)`
 `;
 
 export const SearchProblemList = styled(ProblemList)`
-  height: calc(100% - 45px);
+  height: calc(100% - 42px);
 
   ${ProblemItem} {
     cursor: pointer;

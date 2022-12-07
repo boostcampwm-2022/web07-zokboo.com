@@ -18,11 +18,11 @@ export class QuestionController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
-  @ApiMultiResponse(200, GetQuestionsResponse, '문제 조회 완료')
+  @ApiMultiResponse(200, GetQuestionsResponse, '문제 조회 성공')
   async getQuestions(@User('id') id: bigint, @Query() query: GetQuestionsQuery) {
     const response = await this.questionService.getQuestions(query, id);
 
-    return new ApiResponse('조회 완료', response);
+    return new ApiResponse('조회 성공', response);
   }
 
   @Post()
@@ -36,6 +36,6 @@ export class QuestionController {
   ) {
     request.images = images;
     const response = await this.questionService.createQuestion(request, Number(userId));
-    return new ApiResponse('문제 생성 완료', response);
+    return new ApiResponse('문제 생성 성공', response);
   }
 }

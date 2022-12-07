@@ -38,7 +38,6 @@ export class MailService {
   }
 
   public sendResetMail(to: string, token: string) {
-    // TODO: 템플릿에 프론트 URL이 들어가는데, 이 부분 URL 결정하기
     const template = `<!DOCTYPE HTML>
 <html lang="ko">
 <head>
@@ -52,7 +51,7 @@ export class MailService {
 <div>
   <a href="${this.configService.get<string>(
     'WEB_SERVER_URL',
-  )}/auth/verify/reset?token=${token}" target="_blank">링크 클릭</a>
+  )}/auth/password?token=${token}" target="_blank">링크 클릭</a>
 </div>
 </p>
 </body>
@@ -62,7 +61,6 @@ export class MailService {
   }
 
   public sendVerifyMail(to: string, token: string) {
-    // TODO: 템플릿에 프론트 URL이 들어가는데, 이 부분 URL 결정하기
     // TODO: 추후에 ejs, pug 형태로 템플릿을 관리하면 좋을 것 같습니다.
     const template = `<!DOCTYPE HTML>
 <html lang="ko">
@@ -75,9 +73,7 @@ export class MailService {
 <p>
 <div>회원가입이 완료되었습니다. 링크를 클릭해 계정 인증을 완료해주세요! 제공되는 링크는 회원가입 시점으로부터 30분간 유효합니다.</div>
 <div>
-  <a href="${this.configService.get<string>(
-    'WEB_SERVER_URL',
-  )}/auth/reset/password?token=${token}" target="_blank">링크 클릭</a>
+  <a href="${this.configService.get<string>('WEB_SERVER_URL')}/auth/email?token=${token}" target="_blank">링크 클릭</a>
 </div>
 </p>
 </body>

@@ -11,6 +11,13 @@ export default [
 
     return res(ctx.status(200), ctx.json(result[0]));
   }),
+  rest.get(`${SERVER_URL}/workbooks`, (req, res, ctx) => {
+    const searchTitle = req.url.searchParams.get('title');
+
+    const result = workbookData.workbookList.filter(({ title }) => title === searchTitle);
+
+    return res(ctx.status(200), ctx.json(result));
+  }),
   rest.post<PostCreateWorkbookBody>(`${SERVER_URL}/workbooks`, (req, res, ctx) => {
     return res(ctx.status(200));
   }),

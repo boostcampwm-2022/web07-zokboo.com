@@ -76,4 +76,28 @@ export class TestRepository {
     workbookTest.setTestId(testId);
     return workbookTest;
   }
+
+  async searchTestsByUser(title: string, userId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const tests = await prisma.test.findMany({
+      where: {
+        user_id: userId,
+        title: {
+          search: title,
+        },
+      },
+      include: {
+        WorkbookTest: {
+          include: {
+            Workbook: true,
+          },
+        },
+      },
+    });
+    return tests.map((t) => {
+      const test = Test.of(t);
+      test.setWorkbooks(t.WorkbookTest.map((wt) => WorkbookTest.of(wt, Workbook.of(wt.Workbook))));
+      return test;
+    });
+  }
 }
