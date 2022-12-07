@@ -24,11 +24,12 @@ export class TestPaperService {
       if (!test || test.userId !== BigInt(userId)) {
         throw new BadRequestException('잘못된 시험 ID 입니다.');
       }
-      const testPaper = TestPaper.new(request.title, test.timeout);
+      const testPaper = TestPaper.new(request.title, test);
       const questions: Question[] = [];
       test.workbooks.forEach((w) => {
-        questions.concat(this.exportRandomQuestionsFromWorkbook(w.workbook, w.count));
+        questions.push(...this.exportRandomQuestionsFromWorkbook(w.workbook, w.count));
       });
+      console.log(questions);
       testPaper.setQuestions(questions.map((q) => TestPaperQuestion.new(q)));
       await this.testPaperRepository.save(testPaper);
       result = new CreateTestPaperResponse(testPaper);
@@ -49,6 +50,7 @@ export class TestPaperService {
         continue;
       }
       result.push(workbook.questions[randomIndex].question);
+      addedIndex.add(randomIndex);
     }
     return result;
   }

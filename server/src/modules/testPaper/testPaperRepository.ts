@@ -10,7 +10,6 @@ export class TestPaperRepository {
   constructor(private readonly prismaInstance: PrismaInstance) {}
 
   async save(testPaper: TestPaper, tx?: Prisma.TransactionClient) {
-    const prisma = tx ? tx : this.prismaInstance;
     if (testPaper.testPaperId) {
       return await this.update(testPaper, tx);
     }
@@ -19,7 +18,7 @@ export class TestPaperRepository {
 
   async create(testPaper: TestPaper, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
-    const newTestPaper = await tx.testPaper.create({
+    const newTestPaper = await prisma.testPaper.create({
       data: {
         test_id: testPaper.test.testId,
         title: testPaper.title,
@@ -56,7 +55,7 @@ export class TestPaperRepository {
 
   async update(testPaper: TestPaper, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
-    await tx.testPaper.update({
+    await prisma.testPaper.update({
       where: {
         test_paper_id: testPaper.testPaperId,
       },

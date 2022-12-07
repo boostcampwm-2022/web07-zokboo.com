@@ -51,7 +51,6 @@ class Test {
   }
 
   setWorkbooks(workbooks: WorkbookTest[]) {
-    console.log(workbooks);
     if (workbooks.length < 1) {
       throw new BadRequestException('시험은 최소 한개의 문제집에서부터 문제를 가져와야 합니다.');
     }

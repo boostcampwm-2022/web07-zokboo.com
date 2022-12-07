@@ -34,9 +34,9 @@ class TestPaper {
     this.updatedAt = updatedAt;
   }
 
-  static new(title: string, timeout: number) {
+  static new(title: string, test: Test) {
     const now = new Date();
-    return new TestPaper(undefined, title, timeout, 0, false, undefined, undefined, now, now);
+    return new TestPaper(undefined, title, test.timeout, 0, false, test, undefined, now, now);
   }
 
   setId(testPaperId: bigint) {
