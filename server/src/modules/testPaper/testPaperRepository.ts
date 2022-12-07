@@ -23,6 +23,7 @@ export class TestPaperRepository {
       data: {
         test_id: testPaper.test.testId,
         title: testPaper.title,
+        timeout: testPaper.timeout,
         correct_count: testPaper.correctCount,
         is_completed: testPaper.isCompleted,
         created_at: testPaper.createdAt,
