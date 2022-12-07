@@ -52,7 +52,7 @@ export class MailService {
 <div>
   <a href="${this.configService.get<string>(
     'WEB_SERVER_URL',
-  )}/auth/verify/reset?token=${token}" target="_blank">링크 클릭</a>
+  )}/auth/password?token=${token}" target="_blank">링크 클릭</a>
 </div>
 </p>
 </body>
@@ -73,11 +73,9 @@ export class MailService {
 <body>
 <h1>족부닷컴</h1>
 <p>
-<div>회원가입이 성공되었습니다. 링크를 클릭해 계정 인증을 성공해주세요! 제공되는 링크는 회원가입 시점으로부터 30분간 유효합니다.</div>
+<div>회원가입이 완료되었습니다. 링크를 클릭해 계정 인증을 완료해주세요! 제공되는 링크는 회원가입 시점으로부터 30분간 유효합니다.</div>
 <div>
-  <a href="${this.configService.get<string>(
-    'WEB_SERVER_URL',
-  )}/auth/reset/password?token=${token}" target="_blank">링크 클릭</a>
+  <a href="${this.configService.get<string>('WEB_SERVER_URL')}/auth/email?token=${token}" target="_blank">링크 클릭</a>
 </div>
 </p>
 </body>
