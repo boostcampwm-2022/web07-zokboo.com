@@ -17,12 +17,17 @@ const PageContainer = styled.div`
 
   height: 100%;
   margin: 0 auto;
-  margin-top: 30px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  justify-content: center;
+  ${media.mobileLength} {
+    justify-content: flex-start;
+  }
+
   gap: 8px;
 
   background-color: ${colors.secondary};
@@ -30,14 +35,36 @@ const TitleContainer = styled.div`
 `;
 const LeftContainer = styled.div`
   display: flex;
+  ${media.mobileWidth} {
+    display: none;
+  }
   flex-direction: row;
   align-items: center;
 
   gap: 4px;
-  padding-left: 34px;
+  padding-left: 20px;
 `;
 const RightContainer = styled.div`
-  gap: 10px;
+  padding-left: 20px;
+`;
+
+const WorkbookIntroduce = styled.div`
+  margin-bottom: 150px;
+`;
+
+const WorkbookSaveButton = styled.input`
+  padding: 10px 20px;
+
+  border: 1.5px solid ${colors.primary};
+  border-radius: 8px;
+
+  :hover {
+    opacity: 0.8;
+  }
+
+  :active {
+    opacity: 0.5;
+  }
 `;
 
 const Title = styled.div`
@@ -61,10 +88,11 @@ const IsPublic = styled.div`
 const Description = styled.div`
   width: 400px;
 `;
-const ProblemList = styled.div``;
-const Problem = styled.div`
-  background-color: ${colors.gray4};
+const ProblemList = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
+const Problem = styled.div``;
 
 interface Question {
   questionId: number;
@@ -106,13 +134,15 @@ const WorkbookDetail = () => {
               <img src={SampleImage} width="400px" alt="" />
             </LeftContainer>
             <RightContainer>
-              <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
-              <Title>{`제목 : ${data.title}`}</Title>
-              <Description>{data.description}asdasd123213213</Description>
-              {/* <ButtonComponent buttonText="문제집 저장" /> */}
+              <WorkbookIntroduce>
+                <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
+                <Title>{`제목 : ${data.title}`}</Title>
+                <Description>{data.description}asdasd123213213</Description>
+              </WorkbookIntroduce>
+              <WorkbookSaveButton type="button" value="문제집 저장" />
             </RightContainer>
           </TitleContainer>
-          <Description>{data.description}</Description>
+
           <ProblemList>
             {data.questions.map((x, idx) => {
               return (
