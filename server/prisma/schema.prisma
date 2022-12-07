@@ -50,8 +50,8 @@ model Question {
   updated_at        DateTime            @db.DateTime(0)
   commentary        String              @db.VarChar(1000)
   difficulty        Float
-  User              User                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_Question_1")
   Option            Option[]
+  User              User                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_TO_Question_1")
   QuestionHashtag   QuestionHashtag[]
   QuestionImage     QuestionImage[]
   QuestionLike      QuestionLike[]
@@ -114,6 +114,8 @@ model TestPaper {
   created_at        DateTime            @db.DateTime(0)
   updated_at        DateTime            @db.DateTime(0)
   is_completed      Boolean             @default(false)
+  title             String              @db.VarChar(50)
+  timeout           Int
   Test              Test                @relation(fields: [test_id], references: [test_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Test_TO_TestPaper_1")
   TestPaperQuestion TestPaperQuestion[]
 

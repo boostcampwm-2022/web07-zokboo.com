@@ -3,6 +3,8 @@ import TestPaperQuestion from './TestPaperQuestion';
 
 class TestPaper {
   public testPaperId: bigint;
+  public title: string;
+  public timeout: number;
   public correctCount: number;
   public isCompleted: boolean;
   public test: Test;
@@ -12,6 +14,8 @@ class TestPaper {
 
   constructor(
     testPaperId: bigint,
+    title: string,
+    timeout: number,
     correctCount: number,
     isCompleted: boolean,
     test: Test,
@@ -20,12 +24,19 @@ class TestPaper {
     updatedAt: Date,
   ) {
     this.testPaperId = testPaperId;
+    this.title = title;
+    this.timeout = timeout;
     this.correctCount = correctCount;
     this.isCompleted = isCompleted;
     this.test = test;
     this.questions = questions;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+  }
+
+  static new(title: string, timeout: number) {
+    const now = new Date();
+    return new TestPaper(undefined, title, timeout, 0, false, undefined, undefined, now, now);
   }
 
   setId(testPaperId: bigint) {
@@ -36,3 +47,5 @@ class TestPaper {
     this.questions = questions;
   }
 }
+
+export default TestPaper;
