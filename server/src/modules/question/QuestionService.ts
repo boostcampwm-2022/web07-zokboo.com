@@ -14,7 +14,7 @@ import { PrismaInstance } from '../common/PrismaInstance';
 export class QuestionService {
   constructor(private readonly questionRepository: QuestionRepository, private readonly prisma: PrismaInstance) {}
 
-  async getQuestions(query: GetQuestionsQuery, userId: bigint): Promise<GetQuestionsResponse[]> {
+  async getQuestions(query: GetQuestionsQuery, userId: number): Promise<GetQuestionsResponse[]> {
     let result: GetQuestionsResponse[];
     await this.prisma.$transaction(async (tx) => {
       if (query.hashtag) {

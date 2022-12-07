@@ -55,13 +55,29 @@ export class TestRepository {
       include: {
         WorkbookTest: {
           include: {
-            Workbook: true,
+            Workbook: {
+              include: {
+                WorkbookQuestion: {
+                  include: {
+                    Question: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
     test.setId(newTest.test_id);
-    test.setWorkbooks(newTest.WorkbookTest.map((w) => WorkbookTest.of(w, Workbook.of(w.Workbook))));
+    test.setWorkbooks(
+      newTest.WorkbookTest.map((w) => {
+        const workbook = Workbook.of(w.Workbook);
+        workbook.setQuestions(
+          w.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+        );
+        return WorkbookTest.of(w, workbook);
+      }),
+    );
     return test;
   }
 

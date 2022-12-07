@@ -102,6 +102,7 @@ class Question {
 
   setOptions(options: Option[]) {
     if (this.questionType !== QuestionType.MULTIPLE) {
+      console.log(this.questionType);
       throw new BadRequestException('객관식 문제에만 보기가 포함될 수 있습니다.');
     }
     if (options.length < 1 || options.length > 5) {

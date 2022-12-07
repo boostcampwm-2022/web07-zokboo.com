@@ -1,5 +1,6 @@
 import Workbook from 'src/modules/workbook/domain/Workbook';
 import { WorkbookTest as pWorkbookTest } from '@prisma/client';
+import Test from './Test';
 
 class WorkbookTest {
   public workbookTestId: bigint | undefined;
@@ -18,8 +19,8 @@ class WorkbookTest {
     return new WorkbookTest(workbookTest.workbook_test_id, workbookTest.test_id, workbook, workbookTest.count);
   }
 
-  static new(workbook: Workbook, count: number) {
-    return new WorkbookTest(undefined, undefined, workbook, count);
+  static new(test: Test, workbook: Workbook, count: number) {
+    return new WorkbookTest(undefined, test.testId, workbook, count);
   }
 
   setId(workbookTestId: bigint) {

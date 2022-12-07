@@ -47,10 +47,11 @@ class Test {
 
   static new(userId: bigint, title: string, timeout: number) {
     const now = new Date();
-    return new Test(undefined, title, 0, userId, timeout, undefined, now, now);
+    return new Test(undefined, title, 0, userId, timeout, [], now, now);
   }
 
   setWorkbooks(workbooks: WorkbookTest[]) {
+    console.log(workbooks);
     if (workbooks.length < 1) {
       throw new BadRequestException('시험은 최소 한개의 문제집에서부터 문제를 가져와야 합니다.');
     }

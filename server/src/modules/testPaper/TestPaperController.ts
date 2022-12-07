@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { User } from 'src/decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
@@ -11,7 +11,7 @@ export class TestPaperController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createTestPaper(@User('id') userId: string, request: CreateTestPaperRequest) {
+  async createTestPaper(@User('id') userId: string, @Body() request: CreateTestPaperRequest) {
     const response = await this.testPaperService.createTestPaper(request, Number(userId));
     return new ApiResponse('시험지 생성 성공', response);
   }
