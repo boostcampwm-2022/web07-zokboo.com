@@ -10,6 +10,7 @@ import { colors, fonts, media, widths } from '../../styles/theme';
 import { SERVER_URL } from '../../utils/constants';
 import SampleImage from '../../images/sample-image.jpeg';
 import DropDown from '../../components/common/dropdown/Dropdown';
+import SampleQuestionImage from '../../images/sample-question-image.png';
 
 const PageContainer = styled.div`
   display: flex;
@@ -157,6 +158,12 @@ const Problem = styled.div`
 const ProblemTitle = styled.div`
   font-weight: 700;
 `;
+
+const ProblemImg = styled.img`
+  max-width: 350px;
+  max-height: 350px;
+`;
+
 const ProblemDifficulty = styled.div`
   color: ${colors.gray4};
   font-size: ${fonts.size.xs};
@@ -264,6 +271,7 @@ const WorkbookDetail = () => {
                     <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
                     <Problem>
                       <ProblemTitle>문제 : {x.question}</ProblemTitle>
+                      <ProblemImg src={SampleQuestionImage} alt="" />
 
                       <ProblemHashtags>
                         해시태그 :
