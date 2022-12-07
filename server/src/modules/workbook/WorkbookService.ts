@@ -33,36 +33,29 @@ export class WorkbookService {
   }
 
   async searchWorkbooks(title: string, content: string) {
-    let result: WorkbookSimpleResponse[];
-    await this.prisma.$transaction(async (tx) => {
-      const workbooks = await this.workbookRepository.searchWorkbooks(title, content, tx);
-      result = workbooks.map((w) => new WorkbookSimpleResponse(w));
-    });
-    return result;
+    const workbooks = await this.workbookRepository.searchWorkbooks(title, content);
+    return workbooks.map((w) => new WorkbookSimpleResponse(w));
+  }
+
+  async searchWorkbooksByUser(title: string, content: string, userId: number) {
+    const workbooks = await this.workbookRepository.searchWorkbooksByUser(title, content, userId);
+    return workbooks.map((w) => new WorkbookSimpleResponse(w));
   }
 
   async getWorkbook(workbookId: number) {
-    let result: WorkbookDetailResponse;
-    await this.prisma.$transaction(async (tx) => {
-      const workbook = await this.workbookRepository.findWorkbook(workbookId, tx);
-      if (!workbook || !workbook.isPublic) {
-        throw new BadRequestException('잘못된 문제집 ID 입니다.');
-      }
-      result = new WorkbookDetailResponse(workbook);
-    });
-    return result;
+    const workbook = await this.workbookRepository.findWorkbook(workbookId);
+    if (!workbook || !workbook.isPublic) {
+      throw new BadRequestException('잘못된 문제집 ID 입니다.');
+    }
+    return new WorkbookDetailResponse(workbook);
   }
 
   async getWorkbookToSolve(workbookId: number, userId: number) {
-    let result: WorkbookStateResponse;
-    await this.prisma.$transaction(async (tx) => {
-      const workbook = await this.workbookRepository.findWorkbook(workbookId, tx);
-      if (!workbook || workbook.userId !== BigInt(userId)) {
-        throw new BadRequestException('잘못된 문제집 ID 입니다.');
-      }
-      result = new WorkbookStateResponse(workbook);
-    });
-    return result;
+    const workbook = await this.workbookRepository.findWorkbook(workbookId);
+    if (!workbook || workbook.userId !== BigInt(userId)) {
+      throw new BadRequestException('잘못된 문제집 ID 입니다.');
+    }
+    return new WorkbookStateResponse(workbook);
   }
 
   async solveWorkbookQuestion(

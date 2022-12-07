@@ -126,6 +126,33 @@ export class WorkbookRepository {
     });
   }
 
+  async searchWorkbooksByUser(title: string, content: string, userId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const workbooks = await prisma.workbook.findMany({
+      where: {
+        user_id: userId,
+        title: {
+          search: title,
+        },
+        description: {
+          search: content,
+        },
+      },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: true,
+          },
+        },
+      },
+    });
+    return workbooks.map((w) => {
+      const workbook = Workbook.of(w);
+      workbook.setQuestions(w.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))));
+      return workbook;
+    });
+  }
+
   async findOnlyWorkbook(workbookId: number, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
     const workbook = await prisma.workbook.findUnique({
@@ -199,8 +226,19 @@ export class WorkbookRepository {
           in: workbookIds,
         },
       },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: true,
+          },
+        },
+      },
     });
-    return workbooks.map((w) => Workbook.of(w));
+    return workbooks.map((w) => {
+      const workbook = Workbook.of(w);
+      workbook.setQuestions(w.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))));
+      return workbook;
+    });
   }
 
   async findWorkbooksByIdsWithAuthorization(workbookIds: number[], userId: number, tx?: Prisma.TransactionClient) {
@@ -212,7 +250,18 @@ export class WorkbookRepository {
         },
         user_id: userId,
       },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: true,
+          },
+        },
+      },
     });
-    return workbooks.map((w) => Workbook.of(w));
+    return workbooks.map((w) => {
+      const workbook = Workbook.of(w);
+      workbook.setQuestions(w.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))));
+      return workbook;
+    });
   }
 }

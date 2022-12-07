@@ -23,28 +23,24 @@ export class AuthService {
   ) {}
 
   public async signin(request: SigninRequest) {
-    let result: SigninResponse;
-    await this.prisma.$transaction(async (tx) => {
-      const user = await this.userRepository.findUserByEmail(request.email);
-      if (!user) {
-        throw new UnauthorizedException('이메일 혹은 패스워드가 잘못되었습니다.');
-      }
-      user.authenticate(request.password);
-      result = new SigninResponse(user);
-    });
-    return result;
+    const user = await this.userRepository.findUserByEmail(request.email);
+    if (!user) {
+      throw new UnauthorizedException('이메일 혹은 패스워드가 잘못되었습니다.');
+    }
+    user.authenticate(request.password);
+    return new SigninResponse(user);
   }
 
   public async signinByOauth(request: SSOSignupRequest) {
     let result: SigninResponse;
     await this.prisma.$transaction(async (tx) => {
-      const loggedinUser = await this.userRepository.findUserByOauth(request.oauthId, OauthType[request.oauthType]);
+      const loggedinUser = await this.userRepository.findUserByOauth(request.oauthId, OauthType[request.oauthType], tx);
       if (loggedinUser) {
         result = new SigninResponse(loggedinUser);
         return;
       }
       const newUser = OauthUser.new(OauthType[request.oauthType], request.oauthId);
-      await this.userRepository.save(newUser);
+      await this.userRepository.save(newUser, tx);
       result = new SigninResponse(newUser);
     });
     return result;
@@ -59,11 +55,11 @@ export class AuthService {
         throw new BadRequestException('INVALID_TOKEN');
       }
 
-      const user = await this.userRepository.findUserByEmail(verifyResult.email);
+      const user = await this.userRepository.findUserByEmail(verifyResult.email, tx);
 
       user.updatePassword(request.password, request.passwordConfirmation);
 
-      const savedUser = await this.userRepository.save(user);
+      const savedUser = await this.userRepository.save(user, tx);
 
       result = new ResetPasswordResponse(savedUser);
     });
@@ -105,7 +101,7 @@ export class AuthService {
         throw new BadRequestException('INVALID_TOKEN');
       }
 
-      const user = await this.userRepository.findUserByEmail(verifyResult.email);
+      const user = await this.userRepository.findUserByEmail(verifyResult.email, tx);
 
       if (Number(user.userId) !== verifyResult.userId) {
         throw new BadRequestException('INCORRECT_USER_INFO');
@@ -113,7 +109,7 @@ export class AuthService {
 
       user.isApproved = true;
 
-      const updatedUser = await this.userRepository.save(user);
+      const updatedUser = await this.userRepository.save(user, tx);
 
       result = new VerifyResponse(updatedUser as BasicUser);
     });
