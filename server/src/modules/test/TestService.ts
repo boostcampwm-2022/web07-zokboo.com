@@ -38,4 +38,9 @@ export class TestService {
     });
     return result;
   }
+
+  async searchTestsByUser(title: string, userId: number) {
+    const tests = await this.testRepository.searchTestsByUser(title, userId);
+    return tests.map((t) => new TestSimpleResponse(t));
+  }
 }
