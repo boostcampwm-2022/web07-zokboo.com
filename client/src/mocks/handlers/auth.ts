@@ -8,4 +8,8 @@ export default [
     if (token === 'error') return res(ctx.status(400));
     return res(ctx.status(200));
   }),
+
+  rest.post(`${SERVER_URL}/auth/reset/password`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  }),
 ];
