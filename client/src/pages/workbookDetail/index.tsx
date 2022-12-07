@@ -133,9 +133,6 @@ const ProblemDropdown = styled.details`
 
   > * {
     padding: 10px 20px;
-
-    border: 1px solid black;
-    border-radius: 4px;
   }
 `;
 
@@ -143,6 +140,8 @@ const ProblemNumber = styled.summary`
   white-space: nowrap;
   overflow: hidden;
 
+  background-color: ${colors.secondary};
+  border-radius: 4px;
   margin-bottom: 8px;
 
   ::marker {
@@ -265,14 +264,15 @@ const WorkbookDetail = () => {
                     <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
                     <Problem>
                       <ProblemTitle>문제 : {x.question}</ProblemTitle>
-                      <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
-                      <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
+
                       <ProblemHashtags>
                         해시태그 :
                         {x.hashtags.map((hashtag, index) => {
                           return <div key={hashtag}>{hashtag}</div>;
                         })}
                       </ProblemHashtags>
+                      <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
+                      <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
                     </Problem>
                   </ProblemDropdown>
                 );
