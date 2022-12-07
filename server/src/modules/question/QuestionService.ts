@@ -9,10 +9,16 @@ import GetQuestionsResponse from './dto/response/GetQuestionsResponse';
 import QuestionType from './enum/QuestionType';
 import { QuestionRepository } from './QuestionRepository';
 import { PrismaInstance } from '../common/PrismaInstance';
+import QuestionImage from './domain/QuestionImage';
+import { ImageUploader } from '../common/ImageUploader';
 
 @Injectable()
 export class QuestionService {
-  constructor(private readonly questionRepository: QuestionRepository, private readonly prisma: PrismaInstance) {}
+  constructor(
+    private readonly questionRepository: QuestionRepository,
+    private readonly prisma: PrismaInstance,
+    private readonly imageUploader: ImageUploader,
+  ) {}
 
   async getQuestions(query: GetQuestionsQuery, userId: bigint): Promise<GetQuestionsResponse[]> {
     let result: GetQuestionsResponse[];
@@ -47,11 +53,19 @@ export class QuestionService {
         BigInt(userId),
         request.answer,
         request.commentary,
-        request.difficulty,
+        Number(request.difficulty),
       );
       question.setHashtags(request.hashtags.map((hashtag) => Hashtag.new(hashtag)));
       if (request.questionType === QuestionType.MULTIPLE) {
         question.setOptions(request.options.map((option) => Option.new(option)));
+      }
+      if (request.images.length !== 0) {
+        const paths = [];
+        for (const image of request.images) {
+          const { path } = await this.imageUploader.uploadImage(image);
+          paths.push(path);
+        }
+        question.setImages(paths.map((path) => new QuestionImage(undefined, undefined, path)));
       }
       await this.questionRepository.save(question, tx);
       result = new CreateQuestionResponse(question);

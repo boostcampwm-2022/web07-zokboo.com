@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Query, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { ApiExtraModels } from '@nestjs/swagger';
 import { ApiMultiResponse, ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 import { User } from 'src/decorators/UserDecorator';
@@ -9,6 +9,7 @@ import CreateQuestionResponse from './dto/response/CreateQuestionResponse';
 import GetQuestionsQuery from './dto/query/GetQuestionsQuery';
 import GetQuestionsResponse from './dto/response/GetQuestionsResponse';
 import { QuestionService } from './QuestionService';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('questions')
 @ApiExtraModels(ApiResponse, CreateQuestionResponse)
@@ -26,8 +27,14 @@ export class QuestionController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiSingleResponse(201, CreateQuestionResponse, '문제 생성 성공')
-  async createQuestion(@User('id') userId: string, @Body() request: CreateQuestionRequest) {
+  @UseInterceptors(FilesInterceptor('images'))
+  @ApiSingleResponse(201, CreateQuestionResponse, '문제 생성 완료')
+  async createQuestion(
+    @User('id') userId: string,
+    @Body() request: CreateQuestionRequest,
+    @UploadedFiles() images: Array<Express.Multer.File>,
+  ) {
+    request.images = images;
     const response = await this.questionService.createQuestion(request, Number(userId));
     return new ApiResponse('문제 생성 성공', response);
   }
