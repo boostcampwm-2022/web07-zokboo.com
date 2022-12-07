@@ -58,6 +58,12 @@ export class WorkbookService {
     return new WorkbookStateResponse(workbook);
   }
 
+  async getSavedWorkbooks(userId: number) {
+    const result = await this.workbookRepository.findSavedWorkbooks(userId);
+
+    return result.map((workbook) => new WorkbookSimpleResponse(workbook));
+  }
+
   async solveWorkbookQuestion(
     workbookId: number,
     workbookQuestionId: number,

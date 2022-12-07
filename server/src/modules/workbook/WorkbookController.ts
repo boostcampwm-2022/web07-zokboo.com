@@ -76,6 +76,15 @@ export class WorkbookController {
     return new ApiResponse('내 문제집 조회 / 검색 성공', response);
   }
 
+  @Get('saved')
+  @UseGuards(JwtAuthGuard)
+  @ApiMultiResponse(200, WorkbookSimpleResponse, '공유받은 문제집 조회 성공')
+  async getSavedWorkbooks(@User('id') userId: string) {
+    const response = await this.workbookService.getSavedWorkbooks(Number(userId));
+
+    return new ApiResponse('공유받은 문제집 조회 성공', response);
+  }
+
   @Get(':workbookId')
   @ApiSingleResponse(200, WorkbookDetailResponse, '문제집 상세 조회 성공')
   async showWorkbook(@Param('workbookId', ParseIntPipe) workbookId: number) {

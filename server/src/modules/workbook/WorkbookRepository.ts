@@ -202,6 +202,34 @@ export class WorkbookRepository {
     return response;
   }
 
+  async findSavedWorkbooks(userId: number) {
+    const workbooks = await this.prismaInstance.workbook.findMany({
+      where: {
+        original_id: {
+          not: null,
+        },
+        user_id: userId,
+      },
+      include: {
+        WorkbookQuestion: {
+          include: {
+            Question: true,
+          },
+        },
+      },
+    });
+
+    return workbooks.map((workbook) => {
+      const questions = workbook.WorkbookQuestion.map((wq) => {
+        const question = Question.of(wq.Question);
+        return WorkbookQuestion.of(wq, question);
+      });
+      const response = Workbook.of(workbook);
+      response.setQuestions(questions);
+      return response;
+    });
+  }
+
   async findWorkbookQuestion(workbookQuestionId: number, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
     const workbookQuestion = await prisma.workbookQuestion.findUnique({
