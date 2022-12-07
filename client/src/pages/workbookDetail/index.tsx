@@ -39,8 +39,8 @@ interface Question {
   answer: string;
   commentary: string;
   questionType: string;
-  images: string[] | string;
-  options: string[] | string;
+  images: string[];
+  options: string[];
   hashtags: string[];
 }
 
