@@ -30,34 +30,26 @@ export class QuestionRepository {
         difficulty: question.difficulty,
         created_at: question.createdAt,
         updated_at: question.updatedAt,
-        QuestionImage: {
-          create: question.images.map((i) => {
-            return {
-              path: i.path,
-            };
-          }),
-        },
-      },
-      include: {
-        QuestionImage: true,
       },
     });
     question.setId(newQuestion.question_id);
-    question.setImages(newQuestion.QuestionImage.map((i) => QuestionImage.of(i)));
 
-    if (question.hashtags) {
-      question.hashtags.forEach(async (hashtag) => {
-        await this.createHashtag(hashtag, tx);
-        const questionHashtagId = await this.createQuestionHashtag(question.questionId, hashtag.hashtagId, tx);
-        hashtag.setId(questionHashtagId);
-      });
+    for (const image of question.images) {
+      const newImage = await this.createQuestionImage(image, question.questionId, tx);
+      image.setId(newImage.questionImageId);
     }
 
-    if (question.questionType === QuestionType.MULTIPLE && question.options) {
-      question.options.forEach(async (option) => {
+    for (const hashtag of question.hashtags) {
+      await this.createHashtag(hashtag, tx);
+      const questionHashtagId = await this.createQuestionHashtag(question.questionId, hashtag.hashtagId, tx);
+      hashtag.setId(questionHashtagId);
+    }
+
+    if (question.questionType === QuestionType.MULTIPLE) {
+      for (const option of question.options) {
         const newOption = await this.createOption(option, question.questionId, tx);
         option.setId(newOption.optionId);
-      });
+      }
     }
 
     return question;
