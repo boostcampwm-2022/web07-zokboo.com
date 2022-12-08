@@ -76,9 +76,6 @@ const WorkbookDetail = () => {
         <>
           <HeaderContainer>
             <Header>
-              <Left>
-                <img src={SampleImage} width="400px" alt="" />
-              </Left>
               <Right>
                 <WorkbookIntroduce>
                   <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>

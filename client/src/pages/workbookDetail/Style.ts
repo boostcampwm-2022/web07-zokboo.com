@@ -48,7 +48,7 @@ export const Right = styled.div`
 `;
 
 export const WorkbookIntroduce = styled.div`
-  margin-bottom: 150px;
+  margin-bottom: 30px;
 `;
 export const ButtonContainer = styled.div`
   display: flex;
