@@ -1,10 +1,7 @@
 import { FiMoreHorizontal } from 'react-icons/fi';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ButtonContainer,
-  Buttons,
   ContentButtons,
   Infos,
   ItemExplain,
@@ -16,7 +13,6 @@ import {
 import SearchWorkbookType from '../../../types/search';
 
 const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
-  const [isLike, setIsLike] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleMoveWorkbookView = () => {

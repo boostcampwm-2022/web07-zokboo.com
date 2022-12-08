@@ -37,19 +37,6 @@ export const ButtonContainer = styled.div`
   margin-top: 16px;
 `;
 
-export const Buttons = styled.div`
-  display: flex;
-  align-items: flex-end;
-  font-size: 14px;
-  color: ${colors.gray4};
-  > * {
-    padding: 4px;
-  }
-  .fillStyled {
-    color: ${colors.primary};
-  }
-`;
-
 export const ContentButtons = styled.div`
   float: right;
   > * {
