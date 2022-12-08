@@ -15,6 +15,8 @@ import SignUp from '../pages/signup/SignUp';
 import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 import MyPage from '../pages/mypage';
 import WorkbookCreate from '../pages/workbookCreate';
+import EmailAuth from '../pages/emailAuth';
+import PasswordAuth from '../pages/passwordAuth';
 
 const Router = () => {
   return (
@@ -44,6 +46,8 @@ const Router = () => {
         <Route path="/find_id" element={<FindId />} />
         <Route path="/find_pw" element={<FindPw />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/auth/email" element={<EmailAuth />} />
+        <Route path="/auth/password" element={<PasswordAuth />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
