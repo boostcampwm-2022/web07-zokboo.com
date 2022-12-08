@@ -12,8 +12,8 @@ import {
   ProblemItemTitle,
   ProblemItemUnderLine,
 } from '../../../styles/problemList';
-import { GetQuestionResponse, Question } from '../../../types/question';
-import DropDown from '../../common/dropdown/Dropdown';
+import { GetQuestionResponse, AddQuestion } from '../../../types/question';
+import DropDown from '../../common/dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import Loading from '../../common/Loading';
 import { DropDownIcon, DropDownSelector, DropDownTitle } from '../createQuestion/Style';
@@ -28,7 +28,7 @@ import {
 } from './Style';
 
 interface Props {
-  handleProblemAdd: (problem: Question) => void;
+  handleProblemAdd: (problem: AddQuestion) => void;
 }
 
 interface SearchType {

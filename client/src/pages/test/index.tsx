@@ -1,34 +1,36 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { getWorkbook } from '../../api/workbook';
+import { getTest } from '../../api/test';
 import Solve from '../../components/solve';
-import KEYS from '../../react-query/keys/workbook';
+import KEYS from '../../react-query/keys/test';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectSolveData from '../../redux/solve/selector';
 import { initSolve } from '../../redux/solve/slice';
-import { GetWorkbookListResponse } from '../../types/workbook';
+import { GetTestListResponse } from '../../types/test';
 
-const Workbook = () => {
+const Test = () => {
   const dispatch = useAppDispatch();
-  const { workbookId } = useParams<{ workbookId: string }>();
-  const numberId = workbookId ? Number(workbookId) : -1;
+  const { testId } = useParams<{ testId: string }>();
+  const numberId = testId ? Number(testId) : -1;
 
   const { id, type } = useAppSelector(selectSolveData);
 
-  const { isLoading, isError } = useQuery<GetWorkbookListResponse>(
+  const { isLoading, isError } = useQuery<GetTestListResponse>(
     KEYS.detail,
     () => {
-      return getWorkbook(numberId);
+      return getTest(numberId);
     },
     {
-      enabled: numberId !== id || type !== 'workbook',
-      onSuccess: (data: GetWorkbookListResponse) => {
+      enabled: numberId !== id || type !== 'test',
+      onSuccess: (data: GetTestListResponse) => {
         dispatch(
           initSolve({
-            id: data.workbookId,
+            id: data.testId,
             questions: data.questions,
             title: data.title,
-            type: 'workbook',
+            minute: data.minute,
+            second: data.second,
+            type: 'test',
           }),
         );
       },
@@ -38,4 +40,4 @@ const Workbook = () => {
   return <Solve isLoading={isLoading} isError={isError} />;
 };
 
-export default Workbook;
+export default Test;

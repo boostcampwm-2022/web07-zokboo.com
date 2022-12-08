@@ -116,7 +116,7 @@ const Chart = () => {
       })}
 
       <ChartToggle>
-        <Toggle checked={toggle} setToggle={setToggle} />
+        <Toggle setToggle={setToggle} />
       </ChartToggle>
 
       <Graph options={options} data={data} />

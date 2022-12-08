@@ -6,7 +6,7 @@ import useToggle from '../../hooks/useToggle';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectUserData from '../../redux/login/selector';
 import { signoutSuccess } from '../../redux/login/slice';
-import DropDown from '../common/dropdown/Dropdown';
+import DropDown from '../common/dropdown';
 import Logo from '../common/logo';
 import {
   ButtonList,
@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   const handleSearchToggle = () => {
-    if (isToggle) handleSearchWorkbook();
+    if (isToggle && input) handleSearchWorkbook();
     else handleToggle();
   };
 
@@ -57,7 +57,13 @@ const Header = () => {
 
         <ButtonInner>
           <SearchContainer isToggle={isToggle}>
-            <SearchInput placeholder="검색어를 입력하세요." onChange={(e) => setInput(e.target.value)} />
+            <SearchInput
+              placeholder="검색어를 입력하세요."
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') handleSearchWorkbook();
+              }}
+              onChange={(e) => setInput(e.target.value)}
+            />
             <SearchButton onClick={handleSearchToggle}>
               <BiSearchAlt2 size={30} />
             </SearchButton>

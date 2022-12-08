@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
-import { Button, Item, List, TextArea } from '../../styles/common';
-import { colors, fonts, media } from '../../styles/theme';
+import { Button, Item, List, TextArea } from '../../../styles/common';
+import { colors, fonts, media } from '../../../styles/theme';
 
 const sideBarShow = keyframes`
     0% {
@@ -30,39 +30,6 @@ const sideBarHidden = keyframes`
 `;
 
 export const Container = styled.div`
-  padding-top: 50px;
-`;
-
-export const Header = styled.header`
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  z-index: 5;
-
-  width: 100%;
-
-  background-color: ${colors.secondary};
-  padding: 10px 15px;
-`;
-
-export const HeaderInner = styled.div`
-  display: flex;
-`;
-
-export const HeaderLogo = styled.div`
-  width: 30px;
-  height: 30px;
-`;
-
-export const HeaderTitle = styled.h2`
-  margin: 0;
-  margin-left: 10px;
-
-  font-size: ${fonts.size.sm};
-`;
-
-export const ContentsContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
@@ -121,12 +88,12 @@ export const SideBarButton = styled(Button)<{ isActive: boolean }>`
   ${(props) =>
     props.isActive &&
     `
-    background-color: ${colors.primary};
-    color: ${colors.white};
-  `}
+  background-color: ${colors.primary};
+  color: ${colors.white};
+`}
 `;
 
-export const Contents = styled.div`
+export const QuestionContainer = styled.div`
   position: relative;
   z-index: 2;
 
@@ -170,9 +137,9 @@ export const QuestionCheckButton = styled.button<{ isActive: boolean }>`
   ${(props) =>
     props.isActive &&
     `
-  font-weight: ${fonts.weight.bold}; 
-  color:${colors.primary};
-  `}
+font-weight: ${fonts.weight.bold}; 
+color:${colors.primary};
+`}
 
   cursor: pointer;
 `;
@@ -200,9 +167,9 @@ export const QuestionAnswerButton = styled.button<{ isActive: boolean }>`
   ${(props) =>
     props.isActive &&
     `
-  font-weight: ${fonts.weight.bold}; 
-  color:${colors.primary};
-  `}
+font-weight: ${fonts.weight.bold}; 
+color:${colors.primary};
+`}
 `;
 
 export const QuestionDescription = styled.pre<{ isActive: boolean }>`
@@ -214,6 +181,10 @@ export const QuestionDescription = styled.pre<{ isActive: boolean }>`
 
   background-color: ${colors.offWhite};
   border-radius: 10px;
+`;
+
+export const QuestionAnswerContainer = styled.div<{ isShow: boolean }>`
+  display: ${(props) => (props.isShow ? `block` : `none`)};
 `;
 
 export const WorkbookButton = styled(Button)``;

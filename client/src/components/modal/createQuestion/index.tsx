@@ -33,9 +33,9 @@ import {
   HashTagItemBox,
   HashTagItem,
 } from './Style';
-import DropDown from '../../common/dropdown/Dropdown';
+import DropDown from '../../common/dropdown';
 import { QUESTION_TYPE, DIFFICULTY } from './constants';
-import { Question } from '../../../types/question';
+import { AddQuestion } from '../../../types/question';
 import useInput from '../../../hooks/useInput';
 import useArrayText from '../../../hooks/useArrayText';
 import { DropdownItem } from '../../common/dropdown/Style';
@@ -43,7 +43,7 @@ import { DropdownItem } from '../../common/dropdown/Style';
 const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
 
 interface Props {
-  handleProblemAdd: (problem: Question) => void;
+  handleProblemAdd: (problem: AddQuestion) => void;
 }
 
 const CreateProblemModal = ({ handleProblemAdd }: Props) => {
@@ -161,7 +161,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
         options: optionValues,
       },
       {
-        onSuccess: (data: Question) => {
+        onSuccess: (data: AddQuestion) => {
           handleProblemAdd(data);
           handleModalReset();
         },

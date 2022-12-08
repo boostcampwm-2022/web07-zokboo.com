@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Items, RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 import { CREATOR, WORKBOOK_NAME } from './constants';
+import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
 import { getMockSearchData } from '../../api/search';
