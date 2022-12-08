@@ -12,7 +12,7 @@ import Workbook from '../pages/workbook';
 import Review from '../pages/Review';
 import Search from '../pages/search';
 import SignUp from '../pages/signup/SignUp';
-import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
+import WorkbookDetail from '../pages/workbookDetail';
 import MyPage from '../pages/mypage';
 import WorkbookCreate from '../pages/workbookCreate';
 
@@ -26,6 +26,7 @@ const Router = () => {
         <Route path="/mypage" element={<Header />} />
         <Route path="/test/new" element={<Header />} />
         <Route path="/search" element={<Header />} />
+        <Route path="/search/view" element={<Header />} />
       </Routes>
 
       {/* Contents */}
