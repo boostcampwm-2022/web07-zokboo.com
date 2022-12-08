@@ -33,7 +33,7 @@ import {
   HashTagItemBox,
   HashTagItem,
 } from './Style';
-import DropDown from '../../common/dropdown/Dropdown';
+import DropDown from '../../common/dropdown';
 import { QUESTION_TYPE, DIFFICULTY } from './constants';
 import { AddQuestion } from '../../../types/question';
 import useInput from '../../../hooks/useInput';

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '../components/header/Header';
+import Header from '../components/header';
 import Test from '../pages/test';
 import TestCreate from '../pages/testCreate';
 import FindId from '../pages/FindId/FindId';
