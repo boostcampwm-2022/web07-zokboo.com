@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -34,17 +34,16 @@ import {
 
 const ExamCreate = () => {
   const navigate = useNavigate();
-
+  const titleRef = useRef<HTMLInputElement>(null);
+  const minuteRef = useRef<HTMLInputElement>(null);
+  const secondRef = useRef<HTMLInputElement>(null);
   const [isAddModal, onAddModalToggle] = useToggle(false);
   const [workbookList, setWorkbookList] = useState<Workbook[]>([]);
-  const [examTitle, setExamTitle] = useState('');
-  const [examMinute, setExamMinute] = useState('0');
-  const [examSecond, setExamSecond] = useState('0');
 
   const {
     state: questionList,
     values: questionValues,
-    add: handleQeustionListAdd,
+    add: handleQuestionListAdd,
     erase: handleQuestionListDelete,
     change: handleQuestionListUpdate,
   } = useArrayText();
@@ -57,7 +56,7 @@ const ExamCreate = () => {
     if (listFilter.length === 0) {
       toast.success('문제집을 추가하였습니다.');
       setWorkbookList((prev) => [...prev, workbook]);
-      handleQeustionListAdd();
+      handleQuestionListAdd();
     } else {
       toast.error('이미 추가된 문제집입니다.');
     }
@@ -92,23 +91,26 @@ const ExamCreate = () => {
       workbookId,
       count: Number(questionValues[idx]),
     }));
+    let title = '';
+    let minute = 0;
+    let second = 0;
 
-    if (!examTitle || examTitle.trim() === '') {
+    if (titleRef.current) {
+      title = titleRef.current.value;
+    }
+    if (minuteRef.current) {
+      minute = Number(minuteRef.current.value);
+    }
+    if (secondRef.current) {
+      second = Number(secondRef.current.value);
+    }
+
+    if (!title || title.trim() === '') {
       toast.error('시험명을 입력해주세요.');
       return;
     }
 
-    if (!examMinute) {
-      toast.error('시험 시간(분)을 입력해주세요.');
-      return;
-    }
-
-    if (!examSecond) {
-      toast.error('시험 시간(초)을 입력해주세요.');
-      return;
-    }
-
-    if (examMinute === '0' && examSecond === '0') {
+    if (minute + second <= 0) {
       toast.error('시험 시간이 0초 입니다.');
       return;
     }
@@ -120,9 +122,9 @@ const ExamCreate = () => {
 
     createTestMutation.mutate(
       {
-        title: examTitle,
-        minute: Number(examMinute),
-        second: Number(examSecond),
+        title,
+        minute,
+        second,
         workbooks,
       },
       {
@@ -143,13 +145,13 @@ const ExamCreate = () => {
         <InfoContainer>
           <InfoBox>
             <SubTitle>시험명</SubTitle>
-            <InfoInput onChange={(e) => setExamTitle(e.target.value)} />
+            <InfoInput ref={titleRef} />
           </InfoBox>
           <InfoBox>
             <SubTitle>시험 시간</SubTitle>
             <InfoInputBox>
-              <InfoTimeInput type="number" onChange={(e) => setExamMinute(e.target.value)} /> <InfoText>분</InfoText>
-              <InfoTimeInput type="number" onChange={(e) => setExamSecond(e.target.value)} /> <InfoText>초</InfoText>
+              <InfoTimeInput type="number" ref={minuteRef} defaultValue={0} /> <InfoText>분</InfoText>
+              <InfoTimeInput type="number" ref={secondRef} defaultValue={0} /> <InfoText>초</InfoText>
             </InfoInputBox>
           </InfoBox>
         </InfoContainer>
