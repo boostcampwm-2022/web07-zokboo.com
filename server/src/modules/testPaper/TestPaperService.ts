@@ -30,7 +30,6 @@ export class TestPaperService {
       test.workbooks.forEach((w) => {
         questions.push(...this.exportRandomQuestionsFromWorkbook(w.workbook, w.count));
       });
-      console.log(questions);
       testPaper.setQuestions(questions.map((q) => TestPaperQuestion.new(q)));
       await this.testPaperRepository.save(testPaper);
       result = new CreateTestPaperResponse(testPaper);

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import TestSimpleResponse from 'src/modules/test/dto/response/TestSimpleResponse';
 import TestPaper from '../../domain/TestPaper';
 import TestPaperQuestionSimpleResponse from './TestPaperQuestionSimpleResponse';
@@ -28,13 +28,13 @@ class TestPaperDetailResponse {
   @ApiProperty()
   public updatedAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({})
   public test: TestSimpleResponse;
 
   @ApiProperty({
     type: 'array',
     items: {
-      $ref: getSchemaPath(WorkbookTestSimpleResponse),
+      $ref: getSchemaPath(TestPaperQuestionSimpleResponse),
     },
   })
   public questions: TestPaperQuestionSimpleResponse[];
