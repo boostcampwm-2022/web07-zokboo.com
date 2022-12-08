@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { colors, media, paddings } from '../../styles/theme';
+import { colors, media, paddings, widths } from '../../styles/theme';
 
 export const SearchResultContainer = styled.div`
-  width: 80%;
+  width: ${widths.base};
 
   box-sizing: border-box;
   margin: 80px auto 0px;
@@ -34,10 +34,9 @@ export const Items = styled.div`
   margin-top: 20px;
 
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-  gap: 20px;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  /* gap: 20px; */
 `;
 
 export const SearchResultTitle = styled.div``;

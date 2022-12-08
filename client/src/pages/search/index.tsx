@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Items, RadioContainer, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
-import { CREATOR, WORKBOOK_NAME } from './constants';
+import SEARCH_TYPE from './constants';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
 import { getMockSearchData } from '../../api/search';
 import NewSearchResultItem from '../../components/search/NewSearchResultItem/NewSearchResultItem';
+import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchOption, setSearchOption] = useState<string>(WORKBOOK_NAME);
+  const [searchOption, setSearchOption] = useState<string>(SEARCH_TYPE.title);
   const searchWord = searchParams.get('q');
 
   // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
@@ -36,20 +37,25 @@ const Search = () => {
             <b>{`"${searchWord}"`}</b> 에 대한 검색결과입니다.
           </SearchResultTitle>
           <RadioContainer>
-            <label htmlFor={WORKBOOK_NAME}>
+            <label htmlFor={SEARCH_TYPE.title}>
               <input
                 type="radio"
                 name="searchOption"
-                value={WORKBOOK_NAME}
+                value={SEARCH_TYPE.title}
                 onChange={handleSearchOption}
                 defaultChecked
               />
-              문제집 이름
+              제목
             </label>
 
-            <label htmlFor={CREATOR}>
-              <input type="radio" name="searchOption" value={CREATOR} onChange={handleSearchOption} />
-              생성자
+            <label htmlFor={SEARCH_TYPE.creator}>
+              <input type="radio" name="searchOption" value={SEARCH_TYPE.creator} onChange={handleSearchOption} />
+              내용
+            </label>
+
+            <label htmlFor={SEARCH_TYPE.title_creator}>
+              <input type="radio" name="searchOption" value={SEARCH_TYPE.title_creator} onChange={handleSearchOption} />
+              제목+내용
             </label>
           </RadioContainer>
         </TitleContainer>
@@ -58,7 +64,7 @@ const Search = () => {
           {isSuccess &&
             (data
               ? data.map((workbook, index) => (
-                  <NewSearchResultItem
+                  <SearchResultItem
                     key={workbook.workbookId}
                     workbookId={workbook.workbookId}
                     title={workbook.title}
