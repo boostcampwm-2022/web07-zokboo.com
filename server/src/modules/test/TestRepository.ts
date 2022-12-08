@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
+import Question from '../question/domain/Question';
 import Workbook from '../workbook/domain/Workbook';
+import WorkbookQuestion from '../workbook/domain/WorkbookQuestion';
 import Test from './domain/Test';
 import WorkbookTest from './domain/WorkbookTest';
 
@@ -53,13 +55,29 @@ export class TestRepository {
       include: {
         WorkbookTest: {
           include: {
-            Workbook: true,
+            Workbook: {
+              include: {
+                WorkbookQuestion: {
+                  include: {
+                    Question: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
     test.setId(newTest.test_id);
-    test.setWorkbooks(newTest.WorkbookTest.map((w) => WorkbookTest.of(w, Workbook.of(w.Workbook))));
+    test.setWorkbooks(
+      newTest.WorkbookTest.map((w) => {
+        const workbook = Workbook.of(w.Workbook);
+        workbook.setQuestions(
+          w.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+        );
+        return WorkbookTest.of(w, workbook);
+      }),
+    );
     return test;
   }
 
@@ -77,6 +95,40 @@ export class TestRepository {
     return workbookTest;
   }
 
+  async findTestWithAll(testId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const test = await prisma.test.findUnique({
+      where: {
+        test_id: testId,
+      },
+      include: {
+        WorkbookTest: {
+          include: {
+            Workbook: {
+              include: {
+                WorkbookQuestion: {
+                  include: {
+                    Question: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    const result = Test.of(test);
+    result.setWorkbooks(
+      test.WorkbookTest.map((wt) => {
+        const workbook = Workbook.of(wt.Workbook);
+        workbook.setQuestions(
+          wt.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+        );
+        return WorkbookTest.of(wt, workbook);
+      }),
+    );
+    return result;
+  }
   async searchTestsByUser(title: string, userId: number, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
     const tests = await prisma.test.findMany({

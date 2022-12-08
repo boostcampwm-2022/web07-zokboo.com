@@ -5,6 +5,7 @@ import Hashtag from '../question/domain/Hashtag';
 import Option from '../question/domain/Option';
 import Question from '../question/domain/Question';
 import QuestionImage from '../question/domain/QuestionImage';
+import QuestionType from '../question/enum/QuestionType';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
 
@@ -192,7 +193,9 @@ export class WorkbookRepository {
     }
     const questions = workbook.WorkbookQuestion.map((wq) => {
       const question = Question.of(wq.Question);
-      question.setOptions(wq.Question.Option.map((o) => Option.of(o)));
+      if (question.questionType === QuestionType.MULTIPLE) {
+        question.setOptions(wq.Question.Option.map((option) => Option.of(option)));
+      }
       question.setImages(wq.Question.QuestionImage.map((i) => QuestionImage.of(i)));
       question.setHashtags(wq.Question.QuestionHashtag.map((qh) => Hashtag.of(qh.Hashtag)));
       return WorkbookQuestion.of(wq, question);

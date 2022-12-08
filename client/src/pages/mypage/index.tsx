@@ -1,7 +1,5 @@
 import { BsCheckLg } from 'react-icons/bs';
-import { useLocation } from 'react-router-dom';
-import queryString from 'query-string';
-
+import { useSearchParams } from 'react-router-dom';
 import {
   CategoryItem,
   CategoryLink,
@@ -21,11 +19,11 @@ import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
 
 const MyPage = () => {
-  const location = useLocation();
-  const query = queryString.parse(location.search);
+  const [searchParams, _] = useSearchParams();
+  const service = searchParams.get('service');
 
-  const checkActiveService = (service: string) => {
-    if (query.service === service) return true;
+  const checkActiveService = (curService: string) => {
+    if (curService === service) return true;
 
     return false;
   };
@@ -45,7 +43,7 @@ const MyPage = () => {
 
           <LinkList>
             <MyPageLink to="/workbook/new">문제집 만들기</MyPageLink>
-            <MyPageLink to="/workbook/new">시험지 만들기</MyPageLink>
+            <MyPageLink to="/exam/new">시험지 만들기</MyPageLink>
           </LinkList>
         </MobileContainer>
 

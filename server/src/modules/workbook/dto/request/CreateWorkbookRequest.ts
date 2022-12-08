@@ -20,7 +20,9 @@ class CreateWorkbookRequest {
       each: true,
     },
   )
-  @ApiProperty()
+  @ApiProperty({
+    type: [Number],
+  })
   public questions: number[];
 }
 

@@ -55,9 +55,9 @@ class Question {
       record.answer,
       record.commentary,
       record.difficulty,
-      undefined,
-      undefined,
-      undefined,
+      [],
+      [],
+      [],
       record.created_at,
       record.updated_at,
     );
@@ -80,9 +80,9 @@ class Question {
       answer,
       commentary,
       difficulty,
-      undefined,
-      undefined,
-      undefined,
+      [],
+      [],
+      [],
       now,
       now,
     );
@@ -102,6 +102,7 @@ class Question {
 
   setOptions(options: Option[]) {
     if (this.questionType !== QuestionType.MULTIPLE) {
+      console.log(this.questionType);
       throw new BadRequestException('객관식 문제에만 보기가 포함될 수 있습니다.');
     }
     if (options.length < 1 || options.length > 5) {

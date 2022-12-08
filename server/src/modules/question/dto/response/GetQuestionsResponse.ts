@@ -29,7 +29,10 @@ export default class GetQuestionsResponse {
   public updatedAt: Date;
 
   @ApiProperty()
-  public hashtags: object[];
+  public hashtags: string[];
+
+  @ApiProperty()
+  public options: string[] | undefined;
 
   constructor(record: Question) {
     if (!record.questionId) {
@@ -42,6 +45,9 @@ export default class GetQuestionsResponse {
     this.commentary = record.commentary;
     this.createdAt = record.createdAt;
     this.updatedAt = record.updatedAt;
-    this.hashtags = record.hashtags;
+    this.hashtags = record.hashtags.map((h) => h.name);
+    if (record.questionType === QuestionType.MULTIPLE) {
+      this.options = record.options.map((o) => o.content);
+    }
   }
 }
