@@ -105,7 +105,6 @@ model Test {
   WorkbookTest WorkbookTest[]
 
   @@index([user_id], map: "FK_User_TO_Test_1")
-  @@fulltext([title])
 }
 
 model TestPaper {
