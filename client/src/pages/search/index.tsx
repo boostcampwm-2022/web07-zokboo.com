@@ -7,7 +7,7 @@ import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
 import { getMockSearchData } from '../../api/search';
 import NewSearchResultItem from '../../components/search/NewSearchResultItem/NewSearchResultItem';
-import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
+import SearchResultItem from '../../components/search/SearchResultItem';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectSearchType from '../../redux/search/searchType/selector';
 import { updateSearchType } from '../../redux/search/searchType/slice';
