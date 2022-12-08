@@ -14,9 +14,9 @@ import Search from '../pages/search';
 import SignUp from '../pages/signup/SignUp';
 import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
 import MyPage from '../pages/mypage';
-import WorkbookCreate from '../pages/workbookCreate';
 import EmailAuth from '../pages/emailAuth';
 import PasswordAuth from '../pages/passwordAuth';
+import WorkbookCreate from '../pages/workBookCreate';
 
 const Router = () => {
   return (
