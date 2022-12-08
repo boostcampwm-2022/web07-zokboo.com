@@ -36,7 +36,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleSearchWorkbook = () => {
-    navigate(`/search?q=${input}`);
+    // navigate(`/search?q=${input}`);
+    window.location.href = `/search?q=${input}`;
   };
 
   const handleSearchToggle = () => {

@@ -3,10 +3,12 @@ import storageSession from 'redux-persist/lib/storage/session';
 import { persistReducer, persistStore } from 'redux-persist';
 import loginSlice from './login/slice';
 import solveSlice from './solve/slice';
+import searchTypeSlice from './search/searchType/slice';
 
 const reducers = combineReducers({
   login: loginSlice.reducer,
   solve: solveSlice.reducer,
+  searchType: searchTypeSlice.reducer,
 });
 
 export const store = configureStore({
