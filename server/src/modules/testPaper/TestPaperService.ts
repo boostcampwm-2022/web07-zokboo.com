@@ -3,7 +3,7 @@ import { PrismaInstance } from '../common/PrismaInstance';
 import Question from '../question/domain/Question';
 import { TestRepository } from '../test/TestRepository';
 import Workbook from '../workbook/domain/Workbook';
-import TestPaper from './domain/testPaper';
+import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
 import CreateTestPaperRequest from './dto/request/CreateTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
