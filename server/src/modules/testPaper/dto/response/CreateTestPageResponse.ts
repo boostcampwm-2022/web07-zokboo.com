@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import TestPaper from '../../domain/testPaper';
+import TestPaper from '../../domain/TestPaper';
 
 class CreateTestPaperResponse {
   @ApiProperty()

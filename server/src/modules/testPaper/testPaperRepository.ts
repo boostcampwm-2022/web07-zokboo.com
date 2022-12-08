@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaInstance } from '../common/PrismaInstance';
 import Question from '../question/domain/Question';
-import TestPaper from './domain/testPaper';
+import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
 
 @Injectable()
