@@ -16,7 +16,7 @@ import SelectSearchType from '../../components/search/SelectSearchType';
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchWord = searchParams.get('q');
-  const { searchType } = useAppSelector(selectSearchType);
+  const { searchType } = useAppSelector(selectSearchType, () => true);
   // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
 
   const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
