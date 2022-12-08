@@ -32,10 +32,11 @@ export const ProblemListContainer = styled.div`
   }
 `;
 
-export const InfoContainer = styled.div`
+export const InfoContainer = styled.form`
   width: 45%;
 
   @media screen and (max-width: ${device.tablet}) {
+    margin-top: 20px;
     width: ${widths.responsive};
   }
 `;

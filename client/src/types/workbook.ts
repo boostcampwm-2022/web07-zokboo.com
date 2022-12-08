@@ -1,4 +1,4 @@
-import { GetQuestionResponse } from './question';
+import { GetQuestionResponse, WorkbookQuestion } from './question';
 
 export interface Workbook {
   workbookId: number;
@@ -14,17 +14,12 @@ export interface PostCreateWorkbookBody {
   questions: number[];
 }
 
-interface WorkbookQuestions extends GetQuestionResponse {
-  workbookQuestionId: number;
-  writtenAnswer: string;
-}
-
 export interface GetWorkbookListResponse {
   workbookId: number;
   title: string;
   description: string;
   isPublic: boolean;
-  questions: WorkbookQuestions[];
+  questions: WorkbookQuestion[];
 }
 
 interface SolveWorkbookQuestionParams {
