@@ -1,4 +1,4 @@
-import Workbook from 'src/modules/workbook/domain/Workbook';
+import Workbook from '../../workbook/domain/Workbook';
 import { WorkbookTest as pWorkbookTest } from '@prisma/client';
 
 class WorkbookTest {
