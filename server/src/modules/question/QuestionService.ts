@@ -20,7 +20,7 @@ export class QuestionService {
     private readonly imageUploader: ImageUploader,
   ) {}
 
-  async getQuestions(query: GetQuestionsQuery, userId: bigint): Promise<GetQuestionsResponse[]> {
+  async getQuestions(query: GetQuestionsQuery, userId: number): Promise<GetQuestionsResponse[]> {
     let result: GetQuestionsResponse[];
     await this.prisma.$transaction(async (tx) => {
       if (query.hashtag) {

@@ -12,15 +12,15 @@ import { QuestionService } from './QuestionService';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('questions')
-@ApiExtraModels(ApiResponse, CreateQuestionResponse)
+@ApiExtraModels(ApiResponse, CreateQuestionResponse, GetQuestionsResponse)
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
   @ApiMultiResponse(200, GetQuestionsResponse, '문제 조회 성공')
-  async getQuestions(@User('id') id: bigint, @Query() query: GetQuestionsQuery) {
-    const response = await this.questionService.getQuestions(query, id);
+  async getQuestions(@User('id') id: string, @Query() query: GetQuestionsQuery) {
+    const response = await this.questionService.getQuestions(query, Number(id));
 
     return new ApiResponse('조회 성공', response);
   }
