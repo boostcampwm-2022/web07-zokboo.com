@@ -7,6 +7,8 @@ import Question from '../question/domain/Question';
 import QuestionImage from '../question/domain/QuestionImage';
 import QuestionType from '../question/enum/QuestionType';
 import Test from '../test/domain/Test';
+import WorkbookTest from '../test/domain/WorkbookTest';
+import Workbook from '../workbook/domain/Workbook';
 import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
 
@@ -81,7 +83,15 @@ export class TestPaperRepository {
         test_paper_id: testPaperId,
       },
       include: {
-        Test: true,
+        Test: {
+          include: {
+            WorkbookTest: {
+              include: {
+                Workbook: true,
+              },
+            },
+          },
+        },
         TestPaperQuestion: {
           include: {
             Question: {
@@ -103,6 +113,7 @@ export class TestPaperRepository {
       return null;
     }
     const test = Test.of(testPaper.Test);
+    test.setWorkbooks(testPaper.Test.WorkbookTest.map((wt) => WorkbookTest.of(wt, Workbook.of(wt.Workbook))));
     const result = TestPaper.of(testPaper, test);
     result.setQuestions(
       testPaper.TestPaperQuestion.map((tpq) => {
