@@ -3,7 +3,7 @@ import { User } from 'src/decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
 import CreateTestPaperRequest from './dto/request/CreateTestPaperRequest';
-import TestPaperService from './TestPaperService';
+import { TestPaperService } from './TestPaperService';
 
 @Controller('testpaper')
 export class TestPaperController {

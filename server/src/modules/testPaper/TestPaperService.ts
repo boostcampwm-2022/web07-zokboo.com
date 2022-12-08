@@ -55,5 +55,3 @@ export class TestPaperService {
     return result;
   }
 }
-
-export default TestPaperService;

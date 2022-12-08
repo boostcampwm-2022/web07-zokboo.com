@@ -3,7 +3,7 @@ import { CommonModule } from '../common/CommonModule';
 import { TestModule } from '../test/TestModule';
 import { TestPaperController } from './TestPaperController';
 import { TestPaperRepository } from './TestPaperRepository';
-import TestPaperService from './TestPaperService';
+import { TestPaperService } from './TestPaperService';
 
 @Module({
   imports: [CommonModule, TestModule],
