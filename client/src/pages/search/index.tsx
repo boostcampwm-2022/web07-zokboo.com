@@ -8,15 +8,19 @@ import WORKBOOK_SEARCH from '../../react-query/keys/search';
 import { getMockSearchData } from '../../api/search';
 import NewSearchResultItem from '../../components/search/NewSearchResultItem/NewSearchResultItem';
 import SearchResultItem from '../../components/search/SearchResultItem/SearchResultItem';
+import { useAppDispatch } from '../../redux/hooks';
+import selectSearchType from '../../redux/search/searchType/selector';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchOption, setSearchOption] = useState<string>(SEARCH_TYPE.title);
   const searchWord = searchParams.get('q');
+  const dispatch = useAppDispatch();
+  const { searchType } = dispatch(selectSearchType);
+  const [searchOption, setSearchOption] = useState<string>(searchType);
 
   // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
   const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
-    [WORKBOOK_SEARCH, searchWord],
+    [WORKBOOK_SEARCH, searchWord, searchType],
     getMockSearchData,
     {
       onError: (err) => {
@@ -48,13 +52,13 @@ const Search = () => {
               제목
             </label>
 
-            <label htmlFor={SEARCH_TYPE.creator}>
-              <input type="radio" name="searchOption" value={SEARCH_TYPE.creator} onChange={handleSearchOption} />
+            <label htmlFor={SEARCH_TYPE.content}>
+              <input type="radio" name="searchOption" value={SEARCH_TYPE.content} onChange={handleSearchOption} />
               내용
             </label>
 
-            <label htmlFor={SEARCH_TYPE.title_creator}>
-              <input type="radio" name="searchOption" value={SEARCH_TYPE.title_creator} onChange={handleSearchOption} />
+            <label htmlFor={SEARCH_TYPE.title_content}>
+              <input type="radio" name="searchOption" value={SEARCH_TYPE.title_content} onChange={handleSearchOption} />
               제목+내용
             </label>
           </RadioContainer>

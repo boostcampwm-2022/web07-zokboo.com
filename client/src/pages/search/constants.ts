@@ -1,7 +1,7 @@
 const SEARCH_TYPE = {
   title: 'title',
-  creator: 'creator',
-  title_creator: 'title_creator',
+  content: 'content',
+  title_content: 'title_content',
 };
 
 export default SEARCH_TYPE;
