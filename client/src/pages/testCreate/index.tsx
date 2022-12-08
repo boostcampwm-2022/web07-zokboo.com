@@ -8,6 +8,7 @@ import Modal from '../../components/modal';
 import SearchWorkbookModal from '../../components/modal/searchWorkbook';
 import useArrayText from '../../hooks/useArrayText';
 import useToggle from '../../hooks/useToggle';
+import useUserData from '../../hooks/useUserData';
 import { Button, SubTitle } from '../../styles/common';
 import { Workbook } from '../../types/workbook';
 import {
@@ -32,7 +33,8 @@ import {
   WorkbookTitle,
 } from './Style';
 
-const ExamCreate = () => {
+const TestCreate = () => {
+  const userData = useUserData();
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const minuteRef = useRef<HTMLInputElement>(null);
@@ -86,7 +88,7 @@ const ExamCreate = () => {
     return questionValues.reduce((prev, curr) => prev + Number(curr), 0);
   };
 
-  const handleExamCreate = () => {
+  const handleTestCreate = () => {
     const workbooks = workbookList.map(({ workbookId }, idx) => ({
       workbookId,
       count: Number(questionValues[idx]),
@@ -192,7 +194,7 @@ const ExamCreate = () => {
           <Total>총 문제수 : {total}</Total>
         </WorkbookContainer>
 
-        <CreateButton onClick={handleExamCreate}>시험 생성</CreateButton>
+        <CreateButton onClick={handleTestCreate}>시험 생성</CreateButton>
       </Container>
 
       {isAddModal && (
@@ -204,4 +206,4 @@ const ExamCreate = () => {
   );
 };
 
-export default ExamCreate;
+export default TestCreate;
