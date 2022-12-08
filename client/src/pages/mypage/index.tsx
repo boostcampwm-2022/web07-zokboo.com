@@ -86,8 +86,9 @@ const MyPage = () => {
         </MobileContainer>
       </SideContainer>
       <ContentsContainer>
-        {/* <MypageWorkbook type="shared" /> */}
-        {/* <MypageWorkbook type="my" /> */}
+        {query.service === SERVICE_ROUTE.test && <div>나의 시험지{/** 아직 컴포넌트 미제작 */}</div>}
+        {query.service === SERVICE_ROUTE.workbook && <MypageWorkbook type="my" />}
+        {query.service === SERVICE_ROUTE.share && <MypageWorkbook type="shared" />}
       </ContentsContainer>
     </Container>
   );
