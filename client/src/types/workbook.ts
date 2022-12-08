@@ -42,3 +42,7 @@ export interface GetWorkbookListByTitleResponse {
   description: string;
   questions: GetQuestionResponse[];
 }
+
+export interface PostWorkbookSave {
+  workbookId: number;
+}

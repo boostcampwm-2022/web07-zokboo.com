@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody } from '../types/workbook';
+import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody, PostWorkbookSave } from '../types/workbook';
 import { SERVER_URL } from '../utils/constants';
 
 export const getWorkbook = async (params: number) => {
@@ -24,6 +24,14 @@ export const solveWorkbookQuestion = async (props: PatchSolveWorkbookQuestionPro
   const { params, body } = props;
   const { workbookId, workbookQuestionId } = params;
   const { data } = await axios.patch(`${SERVER_URL}/workbooks/${workbookId}/${workbookQuestionId}`, body, {
+    withCredentials: true,
+  });
+
+  return data;
+};
+
+export const saveWorkbook = async (body: PostWorkbookSave) => {
+  const { data } = await axios.post(`${SERVER_URL}/workbooks/save`, body, {
     withCredentials: true,
   });
 
