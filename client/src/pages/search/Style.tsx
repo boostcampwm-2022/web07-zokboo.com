@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors, media, paddings, widths } from '../../styles/theme';
 
 export const SearchResultContainer = styled.div`
-  width: ${widths.base};
+  ${widths.base};
 
   box-sizing: border-box;
   margin: 80px auto 0px;
