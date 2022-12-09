@@ -7,11 +7,27 @@ import { fonts } from '../../styles/theme';
 import SearchWorkbookType from '../../types/search';
 import { MYPAGE_TYPE } from '../../utils/constants';
 import WorkbookItem from '../workbookItem/WorkbookItem';
+import Loading from './Loading';
+import NoSearchResult from './NoSearchResult';
 
-const WorkbookContainer = styled.div``;
+const WorkbookContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 const Header = styled.div`
   font-size: ${fonts.size.xl};
   font-weight: ${fonts.weight.normal};
+`;
+
+const Main = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: ${fonts.weight.bold};
+  font-size: ${fonts.size.xl};
 `;
 
 interface MypageWorkbookProps {
@@ -23,6 +39,7 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
   const { isLoading, isSuccess, data } = useQuery([type], getMyWorkbookData, {
     onSuccess: (d) => {
       setWorkbookData(d.data);
+      console.log(d.data);
     },
     onError: (err) => {
       console.log(err);
@@ -32,10 +49,11 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
   return (
     <WorkbookContainer>
       <Header>{type === MYPAGE_TYPE.공유받은문제집 ? '공유 받은 문제집' : '나의 문제집'}</Header>
-      {isLoading && '로딩중'}
-      {isSuccess &&
-        (workbookData.length !== 0
-          ? workbookData.map((workbook, index) => (
+      <Main>
+        {isLoading && <Loading />}
+        {isSuccess &&
+          (workbookData.length !== 0 ? (
+            workbookData.map((workbook, index) => (
               <WorkbookItem
                 key={workbook.workbookId}
                 workbookId={workbook.workbookId}
@@ -44,7 +62,10 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
                 questionCount={workbook.questionCount}
               />
             ))
-          : '문제집이 없습니다')}
+          ) : (
+            <NoSearchResult />
+          ))}
+      </Main>
     </WorkbookContainer>
   );
 };
