@@ -39,7 +39,7 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
   const { isLoading, isSuccess, data } = useQuery([type], getMyWorkbookData, {
     onSuccess: (d) => {
       setWorkbookData(d.data);
-      console.log(d.data);
+      console.log(d.msg);
     },
     onError: (err) => {
       console.log(err);
