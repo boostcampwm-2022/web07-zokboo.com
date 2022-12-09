@@ -25,8 +25,10 @@ export class QuestionService {
     await this.prisma.$transaction(async (tx) => {
       if (query.hashtag) {
         const hashtag = await this.questionRepository.findHashtagByName(query.hashtag, tx);
+        if (!hashtag) {
+          return [];
+        }
         const questions = await this.questionRepository.findQuestionsWithDetailsByHashtag(hashtag, tx);
-
         if (query.text) {
           return questions.filter((q) => q.question.includes(query.text)).map((q) => new GetQuestionsResponse(q));
         }
