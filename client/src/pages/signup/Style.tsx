@@ -72,6 +72,7 @@ export const InputBox = styled.input<{ isCorrect?: boolean }>`
 `;
 
 export const InputAlert = styled.div`
+  height: 10px;
   font-size: ${fonts.size.xxs};
   color: ${colors.error};
   margin: 0px 10px;

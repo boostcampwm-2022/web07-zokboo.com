@@ -77,7 +77,7 @@ const SignUp = () => {
               maxLength={MAX_INPUT_LENGTH}
             />
           </InputBoxContainer>
-          {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
+          <InputAlert>{handleIsCorrectCheck.email() ? null : '이메일 주소가 올바르지 않습니다.'}</InputAlert>
         </InputContainer>
         <InputContainer>
           <InputTitle>비밀번호</InputTitle>
@@ -91,14 +91,13 @@ const SignUp = () => {
               maxLength={MAX_INPUT_LENGTH}
               name="password"
             />
-
             <div role="presentation" className="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
               {visibleInputPw ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
             </div>
           </InputBoxContainer>
-          {handleIsCorrectCheck.pw() ? null : (
-            <InputAlert>비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다.</InputAlert>
-          )}
+          <InputAlert>
+            {handleIsCorrectCheck.pw() ? null : '비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다.'}
+          </InputAlert>
           <InputBoxContainer>
             <InputBox
               type={visibleInputPwCheck ? 'text' : 'password'}
@@ -116,7 +115,7 @@ const SignUp = () => {
               {visibleInputPwCheck ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
             </div>
           </InputBoxContainer>
-          {handleIsCorrectCheck.pwCheck() ? null : <InputAlert>비밀번호가 일치하지 않습니다.</InputAlert>}
+          <InputAlert>{handleIsCorrectCheck.pwCheck() ? null : '비밀번호가 일치하지 않습니다.'}</InputAlert>
         </InputContainer>
         <InputContainer>
           <InputTitle>닉네임</InputTitle>
