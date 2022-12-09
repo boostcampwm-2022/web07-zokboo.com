@@ -14,23 +14,17 @@ import {
   Modal,
   ModalContainer,
 } from './Style';
-import { SERVER_URL } from '../../utils/constants';
-
-const verification = {
-  id: /^(?=.*[a-z])(?=.*[0-9]).{6,16}$/,
-  pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
-  email: /[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-};
+import { SERVER_URL, VERIFICATION } from '../../utils/constants';
 
 const SignUp = () => {
-  const { text: idValue, onChange: onIdChange, correct: isIdCorrectInput } = useInput('', verification.id);
-  const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', verification.pw);
+  const { text: idValue, onChange: onIdChange, correct: isIdCorrectInput } = useInput('', VERIFICATION.id);
+  const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', VERIFICATION.pw);
   const {
     text: pwCheckValue,
     onChange: onPwCheckChange,
     correct: isPwCheckCorrectInput,
-  } = useInput('', verification.pw);
-  const { text: emailValue, onChange: onEmailChange, correct: isEmailCorrectInput } = useInput('', verification.email);
+  } = useInput('', VERIFICATION.pw);
+  const { text: emailValue, onChange: onEmailChange, correct: isEmailCorrectInput } = useInput('', VERIFICATION.email);
   const [visibleInputPw, setVisibleInputPw] = useState<boolean>(false);
   const [visibleInputPwCheck, setVisibleInputPwCheck] = useState<boolean>(false);
 

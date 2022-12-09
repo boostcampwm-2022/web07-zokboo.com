@@ -7,6 +7,7 @@ import { resetPassword } from '../../api/auth';
 import Logo from '../../components/common/logo';
 import useInput from '../../hooks/useInput';
 import useToggle from '../../hooks/useToggle';
+import { VERIFICATION } from '../../utils/constants';
 import {
   AuthButton,
   AuthInput,
@@ -20,12 +21,6 @@ import {
   TitleContainer,
 } from './Style';
 
-const verification = {
-  id: /^(?=.*[a-z])(?=.*[0-9]).{6,16}$/,
-  pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
-  email: /[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-};
-
 const PasswordAuth = () => {
   const [searchParams, _] = useSearchParams();
   const token = searchParams.get('token');
@@ -33,12 +28,12 @@ const PasswordAuth = () => {
 
   const [pwVisible, handlePwVisibleToggle] = useToggle(false);
 
-  const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', verification.pw);
+  const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', VERIFICATION.pw);
   const {
     text: pwCheckValue,
     onChange: onPwCheckChange,
     correct: isPwCheckCorrectInput,
-  } = useInput('', verification.pw);
+  } = useInput('', VERIFICATION.pw);
   const isCorrectCheck = {
     pw: isPwCorrectInput || pwValue === '',
     pwCheck: pwValue === pwCheckValue || pwCheckValue === '',
