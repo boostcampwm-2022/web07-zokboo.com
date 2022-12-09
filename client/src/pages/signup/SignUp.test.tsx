@@ -8,7 +8,7 @@ import {
   WRONG_ID,
   WRONG_PW,
 } from './constants';
-import SignUp from './SignUp';
+import SignUp from '.';
 
 // jest.mock('react-router-dom', () => {
 //   return {

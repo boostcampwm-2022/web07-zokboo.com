@@ -17,7 +17,7 @@ import {
 import { SERVER_URL, VERIFICATION } from '../../utils/constants';
 
 const SignUp = () => {
-  const { text: idValue, onChange: onIdChange, correct: isIdCorrectInput } = useInput('', VERIFICATION.id);
+  const { text: nickValue, onChange: onNickChange, correct: isNickCorrectInput } = useInput('');
   const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', VERIFICATION.pw);
   const {
     text: pwCheckValue,
@@ -29,8 +29,8 @@ const SignUp = () => {
   const [visibleInputPwCheck, setVisibleInputPwCheck] = useState<boolean>(false);
 
   const handleIsCorrectCheck = {
-    id: () => {
-      return isIdCorrectInput || idValue === '';
+    nick: () => {
+      return isNickCorrectInput || nickValue === '';
     },
     pw: () => {
       return isPwCorrectInput || pwValue === '';
@@ -49,10 +49,9 @@ const SignUp = () => {
         email: emailValue,
         password: pwValue,
         passwordConfirmation: pwCheckValue,
-        nickname: idValue,
+        nickname: nickValue,
       })
       .then((res) => {
-        // eslint-disable-next-line no-alert
         alert('회원가입이 완료되었습니다.\n입력하신 이메일에서 인증을 진행해주세요.');
         window.location.href = '/login';
       })
@@ -68,19 +67,18 @@ const SignUp = () => {
         <Modal>
           회원가입
           <InputContainer>
-            <InputTitle>아이디</InputTitle>
-            <InputBox
-              type="text"
-              placeholder="영문 소문자, 숫자 조합 6-16자"
-              onChange={onIdChange}
-              value={idValue}
-              isCorrect={handleIsCorrectCheck.id()}
-              maxLength={MAX_INPUT_LENGTH}
-              name="idInput"
-            />
-            {handleIsCorrectCheck.id() ? null : (
-              <InputAlert>아이디는 영문 소문자, 숫자 조합 6-16자 여야합니다.</InputAlert>
-            )}
+            <InputTitle>이메일</InputTitle>
+            <InputBoxContainer>
+              <InputBox
+                type="text"
+                placeholder="이메일"
+                onChange={onEmailChange}
+                value={emailValue}
+                isCorrect={handleIsCorrectCheck.email()}
+                maxLength={MAX_INPUT_LENGTH}
+              />
+            </InputBoxContainer>
+            {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
           </InputContainer>
           <InputContainer>
             <InputTitle>비밀번호</InputTitle>
@@ -122,18 +120,16 @@ const SignUp = () => {
             {handleIsCorrectCheck.pwCheck() ? null : <InputAlert>비밀번호가 일치하지 않습니다.</InputAlert>}
           </InputContainer>
           <InputContainer>
-            <InputTitle>이메일</InputTitle>
-            <InputBoxContainer>
-              <InputBox
-                type="text"
-                placeholder="이메일"
-                onChange={onEmailChange}
-                value={emailValue}
-                isCorrect={handleIsCorrectCheck.email()}
-                maxLength={MAX_INPUT_LENGTH}
-              />
-            </InputBoxContainer>
-            {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
+            <InputTitle>닉네임</InputTitle>
+            <InputBox
+              type="text"
+              placeholder="닉네임을 입력하세요"
+              onChange={onNickChange}
+              value={nickValue}
+              isCorrect={handleIsCorrectCheck.nick()}
+              maxLength={MAX_INPUT_LENGTH}
+              name="nicknameInput"
+            />
           </InputContainer>
           <Button
             type="button"
@@ -141,7 +137,7 @@ const SignUp = () => {
             data-testid="signup"
             onClick={handleSignup}
             disabled={
-              !isIdCorrectInput ||
+              !nickValue ||
               !isPwCorrectInput ||
               !isPwCheckCorrectInput ||
               !isEmailCorrectInput ||
