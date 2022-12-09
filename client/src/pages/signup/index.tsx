@@ -62,91 +62,89 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <ModalContainer>
-        <Modal>
-          회원가입
-          <InputContainer>
-            <InputTitle>이메일</InputTitle>
-            <InputBoxContainer>
-              <InputBox
-                type="text"
-                placeholder="이메일"
-                onChange={onEmailChange}
-                value={emailValue}
-                isCorrect={handleIsCorrectCheck.email()}
-                maxLength={MAX_INPUT_LENGTH}
-              />
-            </InputBoxContainer>
-            {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
-          </InputContainer>
-          <InputContainer>
-            <InputTitle>비밀번호</InputTitle>
-            <InputBoxContainer>
-              <InputBox
-                type={visibleInputPw ? 'text' : 'password'}
-                placeholder="영문, 숫자, 특수기호 조합 8-16자"
-                onChange={onPwChange}
-                value={pwValue}
-                isCorrect={handleIsCorrectCheck.pw()}
-                maxLength={MAX_INPUT_LENGTH}
-                name="password"
-              />
-
-              <div role="presentation" className="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
-                {visibleInputPw ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
-              </div>
-            </InputBoxContainer>
-            {handleIsCorrectCheck.pw() ? null : (
-              <InputAlert>비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다.</InputAlert>
-            )}
-            <InputBoxContainer>
-              <InputBox
-                type={visibleInputPwCheck ? 'text' : 'password'}
-                placeholder="비밀번호 재입력"
-                onChange={onPwCheckChange}
-                value={pwCheckValue}
-                isCorrect={handleIsCorrectCheck.pwCheck()}
-                maxLength={MAX_INPUT_LENGTH}
-              />
-              <div
-                role="presentation"
-                className="pwCheckToggleVisible"
-                onClick={() => setVisibleInputPwCheck((prev) => !prev)}
-              >
-                {visibleInputPwCheck ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
-              </div>
-            </InputBoxContainer>
-            {handleIsCorrectCheck.pwCheck() ? null : <InputAlert>비밀번호가 일치하지 않습니다.</InputAlert>}
-          </InputContainer>
-          <InputContainer>
-            <InputTitle>닉네임</InputTitle>
+    <ModalContainer>
+      <Modal>
+        회원가입
+        <InputContainer>
+          <InputTitle>이메일</InputTitle>
+          <InputBoxContainer>
             <InputBox
               type="text"
-              placeholder="닉네임을 입력하세요"
-              onChange={onNickChange}
-              value={nickValue}
-              isCorrect={handleIsCorrectCheck.nick()}
+              placeholder="이메일"
+              onChange={onEmailChange}
+              value={emailValue}
+              isCorrect={handleIsCorrectCheck.email()}
               maxLength={MAX_INPUT_LENGTH}
-              name="nicknameInput"
             />
-          </InputContainer>
-          <Button
-            type="button"
-            value="회원가입"
-            data-testid="signup"
-            onClick={handleSignup}
-            disabled={
-              !nickValue ||
-              !isPwCorrectInput ||
-              !isPwCheckCorrectInput ||
-              !isEmailCorrectInput ||
-              !(pwValue === pwCheckValue)
-            }
+          </InputBoxContainer>
+          {handleIsCorrectCheck.email() ? null : <InputAlert>이메일 주소가 올바르지 않습니다.</InputAlert>}
+        </InputContainer>
+        <InputContainer>
+          <InputTitle>비밀번호</InputTitle>
+          <InputBoxContainer>
+            <InputBox
+              type={visibleInputPw ? 'text' : 'password'}
+              placeholder="영문, 숫자, 특수기호 조합 8-16자"
+              onChange={onPwChange}
+              value={pwValue}
+              isCorrect={handleIsCorrectCheck.pw()}
+              maxLength={MAX_INPUT_LENGTH}
+              name="password"
+            />
+
+            <div role="presentation" className="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
+              {visibleInputPw ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
+            </div>
+          </InputBoxContainer>
+          {handleIsCorrectCheck.pw() ? null : (
+            <InputAlert>비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다.</InputAlert>
+          )}
+          <InputBoxContainer>
+            <InputBox
+              type={visibleInputPwCheck ? 'text' : 'password'}
+              placeholder="비밀번호 재입력"
+              onChange={onPwCheckChange}
+              value={pwCheckValue}
+              isCorrect={handleIsCorrectCheck.pwCheck()}
+              maxLength={MAX_INPUT_LENGTH}
+            />
+            <div
+              role="presentation"
+              className="pwCheckToggleVisible"
+              onClick={() => setVisibleInputPwCheck((prev) => !prev)}
+            >
+              {visibleInputPwCheck ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
+            </div>
+          </InputBoxContainer>
+          {handleIsCorrectCheck.pwCheck() ? null : <InputAlert>비밀번호가 일치하지 않습니다.</InputAlert>}
+        </InputContainer>
+        <InputContainer>
+          <InputTitle>닉네임</InputTitle>
+          <InputBox
+            type="text"
+            placeholder="닉네임을 입력하세요"
+            onChange={onNickChange}
+            value={nickValue}
+            isCorrect={handleIsCorrectCheck.nick()}
+            maxLength={MAX_INPUT_LENGTH}
+            name="nicknameInput"
           />
-        </Modal>
-      </ModalContainer>
-    </div>
+        </InputContainer>
+        <Button
+          type="button"
+          value="회원가입"
+          data-testid="signup"
+          onClick={handleSignup}
+          disabled={
+            !nickValue ||
+            !isPwCorrectInput ||
+            !isPwCheckCorrectInput ||
+            !isEmailCorrectInput ||
+            !(pwValue === pwCheckValue)
+          }
+        />
+      </Modal>
+    </ModalContainer>
   );
 };
 
