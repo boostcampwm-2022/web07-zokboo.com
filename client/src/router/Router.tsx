@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '../components/header/Header';
+import Header from '../components/header';
 import Test from '../pages/test';
 import TestCreate from '../pages/testCreate';
 import FindId from '../pages/FindId/FindId';
@@ -12,7 +12,7 @@ import Workbook from '../pages/workbook';
 import Review from '../pages/Review';
 import Search from '../pages/search';
 import SignUp from '../pages/signup/SignUp';
-import WorkbookDetail from '../pages/workbookDetail/WorkbookDetail';
+import WorkbookDetail from '../pages/workbookDetail';
 import MyPage from '../pages/mypage';
 import EmailAuth from '../pages/emailAuth';
 import PasswordAuth from '../pages/passwordAuth';
@@ -28,6 +28,7 @@ const Router = () => {
         <Route path="/mypage" element={<Header />} />
         <Route path="/test/new" element={<Header />} />
         <Route path="/search" element={<Header />} />
+        <Route path="/search/view" element={<Header />} />
       </Routes>
 
       {/* Contents */}

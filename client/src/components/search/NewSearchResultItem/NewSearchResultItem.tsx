@@ -29,16 +29,14 @@ const NewSearchResultItem = ({ workbookId, title, description, questionCount }: 
     <Container onClick={handleMoveWorkbookView}>
       <WorkbookImage src={SampleImage} alt="" />
       <WorkbookContent>
-        <Title>제목제목제목제목제목제목제목제목제목제목제목</Title>
+        <Title>{title}</Title>
         <DescriptionContainer>
-          <Description>
-            내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라내용블라블라
-          </Description>
+          <Description>{description}</Description>
         </DescriptionContainer>
         <Info>
           <CreatorContainer>
-            <Creator>글쓴이</Creator>
-            <CreateAt>생성일</CreateAt>
+            <Creator>글쓴이 : </Creator>
+            <CreateAt>문제개수 : {questionCount}</CreateAt>
           </CreatorContainer>
           <Heart type="button" onClick={() => setIsLike((prev) => !prev)}>
             {isLike ? <AiFillHeart className="fillStyled" size={20} /> : <AiOutlineHeart size={20} />}
