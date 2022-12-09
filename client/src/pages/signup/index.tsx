@@ -91,7 +91,7 @@ const SignUp = () => {
               maxLength={MAX_INPUT_LENGTH}
               name="password"
             />
-            <div role="presentation" className="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
+            <div role="presentation" id="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
               {visibleInputPw ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
             </div>
           </InputBoxContainer>
@@ -107,11 +107,7 @@ const SignUp = () => {
               isCorrect={handleIsCorrectCheck.pwCheck()}
               maxLength={MAX_INPUT_LENGTH}
             />
-            <div
-              role="presentation"
-              className="pwCheckToggleVisible"
-              onClick={() => setVisibleInputPwCheck((prev) => !prev)}
-            >
+            <div role="presentation" id="pwCheckToggleVisible" onClick={() => setVisibleInputPwCheck((prev) => !prev)}>
               {visibleInputPwCheck ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
             </div>
           </InputBoxContainer>
