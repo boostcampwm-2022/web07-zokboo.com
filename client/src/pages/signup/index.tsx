@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { toast } from 'react-toastify';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import { MAX_INPUT_LENGTH } from './constants';
 import {
@@ -14,9 +14,11 @@ import {
   Modal,
   ModalContainer,
 } from './Style';
-import { SERVER_URL, VERIFICATION } from '../../utils/constants';
+import { VERIFICATION } from '../../utils/constants';
+import postSignup from '../../api/signup';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const { text: nickValue, onChange: onNickChange, correct: isNickCorrectInput } = useInput('');
   const { text: pwValue, onChange: onPwChange, correct: isPwCorrectInput } = useInput('', VERIFICATION.pw);
   const {
@@ -27,6 +29,24 @@ const SignUp = () => {
   const { text: emailValue, onChange: onEmailChange, correct: isEmailCorrectInput } = useInput('', VERIFICATION.email);
   const [visibleInputPw, setVisibleInputPw] = useState<boolean>(false);
   const [visibleInputPwCheck, setVisibleInputPwCheck] = useState<boolean>(false);
+  const { mutate: signupMutate } = useMutation(postSignup);
+  const handleSignup = async () => {
+    signupMutate(
+      {
+        email: emailValue,
+        password: pwValue,
+        passwordConfirmation: pwCheckValue,
+        nickname: nickValue,
+      },
+      {
+        onSuccess: (d) => {
+          console.log(d);
+          alert('회원가입이 완료되었습니다.\n입력하신 이메일에서 인증을 진행해주세요.');
+          navigate('/login');
+        },
+      },
+    );
+  };
 
   const handleIsCorrectCheck = {
     nick: () => {
@@ -41,24 +61,6 @@ const SignUp = () => {
     email: () => {
       return isEmailCorrectInput || emailValue === '';
     },
-  };
-
-  const handleSignup = async () => {
-    await axios
-      .post(`${SERVER_URL}/auth/signup`, {
-        email: emailValue,
-        password: pwValue,
-        passwordConfirmation: pwCheckValue,
-        nickname: nickValue,
-      })
-      .then((res) => {
-        alert('회원가입이 완료되었습니다.\n입력하신 이메일에서 인증을 진행해주세요.');
-        window.location.href = '/login';
-      })
-      .catch((err) => {
-        const statusMessage = err.response.data.message;
-        toast.error(statusMessage);
-      });
   };
 
   return (
