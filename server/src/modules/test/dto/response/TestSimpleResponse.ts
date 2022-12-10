@@ -13,7 +13,10 @@ class TestSimpleResponse {
   public totalCount: number;
 
   @ApiProperty()
-  public timeout: number;
+  public minutes: number;
+
+  @ApiProperty()
+  public seconds: number;
 
   @ApiProperty({
     type: 'array',
@@ -27,7 +30,8 @@ class TestSimpleResponse {
     this.testId = Number(test.testId);
     this.title = test.title;
     this.totalCount = test.totalCount;
-    this.timeout = test.timeout;
+    this.minutes = Math.floor(test.timeout / 60);
+    this.seconds = test.timeout % 60;
     this.workbooks = test.workbooks.map((w) => new WorkbookTestSimpleResponse(w));
   }
 }

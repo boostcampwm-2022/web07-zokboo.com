@@ -4,7 +4,7 @@ class QuestionImage {
   public questionImageId: bigint | undefined;
   public questionId: bigint;
   public path: string;
-  constructor(questionImageId: bigint, questionId: bigint, path: string) {
+  constructor(questionImageId: bigint | undefined, questionId: bigint | undefined, path: string) {
     this.questionImageId = questionImageId;
     this.questionId = questionId;
     this.path = path;

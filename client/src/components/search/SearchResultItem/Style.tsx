@@ -32,27 +32,9 @@ export const Infos = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
   margin-top: 16px;
-`;
-
-export const Buttons = styled.div`
-  display: flex;
-  align-items: flex-end;
-  font-size: 14px;
-  color: ${colors.gray4};
-  > * {
-    padding: 4px;
-  }
-  .fillStyled {
-    color: ${colors.primary};
-  }
-`;
-
-export const Heart = styled.button`
-  background: none;
-  border: none;
 `;
 
 export const ContentButtons = styled.div`

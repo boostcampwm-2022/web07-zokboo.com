@@ -1,4 +1,5 @@
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import CreateWorkbookTestRequest from './CreateWorkbookTestRequest';
 
@@ -11,6 +12,7 @@ class CreateTestRequest {
   @IsString()
   public title: string;
 
+  @Type(() => CreateWorkbookTestRequest)
   @ApiProperty({
     type: 'array',
     items: {

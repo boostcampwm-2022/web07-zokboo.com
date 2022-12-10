@@ -1,6 +1,6 @@
 import { MdArrowDropDown } from 'react-icons/md';
 import { SubTitle, TextArea } from '../../../../styles/common';
-import DropDown from '../../../common/dropdown/Dropdown';
+import DropDown from '../../../common/dropdown';
 import { DropdownItem } from '../../../common/dropdown/Style';
 import { DIFFICULTY } from '../constants';
 import { DropDownContainer, DropDownIcon, DropDownSelector, DropDownTitle, Step, TitleBox } from '../Style';

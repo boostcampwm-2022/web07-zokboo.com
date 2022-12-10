@@ -55,7 +55,7 @@ const Login = () => {
     const email = (document.getElementById('email') as HTMLInputElement).value;
     const pw = (document.getElementById('password') as HTMLInputElement).value;
 
-    loginMutation.mutate({ email, pw });
+    loginMutation.mutate({ email, password: pw });
   };
 
   return (

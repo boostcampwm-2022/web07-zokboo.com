@@ -1,12 +1,8 @@
 import { FiMoreHorizontal } from 'react-icons/fi';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ButtonContainer,
-  Buttons,
   ContentButtons,
-  Heart,
   Infos,
   ItemExplain,
   ItemTitle,
@@ -17,21 +13,10 @@ import {
 import SearchWorkbookType from '../../../types/search';
 
 const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
-  const [isLike, setIsLike] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleLike = () => {
-    if (isLike) {
-      /** 좋아요 취소 api */
-    } else {
-      /** 좋아요 입력 api */
-    }
-
-    setIsLike((prev) => !prev);
-  };
-
   const handleMoveWorkbookView = () => {
-    navigate(`./view?id=${workbookId}`);
+    navigate(`./view?id=${workbookId}`); // 뒤로가기 했을때 리렌더링 되지 않도록
   };
 
   const handleTestButton = () => {
@@ -49,11 +34,6 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
       <ItemExplain>{description}</ItemExplain>
       <Infos>{`문제 수 : ${questionCount}`}</Infos>
       <ButtonContainer>
-        <Buttons>
-          <Heart type="button" onClick={handleLike}>
-            {isLike ? <AiFillHeart className="fillStyled" /> : <AiOutlineHeart />}
-          </Heart>
-        </Buttons>
         <ContentButtons>
           <TestButton type="button" value="시험 응시하기" onClick={handleTestButton} />
           <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />

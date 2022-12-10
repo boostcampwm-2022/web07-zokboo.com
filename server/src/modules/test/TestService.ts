@@ -23,6 +23,7 @@ export class TestService {
         userId,
         tx,
       );
+      // console.log(workbooks);
       if (workbooks.length !== request.workbooks.length) {
         throw new BadRequestException('유효하지 않은 문제집이 포함되었습니다.');
       }
@@ -31,10 +32,15 @@ export class TestService {
         countTable.set(w.workbookId, w.count);
       });
       const test = Test.new(BigInt(userId), request.title, request.timeout);
-      test.setWorkbooks(workbooks.map((w) => WorkbookTest.new(w, countTable.get(Number(w.workbookId)))));
+      test.setWorkbooks(workbooks.map((w) => WorkbookTest.new(test, w, countTable.get(Number(w.workbookId)))));
       await this.testRepository.save(test, tx);
       result = new TestSimpleResponse(test);
     });
     return result;
+  }
+
+  async searchTestsByUser(title: string, userId: number) {
+    const tests = await this.testRepository.searchTestsByUser(title, userId);
+    return tests.map((t) => new TestSimpleResponse(t));
   }
 }

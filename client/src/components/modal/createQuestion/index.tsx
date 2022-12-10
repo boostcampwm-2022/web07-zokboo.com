@@ -5,8 +5,6 @@ import { toast } from 'react-toastify';
 import { createQuestion } from '../../../api/question';
 import { ButtonList, StepContainer, ModalButton, StepBar, Container, StepBarItem, StepBarButton } from './Style';
 import { AddQuestion } from '../../../types/question';
-import useInput from '../../../hooks/useInput';
-import useArrayText from '../../../hooks/useArrayText';
 import useMultistepForm from '../../../hooks/useMultistepForm';
 import QuestionInfoForm from './forms/QuestionInfoForm';
 import QuestionAnswerForm from './forms/QuestionAnswerForm';
@@ -19,7 +17,7 @@ interface Props {
 
 interface FormData {
   question: string;
-  file: string;
+  file: File | null;
   questionType: string;
   hashTagList: string[];
   optionList: string[];
@@ -30,7 +28,7 @@ interface FormData {
 
 const INITIAL_DATA = {
   question: '',
-  file: '',
+  file: null,
   questionType: '',
   hashTagList: [] as string[],
   optionList: [] as string[],
@@ -40,7 +38,7 @@ const INITIAL_DATA = {
 };
 
 const CreateProblemModal = ({ handleProblemAdd }: Props) => {
-  const [formData, setFormData] = useState(INITIAL_DATA);
+  const [formData, setFormData] = useState<FormData>(INITIAL_DATA);
 
   const updateFields = (fields: Partial<FormData>) => {
     setFormData((prev) => {
@@ -95,6 +93,16 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
       toast.error('문제 해설을 입력해주세요.');
       return;
     }
+
+    const bodyData = new FormData();
+
+    bodyData.append('question', question);
+    bodyData.append('questionType,', questionType);
+    bodyData.append('answer', answer);
+    bodyData.append('commentary', commentary);
+    bodyData.append('difficulty', difficultValue);
+    bodyData.append('hashtags', hashTagList);
+    bodyData.append('options', optionList);
 
     createQuestionMutation.mutate(
       {
