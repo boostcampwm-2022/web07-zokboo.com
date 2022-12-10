@@ -6,17 +6,7 @@ import githubIcon from '../../assets/images/github-icon.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import kakaoIcon from '../../assets/images/kakao-icon.png';
 import naverIcon from '../../assets/images/naver-icon.png';
-import {
-  InputBox,
-  LoginButton,
-  Modal,
-  ModalBody,
-  MoreButtons,
-  RedirectButton,
-  SSOButtons,
-  SSOIcon,
-  SSOTitle,
-} from './Style';
+import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
 
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 import { useAppDispatch } from '../../redux/hooks';
@@ -40,7 +30,6 @@ const Login = () => {
 
   const loginMutation = useMutation(getLocalLoginData, {
     onSuccess: (data) => {
-      console.log(data);
       alert('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
       window.location.href = '/';
