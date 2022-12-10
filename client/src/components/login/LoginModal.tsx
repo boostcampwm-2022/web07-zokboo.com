@@ -1,6 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FiArrowLeft } from 'react-icons/fi';
 import { media } from '../../styles/theme';
+
+export const GoToLogin = styled(Link)`
+  float: left;
+`;
+
+export const ModalTitle = styled.div``;
 
 export const ModalContainerStyled = styled.div`
   position: absolute;
@@ -36,11 +44,18 @@ export const Modal = styled.div`
 
 interface ModalContainerProps {
   children: JSX.Element[];
+  title: string;
 }
-const ModalContainer = ({ children }: ModalContainerProps): JSX.Element => {
+const ModalContainer = ({ children, title }: ModalContainerProps): JSX.Element => {
   return (
     <ModalContainerStyled>
-      <Modal>{children}</Modal>
+      <Modal>
+        <GoToLogin to="/login">
+          <FiArrowLeft size={20} />
+        </GoToLogin>
+        <ModalTitle>{title}</ModalTitle>
+        {children}
+      </Modal>
     </ModalContainerStyled>
   );
 };

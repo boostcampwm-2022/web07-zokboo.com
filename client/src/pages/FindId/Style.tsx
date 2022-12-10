@@ -1,10 +1,5 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../styles/theme';
-
-export const GoToLogin = styled(Link)`
-  float: left;
-`;
 
 export const WhatFindContainer = styled.div`
   display: flex;
@@ -61,8 +56,6 @@ export const EmailForm = styled.form`
     margin-right: 4px;
   }
 `;
-
-export const ModalTitle = styled.div``;
 
 export const InputBox = styled.input`
   padding: 12px;
