@@ -1,5 +1,10 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../styles/theme';
+
+export const GoToLogin = styled(Link)`
+  float: left;
+`;
 
 export const WhatFindContainer = styled.div`
   display: flex;

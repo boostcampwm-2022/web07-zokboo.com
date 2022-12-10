@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 import ModalContainer from '../../components/login/LoginModal';
-
-import { EmailForm, FindPwContainer, InputBox, ModalTitle, SendButton, WhatFindContainer } from './Style';
+import { EmailForm, FindPwContainer, GoToLogin, InputBox, ModalTitle, SendButton, WhatFindContainer } from './Style';
 
 const FindPw = () => {
   const [showAuth, setShowAuth] = useState<boolean>(false);
@@ -23,6 +23,9 @@ const FindPw = () => {
 
   return (
     <ModalContainer>
+      <GoToLogin to="/login">
+        <FiArrowLeft size={20} />
+      </GoToLogin>
       <ModalTitle>비밀번호 찾기</ModalTitle>
       <WhatFindContainer>
         <Link className="find-id" to="/find_id">
