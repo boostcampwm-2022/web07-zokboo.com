@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { BiImageAdd, BiX } from 'react-icons/bi';
+import { toast } from 'react-toastify';
 import useArrayText from '../../../../hooks/useArrayText';
 import { Input, SubTitle, TextArea } from '../../../../styles/common';
 import { QUESTION_TYPE } from '../../../../utils/constants';
+import { ALLOW_FILE_EXTENSION, FILE_SIZE_MAX_LIMIT } from '../constants';
 import {
   ContentBox,
   DeleteButton,
@@ -20,7 +22,7 @@ import {
 
 interface InfoData {
   question: string;
-  file: string;
+  file: File | null;
   questionType: string;
   hashTagList: string[];
 }
@@ -46,6 +48,30 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
 
     handleHashTagAdd(hashTag.value);
     target.reset();
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const { files } = target;
+
+    if (!files) {
+      return;
+    }
+
+    const uploadFile = files[0];
+    if (!ALLOW_FILE_EXTENSION.includes(uploadFile.type.replace('image/', ''))) {
+      toast.error(`사용 가능한 확장자가 아닙니다. (가능한 확장자 : ${ALLOW_FILE_EXTENSION.join(' ')})`);
+      target.value = '';
+      return;
+    }
+
+    if (uploadFile.size > FILE_SIZE_MAX_LIMIT) {
+      toast.error('업로드 가능한 최대 용량은 5MB입니다.');
+      target.value = '';
+      return;
+    }
+
+    updateFields({ file: uploadFile });
   };
 
   useEffect(() => {
@@ -74,7 +100,7 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
 
       <SubTitle>문제 이미지</SubTitle>
       <Label htmlFor="file">
-        <Input type="file" hidden id="file" />
+        <Input type="file" hidden id="file" onChange={handleFileUpload} />
         <ImageBox>
           <BiImageAdd size={50} />
         </ImageBox>
