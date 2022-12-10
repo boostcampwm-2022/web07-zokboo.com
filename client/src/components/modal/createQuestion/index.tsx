@@ -17,7 +17,7 @@ interface Props {
 
 interface FormData {
   question: string;
-  file: File | null;
+  file: string;
   questionType: string;
   hashTagList: string[];
   optionList: string[];
@@ -28,7 +28,7 @@ interface FormData {
 
 const INITIAL_DATA = {
   question: '',
-  file: null,
+  file: '',
   questionType: '',
   hashTagList: [] as string[],
   optionList: [] as string[],
@@ -96,13 +96,13 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
     const bodyData = new FormData();
 
-    bodyData.append('question', question);
-    bodyData.append('questionType,', questionType);
-    bodyData.append('answer', answer);
-    bodyData.append('commentary', commentary);
-    bodyData.append('difficulty', difficultValue);
-    bodyData.append('hashtags', hashTagList);
-    bodyData.append('options', optionList);
+    // bodyData.append('question', question);
+    // bodyData.append('questionType,', questionType);
+    // bodyData.append('answer', answer);
+    // bodyData.append('commentary', commentary);
+    // bodyData.append('difficulty', difficultValue);
+    // bodyData.append('hashtags', hashTagList);
+    // bodyData.append('options', optionList);
 
     createQuestionMutation.mutate(
       {
