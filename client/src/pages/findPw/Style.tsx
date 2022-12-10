@@ -34,6 +34,7 @@ export const WhatFindContainer = styled.div`
 export const FindPwContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 
   width: 100%;
 

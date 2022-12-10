@@ -43,7 +43,7 @@ export const Modal = styled.div`
 `;
 
 interface ModalContainerProps {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   title: string;
 }
 const ModalContainer = ({ children, title }: ModalContainerProps): JSX.Element => {

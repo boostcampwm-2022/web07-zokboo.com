@@ -69,7 +69,7 @@ const Login = () => {
             <LoginButton type="submit" value="로그인" />
           </form>
           <MoreButtons>
-            <RedirectButton to="/find_id">아이디 찾기</RedirectButton>
+            {/* <RedirectButton to="/find_id">아이디 찾기</RedirectButton> */}
             <RedirectButton to="/find_pw">비밀번호 찾기</RedirectButton>
             <RedirectButton to="/signup">회원가입</RedirectButton>
           </MoreButtons>

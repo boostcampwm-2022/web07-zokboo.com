@@ -22,14 +22,14 @@ const FindPw = () => {
 
   return (
     <ModalContainer title="비밀번호 찾기">
-      <WhatFindContainer>
+      {/* <WhatFindContainer>
         <Link className="find-id" to="/find_id">
           아이디 찾기
         </Link>
         <Link className="find-pw" to="/find_pw">
           비밀번호 찾기
         </Link>
-      </WhatFindContainer>
+      </WhatFindContainer> */}
       <FindPwContainer>
         <InputBox type="text" name="email" placeholder="아이디" required />
         <EmailForm onSubmit={sendEmail}>
