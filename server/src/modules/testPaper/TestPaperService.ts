@@ -38,15 +38,11 @@ export class TestPaperService {
   }
 
   async getTestPaperWithDetails(userId: number, testPaperId: number) {
-    let result: TestPaperDetailResponse;
-    await this.prisma.$transaction(async (tx) => {
-      const testPaper = await this.testPaperRepository.findTestPaperWithDetails(testPaperId);
-      if (!testPaper || testPaper.test.userId !== BigInt(userId)) {
-        throw new BadRequestException('잘못된 시험지 ID 입니다.');
-      }
-      result = new TestPaperDetailResponse(testPaper);
-    });
-    return result;
+    const testPaper = await this.testPaperRepository.findTestPaperWithDetails(testPaperId);
+    if (!testPaper || testPaper.test.userId !== BigInt(userId)) {
+      throw new BadRequestException('잘못된 시험지 ID 입니다.');
+    }
+    return new TestPaperDetailResponse(testPaper);
   }
 
   private exportRandomQuestionsFromWorkbook(workbook: Workbook, count: number): Question[] {
