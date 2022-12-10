@@ -16,6 +16,7 @@ import {
 } from './Style';
 import { VERIFICATION } from '../../utils/constants';
 import postSignup from '../../api/signup';
+import ToggleVisible from '../../components/login/ToggleVisible';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -93,9 +94,7 @@ const SignUp = () => {
               maxLength={MAX_INPUT_LENGTH}
               name="password"
             />
-            <div role="presentation" id="pwToggleVisible" onClick={() => setVisibleInputPw((prev) => !prev)}>
-              {visibleInputPw ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
-            </div>
+            <ToggleVisible id="pwToggleVisible" state={visibleInputPw} setState={setVisibleInputPw} />
           </InputBoxContainer>
           <InputAlert>
             {handleIsCorrectCheck.pw() ? null : '비밀번호는 영문,숫자,특수기호 조합 8-16자 여야합니다.'}
@@ -109,9 +108,7 @@ const SignUp = () => {
               isCorrect={handleIsCorrectCheck.pwCheck()}
               maxLength={MAX_INPUT_LENGTH}
             />
-            <div role="presentation" id="pwCheckToggleVisible" onClick={() => setVisibleInputPwCheck((prev) => !prev)}>
-              {visibleInputPwCheck ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
-            </div>
+            <ToggleVisible id="pwCheckToggleVisible" state={visibleInputPwCheck} setState={setVisibleInputPwCheck} />
           </InputBoxContainer>
           <InputAlert>{handleIsCorrectCheck.pwCheck() ? null : '비밀번호가 일치하지 않습니다.'}</InputAlert>
         </InputContainer>
