@@ -15,6 +15,13 @@ export const getWorkbookListByTitle = async (title: string) => {
   return data;
 };
 
+export const getMyWorkbookData = async ({ queryKey }: QueryFunctionContext) => {
+  const [type] = queryKey;
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/${type}`, { withCredentials: true });
+
+  return data;
+};
+
 export const getWorkbookById = async ({ queryKey }: QueryFunctionContext) => {
   const [_key, workbookId] = queryKey;
   const { data } = await axios.get(`${SERVER_URL}/workbooks/${workbookId}`);
