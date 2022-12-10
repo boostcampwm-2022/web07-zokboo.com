@@ -1,154 +1,108 @@
 import { useState } from 'react';
-import { BiImageAdd, BiX } from 'react-icons/bi';
 import { useMutation } from 'react-query';
-import { BsCheckLg, BsCircleFill } from 'react-icons/bs';
-import { MdArrowDropDown } from 'react-icons/md';
+import { BsCircleFill } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import { createQuestion } from '../../../api/question';
-import { Input, SubTitle, TextArea } from '../../../styles/common';
-import {
-  ButtonList,
-  StepContainer,
-  ContentBox,
-  Label,
-  Step,
-  TitleBox,
-  ModalButton,
-  ImageBox,
-  AddButton,
-  QuestionBox,
-  StepBar,
-  Container,
-  StepBarItem,
-  QuestionButton,
-  QuestionInput,
-  DropDownTitle,
-  DropDownContainer,
-  DropDownSelector,
-  DropDownIcon,
-  StepBarButton,
-  DeleteButton,
-  HashTagBox,
-  HashTagButton,
-  HashTagItemBox,
-  HashTagItem,
-} from './Style';
-import DropDown from '../../common/dropdown/Dropdown';
-import { QUESTION_TYPE, DIFFICULTY } from './constants';
+import { ButtonList, StepContainer, ModalButton, StepBar, Container, StepBarItem, StepBarButton } from './Style';
 import { AddQuestion } from '../../../types/question';
-import useInput from '../../../hooks/useInput';
-import useArrayText from '../../../hooks/useArrayText';
-import { DropdownItem } from '../../common/dropdown/Style';
-
-const STEP = ['QUESTIONS', ['SUBJECTIVE', 'MULTIPLE'], 'COMMENTARY'];
+import useMultistepForm from '../../../hooks/useMultistepForm';
+import QuestionInfoForm from './forms/QuestionInfoForm';
+import QuestionAnswerForm from './forms/QuestionAnswerForm';
+import QuestionEtcForm from './forms/QuestionEtcForm';
+import { QUESTION_TYPE } from '../../../utils/constants';
 
 interface Props {
   handleProblemAdd: (problem: AddQuestion) => void;
 }
 
+interface FormData {
+  question: string;
+  file: File | null;
+  questionType: string;
+  hashTagList: string[];
+  optionList: string[];
+  answer: string;
+  commentary: string;
+  difficultValue: number;
+}
+
+const INITIAL_DATA = {
+  question: '',
+  file: null,
+  questionType: '',
+  hashTagList: [] as string[],
+  optionList: [] as string[],
+  answer: '',
+  commentary: '',
+  difficultValue: 0,
+};
+
 const CreateProblemModal = ({ handleProblemAdd }: Props) => {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [formData, setFormData] = useState<FormData>(INITIAL_DATA);
 
-  const { text: question, onChange: handleQuestionChange, reset: handleQuestionReset } = useInput('');
-  const { text: file, onChange: handleFileChange, reset: handleFileReset } = useInput('');
-  const [questionType, setQuestionType] = useState(QUESTION_TYPE.subjective);
-  const {
-    state: hashTagList,
-    values: hashTagValues,
-    add: handleHashTagAdd,
-    erase: handleHashTagDelete,
-    reset: handleHashTagListReset,
-  } = useArrayText();
-  const { text: hashTag, onChange: handleHashTagChange, reset: handleHashTagReset } = useInput('');
-
-  const {
-    state: optionList,
-    values: optionValues,
-    change: handleOptionChange,
-    add: handleOptionAdd,
-    erase: handleOptionDelete,
-    reset: handleOptionListReset,
-    search: handleOptionSearch,
-  } = useArrayText();
-  const { text: subject, onChange: handleSubjectChange, reset: handleSubjectReset } = useInput('');
-
-  const { text: commentary, onChange: onCommentaryChange, reset: handleCommentaryReset } = useInput('');
-  const [difficultValue, setDifficultValue] = useState(0);
-  const [answerIdx, setAnswerIdx] = useState<number>(0);
-
-  const handleUpdateType = ({ target }: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const isElement = target instanceof HTMLButtonElement;
-
-    if (isElement && questionType !== target.value) {
-      setQuestionType(target.value);
-      setAnswerIdx(0);
-    }
+  const updateFields = (fields: Partial<FormData>) => {
+    setFormData((prev) => {
+      return { ...prev, ...fields };
+    });
   };
+
+  const { step, currentStepIndex, isFirstStep, isLastStep, goTo, next, back } = useMultistepForm([
+    <QuestionInfoForm key="firstStep" {...formData} updateFields={updateFields} />,
+    <QuestionAnswerForm key="secondStep" {...formData} updateFields={updateFields} />,
+    <QuestionEtcForm key="thirdStep" {...formData} updateFields={updateFields} />,
+  ]);
 
   const createQuestionMutation = useMutation(createQuestion);
 
-  const handleNextStep = () => {
-    if (currentStep < STEP.length) setCurrentStep((prev) => prev + 1);
-  };
-  const handleBeforeStep = () => {
-    if (currentStep > 1) setCurrentStep((prev) => prev - 1);
-  };
-
-  const handleHashTagAddCheck = () => {
-    if (hashTag) {
-      handleHashTagAdd(hashTag);
-      handleHashTagReset();
-    }
-  };
-
   const handleModalReset = () => {
-    setCurrentStep(1);
-    handleQuestionReset();
-    handleFileReset();
-    handleHashTagListReset();
-    handleHashTagReset();
-    handleOptionListReset();
-    handleSubjectReset();
-    handleCommentaryReset();
-    setDifficultValue(0);
-    setAnswerIdx(0);
+    goTo(0);
+    setFormData(INITIAL_DATA);
   };
 
   const handleQuestionCreate = () => {
+    const { question, file, questionType, hashTagList, optionList, answer, commentary, difficultValue } = formData;
     const isSubjective = questionType === QUESTION_TYPE.subjective;
-    const answer = isSubjective ? subject : handleOptionSearch(answerIdx);
-
-    const checkOptionLength = new Set(optionValues).size;
+    const checkOptionLength = new Set(optionList).size;
 
     if (!question || question.trim() === '') {
-      setCurrentStep(1);
+      goTo(0);
       toast.error('문제 지문을 입력해주세요.');
       return;
     }
 
-    if (!isSubjective && optionValues.length < 5) {
-      setCurrentStep(2);
+    if (!isSubjective && optionList.length < 5) {
+      goTo(1);
       toast.error('문제의 보기는 최소 5개가 추가되어야 합니다.');
       return;
     }
 
-    if (checkOptionLength !== optionValues.length) {
-      setCurrentStep(2);
+    if (checkOptionLength !== optionList.length) {
+      goTo(1);
       toast.error('문제의 보기에 중복된 답이 있습니다.');
       return;
     }
 
     if (!answer || answer.trim() === '') {
-      setCurrentStep(2);
+      goTo(1);
       toast.error(`문제의 정답을 ${isSubjective ? `입력` : `선택`} 해주세요.`);
       return;
     }
 
     if (!commentary || commentary.trim() === '') {
-      setCurrentStep(3);
+      goTo(2);
       toast.error('문제 해설을 입력해주세요.');
       return;
     }
+
+    const bodyData = new FormData();
+
+    bodyData.append('question', question);
+    bodyData.append('questionType,', questionType);
+    bodyData.append('answer', answer);
+    bodyData.append('commentary', commentary);
+    bodyData.append('difficulty', difficultValue);
+    bodyData.append('hashtags', hashTagList);
+    bodyData.append('options', optionList);
 
     createQuestionMutation.mutate(
       {
@@ -157,8 +111,8 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
         answer,
         commentary,
         difficulty: difficultValue,
-        hashtags: hashTagValues,
-        options: optionValues,
+        hashtags: hashTagList,
+        options: optionList,
       },
       {
         onSuccess: (data: AddQuestion) => {
@@ -172,10 +126,10 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   return (
     <Container>
       <StepBar>
-        <StepBarItem isActive={currentStep >= 1}>
-          <StepBarButton onClick={() => setCurrentStep(1)}>1</StepBarButton>
+        <StepBarItem isActive={currentStepIndex >= 0}>
+          <StepBarButton onClick={() => goTo(0)}>1</StepBarButton>
         </StepBarItem>
-        <StepBarItem isActive={currentStep >= 2}>
+        <StepBarItem isActive={currentStepIndex >= 1}>
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
@@ -183,9 +137,9 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
-          <StepBarButton onClick={() => setCurrentStep(2)}>2</StepBarButton>
+          <StepBarButton onClick={() => goTo(1)}>2</StepBarButton>
         </StepBarItem>
-        <StepBarItem isActive={currentStep >= 3}>
+        <StepBarItem isActive={currentStepIndex >= 2}>
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
@@ -193,167 +147,30 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
           <BsCircleFill size={10} />
-          <StepBarButton onClick={() => setCurrentStep(3)}>3</StepBarButton>
+          <StepBarButton onClick={() => goTo(2)}>3</StepBarButton>
         </StepBarItem>
       </StepBar>
       <StepContainer>
-        {currentStep === 1 && (
-          <Step>
-            <SubTitle>문제 지문</SubTitle>
-            <TextArea
-              id="question"
-              rows={4}
-              placeholder="지문을 입력하세요."
-              value={question}
-              onChange={handleQuestionChange}
-            />
-
-            <SubTitle>문제 이미지</SubTitle>
-            <Label htmlFor="file">
-              <Input type="file" hidden id="file" onChange={handleFileChange} />
-              <ImageBox>
-                <BiImageAdd size={50} />
-              </ImageBox>
-            </Label>
-            <TitleBox>
-              <SubTitle>문제 유형</SubTitle>
-            </TitleBox>
-
-            <ContentBox>
-              <ModalButton
-                type="button"
-                isDisplay
-                isActive={questionType === QUESTION_TYPE.subjective}
-                value={QUESTION_TYPE.subjective}
-                onClick={handleUpdateType}
-              >
-                주관식
-              </ModalButton>
-              <ModalButton
-                type="button"
-                isDisplay
-                isActive={questionType === QUESTION_TYPE.multiple}
-                value={QUESTION_TYPE.multiple}
-                onClick={handleUpdateType}
-              >
-                객관식
-              </ModalButton>
-            </ContentBox>
-
-            <TitleBox>
-              <SubTitle>해쉬태그 등록</SubTitle>
-              {hashTagList.length < 5 && (
-                <HashTagBox>
-                  <QuestionInput value={hashTag} onChange={handleHashTagChange} />
-                  <HashTagButton onClick={handleHashTagAddCheck}>추가</HashTagButton>
-                </HashTagBox>
-              )}
-            </TitleBox>
-            <ContentBox>
-              {hashTagList.map(([key, data]) => (
-                <HashTagItemBox key={key}>
-                  <HashTagItem>{data}</HashTagItem>
-
-                  <DeleteButton onClick={() => handleHashTagDelete(key)}>
-                    <BiX />
-                  </DeleteButton>
-                </HashTagItemBox>
-              ))}
-            </ContentBox>
-          </Step>
-        )}
-        {currentStep === 2 &&
-          (questionType === QUESTION_TYPE.subjective ? (
-            <Step>
-              <SubTitle>모범 답안 작성</SubTitle>
-              <TextArea id="answer" rows={18} value={subject} onChange={handleSubjectChange} />
-            </Step>
-          ) : (
-            <Step>
-              <TitleBox>
-                <SubTitle>보기 등록</SubTitle>
-                <SubTitle>정답</SubTitle>
-              </TitleBox>
-              <ContentBox>
-                {optionList.map(([key, data], idx) => (
-                  <QuestionBox key={key}>
-                    <QuestionInput value={data} onChange={({ target }) => handleOptionChange(key, target.value)} />
-
-                    <QuestionButton type="button" isActive={answerIdx === key} onClick={() => setAnswerIdx(key)}>
-                      <BsCheckLg size={20} />
-                    </QuestionButton>
-
-                    <DeleteButton onClick={() => handleOptionDelete(key)}>
-                      <BiX />
-                    </DeleteButton>
-                  </QuestionBox>
-                ))}
-
-                {optionList.length <= 5 && <AddButton onClick={() => handleOptionAdd()}>추가</AddButton>}
-              </ContentBox>
-            </Step>
-          ))}
-        {currentStep === 3 && (
-          <Step>
-            <SubTitle>해설 작성</SubTitle>
-            <TextArea id="commentary" rows={15} value={commentary} onChange={onCommentaryChange} />
-
-            <TitleBox>
-              <SubTitle>문제 난이도</SubTitle>
-            </TitleBox>
-
-            <DropDownContainer>
-              <DropDown
-                title={
-                  <DropDownSelector>
-                    <DropDownTitle>{DIFFICULTY[difficultValue]}</DropDownTitle>
-                    <DropDownIcon>
-                      <MdArrowDropDown size={30} />
-                    </DropDownIcon>
-                  </DropDownSelector>
-                }
-                direction="right"
-              >
-                {DIFFICULTY.map((data, idx) => (
-                  <DropdownItem key={data} onClick={() => setDifficultValue(idx)}>
-                    {data}
-                  </DropdownItem>
-                ))}
-              </DropDown>
-            </DropDownContainer>
-          </Step>
-        )}
-
+        {step}
         <ButtonList>
           <ModalButton
             type="button"
-            isDisplay={currentStep !== 1}
+            isDisplay={isFirstStep}
             isActive={false}
             //
-            onClick={handleBeforeStep}
+            onClick={back}
           >
             이전
           </ModalButton>
           <ModalButton
             type="button"
-            isDisplay={currentStep !== 3}
+            isDisplay
             isActive={false}
             //
-            onClick={handleNextStep}
+            onClick={isLastStep ? next : handleQuestionCreate}
           >
-            다음
+            {isLastStep ? `다음` : `추가`}
           </ModalButton>
-          {currentStep === 3 && (
-            <ModalButton
-              type="button"
-              isDisplay
-              isActive={false}
-              //
-              onClick={handleQuestionCreate}
-            >
-              추가
-            </ModalButton>
-          )}
         </ButtonList>
       </StepContainer>
     </Container>

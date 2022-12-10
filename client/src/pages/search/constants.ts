@@ -1,2 +1,7 @@
-export const WORKBOOK_NAME = 'WORKBOOK_NAME';
-export const CREATOR = 'CREATOR';
+const SEARCH_TYPE = {
+  title: 'title',
+  content: 'content',
+  title_content: 'title_content',
+};
+
+export default SEARCH_TYPE;

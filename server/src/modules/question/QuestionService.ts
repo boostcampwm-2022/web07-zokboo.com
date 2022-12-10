@@ -25,17 +25,23 @@ export class QuestionService {
     await this.prisma.$transaction(async (tx) => {
       if (query.hashtag) {
         const hashtag = await this.questionRepository.findHashtagByName(query.hashtag, tx);
-        const questions = await this.questionRepository.findQuestionsWithDetailsByHashtag(hashtag, tx);
-
-        if (query.text) {
-          return questions.filter((q) => q.question.includes(query.text)).map((q) => new GetQuestionsResponse(q));
+        if (!hashtag) {
+          result = [];
+          return;
         }
-        return questions.map((q) => new GetQuestionsResponse(q));
+        const questions = await this.questionRepository.findQuestionsWithDetailsByHashtag(hashtag, tx);
+        if (query.text) {
+          result = questions.filter((q) => q.question.includes(query.text)).map((q) => new GetQuestionsResponse(q));
+          return;
+        }
+        result = questions.map((q) => new GetQuestionsResponse(q));
+        return;
       }
       if (query.text) {
         const questions = await this.questionRepository.findQuestionsWithDetailsByQuestion(query.text, tx);
 
-        return questions.map((q) => new GetQuestionsResponse(q));
+        result = questions.map((q) => new GetQuestionsResponse(q));
+        return;
       }
       const questions = await this.questionRepository.findQuestionsWithDetailsByUserId(userId, tx);
 

@@ -247,7 +247,9 @@ export class QuestionRepository {
         name,
       },
     });
-
+    if (!result) {
+      return null;
+    }
     return Hashtag.of(result);
   }
 

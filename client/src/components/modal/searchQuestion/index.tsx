@@ -13,7 +13,7 @@ import {
   ProblemItemUnderLine,
 } from '../../../styles/problemList';
 import { GetQuestionResponse, AddQuestion } from '../../../types/question';
-import DropDown from '../../common/dropdown/Dropdown';
+import DropDown from '../../common/dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import Loading from '../../common/Loading';
 import { DropDownIcon, DropDownSelector, DropDownTitle } from '../createQuestion/Style';

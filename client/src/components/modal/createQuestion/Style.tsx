@@ -108,7 +108,7 @@ export const QuestionInput = styled(Input)`
   height: 40px;
 `;
 
-export const HashTagBox = styled.div`
+export const HashTagForm = styled.form`
   width: 50%;
 
   margin-bottom: 10px;
