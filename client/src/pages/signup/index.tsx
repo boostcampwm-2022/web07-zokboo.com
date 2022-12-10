@@ -14,8 +14,8 @@ import {
   ModalContainer,
 } from './Style';
 import { VERIFICATION } from '../../utils/constants';
-import postSignup from '../../api/signup';
 import ToggleVisible from '../../components/login/ToggleVisible';
+import { postSignup } from '../../api/auth';
 
 const SignUp = () => {
   const navigate = useNavigate();

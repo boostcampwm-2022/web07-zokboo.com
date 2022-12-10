@@ -17,11 +17,12 @@ import {
   SSOIcon,
   SSOTitle,
 } from './Style';
-import { getLocalLoginData, getSSOData } from '../../api/login';
+
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 import { useAppDispatch } from '../../redux/hooks';
 import { signinSuccess } from '../../redux/login/slice';
 import ModalContainer from '../../components/login/LoginModal';
+import { getLocalLoginData, getSSOData } from '../../api/auth';
 
 const Login = () => {
   const dispatch = useAppDispatch();
