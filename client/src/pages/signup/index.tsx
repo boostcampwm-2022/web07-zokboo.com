@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';

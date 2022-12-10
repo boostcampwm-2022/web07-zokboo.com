@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { device } from '../../styles/theme';
+import { media } from '../../styles/theme';
 
 export const ModalContainerStyled = styled.div`
   position: absolute;
@@ -23,7 +23,7 @@ export const ModalContainerStyled = styled.div`
 
   padding: 20px;
 
-  @media screen and (max-width: ${device.mobileWidth}) {
+  ${media.mobileWidth} {
     width: 100%;
     border: none;
     box-shadow: none;
