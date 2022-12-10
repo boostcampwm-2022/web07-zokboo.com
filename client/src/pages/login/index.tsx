@@ -21,6 +21,7 @@ import { getLocalLoginData, getSSOData } from '../../api/login';
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 import { useAppDispatch } from '../../redux/hooks';
 import { signinSuccess } from '../../redux/login/slice';
+import ModalContainer from '../../components/login/LoginModal';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -60,8 +61,7 @@ const Login = () => {
 
   return (
     <div>
-      <Modal>
-        <Logo type="large" />
+      <ModalContainer title={<Logo type="large" />}>
         <ModalBody>
           <form onSubmit={handleLogin}>
             <InputBox type="text" placeholder="이메일" id="email" name="email" maxLength={30} />
@@ -81,7 +81,7 @@ const Login = () => {
             <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => SSOMutation.mutate(KAKAO)} />
           </SSOButtons>
         </ModalBody>
-      </Modal>
+      </ModalContainer>
     </div>
   );
 };

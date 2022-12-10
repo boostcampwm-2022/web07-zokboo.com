@@ -8,7 +8,9 @@ export const GoToLogin = styled(Link)`
   float: left;
 `;
 
-export const ModalTitle = styled.div``;
+export const ModalTitle = styled.div`
+  width: 100%;
+`;
 
 export const ModalContainerStyled = styled.div`
   position: absolute;
@@ -44,15 +46,12 @@ export const Modal = styled.div`
 
 interface ModalContainerProps {
   children: JSX.Element[] | JSX.Element;
-  title: string;
+  title: JSX.Element | string;
 }
 const ModalContainer = ({ children, title }: ModalContainerProps): JSX.Element => {
   return (
     <ModalContainerStyled>
       <Modal>
-        <GoToLogin to="/login">
-          <FiArrowLeft size={20} />
-        </GoToLogin>
         <ModalTitle>{title}</ModalTitle>
         {children}
       </Modal>
