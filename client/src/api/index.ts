@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const client = axios;
+const customAxios = axios;
 
-client.defaults.withCredentials = true;
+customAxios.defaults.withCredentials = true;
 
-export default client;
+export default customAxios;
