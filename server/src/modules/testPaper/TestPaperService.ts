@@ -11,6 +11,7 @@ import GradeTestPaperRequest from './dto/request/GradeTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
 import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
 import TestPaperDetailResponse from './dto/response/TestPaperSimpleResponse';
+import TestPaperState from './enum/TestPaperState';
 import { TestPaperRepository } from './TestPaperRepository';
 
 @Injectable()
@@ -49,6 +50,9 @@ export class TestPaperService {
     let result: TestPaperGradedResponse;
     await this.prisma.$transaction(async (tx) => {
       const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
+      if (testPaper.state !== TestPaperState.SOLVING) {
+        throw new BadRequestException('객관식 채점이 이미 완료된 시험지입니다.');
+      }
       const writtenAnswers = new Map<bigint, string>();
       request.questions.forEach((q) => writtenAnswers.set(BigInt(q.testPaperQuestionId), q.writtenAnswer));
       testPaper.gradeMultipleTypeQuestions(writtenAnswers);
