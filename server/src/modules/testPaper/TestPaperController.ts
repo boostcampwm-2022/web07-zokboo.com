@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiExtraModels } from '@nestjs/swagger';
 import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 import { User } from 'src/decorators/UserDecorator';
@@ -13,6 +13,8 @@ import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
 import GradeTestPaperRequest from './dto/request/GradeTestPaperRequest';
 import GradeTestPaperQuestionRequest from './dto/request/GradeTestPaperQuestionRequest';
 import TestPaperQuestionDetailResponse from './dto/response/TestPaperQuestionDetailResponse';
+import MarkTestPaperRequest from './dto/request/MarkTestPaperRequest';
+import MarkTestPaperQuestionRequest from './dto/request/MarkTestPaperQuestionRequest';
 
 @Controller('testpaper')
 @ApiExtraModels(
@@ -22,6 +24,7 @@ import TestPaperQuestionDetailResponse from './dto/response/TestPaperQuestionDet
   TestPaperQuestionDetailResponse,
   TestPaperGradedResponse,
   GradeTestPaperQuestionRequest,
+  MarkTestPaperQuestionRequest,
 )
 export class TestPaperController {
   constructor(private readonly testPaperService: TestPaperService) {}
@@ -51,6 +54,22 @@ export class TestPaperController {
     @Body() request: GradeTestPaperRequest,
   ) {
     const response = await this.testPaperService.gradeMultipleTypeQuestionsOfTestPaper(
+      Number(userId),
+      testPaperId,
+      request,
+    );
+    return new ApiResponse('시험지 객관식 문제 채점 성공', response);
+  }
+
+  @Patch(':testPaperId')
+  @UseGuards(JwtAuthGuard)
+  @ApiSingleResponse(200, TestPaperGradedResponse, '시험지 주관식 문제 채점 성공')
+  async markSubjectiveTypeQuestionsOfTestPaper(
+    @User('id') userId: string,
+    @Param('testPaperId', ParseIntPipe) testPaperId: number,
+    @Body() request: MarkTestPaperRequest,
+  ) {
+    const response = await this.testPaperService.markSubjectiveTypeQuestionsOfTestPaper(
       Number(userId),
       testPaperId,
       request,

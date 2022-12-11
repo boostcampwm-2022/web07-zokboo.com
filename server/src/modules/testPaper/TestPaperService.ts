@@ -8,6 +8,7 @@ import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
 import CreateTestPaperRequest from './dto/request/CreateTestPaperRequest';
 import GradeTestPaperRequest from './dto/request/GradeTestPaperRequest';
+import MarkTestPaperRequest from './dto/request/MarkTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
 import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
 import TestPaperDetailResponse from './dto/response/TestPaperSimpleResponse';
@@ -56,6 +57,21 @@ export class TestPaperService {
       const writtenAnswers = new Map<bigint, string>();
       request.questions.forEach((q) => writtenAnswers.set(BigInt(q.testPaperQuestionId), q.writtenAnswer));
       testPaper.gradeMultipleTypeQuestions(writtenAnswers);
+      result = new TestPaperGradedResponse(await this.testPaperRepository.save(testPaper));
+    });
+    return result;
+  }
+
+  async markSubjectiveTypeQuestionsOfTestPaper(userId: number, testPaperId: number, request: MarkTestPaperRequest) {
+    let result: TestPaperGradedResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
+      if (testPaper.state !== TestPaperState.GRADING) {
+        throw new BadRequestException('주관식 채점을 진행할 수 없습니다.');
+      }
+      const correctResults = new Map<bigint, boolean>();
+      request.questions.forEach((q) => correctResults.set(BigInt(q.testPaperQuestionId), q.isCorrect));
+      testPaper.markSubjectiveTypeQuestions(correctResults);
       result = new TestPaperGradedResponse(await this.testPaperRepository.save(testPaper));
     });
     return result;

@@ -2,6 +2,7 @@ import Question from 'src/modules/question/domain/Question';
 import { TestPaperQuestion as pTestPaperQuestion } from '@prisma/client';
 import TestPaperQuestionState from '../enum/TestPaperQuestionState';
 import QuestionType from 'src/modules/question/enum/QuestionType';
+import { BadRequestException } from '@nestjs/common';
 
 class TestPaperQuestion {
   public testPaperQuestionId: bigint | undefined;
@@ -47,6 +48,10 @@ class TestPaperQuestion {
   }
 
   gradeMultipleTypeQuestion(writtenAnswer: string | undefined) {
+    if (writtenAnswer === undefined) {
+      throw new BadRequestException('풀리지 않은 문제가 있습니다.');
+    }
+    this.writtenAnswer = writtenAnswer;
     if (this.question.questionType === QuestionType.SUBJECTIVE) {
       this.state = TestPaperQuestionState.UNMARKED;
       return false;
@@ -57,6 +62,18 @@ class TestPaperQuestion {
     }
     this.state = TestPaperQuestionState.CORRECT;
     return true;
+  }
+
+  markSubjectiveTypeQuestion(result: boolean | undefined) {
+    if (result === undefined) {
+      throw new BadRequestException('채점되지 않은 문제가 있습니다.');
+    }
+    if (result) {
+      this.state = TestPaperQuestionState.CORRECT;
+      return true;
+    }
+    this.state = TestPaperQuestionState.WRONG;
+    return false;
   }
 }
 

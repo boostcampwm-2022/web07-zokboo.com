@@ -84,6 +84,19 @@ class TestPaper {
     this.state = TestPaperState.COMPLETE;
     return;
   }
+
+  markSubjectiveTypeQuestions(correctResults: Map<bigint, boolean>) {
+    this.questions.forEach((q) => {
+      if (q.question.questionType !== QuestionType.MULTIPLE) {
+        return;
+      }
+      if (q.markSubjectiveTypeQuestion(correctResults.get(q.testPaperQuestionId))) {
+        this.correctCount += 1;
+      }
+    });
+    this.state = TestPaperState.COMPLETE;
+    return;
+  }
 }
 
 export default TestPaper;
