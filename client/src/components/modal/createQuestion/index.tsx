@@ -17,7 +17,7 @@ interface Props {
 
 interface FormData {
   question: string;
-  file: string;
+  file: File | null;
   questionType: string;
   hashTagList: string[];
   optionList: string[];
@@ -28,7 +28,7 @@ interface FormData {
 
 const INITIAL_DATA = {
   question: '',
-  file: '',
+  file: null,
   questionType: '',
   hashTagList: [] as string[],
   optionList: [] as string[],
