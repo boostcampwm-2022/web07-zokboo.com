@@ -7,6 +7,7 @@ import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
 import CreateTestPaperRequest from './dto/request/CreateTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
+import TestPaperDetailResponse from './dto/response/TestPaperDetailResponse';
 import { TestPaperRepository } from './TestPaperRepository';
 
 @Injectable()
@@ -29,12 +30,19 @@ export class TestPaperService {
       test.workbooks.forEach((w) => {
         questions.push(...this.exportRandomQuestionsFromWorkbook(w.workbook, w.count));
       });
-      console.log(questions);
       testPaper.setQuestions(questions.map((q) => TestPaperQuestion.new(q)));
       await this.testPaperRepository.save(testPaper);
       result = new CreateTestPaperResponse(testPaper);
     });
     return result;
+  }
+
+  async getTestPaperWithDetails(userId: number, testPaperId: number) {
+    const testPaper = await this.testPaperRepository.findTestPaperWithDetails(testPaperId);
+    if (!testPaper || testPaper.test.userId !== BigInt(userId)) {
+      throw new BadRequestException('잘못된 시험지 ID 입니다.');
+    }
+    return new TestPaperDetailResponse(testPaper);
   }
 
   private exportRandomQuestionsFromWorkbook(workbook: Workbook, count: number): Question[] {
