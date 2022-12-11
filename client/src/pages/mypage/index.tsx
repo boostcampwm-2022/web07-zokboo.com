@@ -17,6 +17,7 @@ import {
 } from './Style';
 import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
+import { MYPAGE_TYPE } from '../../utils/constants';
 
 const MyPage = () => {
   const [searchParams, _] = useSearchParams();
@@ -84,8 +85,9 @@ const MyPage = () => {
         </MobileContainer>
       </SideContainer>
       <ContentsContainer>
-        {/* <MypageWorkbook type="shared" /> */}
-        {/* <MypageWorkbook type="my" /> */}
+        {service === SERVICE_ROUTE.test && <div>나의 시험지{/** 아직 컴포넌트 미제작 */}</div>}
+        {service === SERVICE_ROUTE.workbook && <MypageWorkbook type={MYPAGE_TYPE.나의문제집} />}
+        {service === SERVICE_ROUTE.share && <MypageWorkbook type={MYPAGE_TYPE.공유받은문제집} />}
       </ContentsContainer>
     </Container>
   );
