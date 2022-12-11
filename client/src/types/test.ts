@@ -2,8 +2,8 @@ import { GetQuestionResponse } from './question';
 
 export interface PostCreateTestBody {
   title: string;
-  minute: number;
-  second: number;
+  minutes: number;
+  seconds: number;
 
   workbooks: {
     workbookId: number;
@@ -11,11 +11,11 @@ export interface PostCreateTestBody {
   }[];
 }
 
-export interface GetTestListResponse {
-  testId: number;
+export interface GetTestPaperResponse {
+  testPaperId: number;
   title: string;
-  minute: number;
-  second: number;
-
+  minutes: number;
+  seconds: number;
+  createdAt: string;
   questions: GetQuestionResponse[];
 }

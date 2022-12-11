@@ -4,6 +4,9 @@ const testList = [
     title: '자료구조',
     description: '자료구조 공부를 위해서 만들었다.',
     isPublic: true,
+    minutes: 12,
+    seconds: 13,
+    createdAt: new Date(),
     questions: [
       {
         questionId: 1,

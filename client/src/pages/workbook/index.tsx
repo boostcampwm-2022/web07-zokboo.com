@@ -6,6 +6,7 @@ import KEYS from '../../react-query/keys/workbook';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectSolveData from '../../redux/solve/selector';
 import { initSolve } from '../../redux/solve/slice';
+import TYPE from '../../types/solve';
 import { GetWorkbookListResponse } from '../../types/workbook';
 
 const Workbook = () => {
@@ -21,14 +22,14 @@ const Workbook = () => {
       return getWorkbook(numberId);
     },
     {
-      enabled: numberId !== id || type !== 'workbook',
+      enabled: numberId !== id || type !== TYPE.workbook,
       onSuccess: (data: GetWorkbookListResponse) => {
         dispatch(
           initSolve({
             id: data.workbookId,
             questions: data.questions,
             title: data.title,
-            type: 'workbook',
+            type: TYPE.workbook,
           }),
         );
       },

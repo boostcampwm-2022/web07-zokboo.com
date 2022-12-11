@@ -6,9 +6,10 @@ const initialState: SolveState = {
   id: 0,
   title: '',
   type: '',
-  minute: 0,
-  second: 0,
+  minutes: 0,
+  seconds: 0,
   questions: [],
+  createdAt: '',
 };
 
 const solveSlice = createSlice({
@@ -20,8 +21,9 @@ const solveSlice = createSlice({
       state.title = action.payload.title;
       state.type = action.payload.type;
       state.questions = action.payload.questions;
-      state.minute = action.payload.minute ?? 0;
-      state.second = action.payload.second ?? 0;
+      state.minutes = action.payload.minutes ?? 0;
+      state.seconds = action.payload.seconds ?? 0;
+      state.createdAt = action.payload.createdAt ?? '';
     },
   },
 });
