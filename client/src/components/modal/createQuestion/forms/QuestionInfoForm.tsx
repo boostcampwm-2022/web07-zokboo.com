@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BiImageAdd, BiX } from 'react-icons/bi';
 import { toast } from 'react-toastify';
 import useArrayText from '../../../../hooks/useArrayText';
@@ -22,7 +22,7 @@ import {
 
 interface InfoData {
   question: string;
-  file: File | null;
+  image: File | null;
   questionType: string;
   hashTagList: string[];
 }
@@ -31,7 +31,7 @@ type Props = InfoData & {
   updateFields: (fields: Partial<InfoData>) => void;
 };
 
-const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFields }: Props) => {
+const QuestionInfoForm = ({ question, image, questionType, hashTagList, updateFields }: Props) => {
   const {
     state: hashTagState,
     values: hashTagValues,
@@ -39,6 +39,7 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
     erase: handleHashTagDelete,
     reset: handleHashTagListReset,
   } = useArrayText();
+  const [renderImage, setRenderImage] = useState('');
 
   const handleHashTagAddCheck = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,6 +49,20 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
 
     handleHashTagAdd(hashTag.value);
     target.reset();
+  };
+
+  const loadingImage = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const fileUrl = reader.result;
+
+      if (typeof fileUrl === 'string') {
+        setRenderImage(fileUrl);
+      }
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +86,8 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
       return;
     }
 
-    updateFields({ file: uploadFile });
+    loadingImage(uploadFile);
+    updateFields({ image: uploadFile });
   };
 
   useEffect(() => {
@@ -101,8 +117,9 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
       <SubTitle>문제 이미지</SubTitle>
       <Label htmlFor="file">
         <Input type="file" hidden id="file" onChange={handleFileUpload} />
-        <ImageBox>
+        <ImageBox isShow={renderImage !== ''}>
           <BiImageAdd size={50} />
+          <img src={renderImage} alt="question" />
         </ImageBox>
       </Label>
       <TitleBox>

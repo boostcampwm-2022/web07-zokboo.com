@@ -5,15 +5,7 @@ export interface AddQuestion {
   questionId: number;
   hashtags: string[];
 }
-export interface PostCreateQuestionBody {
-  question: string;
-  questionType: string;
-  difficulty: number;
-  answer: string;
-  commentary: string;
-  hashtags: string[];
-  options: string[];
-}
+export type PostCreateQuestionBody = globalThis.FormData;
 
 export interface GetQuestionResponse {
   question: string;

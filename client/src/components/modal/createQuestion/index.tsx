@@ -17,7 +17,7 @@ interface Props {
 
 interface FormData {
   question: string;
-  file: File | null;
+  image: File | null;
   questionType: string;
   hashTagList: string[];
   optionList: string[];
@@ -28,7 +28,7 @@ interface FormData {
 
 const INITIAL_DATA = {
   question: '',
-  file: null,
+  image: null,
   questionType: '',
   hashTagList: [] as string[],
   optionList: [] as string[],
@@ -60,7 +60,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   };
 
   const handleQuestionCreate = () => {
-    const { question, file, questionType, hashTagList, optionList, answer, commentary, difficultValue } = formData;
+    const { question, image, questionType, hashTagList, optionList, answer, commentary, difficultValue } = formData;
     const isSubjective = questionType === QUESTION_TYPE.subjective;
     const checkOptionLength = new Set(optionList).size;
 
@@ -104,23 +104,12 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     // bodyData.append('hashtags', hashTagList);
     // bodyData.append('options', optionList);
 
-    createQuestionMutation.mutate(
-      {
-        question,
-        questionType,
-        answer,
-        commentary,
-        difficulty: difficultValue,
-        hashtags: hashTagList,
-        options: optionList,
+    createQuestionMutation.mutate(bodyData, {
+      onSuccess: (data: AddQuestion) => {
+        handleProblemAdd(data);
+        handleModalReset();
       },
-      {
-        onSuccess: (data: AddQuestion) => {
-          handleProblemAdd(data);
-          handleModalReset();
-        },
-      },
-    );
+    });
   };
 
   return (
