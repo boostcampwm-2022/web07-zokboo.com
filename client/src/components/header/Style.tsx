@@ -196,10 +196,20 @@ export const DropDownImage = styled.img`
   width: 40px;
   height: 40px;
 
-  background-color: red;
+  border: 1px solid ${colors.gray1};
   border-radius: 50%;
 `;
 
 export const DropDownIcon = styled.div`
   width: 30px;
+`;
+
+export const DropDownLink = styled(Link)`
+  display: block;
+
+  height: 100%;
+  width: 100%;
+
+  color: ${colors.text};
+  text-decoration: none;
 `;

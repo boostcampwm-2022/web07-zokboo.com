@@ -26,6 +26,7 @@ export const DropdownList = styled(List)<{ direction: DIREACTION }>`
   bottom: -10px;
   ${(props) => props.direction}: 0;
   transform: translateY(100%);
+  z-index: 5;
 
   display: flex;
   flex-direction: column;

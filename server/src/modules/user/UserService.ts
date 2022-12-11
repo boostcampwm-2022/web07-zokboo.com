@@ -5,10 +5,16 @@ import SignupResponse from './dto/response/SignupResponse';
 import { UserRepository } from './UserRepository';
 import * as bcrypt from 'bcrypt';
 import { PrismaInstance } from '../common/PrismaInstance';
+import { ImageUploader } from '../common/ImageUploader';
+import SigninResponse from './dto/response/SigninResponse';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository, private readonly prisma: PrismaInstance) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly prisma: PrismaInstance,
+    private readonly imageUploader: ImageUploader,
+  ) {}
 
   public async signupBasicUser(request: SignupRequest) {
     let result: SignupResponse;
@@ -26,6 +32,21 @@ export class UserService {
       const savedUser = await this.userRepository.save(user, tx);
       result = new SignupResponse(savedUser);
     });
+    return result;
+  }
+
+  public async updateProfileImage(file: Express.Multer.File, userId: number) {
+    let result: SigninResponse;
+    const { path } = await this.imageUploader.uploadImage(file);
+
+    await this.prisma.$transaction(async (tx) => {
+      const user = await this.userRepository.findUserById(userId, tx);
+      user.setAvatar(path);
+
+      const savedUser = await this.userRepository.save(user, tx);
+      result = new SigninResponse(savedUser);
+    });
+
     return result;
   }
 

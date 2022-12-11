@@ -31,7 +31,7 @@ export class TestService {
         countTable.set(w.workbookId, w.count);
       });
       const test = Test.new(BigInt(userId), request.title, request.timeout);
-      test.setWorkbooks(workbooks.map((w) => WorkbookTest.new(w, countTable.get(Number(w.workbookId)))));
+      test.setWorkbooks(workbooks.map((w) => WorkbookTest.new(test, w, countTable.get(Number(w.workbookId)))));
       await this.testRepository.save(test, tx);
       result = new TestSimpleResponse(test);
     });

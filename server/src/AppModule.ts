@@ -6,9 +6,17 @@ import { ConfigModule } from '@nestjs/config';
 import { QuestionModule } from './modules/question/QuestionModule';
 import { WorkbookModule } from './modules/workbook/WorkbookModule';
 import { TestModule } from './modules/test/TestModule';
+import { TestPaperModule } from './modules/testPaper/TestPaperModule';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, QuestionModule, WorkbookModule, TestModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
+    QuestionModule,
+    WorkbookModule,
+    TestModule,
+    TestPaperModule,
+  ],
   controllers: [],
   providers: [
     {
