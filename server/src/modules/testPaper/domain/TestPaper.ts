@@ -1,13 +1,15 @@
 import Test from 'src/modules/test/domain/Test';
 import TestPaperQuestion from './TestPaperQuestion';
 import { TestPaper as pTestPaper } from '@prisma/client';
+import TestPaperState from '../enum/TestPaperState';
+import QuestionType from 'src/modules/question/enum/QuestionType';
 
 class TestPaper {
   public testPaperId: bigint;
   public title: string;
   public timeout: number;
   public correctCount: number;
-  public isCompleted: boolean;
+  public state: TestPaperState;
   public test: Test;
   public questions: TestPaperQuestion[];
   public createdAt: Date;
@@ -18,7 +20,7 @@ class TestPaper {
     title: string,
     timeout: number,
     correctCount: number,
-    isCompleted: boolean,
+    state: TestPaperState,
     test: Test,
     questions: TestPaperQuestion[],
     createdAt: Date,
@@ -28,7 +30,7 @@ class TestPaper {
     this.title = title;
     this.timeout = timeout;
     this.correctCount = correctCount;
-    this.isCompleted = isCompleted;
+    this.state = state;
     this.test = test;
     this.questions = questions;
     this.createdAt = createdAt;
@@ -41,7 +43,7 @@ class TestPaper {
       record.title,
       record.timeout,
       record.correct_count,
-      record.is_completed,
+      TestPaperState[record.state],
       test,
       [],
       record.created_at,
@@ -51,7 +53,7 @@ class TestPaper {
 
   static new(title: string, test: Test) {
     const now = new Date();
-    return new TestPaper(undefined, title, test.timeout, 0, false, test, undefined, now, now);
+    return new TestPaper(undefined, title, test.timeout, 0, TestPaperState.SOLVING, test, undefined, now, now);
   }
 
   setId(testPaperId: bigint) {
@@ -60,6 +62,27 @@ class TestPaper {
 
   setQuestions(questions: TestPaperQuestion[]) {
     this.questions = questions;
+  }
+
+  gradeMultipleTypeQuestions(writtenAnswers: Map<bigint, string>) {
+    let gradeCount = 0;
+    this.correctCount = 0;
+    this.questions.forEach((q) => {
+      if (q.question.questionType === QuestionType.SUBJECTIVE) {
+        return;
+      }
+      if (q.gradeMultipleTypeQuestion(writtenAnswers.get(q.testPaperQuestionId))) {
+        this.correctCount += 1;
+      }
+      gradeCount += 1;
+    });
+    this.updatedAt = new Date();
+    if (gradeCount < this.questions.length) {
+      this.state = TestPaperState.GRADING;
+      return;
+    }
+    this.state = TestPaperState.COMPLETE;
+    return;
   }
 }
 
