@@ -1,13 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaInstance } from '../common/PrismaInstance';
 import Question from '../question/domain/Question';
+import QuestionType from '../question/enum/QuestionType';
 import { TestRepository } from '../test/TestRepository';
 import Workbook from '../workbook/domain/Workbook';
 import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
 import CreateTestPaperRequest from './dto/request/CreateTestPaperRequest';
+import GradeTestPaperRequest from './dto/request/GradeTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
-import TestPaperDetailResponse from './dto/response/TestPaperDetailResponse';
+import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
+import TestPaperDetailResponse from './dto/response/TestPaperSimpleResponse';
 import { TestPaperRepository } from './TestPaperRepository';
 
 @Injectable()
@@ -38,11 +41,20 @@ export class TestPaperService {
   }
 
   async getTestPaperWithDetails(userId: number, testPaperId: number) {
-    const testPaper = await this.testPaperRepository.findTestPaperWithDetails(testPaperId);
-    if (!testPaper || testPaper.test.userId !== BigInt(userId)) {
-      throw new BadRequestException('잘못된 시험지 ID 입니다.');
-    }
+    const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
     return new TestPaperDetailResponse(testPaper);
+  }
+
+  async gradeMultipleTypeQuestionsOfTestPaper(userId: number, testPaperId: number, request: GradeTestPaperRequest) {
+    let result: TestPaperGradedResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
+      const writtenAnswers = new Map<bigint, string>();
+      request.questions.forEach((q) => writtenAnswers.set(BigInt(q.testPaperQuestionId), q.writtenAnswer));
+      testPaper.gradeMultipleTypeQuestions(writtenAnswers);
+      result = new TestPaperGradedResponse(await this.testPaperRepository.save(testPaper));
+    });
+    return result;
   }
 
   private exportRandomQuestionsFromWorkbook(workbook: Workbook, count: number): Question[] {
@@ -61,5 +73,13 @@ export class TestPaperService {
       addedIndex.add(randomIndex);
     }
     return result;
+  }
+
+  private async getTestPaperByIdWithAuthorization(userId: number, testPaperId: number) {
+    const testPaper = await this.testPaperRepository.findTestPaperWithDetails(testPaperId);
+    if (!testPaper || testPaper.test.userId !== BigInt(userId)) {
+      throw new BadRequestException('잘못된 시험지 ID 입니다.');
+    }
+    return testPaper;
   }
 }
