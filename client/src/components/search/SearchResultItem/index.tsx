@@ -20,7 +20,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
   };
 
   const handleTestButton = () => {
-    alert('시험 응시 뻐튼');
+    navigate(`/workbook/${workbookId}`);
   };
 
   const handleSaveButton = () => {

@@ -1,32 +1,22 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Items, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
-import SEARCH_TYPE from './constants';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
-import { getMockSearchData } from '../../api/search';
-import NewSearchResultItem from '../../components/search/NewSearchResultItem/NewSearchResultItem';
 import SearchResultItem from '../../components/search/SearchResultItem';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import selectSearchType from '../../redux/search/searchType/selector';
-import { updateSearchType } from '../../redux/search/searchType/slice';
 import SelectSearchType from '../../components/search/SelectSearchType';
+import getSearchData from '../../api/search';
 
 const Search = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
   const searchWord = searchParams.get('q');
   const { searchType } = useAppSelector(selectSearchType, () => true);
-  // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
 
   const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
     [WORKBOOK_SEARCH, searchWord, searchType],
-    getMockSearchData,
-    {
-      onError: (err) => {
-        console.log(err);
-      },
-    },
+    getSearchData,
   );
 
   return (
