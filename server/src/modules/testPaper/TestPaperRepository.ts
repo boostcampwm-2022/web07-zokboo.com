@@ -12,6 +12,7 @@ import Workbook from '../workbook/domain/Workbook';
 import WorkbookQuestion from '../workbook/domain/WorkbookQuestion';
 import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
+import TestPaperState from './enum/TestPaperState';
 
 @Injectable()
 export class TestPaperRepository {
@@ -162,5 +163,50 @@ export class TestPaperRepository {
       }),
     );
     return result;
+  }
+
+  async findTestPapersOfUser(userId: number, state: TestPaperState, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const testPapers = await prisma.testPaper.findMany({
+      where: {
+        Test: {
+          user_id: userId,
+        },
+        state: state,
+      },
+      include: {
+        Test: {
+          include: {
+            WorkbookTest: {
+              include: {
+                Workbook: {
+                  include: {
+                    WorkbookQuestion: {
+                      include: {
+                        Question: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    return testPapers.map((tp) => {
+      const test = Test.of(tp.Test);
+      test.setWorkbooks(
+        tp.Test.WorkbookTest.map((wt) => {
+          const workbook = Workbook.of(wt.Workbook);
+          workbook.setQuestions(
+            wt.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+          );
+          return WorkbookTest.of(wt, workbook);
+        }),
+      );
+      const testPaper = TestPaper.of(tp, test);
+      return testPaper;
+    });
   }
 }
