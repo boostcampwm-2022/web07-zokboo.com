@@ -1,5 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { useState } from 'react';
 import { Items, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
@@ -8,16 +9,20 @@ import { useAppSelector } from '../../redux/hooks';
 import selectSearchType from '../../redux/search/searchType/selector';
 import SelectSearchType from '../../components/search/SelectSearchType';
 import getSearchData from '../../api/search';
+import Error from '../../components/mypage/utils/Error';
+import Loading from '../../components/mypage/utils/Loading';
 
 const Search = () => {
   const [searchParams, _] = useSearchParams();
   const searchWord = searchParams.get('q');
   const { searchType } = useAppSelector(selectSearchType, () => true);
+  const [searchResult, setSearchResult] = useState<SearchWorkbookType[]>([]);
 
-  const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
-    [WORKBOOK_SEARCH, searchWord, searchType],
-    getSearchData,
-  );
+  const { isLoading, isSuccess, data } = useQuery([WORKBOOK_SEARCH, searchWord, searchType], getSearchData, {
+    onSuccess: (d) => {
+      setSearchResult(d.data);
+    },
+  });
 
   return (
     <div>
@@ -29,19 +34,21 @@ const Search = () => {
           <SelectSearchType />
         </TitleContainer>
         <Items>
-          {isLoading && '로딩중'}
+          {isLoading && <Loading />}
           {isSuccess &&
-            (data
-              ? data.map((workbook, index) => (
-                  <SearchResultItem
-                    key={workbook.workbookId}
-                    workbookId={workbook.workbookId}
-                    title={workbook.title}
-                    description={workbook.description}
-                    questionCount={workbook.questionCount}
-                  />
-                ))
-              : `검색결과가 없습니다.`)}
+            (searchResult.length !== 0 ? (
+              searchResult.map((workbook, index) => (
+                <SearchResultItem
+                  key={workbook.workbookId}
+                  workbookId={workbook.workbookId}
+                  title={workbook.title}
+                  description={workbook.description}
+                  questionCount={workbook.questionCount}
+                />
+              ))
+            ) : (
+              <Error title="검색결과가 없습니다." />
+            ))}
         </Items>
       </SearchResultContainer>
     </div>
