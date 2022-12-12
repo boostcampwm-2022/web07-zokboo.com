@@ -23,7 +23,6 @@ export class TestService {
         userId,
         tx,
       );
-      // console.log(workbooks);
       if (workbooks.length !== request.workbooks.length) {
         throw new BadRequestException('유효하지 않은 문제집이 포함되었습니다.');
       }

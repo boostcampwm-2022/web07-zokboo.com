@@ -1,5 +1,6 @@
 import Test from 'src/modules/test/domain/Test';
 import TestPaperQuestion from './TestPaperQuestion';
+import { TestPaper as pTestPaper } from '@prisma/client';
 
 class TestPaper {
   public testPaperId: bigint;
@@ -32,6 +33,20 @@ class TestPaper {
     this.questions = questions;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+  }
+
+  static of(record: pTestPaper, test: Test) {
+    return new TestPaper(
+      record.test_paper_id,
+      record.title,
+      record.timeout,
+      record.correct_count,
+      record.is_completed,
+      test,
+      [],
+      record.created_at,
+      record.updated_at,
+    );
   }
 
   static new(title: string, test: Test) {
