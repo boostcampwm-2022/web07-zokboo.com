@@ -1,33 +1,11 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import styled from 'styled-components';
 import { getMyTest } from '../../../api/test';
-import { fonts } from '../../../styles/theme';
 import { TestListSearchData } from '../../../types/test';
-import TestSearchResultItem from '../../search/TestSearchResultItem';
+import TestSearchResultItem from '../../search/TestSearchResultItem/index';
 import Error from '../utils/Error';
 import Loading from '../utils/Loading';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const Header = styled.div`
-  font-size: ${fonts.size.xl};
-  font-weight: ${fonts.weight.normal};
-`;
-
-const Main = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xl};
-`;
+import { Container, Header } from './Style';
 
 const Test = () => {
   const [testData, setTestData] = useState<TestListSearchData[]>([]);

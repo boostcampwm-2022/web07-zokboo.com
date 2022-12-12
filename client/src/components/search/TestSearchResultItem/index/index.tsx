@@ -1,42 +1,8 @@
-import styled from 'styled-components';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { colors, fonts } from '../../../styles/theme';
-import { TestListSearchData } from '../../../types/test';
-import SearchResultContainer from '../../common/searchResultContainer';
-import QuestionRangeWorkbook from './QuestionRangeWorkbook';
-
-const SearchResult = styled.div``;
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-const Title = styled.div`
-  font-size: ${fonts.size.lg};
-  font-weight: ${fonts.weight.semiBold};
-  padding-bottom: 8px;
-  margin-left: 4px;
-`;
-const ProblemCount = styled.div`
-  font-size: ${fonts.size.xs};
-  color: ${colors.gray4};
-`;
-
-const Timer = styled.div`
-  font-size: ${fonts.size.xs};
-  color: ${colors.gray4};
-`;
-
-const QuestionRange = styled.details`
-  margin-top: 10px;
-
-  summary {
-    font-weight: ${fonts.weight.semiBold};
-    ::marker {
-      display: none;
-      content: '';
-    }
-  }
-`;
+import { TestListSearchData } from '../../../../types/test';
+import SearchResultContainer from '../../../common/searchResultContainer';
+import QuestionRangeWorkbook from '../QuestionRangeWorkbook';
+import { ProblemCount, QuestionRange, SearchResult, Timer, Title, TitleContainer } from './Style';
 
 const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, workbooks }: TestListSearchData) => {
   return (

@@ -1,24 +1,12 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
-import styled from 'styled-components';
 import { getMyWorkbookData } from '../../../api/workbook';
-import { fonts } from '../../../styles/theme';
 import SearchWorkbookType from '../../../types/search';
 import { MYPAGE_TYPE } from '../../../utils/constants';
 import WorkbookItem from '../../workbookItem/WorkbookItem';
 import Loading from '../utils/Loading';
-import NoSearchResult from '../utils/Error';
 import Error from '../utils/Error';
-
-const WorkbookContainer = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-const Header = styled.div`
-  font-size: ${fonts.size.xl};
-  font-weight: ${fonts.weight.normal};
-`;
+import { Header, WorkbookContainer } from './Style';
 
 interface MypageWorkbookProps {
   type: string;
