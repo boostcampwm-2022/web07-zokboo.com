@@ -1,4 +1,5 @@
 import { GetQuestionResponse } from './question';
+import { WorkbookSearchData } from './workbook';
 
 export interface PostCreateTestBody {
   title: string;
@@ -18,4 +19,17 @@ export interface GetTestListResponse {
   second: number;
 
   questions: GetQuestionResponse[];
+}
+
+export interface TestListSearchData {
+  testId: number;
+  title: string;
+  totalCount: number;
+  minutes: number;
+  seconds: number;
+
+  workbooks: {
+    workbook: WorkbookSearchData;
+    count: number;
+  }[];
 }

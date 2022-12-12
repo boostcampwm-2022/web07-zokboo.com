@@ -46,3 +46,10 @@ export interface GetWorkbookListByTitleResponse {
 export interface PostWorkbookSave {
   workbookId: number;
 }
+
+export interface WorkbookSearchData {
+  workbookId: number;
+  title: string;
+  description: string;
+  questionCount: number;
+}
