@@ -14,7 +14,9 @@ const Test = () => {
   const { testId } = useParams<{ testId: string }>();
   const numberId = testId ? Number(testId) : -1;
 
-  const { id, type } = useAppSelector(selectSolveData);
+  // 백엔드에 요청을 하나 줄이는 게 좋을까? 아니면 리렌더링이 발생하지 않는 것이 좋을까?
+  // 난 전자같음 => 근데 둘다 가능한 방법은 없을까?
+  // const { id, type } = useAppSelector(selectSolveData);
 
   const { isLoading, isError } = useQuery<GetTestPaperResponse>(
     KEYS.detail,
@@ -22,7 +24,7 @@ const Test = () => {
       return getTest(numberId);
     },
     {
-      enabled: numberId !== id || type !== TYPE.test,
+      // enabled: numberId !== id || type !== TYPE.test,
       onSuccess: (data: GetTestPaperResponse) => {
         dispatch(
           initSolve({

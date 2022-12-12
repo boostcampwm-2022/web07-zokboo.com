@@ -5,7 +5,8 @@ import { solveWorkbookQuestion } from '../../../api/workbook';
 import useArrayText from '../../../hooks/useArrayText';
 import useToggle from '../../../hooks/useToggle';
 import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { initAnswer, updateAnswer } from '../../../redux/solve/slice';
 import selectSolveData from '../../../redux/solve/selector';
 import { QUESTION_TYPE } from '../../../utils/constants';
 import {
@@ -29,22 +30,26 @@ import {
   SideBarList,
   SideBarListTitle,
 } from './Style';
+import Loading from '../../common/Loading';
+import TYPE from '../../../types/solve';
 
 const Contents = () => {
-  const { questions, id, type } = useAppSelector(selectSolveData);
+  const { questions, id, type, answerList } = useAppSelector(selectSolveData);
+  const dispatch = useAppDispatch();
 
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
   const contentsRef = useRef<HTMLDivElement>(null);
   const questionItemRef = useRef<HTMLLIElement[]>([]);
   const [descriptionType, setDescriptionType] = useState<string[]>([]);
-  const { values: answerList, set: initAnswerList, change: handleAnswerListUpdate } = useArrayText();
 
   const solveWorkbookQuestionMutation = useMutation(solveWorkbookQuestion);
 
+  console.log(answerList);
+
   const checkSolveType = () => {
     return {
-      isWorkbook: type === 'workbook',
-      isTest: type === 'test',
+      isWorkbook: type === TYPE.workbook,
+      isTest: type === TYPE.test,
     };
   };
 
@@ -55,14 +60,19 @@ const Contents = () => {
     return false;
   };
 
-  const handleWorkbookQuestionSolve = (questionId: number, idx: number, value: string) => {
+  const handleWorkbookQuestionSolve = (questionId: number, value: string) => {
     if (solveType.isWorkbook) {
       solveWorkbookQuestionMutation.mutate({
         params: { workbookId: id, workbookQuestionId: questionId },
         body: { newAnswer: value },
       });
     }
-    handleAnswerListUpdate(idx, value);
+    dispatch(
+      updateAnswer({
+        questionId,
+        writtenAnswer: value,
+      }),
+    );
   };
 
   const handleScrollMove = (idx: number) => {
@@ -85,10 +95,17 @@ const Contents = () => {
     if (questions) {
       setDescriptionType(new Array(questions.length).fill(''));
 
-      const dumpAnswerList = questions.map(({ writtenAnswer }) => writtenAnswer ?? '');
-      initAnswerList(dumpAnswerList);
+      const dumpAnswerList = questions.map(({ questionId, writtenAnswer, questionType }) => ({
+        questionId,
+        writtenAnswer: writtenAnswer ?? '',
+        questionType,
+      }));
+
+      dispatch(initAnswer(dumpAnswerList));
     }
   }, [questions]);
+
+  if (!answerList) return <Loading />;
 
   return (
     <Container>
@@ -98,7 +115,7 @@ const Contents = () => {
           {questions.map(({ questionId }, idx) => (
             <SideBarItem key={questionId}>
               <SideBarButton
-                isActive={answerList[idx] !== ``}
+                isActive={answerList[idx]?.writtenAnswer !== ``}
                 onClick={() => {
                   handleScrollMove(idx);
                 }}
@@ -132,8 +149,8 @@ const Contents = () => {
                     {options.map((option) => (
                       <QuestionOptionItem key={option}>
                         <QuestionCheckButton
-                          isActive={answerList[idx] === option}
-                          onClick={() => handleWorkbookQuestionSolve(questionId, idx, option)}
+                          isActive={answerList[idx]?.writtenAnswer === option}
+                          onClick={() => handleWorkbookQuestionSolve(questionId, option)}
                         >
                           {option}
                         </QuestionCheckButton>
@@ -142,8 +159,8 @@ const Contents = () => {
                   </QuestionOptionList>
                 ) : (
                   <QuestionAnswerArea
-                    value={answerList[idx]}
-                    onChange={(e) => handleWorkbookQuestionSolve(questionId, idx, e.target.value)}
+                    value={answerList[idx]?.writtenAnswer}
+                    onChange={(e) => handleWorkbookQuestionSolve(questionId, e.target.value)}
                   />
                 )}
 

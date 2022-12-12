@@ -19,3 +19,10 @@ export interface GetTestPaperResponse {
   createdAt: string;
   questions: GetQuestionResponse[];
 }
+
+export interface PutGradeTestPaperBody {
+  testPaperQuestionId: number;
+  questionId: number;
+  QuestionType: string;
+  writtenAnswer: string;
+}

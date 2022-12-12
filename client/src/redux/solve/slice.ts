@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { InitSolve, SolveState } from './interface';
+import { InitSolve, UpdateAnswer, SolveState, InitAnswer } from './interface';
 
 // 초기값을 지정
 const initialState: SolveState = {
@@ -10,6 +10,7 @@ const initialState: SolveState = {
   seconds: 0,
   questions: [],
   createdAt: '',
+  answerList: [],
 };
 
 const solveSlice = createSlice({
@@ -25,9 +26,20 @@ const solveSlice = createSlice({
       state.seconds = action.payload.seconds ?? 0;
       state.createdAt = action.payload.createdAt ?? '';
     },
+    initAnswer: (state, action: PayloadAction<InitAnswer>) => {
+      state.answerList = action.payload;
+    },
+    updateAnswer: (state, action: PayloadAction<UpdateAnswer>) => {
+      state.answerList = state.answerList.map((data) => {
+        const { questionId } = data;
+        return questionId === action.payload.questionId
+          ? { ...data, writtenAnswer: action.payload.writtenAnswer }
+          : data;
+      });
+    },
   },
 });
 
-export const { initSolve } = solveSlice.actions;
+export const { initSolve, initAnswer, updateAnswer } = solveSlice.actions;
 
 export default solveSlice;
