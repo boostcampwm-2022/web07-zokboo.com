@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './index';
 import { PostCreateQuestionBody } from '../types/question';
 import { SERVER_URL } from '../utils/constants';
 
@@ -9,7 +9,7 @@ export const getQuestion = async (query: { type: string; value: string }) => {
 };
 
 export const createQuestion = async (body: PostCreateQuestionBody) => {
-  const { data } = await axios.post(`${SERVER_URL}/questions`, body, { withCredentials: true });
+  const { data } = await axios.post(`${SERVER_URL}/questions`, body);
 
   return data;
 };
