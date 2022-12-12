@@ -18,6 +18,8 @@ import {
 import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
 import { MYPAGE_TYPE } from '../../utils/constants';
+import Test from '../../components/mypage/test';
+import TestPaper from '../../components/mypage/testPaper';
 
 const MyPage = () => {
   const [searchParams, _] = useSearchParams();
@@ -51,9 +53,19 @@ const MyPage = () => {
         <MobileContainer>
           <CategoryTitle>나의 서비스</CategoryTitle>
           <CategoryList>
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.testpaper)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.testpaper}`}>
+                <span>나의 시험지</span>
+                {checkActiveService(SERVICE_ROUTE.testpaper) && (
+                  <span>
+                    <BsCheckLg />
+                  </span>
+                )}
+              </CategoryLink>
+            </CategoryItem>
             <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.test)}>
               <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.test}`}>
-                <span>나의 시험지</span>
+                <span>나의 시험</span>
                 {checkActiveService(SERVICE_ROUTE.test) && (
                   <span>
                     <BsCheckLg />
@@ -85,7 +97,8 @@ const MyPage = () => {
         </MobileContainer>
       </SideContainer>
       <ContentsContainer>
-        {service === SERVICE_ROUTE.test && <div>나의 시험지{/** 아직 컴포넌트 미제작 */}</div>}
+        {service === SERVICE_ROUTE.testpaper && <TestPaper />}
+        {service === SERVICE_ROUTE.test && <Test />}
         {service === SERVICE_ROUTE.workbook && <MypageWorkbook type={MYPAGE_TYPE.나의문제집} />}
         {service === SERVICE_ROUTE.share && <MypageWorkbook type={MYPAGE_TYPE.공유받은문제집} />}
       </ContentsContainer>
