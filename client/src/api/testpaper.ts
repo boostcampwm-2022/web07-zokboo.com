@@ -1,4 +1,3 @@
-import { QueryFunctionContext } from 'react-query';
 import { SERVER_URL } from '../utils/constants';
 import axios from './index';
 
