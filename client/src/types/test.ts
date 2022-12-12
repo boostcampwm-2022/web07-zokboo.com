@@ -1,4 +1,4 @@
-import { GetQuestionResponse } from './question';
+import { GetTestQuestionResponse } from './question';
 
 export interface PostCreateTestBody {
   title: string;
@@ -17,12 +17,17 @@ export interface GetTestPaperResponse {
   minutes: number;
   seconds: number;
   createdAt: string;
-  questions: GetQuestionResponse[];
+  state: string;
+  questions: GetTestQuestionResponse[];
 }
 
-export interface PutGradeTestPaperBody {
+interface GradeTestPaperBody {
   testPaperQuestionId: number;
-  questionId: number;
-  QuestionType: string;
+  questionType: string;
   writtenAnswer: string;
+}
+
+export interface PutGradeTestPaperProps {
+  testPaperId: number;
+  body: GradeTestPaperBody[];
 }

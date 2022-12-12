@@ -7,7 +7,7 @@ export default [
   rest.get(`${SERVER_URL}/tests/:id/questions`, (req, res, ctx) => {
     const { id } = req.params;
 
-    const result = test.testList.filter(({ testId }) => testId.toString() === id);
+    const result = test.testList.filter(({ testPaperId }) => testPaperId.toString() === id);
 
     return res(ctx.status(200), ctx.json(result[0]));
   }),

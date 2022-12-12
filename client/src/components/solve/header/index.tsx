@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../../redux/hooks';
 import selectSolveData from '../../../redux/solve/selector';
-import TYPE from '../../../types/solve';
+import { SOLVE_TYPE, TEST_TYPE } from '../../../utils/constants';
 import Logo from '../../common/logo';
 import { Container, Inner, LogoBox, Title } from './Style';
 
@@ -12,12 +12,17 @@ const changeTime = (timer: number) => {
   return `${minute.padStart(2, '0')} : ${second.padStart(2, '0')}`;
 };
 
-const Header = () => {
-  const { title, minutes, seconds, createdAt, type } = useAppSelector(selectSolveData);
-  const [timer, setTimer] = useState(0);
+interface Props {
+  handleTestGrade: () => void;
+}
+
+const Header = ({ handleTestGrade }: Props) => {
+  const { title, minutes, seconds, createdAt, type, state } = useAppSelector(selectSolveData);
+  const intervalRef = useRef<NodeJS.Timer>();
+  const [timer, setTimer] = useState(-1);
 
   useEffect(() => {
-    if (type === TYPE.test) {
+    if (type === SOLVE_TYPE.test) {
       const start = new Date(createdAt).getTime();
 
       const curr = new Date().getTime();
@@ -30,25 +35,30 @@ const Header = () => {
   }, [type]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
+    if (state === TEST_TYPE.solve)
+      intervalRef.current = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (timer === 0) {
+      handleTestGrade();
+    }
   }, [timer]);
 
   return (
     <Container>
-      <Inner>
+      <Inner isShow>
         <LogoBox>
           <Logo type="small" />
         </LogoBox>
         <Title>{title}</Title>
       </Inner>
 
-      <Inner>{changeTime(timer)}</Inner>
+      <Inner isShow={state === TEST_TYPE.solve}>{changeTime(timer)}</Inner>
     </Container>
   );
 };

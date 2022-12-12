@@ -187,8 +187,6 @@ export const QuestionAnswerContainer = styled.div<{ isShow: boolean }>`
   display: ${(props) => (props.isShow ? `block` : `none`)};
 `;
 
-export const WorkbookButton = styled(Button)``;
-
 export const MobileSideBarShowButton = styled(Button)`
   position: fixed;
   right: 20px;
@@ -208,4 +206,15 @@ export const MobileSideBarShowButton = styled(Button)`
     justify-content: center;
     align-items: center;
   }
+`;
+
+export const TestButtonContainer = styled.div<{ isShow: boolean }>`
+  display: ${(props) => (props.isShow ? `flex` : `none`)};
+  justify-content: center;
+
+  width: 100%;
+`;
+
+export const TestButton = styled(Button)`
+  padding: 5px 20px;
 `;

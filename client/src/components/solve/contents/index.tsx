@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { BsFillCaretDownFill, BsList } from 'react-icons/bs';
 import { useMutation } from 'react-query';
 import { solveWorkbookQuestion } from '../../../api/workbook';
-import useArrayText from '../../../hooks/useArrayText';
 import useToggle from '../../../hooks/useToggle';
 import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { initAnswer, updateAnswer } from '../../../redux/solve/slice';
+import { updateAnswer } from '../../../redux/solve/slice';
 import selectSolveData from '../../../redux/solve/selector';
-import { QUESTION_TYPE } from '../../../utils/constants';
+import { QUESTION_TYPE, SOLVE_TYPE } from '../../../utils/constants';
 import {
   Container,
   MobileSideBarShowButton,
@@ -29,27 +28,29 @@ import {
   SideBarItem,
   SideBarList,
   SideBarListTitle,
+  TestButton,
+  TestButtonContainer,
 } from './Style';
-import Loading from '../../common/Loading';
-import TYPE from '../../../types/solve';
 
-const Contents = () => {
+interface Props {
+  handleTestGrade: () => void;
+}
+
+const Contents = ({ handleTestGrade }: Props) => {
   const { questions, id, type, answerList } = useAppSelector(selectSolveData);
   const dispatch = useAppDispatch();
 
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
   const contentsRef = useRef<HTMLDivElement>(null);
   const questionItemRef = useRef<HTMLLIElement[]>([]);
-  const [descriptionType, setDescriptionType] = useState<string[]>([]);
+  const [descriptionType, setDescriptionType] = useState<string[]>(new Array(questions.length).fill(''));
 
   const solveWorkbookQuestionMutation = useMutation(solveWorkbookQuestion);
 
-  console.log(answerList);
-
   const checkSolveType = () => {
     return {
-      isWorkbook: type === TYPE.workbook,
-      isTest: type === TYPE.test,
+      isWorkbook: type === SOLVE_TYPE.workbook,
+      isTest: type === SOLVE_TYPE.test,
     };
   };
 
@@ -69,7 +70,7 @@ const Contents = () => {
     }
     dispatch(
       updateAnswer({
-        questionId,
+        testPaperQuestionId: questionId,
         writtenAnswer: value,
       }),
     );
@@ -90,22 +91,6 @@ const Contents = () => {
 
     setDescriptionType((prev) => prev.map((prevType, idx) => (idx !== index ? prevType : updateType)));
   };
-
-  useEffect(() => {
-    if (questions) {
-      setDescriptionType(new Array(questions.length).fill(''));
-
-      const dumpAnswerList = questions.map(({ questionId, writtenAnswer, questionType }) => ({
-        questionId,
-        writtenAnswer: writtenAnswer ?? '',
-        questionType,
-      }));
-
-      dispatch(initAnswer(dumpAnswerList));
-    }
-  }, [questions]);
-
-  if (!answerList) return <Loading />;
 
   return (
     <Container>
@@ -133,6 +118,7 @@ const Contents = () => {
             const { questionId, question, questionType, commentary, answer, options } = questionData;
             const isAnswer = checkDescriptionType(idx, DESCRIPTION_TYPE.answer);
             const isComment = checkDescriptionType(idx, DESCRIPTION_TYPE.comment);
+
             return (
               <QuestionItem
                 key={questionId}
@@ -147,7 +133,7 @@ const Contents = () => {
                 {questionType === QUESTION_TYPE.multiple ? (
                   <QuestionOptionList>
                     {options.map((option) => (
-                      <QuestionOptionItem key={option}>
+                      <QuestionOptionItem key={`${questionId}-${option}`}>
                         <QuestionCheckButton
                           isActive={answerList[idx]?.writtenAnswer === option}
                           onClick={() => handleWorkbookQuestionSolve(questionId, option)}
@@ -188,6 +174,10 @@ const Contents = () => {
             );
           })}
         </QuestionList>
+
+        <TestButtonContainer isShow={solveType.isTest}>
+          <TestButton onClick={handleTestGrade}>시험 종료</TestButton>
+        </TestButtonContainer>
       </QuestionContainer>
 
       <MobileSideBarShowButton onClick={handleIsSideBarChange}>

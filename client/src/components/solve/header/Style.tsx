@@ -18,8 +18,8 @@ export const Container = styled.header`
   padding: 10px 15px;
 `;
 
-export const Inner = styled.div`
-  display: flex;
+export const Inner = styled.div<{ isShow: boolean }>`
+  display: ${(props) => (props.isShow ? `flex` : `none`)};
 `;
 
 export const LogoBox = styled.div`

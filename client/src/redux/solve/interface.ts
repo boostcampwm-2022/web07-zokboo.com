@@ -1,7 +1,7 @@
 import { SolveQuestion } from '../../types/question';
 
 interface Answer {
-  questionId: number;
+  testPaperQuestionId: number;
   writtenAnswer: string;
   questionType: string;
 }
@@ -11,6 +11,7 @@ export interface SolveState {
   type: string;
   minutes: number;
   seconds: number;
+  state: string;
   createdAt: string;
   questions: SolveQuestion[];
   answerList: Answer[];
@@ -22,13 +23,12 @@ export interface InitSolve {
   type: string;
   minutes?: number;
   seconds?: number;
+  state: string;
   createdAt?: string;
   questions: SolveQuestion[];
 }
 
-export type InitAnswer = Answer[];
-
 export interface UpdateAnswer {
-  questionId: number;
+  testPaperQuestionId: number;
   writtenAnswer: string;
 }
