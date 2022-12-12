@@ -20,6 +20,7 @@ import BasicUser from '../../src/modules/user/domain/BasicUser';
 import { BadRequestException } from '@nestjs/common';
 import { Response } from 'express';
 import SigninRequest from '../../src/modules/user/dto/request/SigninRequest';
+import ResetTokenRequest from '../../src/modules/auth/dto/request/ResetTokenRequest';
 
 describe('AuthController Test', () => {
   let authController: AuthController;
@@ -216,13 +217,28 @@ describe('AuthController Test', () => {
 
   describe('resetPasswordRequest', () => {
     it('성공', async () => {
-      jest.spyOn(authService, 'issueResetToken').mockResolvedValue('token');
+      jest.spyOn(authService, 'issueResetToken').mockReturnValue('token');
       jest.spyOn(mailService, 'sendResetMail').mockResolvedValue(null);
 
+      const request: ResetTokenRequest = { email: 'test@email.com' };
+
       try {
-        const result = await authController.resetPasswordRequest('test@email.com');
+        const result = await authController.resetPasswordRequest(request);
 
         expect(result).toEqual({ msg: '패스워드 재설정 요청 성공', data: { token: 'token' } });
+      } catch (e) {
+        fail(e);
+      }
+    });
+
+    it('실패 - email 미비', async () => {
+      const request: ResetTokenRequest = {
+        email: null,
+      };
+
+      try {
+        const result = await validate(request, { whitelist: true, forbidNonWhitelisted: true });
+        expect(result.length).toBeGreaterThan(0);
       } catch (e) {
         fail(e);
       }

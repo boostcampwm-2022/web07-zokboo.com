@@ -17,6 +17,7 @@ import { ApiSingleResponse } from '../../decorators/ApiResponseDecorator';
 import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
 import ResetTokenResponse from './dto/response/ResetTokenResponse';
 import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
+import ResetTokenRequest from './dto/request/ResetTokenRequest';
 
 @Controller('auth')
 @ApiExtraModels(ApiResponse, SigninResponse, SignupResponse, ResetTokenResponse, ResetPasswordResponse)
@@ -66,9 +67,9 @@ export class AuthController {
 
   @Post('reset')
   @ApiSingleResponse(200, ResetTokenResponse, '패스워드 재설정 요청 성공')
-  async resetPasswordRequest(@Body('email') email: string) {
-    const token = this.authService.issueResetToken(email);
-    this.mailService.sendResetMail(email, token);
+  async resetPasswordRequest(@Body() request: ResetTokenRequest) {
+    const token = this.authService.issueResetToken(request.email);
+    this.mailService.sendResetMail(request.email, token);
 
     return new ApiResponse('패스워드 재설정 요청 성공', new ResetTokenResponse(token));
   }
