@@ -22,6 +22,8 @@ import { Response } from 'express';
 import SigninRequest from '../../src/modules/user/dto/request/SigninRequest';
 import ResetTokenRequest from '../../src/modules/auth/dto/request/ResetTokenRequest';
 import ResetPasswordRequest from '../../src/modules/auth/dto/request/ResetPasswordRequest';
+import { PrismaInstance } from '../../src/modules/common/PrismaInstance';
+import { MockInstance } from '../MockInstance';
 
 describe('AuthController Test', () => {
   let authController: AuthController;
@@ -45,7 +47,10 @@ describe('AuthController Test', () => {
       ],
       controllers: [AuthController],
       providers: [AuthService, JwtStrategy, KakaoStrategy, GoogleStrategy, NaverStrategy, GithubStrategy],
-    }).compile();
+    })
+      .overrideProvider(PrismaInstance)
+      .useClass(MockInstance)
+      .compile();
 
     authController = moduleRef.get<AuthController>(AuthController);
     authService = moduleRef.get<AuthService>(AuthService);
@@ -316,7 +321,18 @@ describe('AuthController Test', () => {
     });
   });
 
-  describe('SSO callback test (모두 동일한 로직을 활용하므로, 대표적으로 Naver를 활용해 테스트)', () => {
+  describe('각 SSO 요청 테스트', () => {
+    it('성공', (done) => {
+      expect(authController.naverLogin()).toEqual('OK');
+      expect(authController.googleLogin()).toEqual('OK');
+      expect(authController.kakaoLogin()).toEqual('OK');
+      expect(authController.githubLogin()).toEqual('OK');
+
+      done();
+    });
+  });
+
+  describe('SSO callback test (모두 동일한 로직을 활용하므로 함께 테스트 진행)', () => {
     it('성공', async () => {
       jest.spyOn(authService, 'signinByOauth').mockResolvedValue({ userId: 1, nickname: 'test', avatar: 'test' });
       jest.spyOn(authService, 'issueJwtAccessToken').mockReturnValue('token');
@@ -335,9 +351,15 @@ describe('AuthController Test', () => {
       } as Response<any>;
 
       try {
-        const result = await authController.naverSignup('1', mockResponse);
+        const naverResult = await authController.naverSignup('1', mockResponse);
+        const githubResult = await authController.githubAuthCallback('1', mockResponse);
+        const kakaoResult = await authController.kakaoSignup(1, mockResponse);
+        const googleResult = await authController.googleAuthCallback('1', mockResponse);
 
-        expect(result.statusCode).toEqual(200);
+        expect(naverResult.statusCode).toEqual(200);
+        expect(githubResult.statusCode).toEqual(200);
+        expect(kakaoResult.statusCode).toEqual(200);
+        expect(googleResult.statusCode).toEqual(200);
       } catch (e) {
         console.log(e);
         fail(e);
