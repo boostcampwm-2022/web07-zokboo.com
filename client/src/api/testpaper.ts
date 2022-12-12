@@ -1,11 +1,18 @@
 import { QueryFunctionContext } from 'react-query';
 import axios from './index';
-import { PutGradeTestPaperProps } from '../types/test';
+import { PatchMarkGradeTestPaperProps, PutGradeTestPaperProps } from '../types/test';
 import { SERVER_URL } from '../utils/constants';
 
 export const gradeTestPaper = async (props: PutGradeTestPaperProps) => {
   const { body, testPaperId } = props;
   const { data } = await axios.put(`${SERVER_URL}/testpaper/${testPaperId}`, body);
+
+  return data;
+};
+
+export const markGradeTestPaper = async (props: PatchMarkGradeTestPaperProps) => {
+  const { body, testPaperId } = props;
+  const { data } = await axios.patch(`${SERVER_URL}/testpaper/${testPaperId}`, body);
 
   return data;
 };

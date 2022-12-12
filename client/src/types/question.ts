@@ -35,6 +35,8 @@ export interface GetTestQuestionResponse {
   commentary: string;
   answer: string;
   options: string[];
+  writtenAnswer?: string;
+  state?: string;
 }
 
 export interface WorkbookQuestion extends GetQuestionResponse {
@@ -51,4 +53,5 @@ export interface SolveQuestion {
   options: string[];
   workbookQuestionId?: number;
   writtenAnswer?: string;
+  state?: string;
 }

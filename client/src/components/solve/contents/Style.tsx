@@ -109,6 +109,7 @@ export const QuestionContainer = styled.div`
 
   ${media.mobileLength} {
     width: 100%;
+    padding: 30px 10px;
   }
 `;
 
@@ -120,15 +121,46 @@ export const QuestionItem = styled(Item)`
   margin-bottom: 40px;
 `;
 
-export const QuestionTitle = styled.h3`
+export const QuestionBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+
   margin: 15px 0 0;
+`;
+
+export const QuestionTitle = styled.h3<{ isWrong: boolean }>`
+  margin: 0;
   font-size: ${fonts.size.lg};
+  color: ${(props) => (props.isWrong ? colors.error : colors.text)};
+`;
+
+export const QuestionMarkBox = styled.div<{ isShow: boolean }>`
+  display: ${(props) => (props.isShow ? `flex` : `none`)};
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100px;
+`;
+
+export const QuestionMarkButton = styled(Button)<{ kind: string; isActive: boolean }>`
+  width: 40px;
+
+  color: ${colors.text};
+
+  border: 1px solid ${colors.text};
+  font-size: ${fonts.size.xs};
+
+  ${(props) => props.isActive && `background-color: ${colors.text}; color:${colors.white};`};
+
+  :hover {
+    background-color: ${colors.text};
+  }
 `;
 
 export const QuestionOptionList = styled(List)``;
 export const QuestionOptionItem = styled(Item)``;
 
-export const QuestionCheckButton = styled.button<{ isActive: boolean }>`
+export const QuestionCheckButton = styled.button<{ isActive: boolean; isWrong: boolean }>`
   border: none;
   background-color: ${colors.white};
 
@@ -139,6 +171,13 @@ export const QuestionCheckButton = styled.button<{ isActive: boolean }>`
     `
 font-weight: ${fonts.weight.bold}; 
 color:${colors.primary};
+`}
+
+  ${(props) =>
+    props.isWrong &&
+    `
+font-weight: ${fonts.weight.bold}; 
+color:${colors.error};
 `}
 
   cursor: pointer;

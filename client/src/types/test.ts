@@ -10,6 +10,7 @@ export interface PostCreateTestBody {
     count: number;
   }[];
 }
+export type TestType = 'SOLVING' | 'GRADING' | 'COMPLETE' | 'WORKBOOK';
 
 export interface GetTestPaperResponse {
   testPaperId: number;
@@ -17,7 +18,7 @@ export interface GetTestPaperResponse {
   minutes: number;
   seconds: number;
   createdAt: string;
-  state: string;
+  state: TestType;
   questions: GetTestQuestionResponse[];
 }
 
@@ -30,4 +31,15 @@ interface GradeTestPaperBody {
 export interface PutGradeTestPaperProps {
   testPaperId: number;
   body: GradeTestPaperBody[];
+}
+
+interface MarkGradeTestPaperBody {
+  testPaperQuestionId: number;
+  questionType: string;
+  isCorrect: boolean;
+}
+
+export interface PatchMarkGradeTestPaperProps {
+  testPaperId: number;
+  body: MarkGradeTestPaperBody[];
 }

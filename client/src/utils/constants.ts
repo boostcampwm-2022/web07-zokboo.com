@@ -21,3 +21,9 @@ export const TEST_TYPE = {
   grade: 'GRADING',
   complete: 'COMPLETE',
 };
+
+export const TEST_QUESTION_TYPE = {
+  correct: 'CORRECT',
+  wrong: 'WRONG',
+  unmarked: 'UNMARKED',
+};

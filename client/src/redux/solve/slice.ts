@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { InitSolve, UpdateAnswer, SolveState } from './interface';
+import { InitSolve, UpdateAnswer, SolveState, UpdateGradeQuestion, UpdateMark } from './interface';
 
 // 초기값을 지정
 const initialState: SolveState = {
@@ -8,10 +8,11 @@ const initialState: SolveState = {
   type: '',
   minutes: 0,
   seconds: 0,
-  state: '',
+  state: 'WORKBOOK',
   questions: [],
   createdAt: '',
   answerList: [],
+  markList: [],
 };
 
 const solveSlice = createSlice({
@@ -32,6 +33,11 @@ const solveSlice = createSlice({
         writtenAnswer: writtenAnswer ?? '',
         questionType,
       }));
+      state.markList = action.payload.questions.map(({ questionId, questionType }) => ({
+        testPaperQuestionId: questionId,
+        questionType,
+        isCorrect: true,
+      }));
     },
     updateAnswer: (state, action: PayloadAction<UpdateAnswer>) => {
       state.answerList = state.answerList.map((data) => {
@@ -41,9 +47,21 @@ const solveSlice = createSlice({
           : data;
       });
     },
+    updateMark: (state, action: PayloadAction<UpdateMark>) => {
+      state.markList = state.markList.map((data) => {
+        const { testPaperQuestionId } = data;
+        return testPaperQuestionId === action.payload.testPaperQuestionId
+          ? { ...data, isCorrect: action.payload.isCorrect }
+          : data;
+      });
+    },
+    updateGradeQuestion: (state, action: PayloadAction<UpdateGradeQuestion>) => {
+      state.state = action.payload.state;
+      state.questions = action.payload.questions;
+    },
   },
 });
 
-export const { initSolve, updateAnswer } = solveSlice.actions;
+export const { initSolve, updateAnswer, updateMark, updateGradeQuestion } = solveSlice.actions;
 
 export default solveSlice;
