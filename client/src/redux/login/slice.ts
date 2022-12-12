@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoginState } from './interface';
+import { LoginState, UpdateUser } from './interface';
 import DefaultAvatar from '../../images/default-avatar.jpg';
 
 // 초기값을 지정
@@ -26,10 +26,13 @@ const loginSlice = createSlice({
       state.nickname = initialState.nickname;
       state.userId = initialState.userId;
     },
+    updateUser: (state, action: PayloadAction<UpdateUser>) => {
+      state.avatar = action.payload.avatar;
+    },
   },
 });
 
 // reducers.signinSuccess => signinSuccess 할 수 있게끔 선언
-export const { signinSuccess, signoutSuccess } = loginSlice.actions;
+export const { signinSuccess, signoutSuccess, updateUser } = loginSlice.actions;
 
 export default loginSlice;

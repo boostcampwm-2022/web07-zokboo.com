@@ -1,5 +1,8 @@
 import { BsCheckLg } from 'react-icons/bs';
 import { useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useMutation } from 'react-query';
+import { useDispatch } from 'react-redux';
 import {
   CategoryItem,
   CategoryLink,
@@ -17,14 +20,19 @@ import {
 } from './Style';
 import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
-import { MYPAGE_TYPE } from '../../utils/constants';
+import { ALLOW_FILE_EXTENSION, FILE_SIZE_MAX_LIMIT, MYPAGE_TYPE } from '../../utils/constants';
 import useUserData from '../../hooks/useUserData';
 import { Input } from '../../styles/common';
+import updateProfileImage from '../../api/user';
+import { updateUser } from '../../redux/login/slice';
 
 const MyPage = () => {
   const userData = useUserData();
   const [searchParams, _] = useSearchParams();
   const service = searchParams.get('service');
+  const dispatch = useDispatch();
+
+  const updateProfileImageMutation = useMutation(updateProfileImage);
 
   const checkActiveService = (curService: string) => {
     if (curService === service) return true;
@@ -33,7 +41,36 @@ const MyPage = () => {
   };
 
   const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //
+    const target = event.target as HTMLInputElement;
+    const { files } = target;
+
+    if (!files) {
+      return;
+    }
+
+    const uploadFile = files[0];
+    if (!ALLOW_FILE_EXTENSION.includes(uploadFile.type.replace('image/', ''))) {
+      toast.error(`사용 가능한 확장자가 아닙니다. (가능한 확장자 : ${ALLOW_FILE_EXTENSION.join(' ')})`);
+      target.value = '';
+      return;
+    }
+
+    if (uploadFile.size > FILE_SIZE_MAX_LIMIT) {
+      toast.error('업로드 가능한 최대 용량은 5MB입니다.');
+      target.value = '';
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('profile', uploadFile);
+
+    updateProfileImageMutation.mutate(formData, {
+      onSuccess: (data) => {
+        console.log(data);
+        // dispatch(updateUser(data));
+      },
+    });
   };
 
   return (
