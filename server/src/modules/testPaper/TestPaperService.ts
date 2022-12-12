@@ -50,17 +50,21 @@ export class TestPaperService {
 
   async getTestPaperWithDetails(userId: number, testPaperId: number) {
     const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
-    return new TestPaperDetailResponse(testPaper);
-  }
-
-  async getGradedTestPaper(userId: number, testPaperId: number) {
-    const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
-    return new TestPaperGradedResponse(testPaper);
-  }
-
-  async getReviewNote(userId: number, testPaperId: number) {
-    const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
-    return new ReviewNoteResponse(testPaper);
+    let result: TestPaperDetailResponse | TestPaperGradedResponse | ReviewNoteResponse;
+    switch (testPaper.state) {
+      case TestPaperState.SOLVING:
+        result = new TestPaperDetailResponse(testPaper);
+        break;
+      case TestPaperState.GRADING:
+        result = new TestPaperGradedResponse(testPaper);
+        break;
+      case TestPaperState.COMPLETE:
+        result = new ReviewNoteResponse(testPaper);
+        break;
+      default:
+        break;
+    }
+    return result;
   }
 
   async gradeMultipleTypeQuestionsOfTestPaper(userId: number, testPaperId: number, request: GradeTestPaperRequest) {
