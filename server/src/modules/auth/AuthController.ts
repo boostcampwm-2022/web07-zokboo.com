@@ -45,7 +45,7 @@ export class AuthController {
 
   @Get('logout')
   @ApiNoContentResponse({ description: '로그아웃 완료' })
-  async logout(@Res() res: Response) {
+  logout(@Res() res: Response) {
     res.clearCookie('accessToken');
 
     res.status(204).send();
