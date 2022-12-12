@@ -16,7 +16,7 @@ import {
   UserInfoBox,
 } from './Style';
 import SERVICE_ROUTE from './constants';
-import MypageWorkbook from '../../components/mypage/Workbook';
+import MypageWorkbook from '../../components/mypage/workbook/Workbook';
 import { MYPAGE_TYPE } from '../../utils/constants';
 import Test from '../../components/mypage/test';
 import TestPaper from '../../components/mypage/testPaper';

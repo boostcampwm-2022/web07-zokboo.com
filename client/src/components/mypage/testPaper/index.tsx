@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import getTestPaper from '../../../api/testpaper';
 import { getMyWorkbookData } from '../../../api/workbook';
 import { fonts } from '../../../styles/theme';
-import Loading from '../Loading';
+import Loading from '../utils/Loading';
 
 const WorkbookContainer = styled.div`
   width: 100%;
@@ -32,9 +32,6 @@ const TestPaper = () => {
   const { isLoading, isSuccess, isError, data } = useQuery(['testPaper'], getTestPaper, {
     onSuccess: (d) => {
       console.log(d.msg);
-    },
-    onError: (err) => {
-      console.log(err);
     },
   });
 
