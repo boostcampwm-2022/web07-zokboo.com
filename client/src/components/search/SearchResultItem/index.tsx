@@ -1,16 +1,8 @@
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import {
-  ButtonContainer,
-  ContentButtons,
-  Infos,
-  ItemExplain,
-  ItemTitle,
-  SaveButton,
-  SearchResultItemContainer,
-  TestButton,
-} from './Style';
+import { ButtonContainer, ContentButtons, Infos, ItemExplain, ItemTitle, SaveButton, TestButton } from './Style';
 import SearchWorkbookType from '../../../types/search';
+import SearchResultContainer from '../../common/searchResultContainer';
 
 const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
   const navigate = useNavigate();
@@ -28,7 +20,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
   };
 
   return (
-    <SearchResultItemContainer onClick={handleMoveWorkbookView}>
+    <SearchResultContainer handleClick={handleMoveWorkbookView}>
       <FiMoreHorizontal className="more-button" />
       <ItemTitle>{title}</ItemTitle>
       <ItemExplain>{description}</ItemExplain>
@@ -39,7 +31,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
           <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />
         </ContentButtons>
       </ButtonContainer>
-    </SearchResultItemContainer>
+    </SearchResultContainer>
   );
 };
 

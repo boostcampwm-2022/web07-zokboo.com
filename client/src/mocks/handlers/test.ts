@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import { PostCreateTestBody } from '../../types/test';
 import { SERVER_URL } from '../../utils/constants';
+import myTestData from '../data/myTest';
 import test from '../data/test';
 
 export default [
@@ -18,5 +19,10 @@ export default [
       return res(ctx.status(200));
     }
     return res(ctx.status(400));
+  }),
+
+  rest.get(`${SERVER_URL}/tests/my`, (req, res, ctx) => {
+    const result = { msg: 'my test mock data 조회 성공', data: myTestData };
+    return res(ctx.status(200), ctx.json(result));
   }),
 ];

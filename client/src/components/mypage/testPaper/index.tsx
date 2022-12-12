@@ -1,5 +1,7 @@
 import { useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import getTestPaper from '../../../api/testpaper';
 import { getMyWorkbookData } from '../../../api/workbook';
 import { fonts } from '../../../styles/theme';
 import Loading from '../Loading';
@@ -25,7 +27,9 @@ const Main = styled.div`
 `;
 
 const TestPaper = () => {
-  const { isLoading, isSuccess, isError, data } = useQuery(['testPaper'], getMyWorkbookData, {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const { isLoading, isSuccess, isError, data } = useQuery(['testPaper'], getTestPaper, {
     onSuccess: (d) => {
       console.log(d.msg);
     },
