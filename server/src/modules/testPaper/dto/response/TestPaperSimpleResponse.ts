@@ -2,7 +2,6 @@ import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import TestSimpleResponse from 'src/modules/test/dto/response/TestSimpleResponse';
 import TestPaper from '../../domain/TestPaper';
 import TestPaperState from '../../enum/TestPaperState';
-import TestPaperQuestionSimpleResponse from './TestPaperQuestionSimpleResponse';
 
 class TestPaperSimpleResponse {
   @ApiProperty()

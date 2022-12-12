@@ -7,10 +7,6 @@ class MarkTestPaperQuestionRequest {
   @IsInt()
   public testPaperQuestionId: number;
 
-  @ApiProperty()
-  @IsInt()
-  public questionId: number;
-
   @ApiProperty({
     enum: QuestionType,
     enumName: 'Question Type',

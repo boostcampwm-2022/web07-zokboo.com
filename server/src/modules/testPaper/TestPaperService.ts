@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaInstance } from '../common/PrismaInstance';
 import Question from '../question/domain/Question';
-import QuestionType from '../question/enum/QuestionType';
 import { TestRepository } from '../test/TestRepository';
 import Workbook from '../workbook/domain/Workbook';
 import TestPaper from './domain/TestPaper';
@@ -11,7 +10,7 @@ import GradeTestPaperRequest from './dto/request/GradeTestPaperRequest';
 import MarkTestPaperRequest from './dto/request/MarkTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
 import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
-import TestPaperDetailResponse from './dto/response/TestPaperSimpleResponse';
+import TestPaperDetailResponse from './dto/response/TestPaperDetailResponse';
 import TestPaperState from './enum/TestPaperState';
 import { TestPaperRepository } from './TestPaperRepository';
 

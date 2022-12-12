@@ -6,7 +6,7 @@ import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
 import CreateTestPaperRequest from './dto/request/CreateTestPaperRequest';
 import CreateTestPaperResponse from './dto/response/CreateTestPageResponse';
-import TestPaperDetailResponse from './dto/response/TestPaperSimpleResponse';
+import TestPaperDetailResponse from './dto/response/TestPaperDetailResponse';
 import TestPaperQuestionSimpleResponse from './dto/response/TestPaperQuestionSimpleResponse';
 import { TestPaperService } from './TestPaperService';
 import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
