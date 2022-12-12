@@ -19,6 +19,7 @@ import VerifyResponse from '../../src/modules/auth/dto/response/VerifyResponse';
 import BasicUser from '../../src/modules/user/domain/BasicUser';
 import { BadRequestException } from '@nestjs/common';
 import { Response } from 'express';
+import SigninRequest from '../../src/modules/user/dto/request/SigninRequest';
 
 describe('AuthController Test', () => {
   let authController: AuthController;
@@ -147,7 +148,96 @@ describe('AuthController Test', () => {
 
   describe('logout', () => {
     it('성공', (done) => {
+      // TODO: 어떻게 하는지 찾기
       done();
+    });
+  });
+
+  describe('signin', () => {
+    it('성공', async () => {
+      jest.spyOn(authService, 'signin').mockResolvedValue({ userId: 1, nickname: 'test', avatar: 'test' });
+      jest.spyOn(authService, 'issueJwtAccessToken').mockReturnValue('token');
+
+      const mockResponse = {
+        status: (code) => {
+          mockResponse.statusCode = code;
+          return mockResponse;
+        },
+        json: (data) => {
+          return mockResponse;
+        },
+        cookie: (name, val, options) => {
+          return mockResponse;
+        },
+      } as Response;
+
+      const request = new SigninRequest();
+      request.email = 'test@test.com';
+      request.password = 'test';
+
+      authController
+        .signin(request, mockResponse)
+        .then((result) => {
+          expect(result.statusCode).toBe(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          fail(err);
+        });
+    });
+
+    it('실패 - 잘못된 정보를 넘겼을 경우', async () => {
+      const wrongRequestList: SigninRequest[] = [
+        {
+          email: 'test@email.com',
+          password: null,
+        },
+        {
+          email: null,
+          password: 'test',
+        },
+        {
+          email: null,
+          password: null,
+        },
+      ];
+
+      try {
+        for (const request of wrongRequestList) {
+          const result = await validate(request, { whitelist: true, forbidNonWhitelisted: true });
+
+          expect(result.length).toBeGreaterThan(0);
+        }
+      } catch (e) {
+        fail(e);
+      }
+    });
+  });
+
+  describe('resetPasswordRequest', () => {
+    it('성공', async () => {
+      jest.spyOn(authService, 'issueResetToken').mockResolvedValue('token');
+      jest.spyOn(mailService, 'sendResetMail').mockResolvedValue(null);
+
+      try {
+        const result = await authController.resetPasswordRequest('test@email.com');
+
+        expect(result).toEqual({ msg: '패스워드 재설정 요청 성공', data: { token: 'token' } });
+      } catch (e) {
+        fail(e);
+      }
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('', (done) => {
+      done();
+    });
+  });
+
+  describe('oauthCallback', () => {
+    it('', async () => {
+      expect(1).toBe(1);
     });
   });
 });
