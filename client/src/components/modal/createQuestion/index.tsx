@@ -96,13 +96,14 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
     const bodyData = new FormData();
 
-    // bodyData.append('question', question);
-    // bodyData.append('questionType,', questionType);
-    // bodyData.append('answer', answer);
-    // bodyData.append('commentary', commentary);
-    // bodyData.append('difficulty', difficultValue);
-    // bodyData.append('hashtags', hashTagList);
-    // bodyData.append('options', optionList);
+    bodyData.append('images', image ?? '');
+    bodyData.append('question', question);
+    bodyData.append('questionType,', questionType);
+    bodyData.append('answer', answer);
+    bodyData.append('commentary', commentary);
+    bodyData.append('difficulty', difficultValue.toString());
+    bodyData.append('hashtags', JSON.stringify(hashTagList));
+    bodyData.append('options', JSON.stringify(optionList));
 
     createQuestionMutation.mutate(bodyData, {
       onSuccess: (data: AddQuestion) => {
