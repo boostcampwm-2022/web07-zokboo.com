@@ -21,6 +21,7 @@ import { BadRequestException } from '@nestjs/common';
 import { Response } from 'express';
 import SigninRequest from '../../src/modules/user/dto/request/SigninRequest';
 import ResetTokenRequest from '../../src/modules/auth/dto/request/ResetTokenRequest';
+import ResetPasswordRequest from '../../src/modules/auth/dto/request/ResetPasswordRequest';
 
 describe('AuthController Test', () => {
   let authController: AuthController;
@@ -246,14 +247,101 @@ describe('AuthController Test', () => {
   });
 
   describe('resetPassword', () => {
-    it('', (done) => {
-      done();
+    it('성공', async () => {
+      jest.spyOn(authService, 'resetPassword').mockResolvedValue({ userId: 1 });
+
+      const request: ResetPasswordRequest = {
+        token: 'test',
+        password: 'test',
+        passwordConfirmation: 'test',
+      };
+
+      try {
+        const result = await authController.resetPassword(request);
+
+        expect(result).toEqual({ msg: '패스워드 재설정 성공', data: { userId: 1 } });
+      } catch (e) {
+        fail(e);
+      }
+    });
+
+    it('실패 - 잘못된 Body', async () => {
+      const wrongRequestList: ResetPasswordRequest[] = [
+        {
+          token: null,
+          password: 'test',
+          passwordConfirmation: 'test',
+        },
+        {
+          token: 'test',
+          password: null,
+          passwordConfirmation: 'test',
+        },
+        {
+          token: 'test',
+          password: 'test',
+          passwordConfirmation: null,
+        },
+        {
+          token: 'test',
+          password: null,
+          passwordConfirmation: null,
+        },
+        {
+          token: null,
+          password: 'test',
+          passwordConfirmation: null,
+        },
+        {
+          token: null,
+          password: null,
+          passwordConfirmation: 'test',
+        },
+        {
+          token: null,
+          password: null,
+          passwordConfirmation: null,
+        },
+      ];
+
+      try {
+        for (const request of wrongRequestList) {
+          const result = await validate(request, { whitelist: true, forbidNonWhitelisted: true });
+
+          expect(result.length).toBeGreaterThan(0);
+        }
+      } catch (e) {
+        fail(e);
+      }
     });
   });
 
-  describe('oauthCallback', () => {
-    it('', async () => {
-      expect(1).toBe(1);
+  describe('SSO callback test (모두 동일한 로직을 활용하므로, 대표적으로 Naver를 활용해 테스트)', () => {
+    it('성공', async () => {
+      jest.spyOn(authService, 'signinByOauth').mockResolvedValue({ userId: 1, nickname: 'test', avatar: 'test' });
+      jest.spyOn(authService, 'issueJwtAccessToken').mockReturnValue('token');
+
+      const mockResponse = {
+        cookie: (name, val, options) => {
+          return mockResponse;
+        },
+        status: (code) => {
+          mockResponse.statusCode = code;
+          return mockResponse;
+        },
+        json: (data) => {
+          return mockResponse;
+        },
+      } as Response<any>;
+
+      try {
+        const result = await authController.naverSignup('1', mockResponse);
+
+        expect(result.statusCode).toEqual(200);
+      } catch (e) {
+        console.log(e);
+        fail(e);
+      }
     });
   });
 });
