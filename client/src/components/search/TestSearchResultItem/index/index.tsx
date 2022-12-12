@@ -20,7 +20,7 @@ const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, wor
         <QuestionRange>
           <summary>
             <IoMdArrowDropdown />
-            문제집들 📚
+            시험범위 📚
           </summary>
 
           {workbooks.map((x, i) => {
