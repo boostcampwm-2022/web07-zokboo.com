@@ -15,9 +15,8 @@ import {
   UserImageBox,
   UserInfoBox,
 } from './Style';
-import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
-import { MYPAGE_TYPE } from '../../utils/constants';
+import { MYPAGE_TYPE, SERVICE_ROUTE } from '../../utils/constants';
 
 const MyPage = () => {
   const [searchParams, _] = useSearchParams();
@@ -51,10 +50,10 @@ const MyPage = () => {
         <MobileContainer>
           <CategoryTitle>나의 서비스</CategoryTitle>
           <CategoryList>
-            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.test)}>
-              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.test}`}>
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.testpaper)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.testpaper}`}>
                 <span>나의 시험지</span>
-                {checkActiveService(SERVICE_ROUTE.test) && (
+                {checkActiveService(SERVICE_ROUTE.testpaper) && (
                   <span>
                     <BsCheckLg />
                   </span>

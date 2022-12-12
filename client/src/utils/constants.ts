@@ -10,3 +10,11 @@ export const MYPAGE_TYPE = {
   공유받은문제집: 'saved',
   나의시험지: 'my_test',
 };
+
+export const SERVICE_ROUTE = {
+  test: 'test',
+  testpaper: 'testpaper',
+  workbook: 'workbook',
+  review: 'review',
+  share: 'share',
+};
