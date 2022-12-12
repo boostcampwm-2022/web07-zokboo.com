@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { QueryFunctionContext } from 'react-query';
+import axios from './index';
 import PostResetPasswordBody from '../types/auth';
 import { SERVER_URL } from '../utils/constants';
 
