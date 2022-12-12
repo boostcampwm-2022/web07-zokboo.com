@@ -12,13 +12,14 @@ import {
   MyPageLink,
   SideContainer,
   UserContainer,
-  UserImageBox,
+  UserImageLabel,
   UserInfoBox,
 } from './Style';
 import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
 import { MYPAGE_TYPE } from '../../utils/constants';
 import useUserData from '../../hooks/useUserData';
+import { Input } from '../../styles/common';
 
 const MyPage = () => {
   const userData = useUserData();
@@ -31,14 +32,19 @@ const MyPage = () => {
     return false;
   };
 
+  const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //
+  };
+
   return (
     <Container>
       <SideContainer>
         <MobileContainer>
           <UserContainer>
-            <UserImageBox>
+            <UserImageLabel htmlFor="file">
+              <Input type="file" hidden id="file" onChange={handleProfileImageChange} />
               <img src={userData.avatar} alt="profile" />
-            </UserImageBox>
+            </UserImageLabel>
             <UserInfoBox>
               <span>{userData.nickname}</span> 반갑습니다.
             </UserInfoBox>

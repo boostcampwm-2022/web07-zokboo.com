@@ -51,7 +51,7 @@ export const UserContainer = styled.div`
   border-top: 2px solid ${colors.primary};
 `;
 
-export const UserImageBox = styled.div`
+export const UserImageLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,6 +63,8 @@ export const UserImageBox = styled.div`
 
   border: 1px solid ${colors.line};
   border-radius: 50%;
+
+  cursor: pointer;
 
   img {
     width: 100%;
