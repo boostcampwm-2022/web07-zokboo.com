@@ -4,6 +4,7 @@ import search from '../data/search';
 
 export default [
   rest.get(`${SERVER_URL}/workbooks`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(search.list));
+    const result = { msg: 'mock data 요청 성공', data: search.list };
+    return res(ctx.status(200), ctx.json(result));
   }),
 ];

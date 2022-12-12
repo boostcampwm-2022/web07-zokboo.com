@@ -25,33 +25,31 @@ const Search = () => {
   });
 
   return (
-    <div>
-      <SearchResultContainer>
-        <TitleContainer>
-          <SearchResultTitle>
-            <b>{`"${searchWord}"`}</b> 에 대한 검색결과입니다.
-          </SearchResultTitle>
-          <SelectSearchType />
-        </TitleContainer>
-        <Items>
-          {isLoading && <Loading />}
-          {isSuccess &&
-            (searchResult.length !== 0 ? (
-              searchResult.map((workbook, index) => (
-                <SearchResultItem
-                  key={workbook.workbookId}
-                  workbookId={workbook.workbookId}
-                  title={workbook.title}
-                  description={workbook.description}
-                  questionCount={workbook.questionCount}
-                />
-              ))
-            ) : (
-              <Error title="검색결과가 없습니다." />
-            ))}
-        </Items>
-      </SearchResultContainer>
-    </div>
+    <SearchResultContainer>
+      <TitleContainer>
+        <SearchResultTitle>
+          <b>{`"${searchWord}"`}</b> 에 대한 검색결과입니다.
+        </SearchResultTitle>
+        <SelectSearchType />
+      </TitleContainer>
+      <Items>
+        {isLoading && <Loading />}
+        {isSuccess &&
+          (searchResult.length !== 0 ? (
+            searchResult.map((workbook, index) => (
+              <SearchResultItem
+                key={workbook.workbookId}
+                workbookId={workbook.workbookId}
+                title={workbook.title}
+                description={workbook.description}
+                questionCount={workbook.questionCount}
+              />
+            ))
+          ) : (
+            <Error title="검색결과가 없습니다." />
+          ))}
+      </Items>
+    </SearchResultContainer>
   );
 };
 
