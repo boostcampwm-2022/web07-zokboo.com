@@ -44,8 +44,8 @@ export const solveWorkbookQuestion = async (props: PatchSolveWorkbookQuestionPro
   return data;
 };
 
-export const saveWorkbook = async (body: PostWorkbookSave) => {
-  const { data } = await axios.post(`${SERVER_URL}/workbooks/save`, body, {
+export const saveWorkbook = async ({ workbookId }: PostWorkbookSave) => {
+  const { data } = await axios.post(`${SERVER_URL}/workbooks/${workbookId}/save`, {
     withCredentials: true,
   });
 
