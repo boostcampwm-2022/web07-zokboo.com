@@ -27,6 +27,7 @@ export const QuestionRange = styled.details`
 
   summary {
     font-weight: ${fonts.weight.semiBold};
+    cursor: pointer;
     ::marker {
       display: none;
       content: '';
