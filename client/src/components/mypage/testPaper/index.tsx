@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,11 +28,12 @@ const Main = styled.div`
 `;
 
 const TestPaper = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const { isLoading, isSuccess, isError, data } = useQuery(['testPaper'], getTestPaper, {
+  const { isLoading, isSuccess, isError, data, error } = useQuery(['testPaper/my'], getTestPaper, {
     onSuccess: (d) => {
       console.log(d.msg);
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 
@@ -40,8 +42,8 @@ const TestPaper = () => {
       <Header>나의 시험지</Header>
       <Main>
         {isLoading && <Loading />}
-        {isSuccess && '성공'}
-        {isError && '에러'}
+        {isSuccess && '성공' /** api 받으면 구현예정 */}
+        {isError && 'error'}
       </Main>
     </WorkbookContainer>
   );
