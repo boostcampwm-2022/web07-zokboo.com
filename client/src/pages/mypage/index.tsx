@@ -1,7 +1,5 @@
 import { BsCheckLg } from 'react-icons/bs';
-import { useLocation } from 'react-router-dom';
-import queryString from 'query-string';
-
+import { useSearchParams } from 'react-router-dom';
 import {
   CategoryItem,
   CategoryLink,
@@ -19,13 +17,14 @@ import {
 } from './Style';
 import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
+import { MYPAGE_TYPE } from '../../utils/constants';
 
 const MyPage = () => {
-  const location = useLocation();
-  const query = queryString.parse(location.search);
+  const [searchParams, _] = useSearchParams();
+  const service = searchParams.get('service');
 
-  const checkActiveService = (service: string) => {
-    if (query.service === service) return true;
+  const checkActiveService = (curService: string) => {
+    if (curService === service) return true;
 
     return false;
   };
@@ -45,7 +44,7 @@ const MyPage = () => {
 
           <LinkList>
             <MyPageLink to="/workbook/new">문제집 만들기</MyPageLink>
-            <MyPageLink to="/workbook/new">시험지 만들기</MyPageLink>
+            <MyPageLink to="/exam/new">시험지 만들기</MyPageLink>
           </LinkList>
         </MobileContainer>
 
@@ -86,8 +85,9 @@ const MyPage = () => {
         </MobileContainer>
       </SideContainer>
       <ContentsContainer>
-        {/* <MypageWorkbook type="shared" /> */}
-        {/* <MypageWorkbook type="my" /> */}
+        {service === SERVICE_ROUTE.test && <div>나의 시험지{/** 아직 컴포넌트 미제작 */}</div>}
+        {service === SERVICE_ROUTE.workbook && <MypageWorkbook type={MYPAGE_TYPE.나의문제집} />}
+        {service === SERVICE_ROUTE.share && <MypageWorkbook type={MYPAGE_TYPE.공유받은문제집} />}
       </ContentsContainer>
     </Container>
   );

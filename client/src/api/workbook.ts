@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody } from '../types/workbook';
+import { QueryFunctionContext } from 'react-query';
+import axios from './index';
+import { PatchSolveWorkbookQuestionProps, PostCreateWorkbookBody, PostWorkbookSave } from '../types/workbook';
 import { SERVER_URL } from '../utils/constants';
 
-export const getWorkbookList = async (params: number) => {
+export const getWorkbook = async (params: number) => {
   const { data } = await axios.get(`${SERVER_URL}/workbooks/${params}/questions`);
 
   return data;
@@ -14,8 +15,21 @@ export const getWorkbookListByTitle = async (title: string) => {
   return data;
 };
 
+export const getMyWorkbookData = async ({ queryKey }: QueryFunctionContext) => {
+  const [type] = queryKey;
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/${type}`);
+
+  return data;
+};
+
+export const getWorkbookById = async ({ queryKey }: QueryFunctionContext) => {
+  const [_key, workbookId] = queryKey;
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/${workbookId}`);
+  return data;
+};
+
 export const createWorkbook = async (body: PostCreateWorkbookBody) => {
-  const { data } = await axios.post(`${SERVER_URL}/workbooks`, body, { withCredentials: true });
+  const { data } = await axios.post(`${SERVER_URL}/workbooks`, body);
 
   return data;
 };
@@ -23,9 +37,13 @@ export const createWorkbook = async (body: PostCreateWorkbookBody) => {
 export const solveWorkbookQuestion = async (props: PatchSolveWorkbookQuestionProps) => {
   const { params, body } = props;
   const { workbookId, workbookQuestionId } = params;
-  const { data } = await axios.patch(`${SERVER_URL}/workbooks/${workbookId}/${workbookQuestionId}`, body, {
-    withCredentials: true,
-  });
+  const { data } = await axios.patch(`${SERVER_URL}/workbooks/${workbookId}/${workbookQuestionId}`, body);
+
+  return data;
+};
+
+export const saveWorkbook = async (body: PostWorkbookSave) => {
+  const { data } = await axios.post(`${SERVER_URL}/workbooks/save`, body);
 
   return data;
 };

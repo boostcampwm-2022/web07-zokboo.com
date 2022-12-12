@@ -9,5 +9,6 @@ import { TestService } from './TestService';
   imports: [CommonModule, WorkbookModule],
   controllers: [TestController],
   providers: [TestRepository, TestService],
+  exports: [TestRepository],
 })
 export class TestModule {}

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './index';
 import { SERVER_URL } from '../utils/constants';
 
 export const getSSOData = async (SSOType: string) => {
@@ -8,11 +8,10 @@ export const getSSOData = async (SSOType: string) => {
   return data;
 };
 
-
-export const getLocalLoginData = async ({ email, pw }: { email: string; pw: string }) => {
-  const { data } = await axios.post(`${SERVER_URL}/auth/signin`, { email, pw }).catch((err) => {
+export const getLocalLoginData = async ({ email, password }: { email: string; password: string }) => {
+  const { data } = await axios.post(`${SERVER_URL}/auth/signin`, { email, password }).catch((err) => {
     throw err.response.data.message;
   });
-  
+
   return data;
 };
