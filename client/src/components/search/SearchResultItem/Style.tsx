@@ -32,9 +32,15 @@ export const Infos = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-end;
   margin-top: 16px;
+`;
+
+export const Heart = styled.button`
+  float: left;
+  background: none;
+  border: none;
 `;
 
 export const ContentButtons = styled.div`

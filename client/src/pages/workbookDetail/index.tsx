@@ -56,16 +56,18 @@ const WorkbookDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
   const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
-  const [isLike, setIsLike] = useState<boolean>(false);
+  const [isHeart, setIsHeart] = useState<boolean>(false);
 
-  const handleLike = useCallback(() => {
-    if (isLike) {
+  const handleHeart = useCallback(() => {
+    if (isHeart) {
       /** 좋아요 취소 api */
+      alert('좋아요가 취소되었습니다.');
     } else {
       /** 좋아요 입력 api */
+      alert('좋아요를 눌렀습니다.');
     }
 
-    setIsLike((prev) => !prev);
+    setIsHeart((prev) => !prev);
   }, []);
 
   return (
@@ -84,8 +86,8 @@ const WorkbookDetail = () => {
                 </WorkbookIntroduce>
                 <ButtonContainer>
                   <WorkbookSaveButton type="button" value="문제집 저장" />
-                  <Heart type="button" onClick={handleLike}>
-                    {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
+                  <Heart type="button" onClick={handleHeart}>
+                    {isHeart ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
                   </Heart>
                 </ButtonContainer>
               </Right>
