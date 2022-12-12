@@ -47,16 +47,19 @@ class TestPaperQuestion {
     this.testPaperQuestionId = testPaperQuestionId;
   }
 
-  gradeMultipleTypeQuestion(writtenAnswer: string | undefined) {
+  solve(writtenAnswer: string | undefined) {
     if (writtenAnswer === undefined) {
       throw new BadRequestException('풀리지 않은 문제가 있습니다.');
     }
     this.writtenAnswer = writtenAnswer;
+  }
+
+  gradeMultipleTypeQuestion() {
     if (this.question.questionType === QuestionType.SUBJECTIVE) {
       this.state = TestPaperQuestionState.UNMARKED;
       return false;
     }
-    if (this.question.answer !== writtenAnswer) {
+    if (this.question.answer !== this.writtenAnswer) {
       this.state = TestPaperQuestionState.WRONG;
       return false;
     }

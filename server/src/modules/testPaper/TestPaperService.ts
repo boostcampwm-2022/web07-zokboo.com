@@ -55,6 +55,7 @@ export class TestPaperService {
       }
       const writtenAnswers = new Map<bigint, string>();
       request.questions.forEach((q) => writtenAnswers.set(BigInt(q.testPaperQuestionId), q.writtenAnswer));
+      testPaper.questions.forEach((q) => q.solve(writtenAnswers.get(q.testPaperQuestionId)));
       testPaper.gradeMultipleTypeQuestions(writtenAnswers);
       result = new TestPaperGradedResponse(await this.testPaperRepository.save(testPaper));
     });

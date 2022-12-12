@@ -71,7 +71,7 @@ class TestPaper {
       if (q.question.questionType === QuestionType.SUBJECTIVE) {
         return;
       }
-      if (q.gradeMultipleTypeQuestion(writtenAnswers.get(q.testPaperQuestionId))) {
+      if (q.gradeMultipleTypeQuestion()) {
         this.correctCount += 1;
       }
       gradeCount += 1;
