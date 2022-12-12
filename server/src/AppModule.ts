@@ -7,6 +7,7 @@ import { QuestionModule } from './modules/question/QuestionModule';
 import { WorkbookModule } from './modules/workbook/WorkbookModule';
 import { TestModule } from './modules/test/TestModule';
 import { TestPaperModule } from './modules/testPaper/TestPaperModule';
+import { UserModule } from './modules/user/UserModule';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TestPaperModule } from './modules/testPaper/TestPaperModule';
     WorkbookModule,
     TestModule,
     TestPaperModule,
+    UserModule,
   ],
   controllers: [],
   providers: [
