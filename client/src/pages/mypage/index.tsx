@@ -18,8 +18,10 @@ import {
 import SERVICE_ROUTE from './constants';
 import MypageWorkbook from '../../components/mypage/Workbook';
 import { MYPAGE_TYPE } from '../../utils/constants';
+import useUserData from '../../hooks/useUserData';
 
 const MyPage = () => {
+  const userData = useUserData();
   const [searchParams, _] = useSearchParams();
   const service = searchParams.get('service');
 
@@ -35,16 +37,16 @@ const MyPage = () => {
         <MobileContainer>
           <UserContainer>
             <UserImageBox>
-              <img src="#" alt="profile" />
+              <img src={userData.avatar} alt="profile" />
             </UserImageBox>
             <UserInfoBox>
-              <span>회원님</span> 반갑습니다.
+              <span>{userData.nickname}</span> 반갑습니다.
             </UserInfoBox>
           </UserContainer>
 
           <LinkList>
             <MyPageLink to="/workbook/new">문제집 만들기</MyPageLink>
-            <MyPageLink to="/exam/new">시험지 만들기</MyPageLink>
+            <MyPageLink to="/test/new">시험 만들기</MyPageLink>
           </LinkList>
         </MobileContainer>
 

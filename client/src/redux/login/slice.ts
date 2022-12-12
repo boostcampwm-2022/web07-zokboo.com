@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoginState } from './interface';
+import DefaultAvatar from '../../images/default-avatar.jpg';
 
 // 초기값을 지정
 const initialState: LoginState = {
@@ -15,7 +16,7 @@ const loginSlice = createSlice({
   reducers: {
     signinSuccess: (state, action: PayloadAction<LoginState>) => {
       state.isLogined = true;
-      state.avatar = action.payload.avatar;
+      state.avatar = action.payload.avatar ? action.payload.avatar : DefaultAvatar;
       state.nickname = action.payload.nickname;
       state.userId = action.payload.userId;
     },

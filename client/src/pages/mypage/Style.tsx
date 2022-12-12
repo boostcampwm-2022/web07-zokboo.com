@@ -56,6 +56,8 @@ export const UserImageBox = styled.div`
   justify-content: center;
   align-items: center;
 
+  overflow: hidden;
+
   width: 90px;
   height: 90px;
 
@@ -78,7 +80,9 @@ export const UserInfoBox = styled.div`
   padding: 0 10px;
 
   span {
+    color: ${colors.primary};
     font-size: ${fonts.size.lg};
+    font-weight: ${fonts.weight.bold};
     width: 100%;
   }
 `;
