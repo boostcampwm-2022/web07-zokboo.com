@@ -9,12 +9,4 @@ export const createTest = async (body: PostCreateTestBody) => {
   return data;
 };
 
-export const getTest = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, params] = queryKey;
-
-  const { data } = await axios.get(`${SERVER_URL}/tests/${params}/questions`, { withCredentials: true });
-
-  return data;
-};
-
 export default createTest;

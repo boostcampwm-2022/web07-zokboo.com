@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { getTest } from '../../api/test';
+import { getTestPaper } from '../../api/testpaper';
 import Solve from '../../components/solve';
 import KEYS from '../../react-query/keys/test';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -18,7 +18,7 @@ const Test = () => {
   // 난 전자같음 => 근데 둘다 가능한 방법은 없을까?
   // const { id, type } = useAppSelector(selectSolveData);
 
-  const { isLoading, isError } = useQuery<GetTestPaperResponse>([KEYS.detail, numberId], getTest, {
+  const { isLoading, isError } = useQuery<GetTestPaperResponse>([KEYS.detail, numberId], getTestPaper, {
     // enabled: numberId !== id || type !== TYPE.test,
     onSuccess: (data: GetTestPaperResponse) => {
       dispatch(

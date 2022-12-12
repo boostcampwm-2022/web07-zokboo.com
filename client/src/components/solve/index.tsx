@@ -20,7 +20,7 @@ interface Props {
 
 const Solve = ({ isLoading, isError }: Props) => {
   const navigate = useNavigate();
-  // const userData = useUserData();
+  const userData = useUserData();
   const queryClient = useQueryClient();
   const { id, answerList } = useAppSelector(selectSolveData);
   const gradeTestMutation = useMutation(gradeTestPaper);
