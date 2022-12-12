@@ -1,7 +1,7 @@
 import SearchResultItemContainer from './Style';
 
 interface SearchResultContainerProps {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   handleClick?: () => void;
 }
 

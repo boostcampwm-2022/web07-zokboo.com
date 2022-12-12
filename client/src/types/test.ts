@@ -28,5 +28,8 @@ export interface TestListSearchData {
   minutes: number;
   seconds: number;
 
-  workbooks: WorkbookSearchData[];
+  workbooks: {
+    workbook: WorkbookSearchData;
+    count: number;
+  }[];
 }
