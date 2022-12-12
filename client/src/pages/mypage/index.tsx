@@ -50,16 +50,6 @@ const MyPage = () => {
         <MobileContainer>
           <CategoryTitle>나의 서비스</CategoryTitle>
           <CategoryList>
-            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.testpaper)}>
-              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.testpaper}`}>
-                <span>나의 시험지</span>
-                {checkActiveService(SERVICE_ROUTE.testpaper) && (
-                  <span>
-                    <BsCheckLg />
-                  </span>
-                )}
-              </CategoryLink>
-            </CategoryItem>
             <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.workbook)}>
               <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.workbook}`}>
                 <span>나의 문제집</span>
@@ -74,6 +64,36 @@ const MyPage = () => {
               <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.share}`}>
                 <span>공유 받은 문제집</span>
                 {checkActiveService(SERVICE_ROUTE.share) && (
+                  <span>
+                    <BsCheckLg />
+                  </span>
+                )}
+              </CategoryLink>
+            </CategoryItem>
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.test)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.test}`}>
+                <span>나의 시험</span>
+                {checkActiveService(SERVICE_ROUTE.test) && (
+                  <span>
+                    <BsCheckLg />
+                  </span>
+                )}
+              </CategoryLink>
+            </CategoryItem>
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.testpaper)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.testpaper}`}>
+                <span>나의 시험지</span>
+                {checkActiveService(SERVICE_ROUTE.testpaper) && (
+                  <span>
+                    <BsCheckLg />
+                  </span>
+                )}
+              </CategoryLink>
+            </CategoryItem>
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.review)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.review}`}>
+                <span>오답노트</span>
+                {checkActiveService(SERVICE_ROUTE.review) && (
                   <span>
                     <BsCheckLg />
                   </span>
