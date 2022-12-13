@@ -1,0 +1,32 @@
+name: "[Frontend] develop CI/CD"
+on:
+  push:
+    branches: ["develop"]
+    paths:
+      - "client/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker Build
+        run: |
+          docker login -u ${{ secrets.FRONTEND_DOCKERHUB_USERNAME }} -p ${{ secrets.FRONTEND_DOCKERHUB_PASSWORD }}
+          docker build -t heroleggo/zokboo-front .
+          docker push heroleggo/zokboo-front
+
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.DEV_SERVER_IP }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          password: ${{ secrets.DEV_SERVER_PASSWORD }}
+          script: |
+            docker stop zokboo-front-dev
+            docker rm zokboo-front-dev
+            docker rmi heroleggo/zokboo-dev:latest
+            docker run --name zokboo-front-dev -it -d -p 3000:3000 --env-file ./.env heroleggo/zokboo-front:latest
