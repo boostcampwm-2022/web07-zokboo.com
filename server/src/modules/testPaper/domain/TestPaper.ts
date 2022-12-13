@@ -87,7 +87,7 @@ class TestPaper {
 
   markSubjectiveTypeQuestions(correctResults: Map<bigint, boolean>) {
     this.questions.forEach((q) => {
-      if (q.question.questionType !== QuestionType.MULTIPLE) {
+      if (q.question.questionType === QuestionType.MULTIPLE) {
         return;
       }
       if (q.markSubjectiveTypeQuestion(correctResults.get(q.testPaperQuestionId))) {
