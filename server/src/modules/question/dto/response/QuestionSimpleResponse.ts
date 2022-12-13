@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import Question from 'src/modules/question/domain/Question';
-import QuestionType from 'src/modules/question/enum/QuestionType';
+import Question from '../../domain/Question';
+import QuestionType from '../../enum/QuestionType';
 
 class QuestionSimpleResponse {
   @ApiProperty()

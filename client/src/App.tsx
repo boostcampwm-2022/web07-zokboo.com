@@ -3,14 +3,13 @@ import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Router from './router/Router';
 import queryClient from './react-query/queryClient';
-import GlobalStyle from './styles/Global';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ToastContainer />
       <ReactQueryDevtools />
-      <GlobalStyle />
       <Router />
     </QueryClientProvider>
   );

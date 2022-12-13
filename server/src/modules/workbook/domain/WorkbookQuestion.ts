@@ -1,4 +1,4 @@
-import Question from 'src/modules/question/domain/Question';
+import Question from '../../question/domain/Question';
 import { WorkbookQuestion as pWorkbookQuestion } from '@prisma/client';
 
 class WorkbookQuestion {

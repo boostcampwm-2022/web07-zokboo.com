@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiExtraModels, ApiQuery } from '@nestjs/swagger';
-import { ApiMultiResponse, ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
-import { User } from 'src/decorators/UserDecorator';
+import { ApiMultiResponse, ApiSingleResponse } from '../../decorators/ApiResponseDecorator';
+import { User } from '../../decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
 import CreateWorkbookRequest from './dto/request/CreateWorkbookRequest';
@@ -66,7 +66,7 @@ export class WorkbookController {
     type: String,
     required: false,
   })
-  @ApiMultiResponse(200, WorkbookSimpleResponse, '내 문제집 조회 / 검색 성공')
+  @ApiMultiResponse(200, WorkbookDetailResponse, '내 문제집 조회 / 검색 성공')
   async searchMyWorkbooks(
     @User('id') userId: string,
     @Query('title') title?: string,

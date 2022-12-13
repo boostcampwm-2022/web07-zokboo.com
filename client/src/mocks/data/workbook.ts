@@ -17,7 +17,7 @@ const workbookList = [
         updatedAt: '20221117',
         createdAt: '20221117',
         options: ['1번 2', '2번 3', '3번 4', '4번 선택지', '5번 선택지'],
-        writtenAnswer: '1번 선택지',
+        writtenAnswer: '1번 2',
         workbookQuestionId: 0,
       },
       {

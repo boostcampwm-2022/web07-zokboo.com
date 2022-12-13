@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
-import { BiImageAdd, BiX } from 'react-icons/bi';
+import { useEffect, useState } from 'react';
+import { BiImageAdd } from '@react-icons/all-files/bi/BiImageAdd';
+import { BiX } from '@react-icons/all-files/bi/BiX';
+import { toast } from 'react-toastify';
 import useArrayText from '../../../../hooks/useArrayText';
 import { Input, SubTitle, TextArea } from '../../../../styles/common';
 import { QUESTION_TYPE } from '../../../../utils/constants';
+import { ALLOW_FILE_EXTENSION, FILE_SIZE_MAX_LIMIT } from '../constants';
 import {
   ContentBox,
   DeleteButton,
@@ -20,16 +23,22 @@ import {
 
 interface InfoData {
   question: string;
-  file: string;
+  questionType: string;
+  hashTagList: string[];
+}
+
+interface FieldProps {
+  question: string;
+  image: File | null;
   questionType: string;
   hashTagList: string[];
 }
 
 type Props = InfoData & {
-  updateFields: (fields: Partial<InfoData>) => void;
+  updateFields: (fields: Partial<FieldProps>) => void;
 };
 
-const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFields }: Props) => {
+const QuestionInfoForm = ({ question, questionType, hashTagList, updateFields }: Props) => {
   const {
     state: hashTagState,
     values: hashTagValues,
@@ -37,6 +46,7 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
     erase: handleHashTagDelete,
     reset: handleHashTagListReset,
   } = useArrayText();
+  const [renderImage, setRenderImage] = useState('');
 
   const handleHashTagAddCheck = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,6 +56,45 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
 
     handleHashTagAdd(hashTag.value);
     target.reset();
+  };
+
+  const loadingImage = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const fileUrl = reader.result;
+
+      if (typeof fileUrl === 'string') {
+        setRenderImage(fileUrl);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const { files } = target;
+
+    if (!files) {
+      return;
+    }
+
+    const uploadFile = files[0];
+    if (!ALLOW_FILE_EXTENSION.includes(uploadFile.type.replace('image/', ''))) {
+      toast.error(`사용 가능한 확장자가 아닙니다. (가능한 확장자 : ${ALLOW_FILE_EXTENSION.join(' ')})`);
+      target.value = '';
+      return;
+    }
+
+    if (uploadFile.size > FILE_SIZE_MAX_LIMIT) {
+      toast.error('업로드 가능한 최대 용량은 5MB입니다.');
+      target.value = '';
+      return;
+    }
+
+    loadingImage(uploadFile);
+    updateFields({ image: uploadFile });
   };
 
   useEffect(() => {
@@ -74,9 +123,10 @@ const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFie
 
       <SubTitle>문제 이미지</SubTitle>
       <Label htmlFor="file">
-        <Input type="file" hidden id="file" />
-        <ImageBox>
+        <Input type="file" hidden id="file" onChange={handleFileUpload} />
+        <ImageBox isShow={renderImage !== ''}>
           <BiImageAdd size={50} />
+          <img src={renderImage} alt="question" />
         </ImageBox>
       </Label>
       <TitleBox>

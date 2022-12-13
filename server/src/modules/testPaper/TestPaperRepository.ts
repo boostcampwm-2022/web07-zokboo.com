@@ -12,6 +12,7 @@ import Workbook from '../workbook/domain/Workbook';
 import WorkbookQuestion from '../workbook/domain/WorkbookQuestion';
 import TestPaper from './domain/TestPaper';
 import TestPaperQuestion from './domain/TestPaperQuestion';
+import TestPaperState from './enum/TestPaperState';
 
 @Injectable()
 export class TestPaperRepository {
@@ -32,7 +33,7 @@ export class TestPaperRepository {
         title: testPaper.title,
         timeout: testPaper.timeout,
         correct_count: testPaper.correctCount,
-        is_completed: testPaper.isCompleted,
+        state: testPaper.state,
         created_at: testPaper.createdAt,
         updated_at: testPaper.updatedAt,
         TestPaperQuestion: {
@@ -40,7 +41,7 @@ export class TestPaperRepository {
             return {
               question_id: q.question.questionId,
               written_answer: q.writtenAnswer,
-              is_correct: q.isCorrect,
+              state: q.state,
               review: q.review,
             };
           }),
@@ -69,12 +70,30 @@ export class TestPaperRepository {
       },
       data: {
         title: testPaper.title,
-        is_completed: testPaper.isCompleted,
+        state: testPaper.state,
         correct_count: testPaper.correctCount,
         updated_at: testPaper.updatedAt,
       },
     });
+    for (const testPaperQuestion of testPaper.questions) {
+      await this.updateTestPaperQuestion(testPaperQuestion, tx);
+    }
     return testPaper;
+  }
+
+  async updateTestPaperQuestion(testPaperQuestion: TestPaperQuestion, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    await prisma.testPaperQuestion.update({
+      where: {
+        test_paper_question_id: testPaperQuestion.testPaperQuestionId,
+      },
+      data: {
+        written_answer: testPaperQuestion.writtenAnswer,
+        review: testPaperQuestion.review,
+        state: testPaperQuestion.state,
+      },
+    });
+    return testPaperQuestion;
   }
 
   async findTestPaperWithDetails(testPaperId: number, tx?: Prisma.TransactionClient) {
@@ -144,5 +163,50 @@ export class TestPaperRepository {
       }),
     );
     return result;
+  }
+
+  async findTestPapersOfUser(userId: number, state: TestPaperState, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const testPapers = await prisma.testPaper.findMany({
+      where: {
+        Test: {
+          user_id: userId,
+        },
+        state: state,
+      },
+      include: {
+        Test: {
+          include: {
+            WorkbookTest: {
+              include: {
+                Workbook: {
+                  include: {
+                    WorkbookQuestion: {
+                      include: {
+                        Question: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    return testPapers.map((tp) => {
+      const test = Test.of(tp.Test);
+      test.setWorkbooks(
+        tp.Test.WorkbookTest.map((wt) => {
+          const workbook = Workbook.of(wt.Workbook);
+          workbook.setQuestions(
+            wt.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+          );
+          return WorkbookTest.of(wt, workbook);
+        }),
+      );
+      const testPaper = TestPaper.of(tp, test);
+      return testPaper;
+    });
   }
 }

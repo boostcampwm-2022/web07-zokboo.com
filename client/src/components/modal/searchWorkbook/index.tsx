@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
+import { AiFillCaretDown } from '@react-icons/all-files/ai/AiFillCaretDown';
+import { AiFillCaretUp } from '@react-icons/all-files/ai/AiFillCaretUp';
 import { useQuery } from 'react-query';
 import { getWorkbookListByTitle } from '../../../api/workbook';
 import useInput from '../../../hooks/useInput';

@@ -10,29 +10,32 @@ export default class GetQuestionsResponse {
   @ApiProperty()
   public question: string;
 
-  @ApiProperty({
-    enum: QuestionType,
-    enumName: 'Question Type',
-  })
-  public questionType: string;
-
   @ApiProperty()
-  public answer: string;
+  public images: string[];
 
-  @ApiProperty()
-  public commentary: string;
+  // @ApiProperty({
+  //   enum: QuestionType,
+  //   enumName: 'Question Type',
+  // })
+  // public questionType: string;
 
-  @ApiProperty()
-  public createdAt: Date;
+  // @ApiProperty()
+  // public answer: string;
 
-  @ApiProperty()
-  public updatedAt: Date;
+  // @ApiProperty()
+  // public commentary: string;
 
-  @ApiProperty()
-  public hashtags: string[];
+  // @ApiProperty()
+  // public createdAt: Date;
 
-  @ApiProperty()
-  public options: string[] | undefined;
+  // @ApiProperty()
+  // public updatedAt: Date;
+
+  // @ApiProperty()
+  // public hashtags: string[];
+
+  // @ApiProperty()
+  // public options: string[] | undefined;
 
   constructor(record: Question) {
     if (!record.questionId) {
@@ -40,14 +43,15 @@ export default class GetQuestionsResponse {
     }
     this.questionId = Number(record.questionId);
     this.question = record.question;
-    this.questionType = record.questionType;
-    this.answer = record.answer;
-    this.commentary = record.commentary;
-    this.createdAt = record.createdAt;
-    this.updatedAt = record.updatedAt;
-    this.hashtags = record.hashtags.map((h) => h.name);
-    if (record.questionType === QuestionType.MULTIPLE) {
-      this.options = record.options.map((o) => o.content);
-    }
+    this.images = record.images.map((i) => i.path);
+    // this.questionType = record.questionType;
+    // this.answer = record.answer;
+    // this.commentary = record.commentary;
+    // this.createdAt = record.createdAt;
+    // this.updatedAt = record.updatedAt;
+    // this.hashtags = record.hashtags.map((h) => h.name);
+    // if (record.questionType === QuestionType.MULTIPLE) {
+    //   this.options = record.options.map((o) => o.content);
+    // }
   }
 }

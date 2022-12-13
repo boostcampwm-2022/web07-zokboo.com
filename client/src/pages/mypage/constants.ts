@@ -1,7 +1,9 @@
 export const SERVICE_ROUTE = {
-  test: 'test',
+  testpaper: 'testpaper',
   workbook: 'workbook',
   share: 'share',
+  test: 'test',
+  review: 'review',
 };
 
 export default SERVICE_ROUTE;

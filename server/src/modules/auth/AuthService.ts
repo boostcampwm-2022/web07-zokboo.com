@@ -107,7 +107,7 @@ export class AuthService {
         throw new BadRequestException('INCORRECT_USER_INFO');
       }
 
-      user.isApproved = true;
+      user.setApproved();
 
       const updatedUser = await this.userRepository.save(user, tx);
 

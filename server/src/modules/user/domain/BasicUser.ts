@@ -46,6 +46,10 @@ export default class BasicUser extends User {
     );
   }
 
+  setApproved() {
+    this.isApproved = true;
+  }
+
   authenticate(password: string) {
     if (!bcrypt.compareSync(password, this.password)) {
       throw new BadRequestException('잘못된 password');

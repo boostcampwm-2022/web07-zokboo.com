@@ -1,4 +1,4 @@
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import { ModalBackground, ModalCloseButton, ModalContainer, ModalInner } from './Style';
 
 interface Props {
