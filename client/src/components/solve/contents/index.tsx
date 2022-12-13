@@ -9,7 +9,7 @@ import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { updateAnswer, updateMark } from '../../../redux/solve/slice';
 import selectSolveData from '../../../redux/solve/selector';
-import { QUESTION_TYPE, SOLVE_TYPE, TEST_QUESTION_TYPE, TEST_TYPE } from '../../../utils/constants';
+import { QUESTION_TYPE, SERVICE_ROUTE, SOLVE_TYPE, TEST_QUESTION_TYPE, TEST_TYPE } from '../../../utils/constants';
 import {
   Container,
   MobileSideBarShowButton,
@@ -38,7 +38,6 @@ import {
 } from './Style';
 import TEST_BUTTON_TEXT from './contants';
 import { markGradeTestPaper } from '../../../api/testpaper';
-import SERVICE_ROUTE from '../../../pages/mypage/constants';
 
 interface Props {
   handleTestGrade: () => void;
