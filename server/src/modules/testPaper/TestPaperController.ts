@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiExtraModels } from '@nestjs/swagger';
-import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { ApiExtraModels, ApiQuery } from '@nestjs/swagger';
+import { ApiMultiResponse, ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 import { User } from 'src/decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
@@ -15,6 +15,8 @@ import GradeTestPaperQuestionRequest from './dto/request/GradeTestPaperQuestionR
 import TestPaperQuestionDetailResponse from './dto/response/TestPaperQuestionDetailResponse';
 import MarkTestPaperRequest from './dto/request/MarkTestPaperRequest';
 import MarkTestPaperQuestionRequest from './dto/request/MarkTestPaperQuestionRequest';
+import TestPaperSimpleResponse from './dto/response/TestPaperSimpleResponse';
+import TestPaperState from './enum/TestPaperState';
 
 @Controller('testpaper')
 @ApiExtraModels(
@@ -25,6 +27,7 @@ import MarkTestPaperQuestionRequest from './dto/request/MarkTestPaperQuestionReq
   TestPaperGradedResponse,
   GradeTestPaperQuestionRequest,
   MarkTestPaperQuestionRequest,
+  TestPaperSimpleResponse,
 )
 export class TestPaperController {
   constructor(private readonly testPaperService: TestPaperService) {}
@@ -35,6 +38,22 @@ export class TestPaperController {
   async createTestPaper(@User('id') userId: string, @Body() request: CreateTestPaperRequest) {
     const response = await this.testPaperService.createTestPaper(request, Number(userId));
     return new ApiResponse('시험지 생성 성공', response);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiQuery({
+    name: 'state',
+    enum: TestPaperState,
+    required: false,
+  })
+  @ApiMultiResponse(200, TestPaperSimpleResponse, '시험지 리스트 조회 성공')
+  async showTestPapers(@User('id') userId: string, @Query('state') state?: TestPaperState) {
+    const response = await this.testPaperService.getTestPapersOfUserByState(
+      Number(userId),
+      state ? state : TestPaperState.SOLVING,
+    );
+    return new ApiResponse('시험지 리스트 조회 성공', response);
   }
 
   @Get(':testPaperId')

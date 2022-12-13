@@ -49,7 +49,8 @@ class TestPaperQuestion {
 
   solve(writtenAnswer: string | undefined) {
     if (writtenAnswer === undefined) {
-      throw new BadRequestException('풀리지 않은 문제가 있습니다.');
+      this.writtenAnswer = '';
+      return;
     }
     this.writtenAnswer = writtenAnswer;
   }
@@ -68,9 +69,6 @@ class TestPaperQuestion {
   }
 
   markSubjectiveTypeQuestion(result: boolean | undefined) {
-    if (result === undefined) {
-      throw new BadRequestException('채점되지 않은 문제가 있습니다.');
-    }
     if (result) {
       this.state = TestPaperQuestionState.CORRECT;
       return true;

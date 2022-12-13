@@ -13,6 +13,8 @@ import TestPaperGradedResponse from './dto/response/TestPaperGradedResponse';
 import TestPaperDetailResponse from './dto/response/TestPaperDetailResponse';
 import TestPaperState from './enum/TestPaperState';
 import { TestPaperRepository } from './TestPaperRepository';
+import ReviewNoteResponse from './dto/response/ReviewNoteResponse';
+import TestPaperSimpleResponse from './dto/response/TestPaperSimpleResponse';
 
 @Injectable()
 export class TestPaperService {
@@ -41,9 +43,28 @@ export class TestPaperService {
     return result;
   }
 
+  async getTestPapersOfUserByState(userId: number, state: TestPaperState) {
+    const testPapers = await this.testPaperRepository.findTestPapersOfUser(userId, state);
+    return testPapers.map((tp) => new TestPaperSimpleResponse(tp));
+  }
+
   async getTestPaperWithDetails(userId: number, testPaperId: number) {
     const testPaper = await this.getTestPaperByIdWithAuthorization(userId, testPaperId);
-    return new TestPaperDetailResponse(testPaper);
+    let result: TestPaperDetailResponse | TestPaperGradedResponse | ReviewNoteResponse;
+    switch (testPaper.state) {
+      case TestPaperState.SOLVING:
+        result = new TestPaperDetailResponse(testPaper);
+        break;
+      case TestPaperState.GRADING:
+        result = new TestPaperGradedResponse(testPaper);
+        break;
+      case TestPaperState.COMPLETE:
+        result = new ReviewNoteResponse(testPaper);
+        break;
+      default:
+        break;
+    }
+    return result;
   }
 
   async gradeMultipleTypeQuestionsOfTestPaper(userId: number, testPaperId: number, request: GradeTestPaperRequest) {
