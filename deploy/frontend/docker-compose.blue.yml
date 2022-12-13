@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  blue-container:
+    container_name: 'zokboo-frontend-blue'
+    image: heroleggo/zokboo-front:latest
+    env_file:
+      - /build/frontend/.env
+    ports:
+      - '29493:3000'
+
+networks:
+  default:
+
+volumes:
+  blue-container:

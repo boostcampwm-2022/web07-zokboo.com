@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import checkEmailAuth from '../../api/auth';
+import { checkEmailAuth } from '../../api/auth';
 import Loading from '../../components/common/Loading';
 import KEYS from '../../react-query/keys/auth';
 import { Container, Contents, Inner, LoadingContainer, Title } from './Style';

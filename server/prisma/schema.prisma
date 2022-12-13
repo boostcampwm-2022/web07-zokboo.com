@@ -114,7 +114,7 @@ model TestPaper {
   correct_count     Int
   created_at        DateTime            @db.DateTime(0)
   updated_at        DateTime            @db.DateTime(0)
-  is_completed      Boolean             @default(false)
+  state             String              @db.VarChar(10) @default("SOLVING")
   title             String              @db.VarChar(50)
   timeout           Int
   Test              Test                @relation(fields: [test_id], references: [test_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Test_TO_TestPaper_1")
@@ -129,7 +129,7 @@ model TestPaperQuestion {
   test_paper_id          BigInt
   question_id            BigInt
   written_answer         String    @db.VarChar(1000)
-  is_correct             Boolean?
+  state                  String    @db.VarChar(10) @default("UNMARKED")
   review                 String?   @db.VarChar(1000)
   Question               Question  @relation(fields: [question_id], references: [question_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Question_TO_TestPaperQuestion_1")
   TestPaper              TestPaper @relation(fields: [test_paper_id], references: [test_paper_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_TestPaper_TO_TestPaperQuestion_1")

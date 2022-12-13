@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, device, fonts } from '../../styles/theme';
+import { colors, fonts, media } from '../../styles/theme';
 
 export const ModalContainer = styled.div`
   position: absolute;
@@ -22,7 +22,7 @@ export const ModalContainer = styled.div`
 
   padding: 12px;
 
-  @media screen and (max-width: ${device.mobileWidth}) {
+  ${media.mobileWidth} {
     width: 100%;
     border: none;
     box-shadow: none;
@@ -72,6 +72,7 @@ export const InputBox = styled.input<{ isCorrect?: boolean }>`
 `;
 
 export const InputAlert = styled.div`
+  height: 10px;
   font-size: ${fonts.size.xxs};
   color: ${colors.error};
   margin: 0px 10px;

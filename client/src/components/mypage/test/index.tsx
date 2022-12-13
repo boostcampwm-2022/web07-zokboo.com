@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import { getMyTest } from '../../../api/test';
 import { TestListSearchData } from '../../../types/test';
 import TestSearchResultItem from '../../search/TestSearchResultItem/index';
-import Error from '../utils/Error';
-import Loading from '../utils/Loading';
+import Error from '../../common/utils/Error';
+import Loading from '../../common/utils/Loading';
 import { Container, Header } from './Style';
 
 const Test = () => {
@@ -32,7 +32,7 @@ const Test = () => {
           />
         ))
       ) : (
-        <Error title="생성한 시험이 없습니다." />
+        <Error message="생성한 시험이 없습니다." />
       )}
     </Container>
   );

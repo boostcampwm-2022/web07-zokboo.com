@@ -1,25 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { BsFillCaretDownFill, BsList } from 'react-icons/bs';
 import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import { solveWorkbookQuestion } from '../../../api/workbook';
-import useArrayText from '../../../hooks/useArrayText';
 import useToggle from '../../../hooks/useToggle';
 import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { updateAnswer, updateMark } from '../../../redux/solve/slice';
 import selectSolveData from '../../../redux/solve/selector';
-import { QUESTION_TYPE } from '../../../utils/constants';
+import { QUESTION_TYPE, SERVICE_ROUTE, SOLVE_TYPE, TEST_QUESTION_TYPE, TEST_TYPE } from '../../../utils/constants';
 import {
   Container,
   MobileSideBarShowButton,
   QuestionAnswerArea,
   QuestionAnswerButton,
   QuestionAnswerContainer,
+  QuestionBox,
   QuestionButtonList,
   QuestionCheckButton,
   QuestionContainer,
   QuestionDescription,
   QuestionItem,
   QuestionList,
+  QuestionMarkBox,
+  QuestionMarkButton,
   QuestionOptionItem,
   QuestionOptionList,
   QuestionTitle,
@@ -28,41 +33,82 @@ import {
   SideBarItem,
   SideBarList,
   SideBarListTitle,
+  TestButton,
+  TestButtonContainer,
 } from './Style';
+import TEST_BUTTON_TEXT from './contants';
+import { markGradeTestPaper } from '../../../api/testpaper';
 
-const Contents = () => {
-  const { questions, id, type } = useAppSelector(selectSolveData);
+interface Props {
+  handleTestGrade: () => void;
+}
+
+const Contents = ({ handleTestGrade }: Props) => {
+  const { questions, id, type, answerList, state, markList } = useAppSelector(selectSolveData);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [IsSideBar, handleIsSideBarChange] = useToggle(false);
   const contentsRef = useRef<HTMLDivElement>(null);
   const questionItemRef = useRef<HTMLLIElement[]>([]);
-  const [descriptionType, setDescriptionType] = useState<string[]>([]);
-  const { values: answerList, set: initAnswerList, change: handleAnswerListUpdate } = useArrayText();
+  const [descriptionType, setDescriptionType] = useState<string[]>(new Array(questions.length).fill(''));
 
   const solveWorkbookQuestionMutation = useMutation(solveWorkbookQuestion);
+  const markGradeTestMutation = useMutation(markGradeTestPaper);
+
+  const getTestButtonText = () => {
+    return TEST_BUTTON_TEXT[state];
+  };
+
+  const buttonText = getTestButtonText();
 
   const checkSolveType = () => {
     return {
-      isWorkbook: type === 'workbook',
-      isTest: type === 'test',
+      isWorkbook: type === SOLVE_TYPE.workbook,
+      isTest: type === SOLVE_TYPE.test,
+    };
+  };
+
+  const checkTestType = () => {
+    return {
+      isSolve: state === TEST_TYPE.solve,
+      isGrading: state === TEST_TYPE.grade,
+      isComplete: state === TEST_TYPE.complete,
     };
   };
 
   const solveType = checkSolveType();
+  const testType = checkTestType();
 
   const checkDescriptionType = (idx: number, descType: string) => {
     if (descriptionType[idx] === descType) return true;
     return false;
   };
 
-  const handleWorkbookQuestionSolve = (questionId: number, idx: number, value: string) => {
-    if (solveType.isWorkbook) {
-      solveWorkbookQuestionMutation.mutate({
-        params: { workbookId: id, workbookQuestionId: questionId },
-        body: { newAnswer: value },
-      });
+  const handleQuestionSolve = (questionId: number, value: string) => {
+    if (!(testType.isGrading || testType.isComplete)) {
+      if (solveType.isWorkbook) {
+        solveWorkbookQuestionMutation.mutate({
+          params: { workbookId: id, workbookQuestionId: questionId },
+          body: { newAnswer: value },
+        });
+      }
+      dispatch(
+        updateAnswer({
+          testPaperQuestionId: questionId,
+          writtenAnswer: value,
+        }),
+      );
     }
-    handleAnswerListUpdate(idx, value);
+  };
+
+  const handleMarkUpdate = (questionId: number, isCorrect: boolean) => {
+    dispatch(
+      updateMark({
+        testPaperQuestionId: questionId,
+        isCorrect,
+      }),
+    );
   };
 
   const handleScrollMove = (idx: number) => {
@@ -81,14 +127,27 @@ const Contents = () => {
     setDescriptionType((prev) => prev.map((prevType, idx) => (idx !== index ? prevType : updateType)));
   };
 
-  useEffect(() => {
-    if (questions) {
-      setDescriptionType(new Array(questions.length).fill(''));
+  const handleMarkTestGrade = () => {
+    const subjectQuestions = markList.filter(({ questionType }) => questionType === QUESTION_TYPE.subjective);
 
-      const dumpAnswerList = questions.map(({ writtenAnswer }) => writtenAnswer ?? '');
-      initAnswerList(dumpAnswerList);
-    }
-  }, [questions]);
+    markGradeTestMutation.mutate(
+      {
+        testPaperId: id,
+        body: subjectQuestions,
+      },
+      {
+        onSuccess: () => {
+          toast.success('주관식 채점이 완료되었습니다.');
+          navigate(`/mypage?service=${SERVICE_ROUTE.test}`);
+        },
+      },
+    );
+  };
+
+  const handleTestEndButtonClick = () => {
+    if (testType.isSolve) handleTestGrade();
+    else handleMarkTestGrade();
+  };
 
   return (
     <Container>
@@ -98,7 +157,7 @@ const Contents = () => {
           {questions.map(({ questionId }, idx) => (
             <SideBarItem key={questionId}>
               <SideBarButton
-                isActive={answerList[idx] !== ``}
+                isActive={answerList[idx]?.writtenAnswer !== ``}
                 onClick={() => {
                   handleScrollMove(idx);
                 }}
@@ -113,9 +172,19 @@ const Contents = () => {
       <QuestionContainer ref={contentsRef}>
         <QuestionList>
           {questions.map((questionData, idx) => {
-            const { questionId, question, questionType, commentary, answer, options } = questionData;
+            const {
+              questionId,
+              question,
+              questionType,
+              commentary,
+              answer,
+              options,
+              state: questionState,
+            } = questionData;
             const isAnswer = checkDescriptionType(idx, DESCRIPTION_TYPE.answer);
             const isComment = checkDescriptionType(idx, DESCRIPTION_TYPE.comment);
+            const isWrong = !testType.isSolve && questionState === TEST_QUESTION_TYPE.wrong;
+
             return (
               <QuestionItem
                 key={questionId}
@@ -123,17 +192,37 @@ const Contents = () => {
                   if (el) questionItemRef.current[idx] = el;
                 }}
               >
-                <QuestionTitle>
-                  {`${idx + 1}. `}
-                  {question}
-                </QuestionTitle>
+                <QuestionBox>
+                  <QuestionTitle isWrong={isWrong}>
+                    {`${idx + 1}. `}
+                    {question}
+                  </QuestionTitle>
+
+                  <QuestionMarkBox isShow={questionType === QUESTION_TYPE.subjective && testType.isGrading}>
+                    <QuestionMarkButton
+                      kind="correct"
+                      isActive={markList[idx].isCorrect}
+                      onClick={() => handleMarkUpdate(questionId, true)}
+                    >
+                      정답
+                    </QuestionMarkButton>
+                    <QuestionMarkButton
+                      kind="wrong"
+                      isActive={!markList[idx].isCorrect}
+                      onClick={() => handleMarkUpdate(questionId, false)}
+                    >
+                      오답
+                    </QuestionMarkButton>
+                  </QuestionMarkBox>
+                </QuestionBox>
                 {questionType === QUESTION_TYPE.multiple ? (
                   <QuestionOptionList>
                     {options.map((option) => (
-                      <QuestionOptionItem key={option}>
+                      <QuestionOptionItem key={`${questionId}-${option}`}>
                         <QuestionCheckButton
-                          isActive={answerList[idx] === option}
-                          onClick={() => handleWorkbookQuestionSolve(questionId, idx, option)}
+                          isActive={answerList[idx]?.writtenAnswer === option}
+                          isWrong={isWrong && option === answer}
+                          onClick={() => handleQuestionSolve(questionId, option)}
                         >
                           {option}
                         </QuestionCheckButton>
@@ -142,12 +231,13 @@ const Contents = () => {
                   </QuestionOptionList>
                 ) : (
                   <QuestionAnswerArea
-                    value={answerList[idx]}
-                    onChange={(e) => handleWorkbookQuestionSolve(questionId, idx, e.target.value)}
+                    value={answerList[idx]?.writtenAnswer}
+                    onChange={(e) => handleQuestionSolve(questionId, e.target.value)}
+                    readOnly={testType.isGrading || testType.isComplete}
                   />
                 )}
 
-                <QuestionAnswerContainer isShow={solveType.isWorkbook}>
+                <QuestionAnswerContainer isShow={solveType.isWorkbook || !testType.isSolve}>
                   <QuestionButtonList>
                     <QuestionAnswerButton
                       isActive={isAnswer}
@@ -171,6 +261,10 @@ const Contents = () => {
             );
           })}
         </QuestionList>
+
+        <TestButtonContainer isShow={solveType.isTest}>
+          <TestButton onClick={handleTestEndButtonClick}>{buttonText}</TestButton>
+        </TestButtonContainer>
       </QuestionContainer>
 
       <MobileSideBarShowButton onClick={handleIsSideBarChange}>

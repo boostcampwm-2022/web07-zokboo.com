@@ -57,8 +57,6 @@ export const EmailForm = styled.form`
   }
 `;
 
-export const ModalTitle = styled.div``;
-
 export const InputBox = styled.input`
   padding: 12px;
 

@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { getWorkbookById } from '../../api/workbook';
+import { toast } from 'react-toastify';
+import { getWorkbookById, saveWorkbook } from '../../api/workbook';
 import SampleImage from '../../images/sample-image.jpeg';
 import SampleQuestionImage from '../../images/sample-question-image.png';
 
@@ -58,6 +59,23 @@ const WorkbookDetail = () => {
   const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
   const [isLike, setIsLike] = useState<boolean>(false);
 
+  const saveWorkbookMutation = useMutation(saveWorkbook);
+
+  const handleWorkbookSave = () => {
+    const numberId = Number(workbookId);
+
+    saveWorkbookMutation.mutate(
+      {
+        workbookId: numberId,
+      },
+      {
+        onSuccess: () => {
+          toast.success('문제집을 저장했습니다.');
+        },
+      },
+    );
+  };
+
   const handleLike = useCallback(() => {
     if (isLike) {
       /** 좋아요 취소 api */
@@ -83,7 +101,7 @@ const WorkbookDetail = () => {
                   <Description>{data.description}asdasd123213213</Description>
                 </WorkbookIntroduce>
                 <ButtonContainer>
-                  <WorkbookSaveButton type="button" value="문제집 저장" />
+                  <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
                   <Heart type="button" onClick={handleLike}>
                     {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
                   </Heart>

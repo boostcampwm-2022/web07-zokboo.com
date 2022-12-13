@@ -15,11 +15,10 @@ import {
   UserImageBox,
   UserInfoBox,
 } from './Style';
-import SERVICE_ROUTE from './constants';
-import MypageWorkbook from '../../components/mypage/workbook';
-import { MYPAGE_TYPE } from '../../utils/constants';
-import Test from '../../components/mypage/test';
+import { MYPAGE_TYPE, SERVICE_ROUTE } from '../../utils/constants';
 import TestPaper from '../../components/mypage/testPaper';
+import Test from '../../components/mypage/test';
+import MypageWorkbook from '../../components/mypage/workbook';
 
 const MyPage = () => {
   const [searchParams, _] = useSearchParams();
@@ -53,10 +52,20 @@ const MyPage = () => {
         <MobileContainer>
           <CategoryTitle>나의 서비스</CategoryTitle>
           <CategoryList>
-            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.testpaper)}>
-              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.testpaper}`}>
-                <span>나의 시험지</span>
-                {checkActiveService(SERVICE_ROUTE.testpaper) && (
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.workbook)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.workbook}`}>
+                <span>나의 문제집</span>
+                {checkActiveService(SERVICE_ROUTE.workbook) && (
+                  <span>
+                    <BsCheckLg />
+                  </span>
+                )}
+              </CategoryLink>
+            </CategoryItem>
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.share)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.share}`}>
+                <span>공유 받은 문제집</span>
+                {checkActiveService(SERVICE_ROUTE.share) && (
                   <span>
                     <BsCheckLg />
                   </span>
@@ -73,20 +82,20 @@ const MyPage = () => {
                 )}
               </CategoryLink>
             </CategoryItem>
-            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.workbook)}>
-              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.workbook}`}>
-                <span>나의 문제집</span>
-                {checkActiveService(SERVICE_ROUTE.workbook) && (
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.testpaper)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.testpaper}`}>
+                <span>나의 시험지</span>
+                {checkActiveService(SERVICE_ROUTE.testpaper) && (
                   <span>
                     <BsCheckLg />
                   </span>
                 )}
               </CategoryLink>
             </CategoryItem>
-            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.share)}>
-              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.share}`}>
-                <span>공유 받은 문제집</span>
-                {checkActiveService(SERVICE_ROUTE.share) && (
+            <CategoryItem isActive={checkActiveService(SERVICE_ROUTE.review)}>
+              <CategoryLink to={`/mypage?service=${SERVICE_ROUTE.review}`}>
+                <span>오답노트</span>
+                {checkActiveService(SERVICE_ROUTE.review) && (
                   <span>
                     <BsCheckLg />
                   </span>
