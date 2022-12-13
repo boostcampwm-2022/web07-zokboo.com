@@ -3,6 +3,7 @@ export const SERVICE_ROUTE = {
   workbook: 'workbook',
   share: 'share',
   test: 'test',
+  review: 'review',
 };
 
 export default SERVICE_ROUTE;

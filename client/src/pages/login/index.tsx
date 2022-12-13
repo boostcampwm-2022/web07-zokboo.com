@@ -6,21 +6,13 @@ import githubIcon from '../../assets/images/github-icon.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import kakaoIcon from '../../assets/images/kakao-icon.png';
 import naverIcon from '../../assets/images/naver-icon.png';
-import {
-  InputBox,
-  LoginButton,
-  Modal,
-  ModalBody,
-  MoreButtons,
-  RedirectButton,
-  SSOButtons,
-  SSOIcon,
-  SSOTitle,
-} from './Style';
-import { getLocalLoginData, getSSOData } from '../../api/login';
+import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
+
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 import { useAppDispatch } from '../../redux/hooks';
 import { signinSuccess } from '../../redux/login/slice';
+import ModalContainer from '../../components/login/LoginModal';
+import { getLocalLoginData, getSSOData } from '../../api/auth';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +30,6 @@ const Login = () => {
 
   const loginMutation = useMutation(getLocalLoginData, {
     onSuccess: (data) => {
-      console.log(data);
       alert('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
       window.location.href = '/';
@@ -60,8 +51,7 @@ const Login = () => {
 
   return (
     <div>
-      <Modal>
-        <Logo type="large" />
+      <ModalContainer title={<Logo type="large" />}>
         <ModalBody>
           <form onSubmit={handleLogin}>
             <InputBox type="text" placeholder="이메일" id="email" name="email" maxLength={30} />
@@ -69,7 +59,7 @@ const Login = () => {
             <LoginButton type="submit" value="로그인" />
           </form>
           <MoreButtons>
-            <RedirectButton to="/find_id">아이디 찾기</RedirectButton>
+            {/* <RedirectButton to="/find_id">아이디 찾기</RedirectButton> */}
             <RedirectButton to="/find_pw">비밀번호 찾기</RedirectButton>
             <RedirectButton to="/signup">회원가입</RedirectButton>
           </MoreButtons>
@@ -81,7 +71,7 @@ const Login = () => {
             <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => SSOMutation.mutate(KAKAO)} />
           </SSOButtons>
         </ModalBody>
-      </Modal>
+      </ModalContainer>
     </div>
   );
 };

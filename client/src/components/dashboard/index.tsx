@@ -3,6 +3,7 @@ import paper from '../../assets/images/paper.png';
 import books from '../../assets/images/books.png';
 import profile from '../../assets/images/profile.png';
 import { HomeDashBoard, ItemContainer, ItemImageBox, ItemInfo } from './Style';
+import { SERVICE_ROUTE } from '../../utils/constants';
 
 interface ItemProps {
   title: string;
@@ -31,7 +32,7 @@ const DashBoard = () => {
       <DashBoardItem
         title="문제집"
         image={books}
-        link="/mypage"
+        link={`/mypage?service=${SERVICE_ROUTE.workbook}`}
         contents={
           <p>
             <span>10</span>권
@@ -39,9 +40,19 @@ const DashBoard = () => {
         }
       />
       <DashBoardItem
+        title="시험"
+        image={profile}
+        link={`/mypage?service=${SERVICE_ROUTE.test}`}
+        contents={
+          <p>
+            <span>10</span>개
+          </p>
+        }
+      />
+      <DashBoardItem
         title="시험지"
         image={paper}
-        link="/mypage"
+        link={`/mypage?service=${SERVICE_ROUTE.testpaper}`}
         contents={
           <p>
             <span>10</span>장
@@ -51,14 +62,13 @@ const DashBoard = () => {
       <DashBoardItem
         title="오답노트"
         image={reviewNote}
-        link="/mypage"
+        link={`/mypage?service=${SERVICE_ROUTE.review}`}
         contents={
           <p>
             <span>10</span>권
           </p>
         }
       />
-      <DashBoardItem title="내 프로필" image={profile} link="/mypage" contents={null} />
     </HomeDashBoard>
   );
 };

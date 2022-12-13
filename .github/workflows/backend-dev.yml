@@ -1,4 +1,4 @@
-name: dev CI CD
+name: "[Backend] develop CI/CD"
 on:
   push:
     branches: ["develop"]

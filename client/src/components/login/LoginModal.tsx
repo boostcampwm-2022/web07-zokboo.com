@@ -1,6 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { device } from '../../styles/theme';
+import { FiArrowLeft } from 'react-icons/fi';
+import { media } from '../../styles/theme';
+
+export const GoToLogin = styled(Link)`
+  float: left;
+`;
+
+export const ModalTitle = styled.div`
+  width: 100%;
+`;
 
 export const ModalContainerStyled = styled.div`
   position: absolute;
@@ -23,7 +33,7 @@ export const ModalContainerStyled = styled.div`
 
   padding: 20px;
 
-  @media screen and (max-width: ${device.mobileWidth}) {
+  ${media.mobileWidth} {
     width: 100%;
     border: none;
     box-shadow: none;
@@ -35,12 +45,16 @@ export const Modal = styled.div`
 `;
 
 interface ModalContainerProps {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
+  title: JSX.Element | string;
 }
-const ModalContainer = ({ children }: ModalContainerProps): JSX.Element => {
+const ModalContainer = ({ children, title }: ModalContainerProps): JSX.Element => {
   return (
     <ModalContainerStyled>
-      <Modal>{children}</Modal>
+      <Modal>
+        <ModalTitle>{title}</ModalTitle>
+        {children}
+      </Modal>
     </ModalContainerStyled>
   );
 };
