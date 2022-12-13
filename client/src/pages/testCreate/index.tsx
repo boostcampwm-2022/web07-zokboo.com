@@ -34,7 +34,7 @@ import {
 } from './Style';
 
 const TestCreate = () => {
-  const userData = useUserData();
+  useUserData();
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const minuteRef = useRef<HTMLInputElement>(null);
@@ -94,17 +94,17 @@ const TestCreate = () => {
       count: Number(questionValues[idx]),
     }));
     let title = '';
-    let minute = 0;
-    let second = 0;
+    let minutes = 0;
+    let seconds = 0;
 
     if (titleRef.current) {
       title = titleRef.current.value;
     }
     if (minuteRef.current) {
-      minute = Number(minuteRef.current.value);
+      minutes = Number(minuteRef.current.value);
     }
     if (secondRef.current) {
-      second = Number(secondRef.current.value);
+      seconds = Number(secondRef.current.value);
     }
 
     if (!title || title.trim() === '') {
@@ -112,7 +112,7 @@ const TestCreate = () => {
       return;
     }
 
-    if (minute + second <= 0) {
+    if (minutes + seconds <= 0) {
       toast.error('시험 시간이 0초 입니다.');
       return;
     }
@@ -125,8 +125,8 @@ const TestCreate = () => {
     createTestMutation.mutate(
       {
         title,
-        minute,
-        second,
+        minutes,
+        seconds,
         workbooks,
       },
       {
@@ -147,13 +147,25 @@ const TestCreate = () => {
         <InfoContainer>
           <InfoBox>
             <SubTitle>시험명</SubTitle>
-            <InfoInput ref={titleRef} />
+            <InfoInput type="text" ref={titleRef} placeholder="시험명을 입력해주세요." />
           </InfoBox>
           <InfoBox>
             <SubTitle>시험 시간</SubTitle>
             <InfoInputBox>
-              <InfoTimeInput type="number" ref={minuteRef} defaultValue={0} /> <InfoText>분</InfoText>
-              <InfoTimeInput type="number" ref={secondRef} defaultValue={0} /> <InfoText>초</InfoText>
+              <InfoTimeInput
+                type="number"
+                ref={minuteRef}
+                defaultValue={0}
+                placeholder="시험 시간(분)을 입력해주세요"
+              />
+              <InfoText>분</InfoText>
+              <InfoTimeInput
+                type="number"
+                ref={secondRef}
+                defaultValue={0}
+                placeholder="시험 시간(초)을 입력해주세요"
+              />
+              <InfoText>초</InfoText>
             </InfoInputBox>
           </InfoBox>
         </InfoContainer>

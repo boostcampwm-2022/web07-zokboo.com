@@ -1,5 +1,5 @@
 import Chart from '../../components/chart/Chart';
-import DashBoard from '../../components/dashboard/DashBoard';
+import DashBoard from '../../components/dashboard';
 import { HomeContainer, HomeTitle } from './Style';
 
 const Home = () => {

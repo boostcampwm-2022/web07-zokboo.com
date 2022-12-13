@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, media, paddings, widths } from '../../styles/theme';
+import { fonts, media, paddings, widths } from '../../styles/theme';
 
 export const SearchResultContainer = styled.div`
   ${widths.base};
@@ -27,4 +27,6 @@ export const Items = styled.div`
   /* gap: 20px; */
 `;
 
-export const SearchResultTitle = styled.div``;
+export const SearchResultTitle = styled.div`
+  font-size: ${fonts.size.xl};
+`;

@@ -1,0 +1,21 @@
+name: "[Backend] production CI/CD"
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "server/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.PROD_SERVER_IP }}
+          port: ${{ secrets.PROD_SERVER_PORT }}
+          username: ${{ secrets.PROD_SERVER_USERNAME }}
+          password: ${{ secrets.PROD_SERVER_PASSWORD }}
+          script: /build/backend/deploy-blue-green.sh

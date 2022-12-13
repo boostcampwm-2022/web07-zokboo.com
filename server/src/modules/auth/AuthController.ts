@@ -7,16 +7,17 @@ import SignupRequest from '../user/dto/request/SignupRequest';
 import SigninRequest from '../user/dto/request/SigninRequest';
 import SSOSigninRequest from '../user/dto/request/SSOSigninRequest';
 import OauthType from '../user/enum/OauthType';
-import { User } from 'src/decorators/UserDecorator';
+import { User } from '../../decorators/UserDecorator';
 import { Response } from 'express';
 import SignupResponse from '../user/dto/response/SignupResponse';
 import { ApiExcludeEndpoint, ApiExtraModels, ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
 import SigninResponse from '../user/dto/response/SigninResponse';
 import { MailService } from '../common/MailService';
-import { ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
+import { ApiSingleResponse } from '../../decorators/ApiResponseDecorator';
 import ResetPasswordRequest from './dto/request/ResetPasswordRequest';
 import ResetTokenResponse from './dto/response/ResetTokenResponse';
 import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
+import ResetTokenRequest from './dto/request/ResetTokenRequest';
 
 @Controller('auth')
 @ApiExtraModels(ApiResponse, SigninResponse, SignupResponse, ResetTokenResponse, ResetPasswordResponse)
@@ -45,7 +46,7 @@ export class AuthController {
 
   @Get('logout')
   @ApiNoContentResponse({ description: '로그아웃 완료' })
-  async logout(@Res() res: Response) {
+  logout(@Res() res: Response) {
     res.clearCookie('accessToken');
 
     res.status(204).send();
@@ -66,9 +67,9 @@ export class AuthController {
 
   @Post('reset')
   @ApiSingleResponse(200, ResetTokenResponse, '패스워드 재설정 요청 성공')
-  async resetPasswordRequest(@Body('email') email: string) {
-    const token = this.authService.issueResetToken(email);
-    this.mailService.sendResetMail(email, token);
+  async resetPasswordRequest(@Body() request: ResetTokenRequest) {
+    const token = this.authService.issueResetToken(request.email);
+    this.mailService.sendResetMail(request.email, token);
 
     return new ApiResponse('패스워드 재설정 요청 성공', new ResetTokenResponse(token));
   }

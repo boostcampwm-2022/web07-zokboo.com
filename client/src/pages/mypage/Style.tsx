@@ -155,8 +155,9 @@ export const CategoryItem = styled(Item)<{ isActive: boolean }>`
 `;
 
 export const ContentsContainer = styled.div`
-  width: calc(100% - 300px - 20px);
+  width: calc(100% - 300px - 30px);
   height: 600px;
+
   ${media.tablet} {
     width: 100%;
   }

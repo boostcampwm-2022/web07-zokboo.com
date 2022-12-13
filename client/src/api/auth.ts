@@ -1,10 +1,11 @@
 import { QueryFunctionContext } from 'react-query';
-import axios from './index';
-import PostResetPasswordBody from '../types/auth';
+import { toast } from 'react-toastify';
+import { PostResetPasswordBody, signupProps } from '../types/auth';
 import { SERVER_URL } from '../utils/constants';
+import axios from './index';
 
 export const checkEmailAuth = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, token] = queryKey;
+  const token = queryKey[1];
 
   const { data } = await axios.post(`${SERVER_URL}/auth/email?token=${token}`);
 
@@ -17,4 +18,29 @@ export const resetPassword = async (body: PostResetPasswordBody) => {
   return data;
 };
 
-export default checkEmailAuth;
+export const getSSOData = async (SSOType: string) => {
+  const { data } = await axios.get(`${SERVER_URL}/auth/${SSOType}`, { withCredentials: true }).catch((err) => {
+    throw err.response.data.message;
+  });
+  return data;
+};
+
+export const getLocalLoginData = async ({ email, password }: { email: string; password: string }) => {
+  const { data } = await axios
+    .post(`${SERVER_URL}/auth/signin`, { email, password }, { withCredentials: true })
+    .catch((err) => {
+      throw err.response.data.message;
+    });
+
+  return data;
+};
+
+export const postSignup = async (signupInput: signupProps) => {
+  const { data } = await axios
+    .post(`${SERVER_URL}/auth/signup`, signupInput, { withCredentials: true })
+    .catch((res) => {
+      throw toast.error(res.response.data.message);
+    });
+
+  return data;
+};

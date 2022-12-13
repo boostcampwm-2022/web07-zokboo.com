@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectSolveData from '../../redux/solve/selector';
 import { initSolve } from '../../redux/solve/slice';
 import { GetWorkbookListResponse } from '../../types/workbook';
+import { SOLVE_TYPE } from '../../utils/constants';
 
 const Workbook = () => {
   const dispatch = useAppDispatch();
@@ -21,14 +22,15 @@ const Workbook = () => {
       return getWorkbook(numberId);
     },
     {
-      enabled: numberId !== id || type !== 'workbook',
+      enabled: numberId !== id || type !== SOLVE_TYPE.workbook,
       onSuccess: (data: GetWorkbookListResponse) => {
         dispatch(
           initSolve({
             id: data.workbookId,
             questions: data.questions,
             title: data.title,
-            type: 'workbook',
+            type: SOLVE_TYPE.workbook,
+            state: 'WORKBOOK',
           }),
         );
       },

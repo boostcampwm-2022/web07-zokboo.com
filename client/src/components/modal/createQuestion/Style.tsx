@@ -54,7 +54,7 @@ export const ButtonList = styled.div`
   justify-content: space-between;
 `;
 
-export const ImageBox = styled.div`
+export const ImageBox = styled.div<{ isShow: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,6 +66,15 @@ export const ImageBox = styled.div`
   border: 1px solid ${colors.line};
 
   svg {
+    display: ${(props) => (props.isShow ? `none` : `block`)};
+
+    width: 100px;
+    height: 100px;
+  }
+
+  img {
+    display: ${(props) => (props.isShow ? `block` : `none`)};
+
     width: 100px;
     height: 100px;
   }
@@ -287,4 +296,8 @@ export const StepContainer = styled.div`
   ${ContentBox},${TextArea}, ${ImageBox} {
     margin-bottom: 20px;
   }
+`;
+
+export const StepColumn = styled.div`
+  width: 50%;
 `;

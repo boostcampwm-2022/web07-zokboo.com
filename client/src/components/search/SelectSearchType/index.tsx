@@ -33,6 +33,7 @@ const SelectSearchType = () => {
       <label htmlFor={SEARCH_TYPE.title}>
         <input
           type="radio"
+          id={SEARCH_TYPE.title}
           name="searchOption"
           value={SEARCH_TYPE.title}
           onChange={handleSearchOption}
@@ -44,6 +45,7 @@ const SelectSearchType = () => {
       <label htmlFor={SEARCH_TYPE.content}>
         <input
           type="radio"
+          id={SEARCH_TYPE.content}
           name="searchOption"
           value={SEARCH_TYPE.content}
           onChange={handleSearchOption}
@@ -55,6 +57,7 @@ const SelectSearchType = () => {
       <label htmlFor={SEARCH_TYPE.title_content}>
         <input
           type="radio"
+          id={SEARCH_TYPE.title_content}
           name="searchOption"
           value={SEARCH_TYPE.title_content}
           onChange={handleSearchOption}

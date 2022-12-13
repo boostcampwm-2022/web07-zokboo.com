@@ -13,3 +13,34 @@ export const MYPAGE_TYPE = {
 
 export const ALLOW_FILE_EXTENSION = ['jpg', 'jpeg', 'png'];
 export const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024;
+
+export const SOLVE_TYPE = {
+  test: 'test',
+  workbook: 'workbook',
+};
+
+export const TEST_TYPE = {
+  solve: 'SOLVING',
+  grade: 'GRADING',
+  complete: 'COMPLETE',
+};
+
+export const TEST_QUESTION_TYPE = {
+  correct: 'CORRECT',
+  wrong: 'WRONG',
+  unmarked: 'UNMARKED',
+};
+
+export const SERVICE_ROUTE = {
+  test: 'test',
+  testpaper: 'testpaper',
+  workbook: 'workbook',
+  review: 'review',
+  share: 'share',
+};
+
+export const VERIFICATION = {
+  id: /^[a-z]+[a-z0-9]{6,16}$/g,
+  pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
+  email: /[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+};

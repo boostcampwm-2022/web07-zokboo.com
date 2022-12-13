@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { getWorkbookById } from '../../api/workbook';
-import SampleImage from '../../images/sample-image.jpeg';
+import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
+import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
+import { toast } from 'react-toastify';
+import { getWorkbookById, saveWorkbook } from '../../api/workbook';
 import SampleQuestionImage from '../../images/sample-question-image.png';
-
 import {
   BodyTitle,
   ButtonContainer,
@@ -14,7 +14,6 @@ import {
   HeaderContainer,
   Heart,
   IsPublic,
-  Left,
   PageContainer,
   Problem,
   ProblemCommentary,
@@ -53,10 +52,27 @@ interface Workbook {
 }
 
 const WorkbookDetail = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
   const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
   const [isLike, setIsLike] = useState<boolean>(false);
+
+  const saveWorkbookMutation = useMutation(saveWorkbook);
+
+  const handleWorkbookSave = () => {
+    const numberId = Number(workbookId);
+
+    saveWorkbookMutation.mutate(
+      {
+        workbookId: numberId,
+      },
+      {
+        onSuccess: () => {
+          toast.success('문제집을 저장했습니다.');
+        },
+      },
+    );
+  };
 
   const handleLike = useCallback(() => {
     if (isLike) {
@@ -83,7 +99,7 @@ const WorkbookDetail = () => {
                   <Description>{data.description}asdasd123213213</Description>
                 </WorkbookIntroduce>
                 <ButtonContainer>
-                  <WorkbookSaveButton type="button" value="문제집 저장" />
+                  <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
                   <Heart type="button" onClick={handleLike}>
                     {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
                   </Heart>
@@ -105,7 +121,7 @@ const WorkbookDetail = () => {
 
                       <ProblemHashtags>
                         해시태그 :
-                        {x.hashtags.map((hashtag, index) => {
+                        {x.hashtags.map((hashtag) => {
                           return <div key={hashtag}>{hashtag}</div>;
                         })}
                       </ProblemHashtags>

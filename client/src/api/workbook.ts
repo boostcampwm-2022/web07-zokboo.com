@@ -23,7 +23,7 @@ export const getMyWorkbookData = async ({ queryKey }: QueryFunctionContext) => {
 };
 
 export const getWorkbookById = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, workbookId] = queryKey;
+  const workbookId = queryKey[1];
   const { data } = await axios.get(`${SERVER_URL}/workbooks/${workbookId}`);
   return data;
 };
@@ -42,8 +42,10 @@ export const solveWorkbookQuestion = async (props: PatchSolveWorkbookQuestionPro
   return data;
 };
 
-export const saveWorkbook = async (body: PostWorkbookSave) => {
-  const { data } = await axios.post(`${SERVER_URL}/workbooks/save`, body);
+export const saveWorkbook = async ({ workbookId }: PostWorkbookSave) => {
+  const { data } = await axios.post(`${SERVER_URL}/workbooks/${workbookId}/save`, {
+    withCredentials: true,
+  });
 
   return data;
 };

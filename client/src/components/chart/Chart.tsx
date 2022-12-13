@@ -16,16 +16,13 @@ import { colors } from '../../styles/theme';
 import Toggle from '../common/Toggle';
 import { Category, Container, ChartToggle } from './Style';
 
-interface CATEGORY {
-  name: string;
-  color: string;
-}
 type GRAPH = typeof Line | typeof Bar;
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
 
 const options = {
   maintainAspectRatio: false,
+
   layout: {
     padding: {
       top: 10,
@@ -54,22 +51,14 @@ const options = {
 
 const CategoryInfo = [
   {
-    name: '최근 푼 시험',
+    name: '최근 푼 시험지',
     color: colors.gray1,
-  },
-  {
-    name: '또다른 무언가',
-    color: colors.gray2,
-  },
-  {
-    name: '무언가 무언가',
-    color: colors.gray3,
   },
 ];
 
 const Chart = () => {
-  const [Graph, toggle, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
-  const [categoryIndex, setCategoryIndex] = useState<number>(0);
+  const { value: Graph, onToggle: setToggle } = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
+  const [categoryIndex] = useState<number>(0);
 
   const category = CategoryInfo[categoryIndex];
 
@@ -107,12 +96,8 @@ const Chart = () => {
 
   return (
     <Container bgColor={category.color}>
-      {CategoryInfo.map(({ name }, idx) => {
-        return (
-          <Category key={name} onClick={() => setCategoryIndex(idx)}>
-            {name}
-          </Category>
-        );
+      {CategoryInfo.map(({ name }) => {
+        return <Category key={name}>{name}</Category>;
       })}
 
       <ChartToggle>

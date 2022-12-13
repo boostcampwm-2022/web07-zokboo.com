@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { BsCircleFill } from 'react-icons/bs';
+import { BsCircleFill } from '@react-icons/all-files/bs/BsCircleFill';
 import { toast } from 'react-toastify';
 import { createQuestion } from '../../../api/question';
 import { ButtonList, StepContainer, ModalButton, StepBar, Container, StepBarItem, StepBarButton } from './Style';
@@ -17,7 +17,7 @@ interface Props {
 
 interface FormData {
   question: string;
-  file: string;
+  image: File | null;
   questionType: string;
   hashTagList: string[];
   optionList: string[];
@@ -28,7 +28,7 @@ interface FormData {
 
 const INITIAL_DATA = {
   question: '',
-  file: '',
+  image: null,
   questionType: '',
   hashTagList: [] as string[],
   optionList: [] as string[],
@@ -60,7 +60,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   };
 
   const handleQuestionCreate = () => {
-    const { question, file, questionType, hashTagList, optionList, answer, commentary, difficultValue } = formData;
+    const { question, image, questionType, hashTagList, optionList, answer, commentary, difficultValue } = formData;
     const isSubjective = questionType === QUESTION_TYPE.subjective;
     const checkOptionLength = new Set(optionList).size;
 
@@ -96,31 +96,21 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
     const bodyData = new FormData();
 
-    // bodyData.append('question', question);
-    // bodyData.append('questionType,', questionType);
-    // bodyData.append('answer', answer);
-    // bodyData.append('commentary', commentary);
-    // bodyData.append('difficulty', difficultValue);
-    // bodyData.append('hashtags', hashTagList);
-    // bodyData.append('options', optionList);
+    bodyData.append('images', image ?? '');
+    bodyData.append('question', question);
+    bodyData.append('questionType,', questionType);
+    bodyData.append('answer', answer);
+    bodyData.append('commentary', commentary);
+    bodyData.append('difficulty', difficultValue.toString());
+    bodyData.append('hashtags', JSON.stringify(hashTagList));
+    bodyData.append('options', JSON.stringify(optionList));
 
-    createQuestionMutation.mutate(
-      {
-        question,
-        questionType,
-        answer,
-        commentary,
-        difficulty: difficultValue,
-        hashtags: hashTagList,
-        options: optionList,
+    createQuestionMutation.mutate(bodyData, {
+      onSuccess: (data: AddQuestion) => {
+        handleProblemAdd(data);
+        handleModalReset();
       },
-      {
-        onSuccess: (data: AddQuestion) => {
-          handleProblemAdd(data);
-          handleModalReset();
-        },
-      },
-    );
+    });
   };
 
   return (
