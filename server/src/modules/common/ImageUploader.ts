@@ -33,7 +33,7 @@ export class ImageUploader {
       throw new InternalServerErrorException(response.$response.error.message);
     }
 
-    const fullURI = `${this.configService.get<string>('BUCKET_URL')}/${key}`;
+    const fullURI = `${this.configService.get<string>('BUCKET_URL')}/zokboo-bucket/${key}`;
 
     return { path: fullURI };
   }

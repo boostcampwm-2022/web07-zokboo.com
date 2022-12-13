@@ -15,7 +15,7 @@ interface MypageWorkbookProps {
 
 const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
   const [workbookData, setWorkbookData] = useState<SearchWorkbookType[]>([]);
-  const { isLoading, isSuccess, data } = useQuery([type], getMyWorkbookData, {
+  const { isLoading, isSuccess, data, isError } = useQuery([type], getMyWorkbookData, {
     onSuccess: (d) => {
       setWorkbookData(d.data);
       console.log(d.msg);
@@ -41,8 +41,9 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
             />
           ))
         ) : (
-          <Error message="문제집이 없습니다." />
+          <Error message="이런, 문제집이 없습니다." />
         ))}
+      {isError && <Error emoji="🫠" message="Error! 문제집을 불러올 수 없습니다. J021에게 문의해주세요." />}
     </WorkbookContainer>
   );
 };
