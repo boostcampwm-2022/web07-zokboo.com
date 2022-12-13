@@ -24,7 +24,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
   };
 
   const handleTestButton = () => {
-    alert('시험 응시 뻐튼');
+    // alert('시험 응시 뻐튼');
   };
 
   const handleSaveButton = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {

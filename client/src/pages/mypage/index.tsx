@@ -19,7 +19,7 @@ import MypageWorkbook from '../../components/mypage/Workbook';
 import { MYPAGE_TYPE, SERVICE_ROUTE } from '../../utils/constants';
 
 const MyPage = () => {
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const service = searchParams.get('service');
 
   const checkActiveService = (curService: string) => {

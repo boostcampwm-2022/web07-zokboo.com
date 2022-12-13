@@ -6,7 +6,6 @@ import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { toast } from 'react-toastify';
 import { getWorkbookById, saveWorkbook } from '../../api/workbook';
 import SampleQuestionImage from '../../images/sample-question-image.png';
-
 import {
   BodyTitle,
   ButtonContainer,
@@ -122,7 +121,7 @@ const WorkbookDetail = () => {
 
                       <ProblemHashtags>
                         해시태그 :
-                        {x.hashtags.map((hashtag, index) => {
+                        {x.hashtags.map((hashtag) => {
                           return <div key={hashtag}>{hashtag}</div>;
                         })}
                       </ProblemHashtags>

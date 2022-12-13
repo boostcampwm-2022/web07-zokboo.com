@@ -18,9 +18,9 @@ export const markGradeTestPaper = async (props: PatchMarkGradeTestPaperProps) =>
 };
 
 export const getTestPaper = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, params] = queryKey;
+  const params = queryKey[1];
 
-  const { data } = await axios.get(`${SERVER_URL}/testpaper/${params}`, { withCredentials: true });
+  const { data } = await axios.get(`${SERVER_URL}/testpaper/${params}`);
 
   return data;
 };

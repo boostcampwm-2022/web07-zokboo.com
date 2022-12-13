@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { getMyWorkbookData } from '../../api/workbook';
@@ -36,13 +35,9 @@ interface MypageWorkbookProps {
 
 const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
   const [workbookData, setWorkbookData] = useState<SearchWorkbookType[]>([]);
-  const { isLoading, isSuccess, data } = useQuery([type], getMyWorkbookData, {
+  const { isLoading, isSuccess } = useQuery([type], getMyWorkbookData, {
     onSuccess: (d) => {
       setWorkbookData(d.data);
-      console.log(d.msg);
-    },
-    onError: (err) => {
-      console.log(err);
     },
   });
 
@@ -53,7 +48,7 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
         {isLoading && <Loading />}
         {isSuccess &&
           (workbookData.length !== 0 ? (
-            workbookData.map((workbook, index) => (
+            workbookData.map((workbook) => (
               <WorkbookItem
                 key={workbook.workbookId}
                 workbookId={workbook.workbookId}

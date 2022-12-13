@@ -18,11 +18,11 @@ import {
 } from './Style';
 import SearchWorkbookType from '../../types/search';
 
-const WorkbookItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
+const WorkbookItem = ({ title, description }: SearchWorkbookType) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isScrap, setIsScrap] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [scrapCount, setScrapCount] = useState<number>(0);
+  const [likeCount] = useState<number>(0);
+  const [scrapCount] = useState<number>(0);
 
   return (
     <WorkbookItemContainer>

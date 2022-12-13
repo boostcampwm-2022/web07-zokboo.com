@@ -1,7 +1,7 @@
 import { rest } from 'msw';
-import { PostCreateQuestionBody } from '../../types/question';
 import { SERVER_URL } from '../../utils/constants';
 import questionData from '../data/question';
+// import { PostCreateQuestionBody } from '../../types/question';
 
 // let tempId = 0;
 
