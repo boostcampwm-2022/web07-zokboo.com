@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import Hashtag from './domain/Hashtag';
 import Option from './domain/Option';
 import Question from './domain/Question';
@@ -11,6 +11,8 @@ import { QuestionRepository } from './QuestionRepository';
 import { PrismaInstance } from '../common/PrismaInstance';
 import QuestionImage from './domain/QuestionImage';
 import { ImageUploader } from '../common/ImageUploader';
+import QuestionLike from './domain/QuestionLike';
+import LikeQuestionResponse from './dto/response/LikeQuestionResponse';
 
 @Injectable()
 export class QuestionService {
@@ -76,6 +78,42 @@ export class QuestionService {
       await this.questionRepository.save(question, tx);
       result = new CreateQuestionResponse(question);
     });
+    return result;
+  }
+
+  async like(questionId: number, userId: number) {
+    let result: LikeQuestionResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const hasLiked = await this.questionRepository.checkLiked(questionId, userId, tx);
+
+      if (hasLiked) {
+        throw new BadRequestException('ALREADY_LIKED_QUESTION');
+      }
+      const newLike = new QuestionLike(BigInt(questionId), BigInt(userId));
+      const newLikeResult = await this.questionRepository.createQuestionLike(newLike, tx);
+      result = new LikeQuestionResponse(newLikeResult);
+    });
+    return result;
+  }
+
+  async dislike(questionId: number, userId: number) {
+    let result: LikeQuestionResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const hasLiked = await this.questionRepository.checkLiked(questionId, userId, tx);
+
+      if (!hasLiked) {
+        throw new BadRequestException('NO_LIKE_FOUND');
+      }
+      const newDislike = new QuestionLike(BigInt(questionId), BigInt(userId));
+      const dislikeResult = await this.questionRepository.deleteQuestionLike(newDislike, tx);
+
+      if (dislikeResult !== 1) {
+        throw new BadRequestException('DISLIKE_FAILED');
+      }
+
+      result = new LikeQuestionResponse(newDislike);
+    });
+
     return result;
   }
 }
