@@ -1,3 +1,4 @@
+import { GetTestQuestionResponse } from './question';
 import { WorkbookSearchData } from './workbook';
 
 export interface PostCreateTestBody {
