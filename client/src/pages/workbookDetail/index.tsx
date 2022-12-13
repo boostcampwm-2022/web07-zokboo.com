@@ -24,6 +24,7 @@ import Loading from '../../components/common/utils/Loading';
 import Error from '../../components/common/utils/Error';
 import QuestionItem from '../../components/workbookDetail';
 import { GetWorkbookListResponse } from '../../types/workbook';
+import { postWorkbookDisLike, postWorkbookLike } from '../../api/like';
 
 const WorkbookDetail = () => {
   const [searchParams] = useSearchParams();
@@ -35,14 +36,25 @@ const WorkbookDetail = () => {
     isPublic: false,
     questions: [],
   });
+  const [isLike, setIsLike] = useState<boolean>(false);
+
   const { isLoading, isSuccess, isError } = useQuery(['workbook', workbookId], getWorkbookById, {
     onSuccess: (d) => {
       setWorkbook(d.data);
     },
   });
-
-  const [isLike, setIsLike] = useState<boolean>(false);
-
+  const { mutate: likeMutate } = useMutation(postWorkbookLike, {
+    onSuccess: (d) => {
+      toast.success('좋아요를 눌렀습니다.');
+      setIsLike((prev) => !prev);
+    },
+  });
+  const { mutate: dislikeMutate } = useMutation(postWorkbookDisLike, {
+    onSuccess: (d) => {
+      toast.success('좋아요를 취소하였습니다.');
+      setIsLike((prev) => !prev);
+    },
+  });
   const saveWorkbookMutation = useMutation(saveWorkbook);
 
   const handleWorkbookSave = () => {
@@ -61,13 +73,13 @@ const WorkbookDetail = () => {
   };
 
   const handleLike = useCallback(() => {
-    if (isLike) {
-      /** 좋아요 취소 api */
-    } else {
-      /** 좋아요 입력 api */
+    if (workbookId) {
+      if (isLike) {
+        dislikeMutate(workbookId);
+      } else {
+        likeMutate(workbookId);
+      }
     }
-
-    setIsLike((prev) => !prev);
   }, []);
 
   return (
