@@ -51,7 +51,6 @@ const SearchWorkbookModal = ({ handleWorkbookAdd }: Props) => {
   );
 
   const workbookList = response?.data ?? [];
-  console.log(workbookList);
 
   const handleQuestionToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
     e.stopPropagation();
