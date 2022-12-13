@@ -1,4 +1,4 @@
-import { FiMoreHorizontal } from 'react-icons/fi';
+import { FiMoreHorizontal } from '@react-icons/all-files/fi/FiMoreHorizontal';
 import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
 import { AiFillFile } from '@react-icons/all-files/ai/AiFillFile';
