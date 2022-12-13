@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import getTestPaper from '../../../api/testpaper';
-import Loading from '../utils/Loading';
+import Loading from '../../common/utils/Loading';
 import { Header, Main, WorkbookContainer } from './Style';
 
 const TestPaper = () => {

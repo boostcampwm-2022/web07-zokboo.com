@@ -3,9 +3,10 @@ import { useQuery } from 'react-query';
 import { getMyWorkbookData } from '../../../api/workbook';
 import SearchWorkbookType from '../../../types/search';
 import { MYPAGE_TYPE } from '../../../utils/constants';
+import Loading from '../../common/Loading';
+import Error from '../../common/utils/Error';
 import WorkbookItem from '../../workbookItem/WorkbookItem';
-import Loading from '../utils/Loading';
-import Error from '../utils/Error';
+
 import { Header, WorkbookContainer } from './Style';
 
 interface MypageWorkbookProps {
