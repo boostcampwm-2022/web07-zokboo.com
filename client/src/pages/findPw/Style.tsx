@@ -34,6 +34,7 @@ export const WhatFindContainer = styled.div`
 export const FindPwContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 
   width: 100%;
 
@@ -56,8 +57,6 @@ export const EmailForm = styled.form`
     margin-right: 4px;
   }
 `;
-
-export const ModalTitle = styled.div``;
 
 export const InputBox = styled.input`
   padding: 12px;
