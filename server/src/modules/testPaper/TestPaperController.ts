@@ -20,7 +20,7 @@ import TestPaperState from './enum/TestPaperState';
 import ReviewQuestionResponse from './dto/response/ReviewQuestionResponse';
 import ReviewQuestionRequest from './dto/request/ReviewQuestionRequest';
 
-@Controller('api/testpapers')
+@Controller('testpapers')
 @ApiExtraModels(
   CreateTestPaperResponse,
   TestPaperDetailResponse,

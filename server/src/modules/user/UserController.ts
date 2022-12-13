@@ -8,7 +8,7 @@ import SigninResponse from './dto/response/SigninResponse';
 import { ApiSingleResponse } from '../../decorators/ApiResponseDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 
-@Controller('api/users')
+@Controller('users')
 @ApiExtraModels(SigninResponse)
 export class UserController {
   constructor(private readonly userService: UserService) {}

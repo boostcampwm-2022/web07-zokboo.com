@@ -11,7 +11,7 @@ import GetQuestionsResponse from './dto/response/GetQuestionsResponse';
 import { QuestionService } from './QuestionService';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
-@Controller('api/questions')
+@Controller('questions')
 @ApiExtraModels(ApiResponse, CreateQuestionResponse, GetQuestionsResponse)
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}

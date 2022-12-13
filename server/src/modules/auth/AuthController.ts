@@ -19,7 +19,7 @@ import ResetTokenResponse from './dto/response/ResetTokenResponse';
 import ResetPasswordResponse from './dto/response/ResetPasswordResponse';
 import ResetTokenRequest from './dto/request/ResetTokenRequest';
 
-@Controller('api/auth')
+@Controller('auth')
 @ApiExtraModels(ApiResponse, SigninResponse, SignupResponse, ResetTokenResponse, ResetPasswordResponse)
 export class AuthController {
   constructor(
