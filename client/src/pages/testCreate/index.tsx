@@ -69,8 +69,6 @@ const TestCreate = () => {
     const deleteKey = questionList[index][0];
     let updateData = data;
 
-    console.log(maxLength);
-
     if (numberData > maxLength) {
       updateData = maxLength.toString();
     }
@@ -134,7 +132,7 @@ const TestCreate = () => {
       {
         onSuccess: () => {
           toast.success('시험을 만들었습니다.');
-          navigate('/');
+          navigate('/mypage?service=testpaper');
         },
       },
     );
