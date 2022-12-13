@@ -9,18 +9,33 @@ export const ProblemDropdown = styled.details`
   }
 `;
 
-export const ProblemNumber = styled.summary`
+export const Header = styled.summary`
   white-space: nowrap;
   overflow: hidden;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   background-color: ${colors.secondary};
   border-radius: 4px;
   margin-bottom: 8px;
 
   ::marker {
     display: none;
-    content: '🔽  ';
+    content: ' ';
   }
+`;
+
+export const ProblemNumber = styled.div``;
+export const QuestionType = styled.div<{ type: boolean }>`
+  font-size: ${fonts.size.sm};
+  font-weight: ${fonts.weight.semiBold};
+  background-color: ${(props) => (props.type ? '#FEF2C0' : '#E99695')};
+  color: black;
+  padding: 1px 7px;
+  display: inline-block;
+  border-radius: 2em;
+  margin: 0px 20px;
 `;
 
 export const Problem = styled.div`
@@ -30,6 +45,8 @@ export const Problem = styled.div`
 export const ProblemTitle = styled.div`
   font-weight: 700;
 `;
+
+export const ProblemOptions = styled.div``;
 
 export const ProblemImg = styled.img`
   max-width: 350px;
