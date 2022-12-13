@@ -12,8 +12,6 @@ export const PageContainer = styled.div`
 
 export const HeaderContainer = styled.div`
   display: flex;
-  flex-direction: row;
-
   justify-content: center;
   ${media.mobileLength} {
     justify-content: flex-start;
@@ -27,24 +25,9 @@ export const HeaderContainer = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  justify-content: flex-start;
-`;
-
-export const Left = styled.div`
-  display: flex;
-  ${media.mobileWidth} {
-    display: none;
-  }
-  flex-direction: row;
-  align-items: center;
-
-  gap: 4px;
-  padding-left: 20px;
-`;
-export const Right = styled.div`
-  padding-left: 20px;
-  width: 100%;
-  max-width: 400px;
+  flex-direction: column;
+  width: 50%;
+  padding: 0px 30px;
 `;
 
 export const WorkbookIntroduce = styled.div`
@@ -112,7 +95,7 @@ export const ProblemListContainer = styled.div`
   margin: 0 10px;
 `;
 export const ProblemList = styled.div`
-  width: 70%;
+  width: 50%;
   ${media.mobileWidth} {
     width: 100%;
   }

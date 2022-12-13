@@ -25,11 +25,12 @@ import {
   ProblemListContainer,
   ProblemNumber,
   ProblemTitle,
-  Right,
   Title,
   WorkbookIntroduce,
   WorkbookSaveButton,
 } from './Style';
+import Loading from '../../components/common/utils/Loading';
+import Error from '../../components/common/utils/Error';
 
 interface Question {
   questionId: number;
@@ -98,25 +99,22 @@ const WorkbookDetail = () => {
 
   return (
     <PageContainer>
-      {isLoading && <div>로딩중</div>}
-      {isError && <div>다시 시도해 주세요</div>}
+      {isLoading && <Loading />}
       {isSuccess && (
         <>
           <HeaderContainer>
             <Header>
-              <Right>
-                <WorkbookIntroduce>
-                  <IsPublic>{workbook.isPublic ? 'public' : 'private'}</IsPublic>
-                  <Title>{`제목 : ${workbook.title}`}</Title>
-                  <Description>{workbook.description}</Description>
-                </WorkbookIntroduce>
-                <ButtonContainer>
-                  <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
-                  <Heart type="button" onClick={handleLike}>
-                    {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
-                  </Heart>
-                </ButtonContainer>
-              </Right>
+              <WorkbookIntroduce>
+                <IsPublic>{workbook.isPublic ? 'public' : 'private'}</IsPublic>
+                <Title>{`제목 : ${workbook.title}`}</Title>
+                <Description>{workbook.description}</Description>
+              </WorkbookIntroduce>
+              <ButtonContainer>
+                <Heart type="button" onClick={handleLike}>
+                  {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
+                </Heart>
+                <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
+              </ButtonContainer>
             </Header>
           </HeaderContainer>
 
@@ -149,6 +147,7 @@ const WorkbookDetail = () => {
           </ProblemListContainer>
         </>
       )}
+      {isError && <Error message="문제집 정보를 불러올 수 없습니다. 다시 시도해주세요." />}
     </PageContainer>
   );
 };
