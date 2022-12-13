@@ -23,7 +23,7 @@ const Workbook = () => {
     },
     {
       enabled: numberId !== id || type !== SOLVE_TYPE.workbook,
-      onSuccess: (data: GetWorkbookListResponse) => {
+      onSuccess: ({ data }: GetWorkbookListResponse) => {
         dispatch(
           initSolve({
             id: data.workbookId,
