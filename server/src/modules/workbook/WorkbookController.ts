@@ -66,7 +66,7 @@ export class WorkbookController {
     type: String,
     required: false,
   })
-  @ApiMultiResponse(200, WorkbookSimpleResponse, '내 문제집 조회 / 검색 성공')
+  @ApiMultiResponse(200, WorkbookDetailResponse, '내 문제집 조회 / 검색 성공')
   async searchMyWorkbooks(
     @User('id') userId: string,
     @Query('title') title?: string,
