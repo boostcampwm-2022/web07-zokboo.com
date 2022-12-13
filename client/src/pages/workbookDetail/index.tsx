@@ -5,7 +5,6 @@ import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
 import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { toast } from 'react-toastify';
 import { getWorkbookById, saveWorkbook } from '../../api/workbook';
-import SampleQuestionImage from '../../images/sample-question-image.png';
 import {
   BodyTitle,
   ButtonContainer,
@@ -15,54 +14,28 @@ import {
   Heart,
   IsPublic,
   PageContainer,
-  Problem,
-  ProblemCommentary,
-  ProblemDifficulty,
-  ProblemDropdown,
-  ProblemHashtags,
-  ProblemImg,
   ProblemList,
   ProblemListContainer,
-  ProblemNumber,
-  ProblemTitle,
   Title,
   WorkbookIntroduce,
   WorkbookSaveButton,
 } from './Style';
 import Loading from '../../components/common/utils/Loading';
 import Error from '../../components/common/utils/Error';
-
-interface Question {
-  questionId: number;
-  question: string;
-  difficulty: number;
-  answer: string;
-  commentary: string;
-  questionType: string;
-  images: string[];
-  options: string[];
-  hashtags: string[];
-}
-
-interface Workbook {
-  workbookId: number;
-  title: string;
-  description: string;
-  isPublic: boolean;
-  questions: Question[];
-}
+import QuestionItem from '../../components/workbookDetail';
+import { GetWorkbookListResponse } from '../../types/workbook';
 
 const WorkbookDetail = () => {
   const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
-  const [workbook, setWorkbook] = useState<Workbook>({
+  const [workbook, setWorkbook] = useState<GetWorkbookListResponse>({
     workbookId: 0,
     title: '',
     description: '',
     isPublic: false,
     questions: [],
   });
-  const { isLoading, isSuccess, isError, data } = useQuery(['workbook', workbookId], getWorkbookById, {
+  const { isLoading, isSuccess, isError } = useQuery(['workbook', workbookId], getWorkbookById, {
     onSuccess: (d) => {
       setWorkbook(d.data);
     },
@@ -122,26 +95,9 @@ const WorkbookDetail = () => {
             <ProblemList>
               <BodyTitle>문제 미리보기</BodyTitle>
               {workbook.questions.length !== 0
-                ? workbook.questions.map((x, idx) => {
-                    return (
-                      <ProblemDropdown key={x.questionId}>
-                        <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
-                        <Problem>
-                          <ProblemTitle>문제 : {x.question}</ProblemTitle>
-                          <ProblemImg src={SampleQuestionImage} alt="" />
-
-                          <ProblemHashtags>
-                            해시태그 :
-                            {x.hashtags.map((hashtag) => {
-                              return <div key={hashtag}>{hashtag}</div>;
-                            })}
-                          </ProblemHashtags>
-                          <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
-                          <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
-                        </Problem>
-                      </ProblemDropdown>
-                    );
-                  })
+                ? workbook.questions.map((question, idx) => (
+                    <QuestionItem key={question.questionId} {...question} index={idx} />
+                  ))
                 : null}
             </ProblemList>
           </ProblemListContainer>

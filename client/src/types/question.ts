@@ -18,6 +18,7 @@ export interface GetQuestionResponse {
   createdAt: Date;
   updatedAt: Date;
   options: string[];
+  images: string[];
 }
 
 export interface GetTestQuestionResponse {
