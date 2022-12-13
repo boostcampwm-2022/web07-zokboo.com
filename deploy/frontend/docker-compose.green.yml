@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  green-container:
+    container_name: 'zokboo-frontend-green'
+    image: heroleggo/zokboo-front:latest
+    env_file:
+      - /build/frontend/.env
+    ports:
+      - '29494:3000'
+
+networks:
+  default:
+
+volumes:
+  green-container:
