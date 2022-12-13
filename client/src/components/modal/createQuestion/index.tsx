@@ -29,7 +29,7 @@ interface FormData {
 const INITIAL_DATA = {
   question: '',
   image: null,
-  questionType: '',
+  questionType: QUESTION_TYPE.subjective,
   hashTagList: [] as string[],
   optionList: [] as string[],
   answer: '',
@@ -96,9 +96,10 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
     const bodyData = new FormData();
 
-    bodyData.append('images', image ?? '');
+    if (image) bodyData.append('images', image);
+
     bodyData.append('question', question);
-    bodyData.append('questionType,', questionType);
+    bodyData.append('questionType', questionType);
     bodyData.append('answer', answer);
     bodyData.append('commentary', commentary);
     bodyData.append('difficulty', difficultValue.toString());
@@ -106,8 +107,8 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
     bodyData.append('options', JSON.stringify(optionList));
 
     createQuestionMutation.mutate(bodyData, {
-      onSuccess: (data: AddQuestion) => {
-        handleProblemAdd(data);
+      onSuccess: (rowData) => {
+        handleProblemAdd(rowData.data);
         handleModalReset();
       },
     });

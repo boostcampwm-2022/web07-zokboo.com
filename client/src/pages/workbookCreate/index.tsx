@@ -98,6 +98,7 @@ const WorkbookCreate = () => {
       {
         onSuccess: () => {
           target.reset();
+          setProblemList([]);
           toast.success('문제집을 추가하였습니다.');
         },
       },
