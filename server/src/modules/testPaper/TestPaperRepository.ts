@@ -205,8 +205,30 @@ export class TestPaperRepository {
           return WorkbookTest.of(wt, workbook);
         }),
       );
-      const testPaper = TestPaper.of(tp, test);
-      return testPaper;
+      return TestPaper.of(tp, test);
     });
+  }
+
+  async findTestPaperQuestion(testPaperQuestionId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const testPaperQuestion = await prisma.testPaperQuestion.findUnique({
+      where: {
+        test_paper_question_id: testPaperQuestionId,
+      },
+      include: {
+        TestPaper: {
+          include: {
+            Test: true,
+          },
+        },
+        Question: true,
+      },
+    });
+    if (!testPaperQuestion) {
+      return null;
+    }
+    const result = TestPaperQuestion.of(testPaperQuestion, Question.of(testPaperQuestion.Question));
+    result.setTestPaper(TestPaper.of(testPaperQuestion.TestPaper, Test.of(testPaperQuestion.TestPaper.Test)));
+    return result;
   }
 }
