@@ -54,7 +54,19 @@ interface Workbook {
 const WorkbookDetail = () => {
   const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
-  const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
+  const [workbook, setWorkbook] = useState<Workbook>({
+    workbookId: 0,
+    title: '',
+    description: '',
+    isPublic: false,
+    questions: [],
+  });
+  const { isLoading, isSuccess, isError, data } = useQuery(['workbook', workbookId], getWorkbookById, {
+    onSuccess: (d) => {
+      setWorkbook(d.data);
+    },
+  });
+
   const [isLike, setIsLike] = useState<boolean>(false);
 
   const saveWorkbookMutation = useMutation(saveWorkbook);
@@ -94,9 +106,9 @@ const WorkbookDetail = () => {
             <Header>
               <Right>
                 <WorkbookIntroduce>
-                  <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
-                  <Title>{`제목 : ${data.title}`}</Title>
-                  <Description>{data.description}asdasd123213213</Description>
+                  <IsPublic>{workbook.isPublic ? 'public' : 'private'}</IsPublic>
+                  <Title>{`제목 : ${workbook.title}`}</Title>
+                  <Description>{workbook.description}</Description>
                 </WorkbookIntroduce>
                 <ButtonContainer>
                   <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
@@ -111,26 +123,28 @@ const WorkbookDetail = () => {
           <ProblemListContainer>
             <ProblemList>
               <BodyTitle>문제 미리보기</BodyTitle>
-              {data.questions.map((x, idx) => {
-                return (
-                  <ProblemDropdown key={x.questionId}>
-                    <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
-                    <Problem>
-                      <ProblemTitle>문제 : {x.question}</ProblemTitle>
-                      <ProblemImg src={SampleQuestionImage} alt="" />
+              {workbook.questions.length !== 0
+                ? workbook.questions.map((x, idx) => {
+                    return (
+                      <ProblemDropdown key={x.questionId}>
+                        <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
+                        <Problem>
+                          <ProblemTitle>문제 : {x.question}</ProblemTitle>
+                          <ProblemImg src={SampleQuestionImage} alt="" />
 
-                      <ProblemHashtags>
-                        해시태그 :
-                        {x.hashtags.map((hashtag) => {
-                          return <div key={hashtag}>{hashtag}</div>;
-                        })}
-                      </ProblemHashtags>
-                      <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
-                      <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
-                    </Problem>
-                  </ProblemDropdown>
-                );
-              })}
+                          <ProblemHashtags>
+                            해시태그 :
+                            {x.hashtags.map((hashtag) => {
+                              return <div key={hashtag}>{hashtag}</div>;
+                            })}
+                          </ProblemHashtags>
+                          <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
+                          <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
+                        </Problem>
+                      </ProblemDropdown>
+                    );
+                  })
+                : null}
             </ProblemList>
           </ProblemListContainer>
         </>
