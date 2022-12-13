@@ -39,8 +39,7 @@ const SignUp = () => {
         nickname: nickValue,
       },
       {
-        onSuccess: (d) => {
-          console.log(d);
+        onSuccess: () => {
           alert('회원가입이 완료되었습니다.\n입력하신 이메일에서 인증을 진행해주세요.');
           navigate('/login');
         },

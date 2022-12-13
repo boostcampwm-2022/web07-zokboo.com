@@ -1,8 +1,9 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
+
 import Loading from '../components/common/Loading';
 
+const GlobalStyle = lazy(() => import('../styles/Global'));
 const Header = lazy(() => import('../components/header'));
 const Test = lazy(() => import('../pages/test'));
 const TestCreate = lazy(() => import('../pages/testCreate'));
@@ -25,6 +26,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
+        <GlobalStyle />
         {/* Header */}
         <Routes>
           <Route path="/" element={<Header />} />

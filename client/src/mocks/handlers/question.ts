@@ -17,7 +17,7 @@ export default [
     return res(ctx.status(200), ctx.json(result));
   }),
   rest.post<PostCreateQuestionBody>(`${SERVER_URL}/questions`, (req, res, ctx) => {
-    const { question, questionType, answer, commentary, difficulty, hashtags } = req.body;
+    const { question, questionType, difficulty, hashtags } = req.body;
     const { userId } = req.cookies;
     tempId += 1;
 

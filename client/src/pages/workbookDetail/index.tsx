@@ -53,7 +53,7 @@ interface Workbook {
 }
 
 const WorkbookDetail = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
   const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
   const [isLike, setIsLike] = useState<boolean>(false);

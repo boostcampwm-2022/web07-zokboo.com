@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { media } from '../../../styles/theme';
 
 const LogoContainer = styled(Link)<{ width: string }>`
   display: block;
@@ -7,7 +8,11 @@ const LogoContainer = styled(Link)<{ width: string }>`
   height: 100%;
 
   img {
-    width: 100%;
+    width: 350px;
+
+    ${media.tablet} {
+      width: 200px;
+    }
   }
 `;
 

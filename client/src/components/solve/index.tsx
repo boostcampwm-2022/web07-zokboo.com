@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import useUserData from '../../hooks/useUserData';
 import Loading from '../common/Loading';
 import Contents from './contents';
@@ -14,7 +13,7 @@ interface Props {
 
 const Solve = ({ isLoading, isError }: Props) => {
   const navigate = useNavigate();
-  // const userData = useUserData();
+  useUserData();
 
   useEffect(() => {
     if (isError) {

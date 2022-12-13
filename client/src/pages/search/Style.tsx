@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, media, paddings, widths } from '../../styles/theme';
+import { media, paddings, widths } from '../../styles/theme';
 
 export const SearchResultContainer = styled.div`
   ${widths.base};

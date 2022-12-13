@@ -42,7 +42,7 @@ export const ItemInfo = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  width: 65%;
+  width: 50%;
 
   h3 {
     margin: 0;
@@ -62,12 +62,18 @@ export const ItemInfo = styled.div`
 
 export const ItemImageBox = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
 
-  width: 35%;
+  width: 50%;
   height: 100%;
   img {
-    width: 100%;
-    max-width: 100px;
+    width: 85px;
+    max-width: 85px;
+
+    ${media.mobileLength} {
+      width: 45px;
+      height: 45px;
+    }
   }
 `;

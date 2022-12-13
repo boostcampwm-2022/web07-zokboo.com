@@ -34,7 +34,7 @@ import {
 } from './Style';
 
 const TestCreate = () => {
-  const userData = useUserData();
+  useUserData();
   const navigate = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const minuteRef = useRef<HTMLInputElement>(null);

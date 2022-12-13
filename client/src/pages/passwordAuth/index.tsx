@@ -22,7 +22,7 @@ import {
 } from './Style';
 
 const PasswordAuth = () => {
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const navigate = useNavigate();
 
