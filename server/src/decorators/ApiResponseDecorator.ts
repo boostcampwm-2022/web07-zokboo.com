@@ -1,6 +1,6 @@
 import { applyDecorators, HttpStatus, Type } from '@nestjs/common';
 import { ApiDefaultResponse, getSchemaPath } from '@nestjs/swagger';
-import ApiResponse from 'src/modules/common/response/ApiResponse';
+import ApiResponse from '../modules/common/response/ApiResponse';
 
 export const ApiSingleResponse = <T extends Type<any>>(status: HttpStatus, model: T, description?: string) => {
   return applyDecorators(
