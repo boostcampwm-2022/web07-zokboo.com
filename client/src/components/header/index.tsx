@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { BiSearchAlt2 } from 'react-icons/bi';
-import { MdArrowDropDown } from 'react-icons/md';
+import { BiSearchAlt2 } from '@react-icons/all-files/bi/BiSearchAlt2';
+import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
 import { useNavigate, Link } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';

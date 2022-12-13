@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
+import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { toast } from 'react-toastify';
 import { getWorkbookById, saveWorkbook } from '../../api/workbook';
 import SampleImage from '../../images/sample-image.jpeg';

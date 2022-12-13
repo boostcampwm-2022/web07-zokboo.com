@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useMutation } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';

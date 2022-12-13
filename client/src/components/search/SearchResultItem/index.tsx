@@ -1,4 +1,4 @@
-import { FiMoreHorizontal } from 'react-icons/fi';
+import { FiMoreHorizontal } from '@react-icons/all-files/fi/FiMoreHorizontal';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';

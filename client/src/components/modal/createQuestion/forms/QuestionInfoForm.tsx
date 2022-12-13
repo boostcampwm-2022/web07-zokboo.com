@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { BiImageAdd, BiX } from 'react-icons/bi';
+import { BiImageAdd } from '@react-icons/all-files/bi/BiImageAdd';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 import useArrayText from '../../../../hooks/useArrayText';
 import { Input, SubTitle, TextArea } from '../../../../styles/common';
 import { QUESTION_TYPE } from '../../../../utils/constants';

@@ -1,5 +1,8 @@
 import { FiMoreHorizontal } from 'react-icons/fi';
-import { AiOutlineHeart, AiFillHeart, AiFillFile, AiOutlineFile } from 'react-icons/ai';
+import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
+import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
+import { AiFillFile } from '@react-icons/all-files/ai/AiFillFile';
+import { AiOutlineFile } from '@react-icons/all-files/ai/AiOutlineFile';
 import { useState } from 'react';
 import {
   Buttons,

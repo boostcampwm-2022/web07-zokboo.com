@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { BsFillCaretDownFill, BsList } from 'react-icons/bs';
+import { BsFillCaretDownFill } from '@react-icons/all-files/bs/BsFillCaretDownFill';
+import { BsList } from '@react-icons/all-files/bs/BsList';
 import { useMutation } from 'react-query';
 import { solveWorkbookQuestion } from '../../../api/workbook';
 import useArrayText from '../../../hooks/useArrayText';
