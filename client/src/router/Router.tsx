@@ -16,7 +16,7 @@ import WorkbookDetail from '../pages/workbookDetail';
 import MyPage from '../pages/mypage';
 import EmailAuth from '../pages/emailAuth';
 import PasswordAuth from '../pages/passwordAuth';
-import WorkbookCreate from '../pages/workbookCreate';
+import WorkbookCreate from '../pages/workBookCreate';
 
 const Router = () => {
   return (
