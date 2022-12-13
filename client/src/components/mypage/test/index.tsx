@@ -32,7 +32,7 @@ const Test = () => {
           />
         ))
       ) : (
-        <Error title="생성한 시험이 없습니다." />
+        <Error message="생성한 시험이 없습니다." />
       )}
     </Container>
   );

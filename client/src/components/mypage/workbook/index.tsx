@@ -41,7 +41,7 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
             />
           ))
         ) : (
-          <Error title="문제집이 없습니다." />
+          <Error message="문제집이 없습니다." />
         ))}
     </WorkbookContainer>
   );
