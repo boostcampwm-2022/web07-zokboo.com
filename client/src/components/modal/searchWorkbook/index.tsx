@@ -90,10 +90,10 @@ const SearchWorkbookModal = ({ handleWorkbookAdd }: Props) => {
               </InfoContainer>
 
               <QuestionList isToggle={questionToggleList[idx]}>
-                {/* {questions.map((questionItem) => {
+                {questions.map((questionItem) => {
                   const { questionId, question } = questionItem;
                   return <QuestionItem key={questionId}>{question}</QuestionItem>;
-                })} */}
+                })}
               </QuestionList>
             </SearchWorkbookItem>
           );
