@@ -25,8 +25,4 @@ jobs:
           port: ${{ secrets.DEV_SERVER_PORT }}
           username: ${{ secrets.DEV_SERVER_USERNAME }}
           password: ${{ secrets.DEV_SERVER_PASSWORD }}
-          script: |
-            docker stop zokboo-front-dev
-            docker rm zokboo-front-dev
-            docker rmi heroleggo/zokboo-dev:latest
-            docker run --name zokboo-front-dev -it -d -p 3000:3000 --env-file ./.env heroleggo/zokboo-front:latest
+          script: /build/frontend/deploy-blue-green.sh
