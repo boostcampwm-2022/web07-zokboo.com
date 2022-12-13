@@ -20,7 +20,7 @@ const Review = () => {
       <Main>
         {isLoading && <Loading />}
         {isSuccess && '성공' /** api 받으면 구현예정 */}
-        {isError && <Error message="오답노트를 불러올 수 없습니다. J021에게 문의해주세요." />}
+        {isError && <Error emoji="🫠" message="오답노트를 불러올 수 없습니다. J021에게 문의해주세요." />}
       </Main>
     </WorkbookContainer>
   );
