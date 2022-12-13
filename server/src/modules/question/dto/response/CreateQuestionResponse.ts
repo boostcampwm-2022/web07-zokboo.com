@@ -18,11 +18,15 @@ class CreateQuestionResponse {
   @ApiProperty()
   public difficulty: number;
 
+  @ApiProperty()
+  public hashtags: string[];
+
   constructor(record: Question) {
     this.questionId = Number(record.questionId);
     this.question = record.question;
     this.questionType = record.questionType;
     this.difficulty = record.difficulty;
+    this.hashtags = record.hashtags.map((hashtag) => hashtag.name);
   }
 }
 
