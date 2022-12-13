@@ -8,6 +8,7 @@ import QuestionImage from '../question/domain/QuestionImage';
 import QuestionType from '../question/enum/QuestionType';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
+import WorkbookLike from './domain/WorkbookLike';
 
 @Injectable()
 export class WorkbookRepository {
@@ -72,6 +73,18 @@ export class WorkbookRepository {
     return workbook;
   }
 
+  async createWorkbookLike(workbookLike: WorkbookLike, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newLike = await prisma.workbookLike.create({
+      data: {
+        workbook_id: workbookLike.workbookId,
+        user_id: workbookLike.userId,
+      },
+    });
+
+    return WorkbookLike.of(newLike);
+  }
+
   async createWorkbookQuestion(workbookId: bigint, workbookQuestion: WorkbookQuestion, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
     const newWorkbookQuestion = await prisma.workbookQuestion.create({
@@ -84,6 +97,30 @@ export class WorkbookRepository {
     workbookQuestion.setWorkbookId(workbookId);
     workbookQuestion.setId(newWorkbookQuestion.workbook_question_id);
     return workbookQuestion;
+  }
+
+  async checkLiked(workbookId: number, userId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.workbookLike.findFirst({
+      where: {
+        workbook_id: workbookId,
+        user_id: userId,
+      },
+    });
+
+    return !!result;
+  }
+
+  async deleteWorkbookLike(like: WorkbookLike, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.workbookLike.deleteMany({
+      where: {
+        workbook_id: like.workbookId,
+        user_id: like.userId,
+      },
+    });
+
+    return result.count;
   }
 
   async updateWorkbookQuestion(workbookQuestion: WorkbookQuestion, tx?: Prisma.TransactionClient) {

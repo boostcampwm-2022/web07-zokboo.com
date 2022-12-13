@@ -81,7 +81,7 @@ export class QuestionService {
     return result;
   }
 
-  async like(questionId: number, userId: number) {
+  async likeQuestion(questionId: number, userId: number) {
     let result: LikeQuestionResponse;
     await this.prisma.$transaction(async (tx) => {
       const hasLiked = await this.questionRepository.checkLiked(questionId, userId, tx);
@@ -90,13 +90,13 @@ export class QuestionService {
         throw new BadRequestException('ALREADY_LIKED_QUESTION');
       }
       const newLike = new QuestionLike(BigInt(questionId), BigInt(userId));
-      const newLikeResult = await this.questionRepository.createQuestionLike(newLike, tx);
-      result = new LikeQuestionResponse(newLikeResult);
+      const likeResult = await this.questionRepository.createQuestionLike(newLike, tx);
+      result = new LikeQuestionResponse(likeResult);
     });
     return result;
   }
 
-  async dislike(questionId: number, userId: number) {
+  async dislikeQuestion(questionId: number, userId: number) {
     let result: LikeQuestionResponse;
     await this.prisma.$transaction(async (tx) => {
       const hasLiked = await this.questionRepository.checkLiked(questionId, userId, tx);

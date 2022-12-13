@@ -10,6 +10,7 @@ import {
   Param,
   HttpStatus,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiExtraModels, ApiQuery } from '@nestjs/swagger';
 import { ApiMultiResponse, ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
@@ -62,23 +63,23 @@ export class QuestionController {
     return new ApiResponse('문제 생성 성공', response);
   }
 
-  @Post('like/:questionId')
+  @Post(':questionId/like')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiSingleResponse(200, LikeQuestionResponse, '좋아요 완료')
-  async like(@User('id') userId: string, @Param('questionId') questionId: number) {
-    const response = await this.questionService.like(questionId, Number(userId));
+  @ApiSingleResponse(200, LikeQuestionResponse, '문제 좋아요 완료')
+  async likeQuestion(@User('id') userId: string, @Param('questionId', ParseIntPipe) questionId: number) {
+    const response = await this.questionService.likeQuestion(questionId, Number(userId));
 
-    return new ApiResponse('좋아요 성공', response);
+    return new ApiResponse('문제집 좋아요 성공', response);
   }
 
-  @Post('dislike/:questionId')
+  @Post(':questionId/dislike')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiSingleResponse(200, LikeQuestionResponse, '좋아요 취소 완료')
-  async dislike(@User('id') userId: string, @Param('questionId') questionId: number) {
-    const response = await this.questionService.dislike(questionId, Number(userId));
+  @ApiSingleResponse(200, LikeQuestionResponse, '문제 좋아요 취소 완료')
+  async dislikeQuestion(@User('id') userId: string, @Param('questionId', ParseIntPipe) questionId: number) {
+    const response = await this.questionService.dislikeQuestion(questionId, Number(userId));
 
-    return new ApiResponse('좋아요 취소 성공', response);
+    return new ApiResponse('문제집 좋아요 취소 성공', response);
   }
 }

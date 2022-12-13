@@ -151,8 +151,8 @@ export class QuestionRepository {
     const prisma = tx ? tx : this.prismaInstance;
     const result = await prisma.questionLike.deleteMany({
       where: {
-        question_id: Number(like.questionId),
-        user_id: Number(like.userId),
+        question_id: like.questionId,
+        user_id: like.userId,
       },
     });
 
