@@ -1,6 +1,4 @@
-import React from 'react';
 import { GetQuestionResponse } from '../../types/question';
-import SampleQuestionImage from '../../images/sample-question-image.png';
 import {
   Answer,
   Commentary,
@@ -30,9 +28,6 @@ const QuestionItem = (props: QuestionItemProps) => {
   const isSubjective = questionType === QUESTION_TYPE.subjective;
   const [answerVisible, handleAnswerVisible] = useToggle(false);
 
-  const handleVisibleToggle = (e: React.MouseEvent<HTMLDivElement>) => {
-    handleAnswerVisible();
-  };
   return (
     <ProblemDropdown key={questionId}>
       <Header>
@@ -48,12 +43,12 @@ const QuestionItem = (props: QuestionItemProps) => {
         <Infos>
           <Hashtags>
             해시태그 :
-            {hashtags.map((hashtag, idx) => {
+            {hashtags.map((hashtag) => {
               return <div key={hashtag}>{hashtag}</div>;
             })}
           </Hashtags>
 
-          <VisibleToggle onClick={handleVisibleToggle}>
+          <VisibleToggle onClick={() => handleAnswerVisible()}>
             <div>정답 및 해설 보기</div>
             {answerVisible && (
               <>
