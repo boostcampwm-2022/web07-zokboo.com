@@ -17,6 +17,8 @@ import MarkTestPaperRequest from './dto/request/MarkTestPaperRequest';
 import MarkTestPaperQuestionRequest from './dto/request/MarkTestPaperQuestionRequest';
 import TestPaperSimpleResponse from './dto/response/TestPaperSimpleResponse';
 import TestPaperState from './enum/TestPaperState';
+import ReviewQuestionResponse from './dto/response/ReviewQuestionResponse';
+import ReviewQuestionRequest from './dto/request/ReviewQuestionRequest';
 
 @Controller('testpapers')
 @ApiExtraModels(
@@ -94,5 +96,17 @@ export class TestPaperController {
       request,
     );
     return new ApiResponse('시험지 주관식 문제 채점 성공', response);
+  }
+
+  @Patch(':testPaperQuestionId')
+  @UseGuards(JwtAuthGuard)
+  @ApiSingleResponse(200, ReviewQuestionResponse, '시험지 문제 오답노트 작성 성공')
+  async reviewTestPaperQuestion(
+    @User('id') userId: string,
+    @Param('testPaperQuestionId', ParseIntPipe) testPaperQuestionId: number,
+    @Body() request: ReviewQuestionRequest,
+  ) {
+    const response = await this.testPaperService.reviewTestPaperQuestion(Number(userId), testPaperQuestionId, request);
+    return new ApiResponse('시험지 문제 오답노트 작성 성공', response);
   }
 }
