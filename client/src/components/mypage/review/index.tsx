@@ -4,8 +4,8 @@ import Error from '../../common/utils/Error';
 import Loading from '../../common/utils/Loading';
 import { Header, Main, WorkbookContainer } from './Style';
 
-const TestPaper = () => {
-  const { isLoading, isSuccess, isError, data } = useQuery(['testPaper/my'], getMyTestPaper, {
+const Review = () => {
+  const { isLoading, isSuccess, isError, data } = useQuery(['testPaper/my'], getMyTestPaper /** api 수정 예정 */, {
     onSuccess: (d) => {
       console.log(d.msg);
     },
@@ -16,14 +16,14 @@ const TestPaper = () => {
 
   return (
     <WorkbookContainer>
-      <Header>나의 시험지</Header>
+      <Header>나의 오답노트</Header>
       <Main>
         {isLoading && <Loading />}
         {isSuccess && '성공' /** api 받으면 구현예정 */}
-        {isError && <Error emoji="😓" message="Error! 시험지를 불러올 수 없습니다. J021에게 문의해주세요." />}
+        {isError && <Error emoji="🫠" message="오답노트를 불러올 수 없습니다. J021에게 문의해주세요." />}
       </Main>
     </WorkbookContainer>
   );
 };
 
-export default TestPaper;
+export default Review;

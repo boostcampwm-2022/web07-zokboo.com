@@ -19,6 +19,7 @@ import { MYPAGE_TYPE, SERVICE_ROUTE } from '../../utils/constants';
 import TestPaper from '../../components/mypage/testPaper';
 import Test from '../../components/mypage/test';
 import MypageWorkbook from '../../components/mypage/workbook';
+import Review from '../../components/mypage/review';
 
 const MyPage = () => {
   const [searchParams] = useSearchParams();
@@ -110,6 +111,7 @@ const MyPage = () => {
         {service === SERVICE_ROUTE.test && <Test />}
         {service === SERVICE_ROUTE.workbook && <MypageWorkbook type={MYPAGE_TYPE.나의문제집} />}
         {service === SERVICE_ROUTE.share && <MypageWorkbook type={MYPAGE_TYPE.공유받은문제집} />}
+        {service === SERVICE_ROUTE.review && <Review />}
       </ContentsContainer>
     </Container>
   );
