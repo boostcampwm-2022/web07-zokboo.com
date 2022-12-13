@@ -4,7 +4,8 @@ import SEARCH_TYPE from '../pages/search/constants';
 import { SERVER_URL } from '../utils/constants';
 
 export const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, searchWord, searchType] = queryKey;
+  const searchWord = queryKey[1];
+  const searchType = queryKey[2];
 
   // 더 나은 방법이 없을까?
   const params = (() => {
@@ -26,8 +27,8 @@ export const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
 };
 
 export const getMockSearchData = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, searchWord, searchType] = queryKey;
-  console.log(searchWord, searchType);
+  const searchWord = queryKey[1];
+
   const { data } = await axios
     .get(`/workbooks/search`, { params: { title: searchWord, content: '213123213' } })
     .catch((err) => err.response);

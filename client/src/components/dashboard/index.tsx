@@ -27,7 +27,7 @@ const DashBoard = () => {
     <HomeDashBoard>
       <DashBoardItem
         title="문제집"
-        image="https://kr.object.ncloudstorage.com/asset.image/books.png"
+        image="https://kr.object.ncloudstorage.com/asset.image/books.svg"
         link={`/mypage?service=${SERVICE_ROUTE.workbook}`}
         contents={
           <p>
@@ -37,7 +37,7 @@ const DashBoard = () => {
       />
       <DashBoardItem
         title="시험"
-        image="https://kr.object.ncloudstorage.com/asset.image/profile.png"
+        image="https://kr.object.ncloudstorage.com/asset.image/profile.svg"
         link={`/mypage?service=${SERVICE_ROUTE.test}`}
         contents={
           <p>
@@ -47,7 +47,7 @@ const DashBoard = () => {
       />
       <DashBoardItem
         title="시험지"
-        image="https://kr.object.ncloudstorage.com/asset.image/paper.png"
+        image="https://kr.object.ncloudstorage.com/asset.image/paper.svg"
         link={`/mypage?service=${SERVICE_ROUTE.testpaper}`}
         contents={
           <p>
@@ -57,7 +57,7 @@ const DashBoard = () => {
       />
       <DashBoardItem
         title="오답노트"
-        image="https://kr.object.ncloudstorage.com/asset.image/review_note.png"
+        image="https://kr.object.ncloudstorage.com/asset.image/review-note.svg"
         link={`/mypage?service=${SERVICE_ROUTE.review}`}
         contents={
           <p>

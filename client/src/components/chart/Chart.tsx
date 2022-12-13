@@ -16,10 +16,6 @@ import { colors } from '../../styles/theme';
 import Toggle from '../common/Toggle';
 import { Category, Container, ChartToggle } from './Style';
 
-interface CATEGORY {
-  name: string;
-  color: string;
-}
 type GRAPH = typeof Line | typeof Bar;
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
@@ -68,7 +64,7 @@ const CategoryInfo = [
 ];
 
 const Chart = () => {
-  const [Graph, toggle, setToggle] = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
+  const { value: Graph, onToggle: setToggle } = useToggleValue<GRAPH>(false, { falseValue: Line, trueValue: Bar });
   const [categoryIndex, setCategoryIndex] = useState<number>(0);
 
   const category = CategoryInfo[categoryIndex];

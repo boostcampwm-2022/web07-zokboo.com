@@ -21,8 +21,8 @@ const Logo = ({ type }: Props) => {
       <img
         src={
           type === 'small'
-            ? 'https://kr.object.ncloudstorage.com/asset.image/small_logo.png'
-            : 'https://kr.object.ncloudstorage.com/asset.image/logo.png'
+            ? 'https://kr.object.ncloudstorage.com/asset.image/small-logo.svg'
+            : 'https://kr.object.ncloudstorage.com/asset.image/logo.svg'
         }
         alt="logo"
       />

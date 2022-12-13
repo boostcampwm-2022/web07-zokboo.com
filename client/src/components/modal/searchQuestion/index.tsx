@@ -73,7 +73,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
             direction="right"
           >
             {DROPBOX_LIST.map((item) => {
-              const { text, value } = item;
+              const { text } = item;
 
               return (
                 <DropdownItem key={text} onClick={() => setSearchType(item)}>

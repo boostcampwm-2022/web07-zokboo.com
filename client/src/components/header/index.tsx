@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { BiSearchAlt2 } from '@react-icons/all-files/bi/BiSearchAlt2';
 import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
-import { useNavigate, Link } from 'react-router-dom';
 import useToggle from '../../hooks/useToggle';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectUserData from '../../redux/login/selector';
@@ -33,7 +32,6 @@ const Header = () => {
   const userData = useAppSelector(selectUserData);
   const [isToggle, handleToggle] = useToggle(false);
   const [input, setInput] = useState('');
-  const navigate = useNavigate();
 
   const handleSearchWorkbook = () => {
     // navigate(`/search?q=${input}`);

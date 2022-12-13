@@ -5,7 +5,6 @@ import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
 import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { toast } from 'react-toastify';
 import { getWorkbookById, saveWorkbook } from '../../api/workbook';
-import SampleImage from '../../images/sample-image.jpeg';
 import SampleQuestionImage from '../../images/sample-question-image.png';
 
 import {
@@ -16,7 +15,6 @@ import {
   HeaderContainer,
   Heart,
   IsPublic,
-  Left,
   PageContainer,
   Problem,
   ProblemCommentary,

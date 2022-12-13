@@ -5,7 +5,7 @@ import { SERVER_URL } from '../utils/constants';
 import axios from './index';
 
 export const checkEmailAuth = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, token] = queryKey;
+  const token = queryKey[1];
 
   const { data } = await axios.post(`${SERVER_URL}/auth/email?token=${token}`);
 

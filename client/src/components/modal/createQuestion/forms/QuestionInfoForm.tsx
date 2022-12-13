@@ -21,7 +21,6 @@ import {
 
 interface InfoData {
   question: string;
-  file: string;
   questionType: string;
   hashTagList: string[];
 }
@@ -30,7 +29,7 @@ type Props = InfoData & {
   updateFields: (fields: Partial<InfoData>) => void;
 };
 
-const QuestionInfoForm = ({ question, file, questionType, hashTagList, updateFields }: Props) => {
+const QuestionInfoForm = ({ question, questionType, hashTagList, updateFields }: Props) => {
   const {
     state: hashTagState,
     values: hashTagValues,
