@@ -1,7 +1,12 @@
 import { QueryFunctionContext } from 'react-query';
+import { SERVER_URL } from '../utils/constants';
 import axios from './index';
 import { PatchMarkGradeTestPaperProps, PutGradeTestPaperProps } from '../types/test';
-import { SERVER_URL } from '../utils/constants';
+
+export const getMyTestPaper = async () => {
+  const { data } = await axios.get(`${SERVER_URL}/testpaper/my`);
+  return data;
+};
 
 export const gradeTestPaper = async (props: PutGradeTestPaperProps) => {
   const { body, testPaperId } = props;

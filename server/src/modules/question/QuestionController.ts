@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards, Query, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { ApiExtraModels, ApiQuery } from '@nestjs/swagger';
 import { ApiMultiResponse, ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
-import { User } from 'src/decorators/UserDecorator';
+import { User } from '../../decorators/UserDecorator';
 import { JwtAuthGuard } from '../auth/guard/jwtAuthGuard';
 import ApiResponse from '../common/response/ApiResponse';
 import CreateQuestionRequest from './dto/request/CreateQuestionRequest';

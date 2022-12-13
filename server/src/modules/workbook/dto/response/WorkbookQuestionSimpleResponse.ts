@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import WorkbookQuestion from '../../domain/WorkbookQuestion';
-import QuestionSimpleResponse from 'src/modules/question/dto/response/QuestionSimpleResponse';
+import QuestionSimpleResponse from '../../../question/dto/response/QuestionSimpleResponse';
 
 class WorkbookQuestionSimpleResponse extends QuestionSimpleResponse {
   @ApiProperty()
