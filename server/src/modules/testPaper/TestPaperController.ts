@@ -93,6 +93,6 @@ export class TestPaperController {
       testPaperId,
       request,
     );
-    return new ApiResponse('시험지 객관식 문제 채점 성공', response);
+    return new ApiResponse('시험지 주관식 문제 채점 성공', response);
   }
 }
