@@ -15,14 +15,14 @@ class TestPaperQuestion {
   constructor(
     testPaperQuestionId: bigint | undefined,
     testPaperId: bigint | undefined,
-    isCorrect: TestPaperQuestionState,
+    state: TestPaperQuestionState,
     writtenAnswer: string,
     review: string,
     question: Question,
   ) {
     this.testPaperQuestionId = testPaperQuestionId;
     this.testPaperId = testPaperId;
-    this.state = this.state;
+    this.state = state;
     this.writtenAnswer = writtenAnswer;
     this.review = review;
     this.question = question;
