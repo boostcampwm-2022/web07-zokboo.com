@@ -11,6 +11,13 @@ export const MYPAGE_TYPE = {
   나의시험지: 'my_test',
 };
 
+export const SERVICE_ROUTE = {
+  test: 'test',
+  testpaper: 'testpaper',
+  workbook: 'workbook',
+  review: 'review',
+  share: 'share',
+
 export const VERIFICATION = {
   id: /^[a-z]+[a-z0-9]{6,16}$/g,
   pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
