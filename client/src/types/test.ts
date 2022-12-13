@@ -1,4 +1,5 @@
 import { GetTestQuestionResponse } from './question';
+import { WorkbookSearchData } from './workbook';
 
 export interface PostCreateTestBody {
   title: string;
@@ -42,4 +43,17 @@ interface MarkGradeTestPaperBody {
 export interface PatchMarkGradeTestPaperProps {
   testPaperId: number;
   body: MarkGradeTestPaperBody[];
+}
+
+export interface TestListSearchData {
+  testId: number;
+  title: string;
+  totalCount: number;
+  minutes: number;
+  seconds: number;
+
+  workbooks: {
+    workbook: WorkbookSearchData;
+    count: number;
+  }[];
 }
