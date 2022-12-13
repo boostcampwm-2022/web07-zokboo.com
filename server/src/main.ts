@@ -17,7 +17,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Zokboo.com API Docs')
-    .setDescription('부스트캠프 웹 모바일 7기 족부닷컴 API 명세입니다.')
+    .setDescription('부스트캠프 웹 모바일 7기 족부닷컴의 API 명세입니다.')
     .setVersion('1.0')
     .addServer('/api')
     .build();
