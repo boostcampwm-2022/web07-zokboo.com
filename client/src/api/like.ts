@@ -1,12 +1,12 @@
 import { SERVER_URL } from '../utils/constants';
 import axios from './index';
 
-export const postQuestionLike = async (questionId: string) => {
+export const postQuestionLike = async (questionId: number) => {
   const { data } = await axios.post(`${SERVER_URL}/questions/${questionId}/like`);
   return data;
 };
 
-export const postQuestionDisLike = async (questionId: string) => {
+export const postQuestionDisLike = async (questionId: number) => {
   const { data } = await axios.post(`${SERVER_URL}/questions/${questionId}/dislike`);
   return data;
 };

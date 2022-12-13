@@ -25,6 +25,7 @@ import Error from '../../components/common/utils/Error';
 import QuestionItem from '../../components/workbookDetail';
 import { GetWorkbookListResponse } from '../../types/workbook';
 import { postWorkbookDisLike, postWorkbookLike } from '../../api/like';
+import useToggle from '../../hooks/useToggle';
 
 const WorkbookDetail = () => {
   const [searchParams] = useSearchParams();
@@ -36,7 +37,7 @@ const WorkbookDetail = () => {
     isPublic: false,
     questions: [],
   });
-  const [isLike, setIsLike] = useState<boolean>(false);
+  const [isLike, setIsLike] = useToggle(false);
 
   const { isLoading, isSuccess, isError } = useQuery(['workbook', workbookId], getWorkbookById, {
     onSuccess: (d) => {
@@ -46,13 +47,13 @@ const WorkbookDetail = () => {
   const { mutate: likeMutate } = useMutation(postWorkbookLike, {
     onSuccess: (d) => {
       toast.success('👍 좋아요를 눌렀습니다.');
-      setIsLike((prev) => !prev);
+      setIsLike();
     },
   });
   const { mutate: dislikeMutate } = useMutation(postWorkbookDisLike, {
     onSuccess: (d) => {
       toast.success('👎 좋아요를 취소하였습니다.');
-      setIsLike((prev) => !prev);
+      setIsLike();
     },
   });
   const saveWorkbookMutation = useMutation(saveWorkbook);

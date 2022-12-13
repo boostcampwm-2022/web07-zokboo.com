@@ -35,16 +35,25 @@ export const QuestionType = styled.div<{ type: boolean }>`
   padding: 1px 7px;
   display: inline-block;
   border-radius: 2em;
-  margin: 0px 20px;
+  margin: 0px 10px;
+`;
+
+export const Heart = styled.button`
+  background: none;
+  border: none;
 `;
 
 export const Problem = styled.div`
   background-color: white;
 `;
-
+export const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
 export const Title = styled.div`
   font-weight: 700;
-  margin-bottom: 16px;
 `;
 
 export const Options = styled.div``;
