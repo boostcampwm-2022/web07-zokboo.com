@@ -1,60 +1,55 @@
-import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { useState } from 'react';
 import { Items, SearchResultContainer, SearchResultTitle, TitleContainer } from './Style';
-import SEARCH_TYPE from './constants';
 import SearchWorkbookType from '../../types/search';
 import WORKBOOK_SEARCH from '../../react-query/keys/search';
-import { getMockSearchData } from '../../api/search';
-import NewSearchResultItem from '../../components/search/NewSearchResultItem/NewSearchResultItem';
 import SearchResultItem from '../../components/search/SearchResultItem';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import selectSearchType from '../../redux/search/searchType/selector';
-import { updateSearchType } from '../../redux/search/searchType/slice';
 import SelectSearchType from '../../components/search/SelectSearchType';
+import getSearchData from '../../api/search';
+import Loading from '../../components/common/utils/Loading';
+import Error from '../../components/common/utils/Error';
 
 const Search = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
   const searchWord = searchParams.get('q');
   const { searchType } = useAppSelector(selectSearchType, () => true);
-  // 실제 search api 받아오려면 getMockSearchData => getSearchData로 변경하면 됨.
+  const [searchResult, setSearchResult] = useState<SearchWorkbookType[]>([]);
 
-  const { isLoading, isSuccess, data } = useQuery<SearchWorkbookType[]>(
-    [WORKBOOK_SEARCH, searchWord, searchType],
-    getMockSearchData,
-    {
-      onError: (err) => {
-        console.log(err);
-      },
+  const { isLoading, isSuccess, data } = useQuery([WORKBOOK_SEARCH, searchWord, searchType], getSearchData, {
+    onSuccess: (d) => {
+      setSearchResult(d.data);
     },
-  );
+  });
 
   return (
-    <div>
-      <SearchResultContainer>
-        <TitleContainer>
-          <SearchResultTitle>
-            <b>{`"${searchWord}"`}</b> 에 대한 검색결과입니다.
-          </SearchResultTitle>
-          <SelectSearchType />
-        </TitleContainer>
-        <Items>
-          {isLoading && '로딩중'}
-          {isSuccess &&
-            (data
-              ? data.map((workbook, index) => (
-                  <SearchResultItem
-                    key={workbook.workbookId}
-                    workbookId={workbook.workbookId}
-                    title={workbook.title}
-                    description={workbook.description}
-                    questionCount={workbook.questionCount}
-                  />
-                ))
-              : `검색결과가 없습니다.`)}
-        </Items>
-      </SearchResultContainer>
-    </div>
+    <SearchResultContainer>
+      <TitleContainer>
+        <SearchResultTitle>
+          <b>{`"${searchWord}"`}</b> 에 대한 검색결과입니다.
+        </SearchResultTitle>
+        <SelectSearchType />
+      </TitleContainer>
+      <Items>
+        {isLoading && <Loading />}
+        {isSuccess &&
+          (searchResult.length !== 0 ? (
+            searchResult.map((workbook, index) => (
+              <SearchResultItem
+                key={workbook.workbookId}
+                workbookId={workbook.workbookId}
+                title={workbook.title}
+                description={workbook.description}
+                questionCount={workbook.questionCount}
+              />
+            ))
+          ) : (
+            <Error message="검색결과가 없습니다." />
+          ))}
+      </Items>
+    </SearchResultContainer>
   );
 };
 
