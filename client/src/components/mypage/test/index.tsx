@@ -13,6 +13,9 @@ const Test = () => {
     onSuccess: (d) => {
       setTestData(d.data);
     },
+    onError: (err) => {
+      console.log(err);
+    },
   });
 
   return (
