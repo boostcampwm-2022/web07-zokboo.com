@@ -26,7 +26,13 @@ export const HeaderContainer = styled.div`
 export const Header = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 800px;
+  ${media.tablet} {
+    width: 80%;
+  }
+  ${media.mobileWidth} {
+    width: 100%;
+  }
   padding: 0px 30px;
 `;
 
@@ -95,7 +101,10 @@ export const ProblemListContainer = styled.div`
   margin: 0 10px;
 `;
 export const ProblemList = styled.div`
-  width: 50%;
+  width: 800px;
+  ${media.tablet} {
+    width: 80%;
+  }
   ${media.mobileWidth} {
     width: 100%;
   }
