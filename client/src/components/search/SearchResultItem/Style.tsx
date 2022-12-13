@@ -34,5 +34,9 @@ export const ContentButtons = styled.div`
     }
   }
 `;
-export const TestButton = styled.input``;
-export const SaveButton = styled.input``;
+export const TestButton = styled.input`
+  cursor: pointer;
+`;
+export const SaveButton = styled.input`
+  cursor: pointer;
+`;

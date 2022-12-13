@@ -21,17 +21,9 @@ export const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
     return {};
   })();
 
-  const { data } = await axios.get(`${SERVER_URL}/workbooks/search`, { params }).catch((err) => err.response);
+  const { data } = await axios.get(`${SERVER_URL}/workbooks`, { params });
 
   return data;
 };
 
-export const getMockSearchData = async ({ queryKey }: QueryFunctionContext) => {
-  const searchWord = queryKey[1];
-
-  const { data } = await axios
-    .get(`/workbooks/search`, { params: { title: searchWord, content: '213123213' } })
-    .catch((err) => err.response);
-
-  return data;
-};
+export default getSearchData;

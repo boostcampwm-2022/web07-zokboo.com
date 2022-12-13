@@ -10,9 +10,17 @@ class TestPaperQuestionDetailResponse extends TestPaperQuestionSimpleResponse {
   })
   public state: TestPaperQuestionState;
 
+  @ApiProperty()
+  public answer: string;
+
+  @ApiProperty()
+  public commentary: string;
+
   constructor(testPaperQuestion: TestPaperQuestion) {
     super(testPaperQuestion);
     this.state = testPaperQuestion.state;
+    this.answer = testPaperQuestion.question.answer;
+    this.commentary = testPaperQuestion.question.commentary;
   }
 }
 
