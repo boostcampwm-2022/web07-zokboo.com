@@ -17,4 +17,9 @@ export const SERVICE_ROUTE = {
   workbook: 'workbook',
   review: 'review',
   share: 'share',
+
+export const VERIFICATION = {
+  id: /^[a-z]+[a-z0-9]{6,16}$/g,
+  pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
+  email: /[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
 };

@@ -11,7 +11,7 @@ import PageNotFound from '../pages/PageNotFound';
 import Workbook from '../pages/workbook';
 import Review from '../pages/Review';
 import Search from '../pages/search';
-import SignUp from '../pages/signup/SignUp';
+import SignUp from '../pages/signup';
 import WorkbookDetail from '../pages/workbookDetail';
 import MyPage from '../pages/mypage';
 import EmailAuth from '../pages/emailAuth';

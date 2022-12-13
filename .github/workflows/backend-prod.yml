@@ -1,4 +1,4 @@
-name: production CI/CD
+name: "[Backend] production CI/CD"
 on:
   push:
     branches: ["main"]
@@ -18,4 +18,4 @@ jobs:
           port: ${{ secrets.PROD_SERVER_PORT }}
           username: ${{ secrets.PROD_SERVER_USERNAME }}
           password: ${{ secrets.PROD_SERVER_PASSWORD }}
-          script: /build/deploy-blue-green.sh
+          script: /build/backend/deploy-blue-green.sh

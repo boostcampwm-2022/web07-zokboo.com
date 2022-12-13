@@ -8,7 +8,7 @@ import {
   WRONG_ID,
   WRONG_PW,
 } from './constants';
-import SignUp from './SignUp';
+import SignUp from '.';
 
 // jest.mock('react-router-dom', () => {
 //   return {
@@ -85,7 +85,7 @@ describe('비밀번호 입력 테스트', () => {
   test('비밀번호 숨김처리 테스트', () => {
     // querySelector를 이용할 경우 이런식으로 render를 한다.
     const { container } = render(<SignUp />);
-    const pwToggleVisibleElement = container.querySelector('.pwToggleVisible');
+    const pwToggleVisibleElement = container.querySelector('#pwToggleVisible');
 
     // if문을 걸어주지 않으면 ts에러 생김 https://github.com/testing-library/react-testing-library/issues/119
     if (pwToggleVisibleElement) {
