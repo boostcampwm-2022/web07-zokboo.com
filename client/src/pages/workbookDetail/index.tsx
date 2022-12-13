@@ -45,13 +45,13 @@ const WorkbookDetail = () => {
   });
   const { mutate: likeMutate } = useMutation(postWorkbookLike, {
     onSuccess: (d) => {
-      toast.success('좋아요를 눌렀습니다.');
+      toast.success('👍 좋아요를 눌렀습니다.');
       setIsLike((prev) => !prev);
     },
   });
   const { mutate: dislikeMutate } = useMutation(postWorkbookDisLike, {
     onSuccess: (d) => {
-      toast.success('좋아요를 취소하였습니다.');
+      toast.success('👎 좋아요를 취소하였습니다.');
       setIsLike((prev) => !prev);
     },
   });
