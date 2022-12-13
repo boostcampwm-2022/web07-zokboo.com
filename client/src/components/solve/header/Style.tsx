@@ -25,6 +25,11 @@ export const Inner = styled.div<{ isShow: boolean }>`
 export const LogoBox = styled.div`
   width: 30px;
   height: 30px;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const Title = styled.h2`

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { BsFillCaretDownFill, BsList } from 'react-icons/bs';
+import { BsFillCaretDownFill } from '@react-icons/all-files/bs/BsFillCaretDownFill';
+import { BsList } from '@react-icons/all-files/bs/BsList';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -234,6 +235,7 @@ const Contents = ({ handleTestGrade }: Props) => {
                     value={answerList[idx]?.writtenAnswer}
                     onChange={(e) => handleQuestionSolve(questionId, e.target.value)}
                     readOnly={testType.isGrading || testType.isComplete}
+                    placeholder="정답을 입력해주세요."
                   />
                 )}
 

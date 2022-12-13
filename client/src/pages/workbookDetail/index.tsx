@@ -1,12 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
+import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { toast } from 'react-toastify';
 import { getWorkbookById, saveWorkbook } from '../../api/workbook';
-import SampleImage from '../../images/sample-image.jpeg';
 import SampleQuestionImage from '../../images/sample-question-image.png';
-
 import {
   BodyTitle,
   ButtonContainer,
@@ -15,7 +14,6 @@ import {
   HeaderContainer,
   Heart,
   IsPublic,
-  Left,
   PageContainer,
   Problem,
   ProblemCommentary,
@@ -54,7 +52,7 @@ interface Workbook {
 }
 
 const WorkbookDetail = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
   const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
   const [isLike, setIsLike] = useState<boolean>(false);
@@ -123,7 +121,7 @@ const WorkbookDetail = () => {
 
                       <ProblemHashtags>
                         해시태그 :
-                        {x.hashtags.map((hashtag, index) => {
+                        {x.hashtags.map((hashtag) => {
                           return <div key={hashtag}>{hashtag}</div>;
                         })}
                       </ProblemHashtags>

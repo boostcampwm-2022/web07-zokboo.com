@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { BiImageAdd, BiX } from 'react-icons/bi';
+import { BiImageAdd } from '@react-icons/all-files/bi/BiImageAdd';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 import { toast } from 'react-toastify';
 import useArrayText from '../../../../hooks/useArrayText';
 import { Input, SubTitle, TextArea } from '../../../../styles/common';
@@ -22,16 +23,22 @@ import {
 
 interface InfoData {
   question: string;
+  questionType: string;
+  hashTagList: string[];
+}
+
+interface FieldProps {
+  question: string;
   image: File | null;
   questionType: string;
   hashTagList: string[];
 }
 
 type Props = InfoData & {
-  updateFields: (fields: Partial<InfoData>) => void;
+  updateFields: (fields: Partial<FieldProps>) => void;
 };
 
-const QuestionInfoForm = ({ question, image, questionType, hashTagList, updateFields }: Props) => {
+const QuestionInfoForm = ({ question, questionType, hashTagList, updateFields }: Props) => {
   const {
     state: hashTagState,
     values: hashTagValues,

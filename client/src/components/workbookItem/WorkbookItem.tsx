@@ -1,5 +1,8 @@
-import { FiMoreHorizontal } from 'react-icons/fi';
-import { AiOutlineHeart, AiFillHeart, AiFillFile, AiOutlineFile } from 'react-icons/ai';
+import { FiMoreHorizontal } from '@react-icons/all-files/fi/FiMoreHorizontal';
+import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
+import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
+import { AiFillFile } from '@react-icons/all-files/ai/AiFillFile';
+import { AiOutlineFile } from '@react-icons/all-files/ai/AiOutlineFile';
 import { useState } from 'react';
 import {
   Buttons,
@@ -15,11 +18,11 @@ import {
 } from './Style';
 import SearchWorkbookType from '../../types/search';
 
-const WorkbookItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
+const WorkbookItem = ({ title, description }: SearchWorkbookType) => {
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isScrap, setIsScrap] = useState<boolean>(false);
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [scrapCount, setScrapCount] = useState<number>(0);
+  const [likeCount] = useState<number>(0);
+  const [scrapCount] = useState<number>(0);
 
   return (
     <WorkbookItemContainer>

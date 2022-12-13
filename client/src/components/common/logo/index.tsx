@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../../assets/images/logo.png';
-import smallLogo from '../../../assets/images/small_logo.png';
+import { media } from '../../../styles/theme';
 
 const LogoContainer = styled(Link)<{ width: string }>`
   display: block;
@@ -9,7 +8,11 @@ const LogoContainer = styled(Link)<{ width: string }>`
   height: 100%;
 
   img {
-    width: 100%;
+    width: 350px;
+
+    ${media.tablet} {
+      width: 200px;
+    }
   }
 `;
 
@@ -20,7 +23,14 @@ interface Props {
 const Logo = ({ type }: Props) => {
   return (
     <LogoContainer to="/" width="100px">
-      <img src={type === 'small' ? smallLogo : logo} alt="logo" />
+      <img
+        src={
+          type === 'small'
+            ? 'https://kr.object.ncloudstorage.com/asset.image/small-logo.svg'
+            : 'https://kr.object.ncloudstorage.com/asset.image/logo.svg'
+        }
+        alt="logo"
+      />
     </LogoContainer>
   );
 };

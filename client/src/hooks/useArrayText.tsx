@@ -37,14 +37,14 @@ const useArrayText = (): Return => {
   };
 
   const erase = (eraseKey: number) => {
-    const updateState = state.filter(([key, _]) => key !== eraseKey);
+    const updateState = state.filter(([key]) => key !== eraseKey);
 
     setState(updateState);
   };
 
   const change = (updateKey: number, data: string) => {
     const updateState = state.map((arrayText) => {
-      const [key, _] = arrayText;
+      const [key] = arrayText;
       return key === updateKey ? ([key, data] as ArrayText) : arrayText;
     });
 
@@ -52,12 +52,12 @@ const useArrayText = (): Return => {
   };
 
   const search = (searchKey: number) => {
-    const data = state.filter(([key, _]) => key === searchKey);
+    const data = state.filter(([key]) => key === searchKey);
 
     return data.length !== 0 ? data[0][1] : ``;
   };
 
-  const values = state.map(([_, data]) => data);
+  const values = state.map((data) => data[1]);
 
   return { state, values, change, add, set, erase, reset, search };
 };

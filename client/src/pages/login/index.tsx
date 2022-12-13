@@ -2,10 +2,6 @@ import React from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import Logo from '../../components/common/logo';
-import githubIcon from '../../assets/images/github-icon.png';
-import googleIcon from '../../assets/images/google-icon.png';
-import kakaoIcon from '../../assets/images/kakao-icon.png';
-import naverIcon from '../../assets/images/naver-icon.png';
 import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
 
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
@@ -65,10 +61,26 @@ const Login = () => {
           </MoreButtons>
           <SSOTitle>간편로그인</SSOTitle>
           <SSOButtons>
-            <SSOIcon src={githubIcon} alt="github" onClick={() => SSOMutation.mutate(GITHUB)} />
-            <SSOIcon src={googleIcon} alt="google" onClick={() => SSOMutation.mutate(GOOGLE)} />
-            <SSOIcon src={naverIcon} alt="naver" onClick={() => SSOMutation.mutate(NAVER)} />
-            <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => SSOMutation.mutate(KAKAO)} />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/github-icon.svg"
+              alt="github"
+              onClick={() => SSOMutation.mutate(GITHUB)}
+            />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/google-icon.svg"
+              alt="google"
+              onClick={() => SSOMutation.mutate(GOOGLE)}
+            />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/naver-icon.svg"
+              alt="naver"
+              onClick={() => SSOMutation.mutate(NAVER)}
+            />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/kakao-icon.svg"
+              alt="kakao"
+              onClick={() => SSOMutation.mutate(KAKAO)}
+            />
           </SSOButtons>
         </ModalBody>
       </ModalContainer>

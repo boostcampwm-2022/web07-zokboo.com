@@ -1,4 +1,5 @@
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { AiFillEyeInvisible } from '@react-icons/all-files/ai/AiFillEyeInvisible';
+import { AiFillEye } from '@react-icons/all-files/ai/AiFillEye';
 
 interface ToggleVisibleProps {
   id: string;

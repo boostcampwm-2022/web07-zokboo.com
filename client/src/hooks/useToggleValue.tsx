@@ -5,7 +5,11 @@ interface Value<Type> {
   trueValue: Type;
 }
 
-type Return<Type> = [Type, boolean, () => void];
+interface Return<Type> {
+  value: Type;
+  toggle: boolean;
+  onToggle: () => void;
+}
 
 function useToggleValue<Type>(initialState: boolean, { falseValue, trueValue }: Value<Type>): Return<Type> {
   const [toggle, onToggle] = useToggle(initialState);
@@ -17,7 +21,7 @@ function useToggleValue<Type>(initialState: boolean, { falseValue, trueValue }: 
 
   const value = getToggleValue();
 
-  return [value, toggle, onToggle];
+  return { value, toggle, onToggle };
 }
 
 export default useToggleValue;
