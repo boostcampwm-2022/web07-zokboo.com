@@ -12,9 +12,7 @@ module.exports = {
   ],
   rules: {
     'no-param-reassign': ['error', { props: false }],
-
     'prettier/prettier': 0,
-
     'react/function-component-definition': [
       2,
       {
@@ -22,13 +20,9 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
-
     'react/react-in-jsx-scope': 'off',
-
     'react/jsx-filename-extension': ['warn', { extensions: ['.ts', '.tsx'] }],
-
     'import/no-unresolved': 'off',
-
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -44,8 +38,8 @@ module.exports = {
       'error',
       { devDependencies: true, optionalDependencies: false, peerDependencies: false },
     ],
-
     'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
   settings: {
     'import/resolver': {

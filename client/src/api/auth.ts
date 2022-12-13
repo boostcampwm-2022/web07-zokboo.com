@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { QueryFunctionContext } from 'react-query';
 import { toast } from 'react-toastify';
 import { PostResetPasswordBody, signupProps } from '../types/auth';
 import { SERVER_URL } from '../utils/constants';
+import axios from './index';
 
 export const checkEmailAuth = async ({ queryKey }: QueryFunctionContext) => {
   const [_key, token] = queryKey;

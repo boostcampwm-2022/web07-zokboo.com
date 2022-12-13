@@ -127,7 +127,7 @@ const Contents = () => {
                   {`${idx + 1}. `}
                   {question}
                 </QuestionTitle>
-                {questionType === QUESTION_TYPE.MULTIPLE ? (
+                {questionType === QUESTION_TYPE.multiple ? (
                   <QuestionOptionList>
                     {options.map((option) => (
                       <QuestionOptionItem key={option}>

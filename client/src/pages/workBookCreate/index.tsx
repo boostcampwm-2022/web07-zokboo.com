@@ -42,7 +42,6 @@ const WorkbookCreate = () => {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
-  const [isPublic, handlePublicChange] = useToggle(false);
 
   const [problemList, setProblemList] = useState<AddQuestion[]>([]);
 

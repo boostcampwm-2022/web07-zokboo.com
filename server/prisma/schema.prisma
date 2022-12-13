@@ -121,6 +121,7 @@ model TestPaper {
   TestPaperQuestion TestPaperQuestion[]
 
   @@index([test_id], map: "FK_Test_TO_TestPaper_1")
+  @@fulltext([title])
 }
 
 model TestPaperQuestion {

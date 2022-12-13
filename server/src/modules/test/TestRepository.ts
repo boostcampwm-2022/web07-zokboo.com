@@ -141,14 +141,30 @@ export class TestRepository {
       include: {
         WorkbookTest: {
           include: {
-            Workbook: true,
+            Workbook: {
+              include: {
+                WorkbookQuestion: {
+                  include: {
+                    Question: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
     return tests.map((t) => {
       const test = Test.of(t);
-      test.setWorkbooks(t.WorkbookTest.map((wt) => WorkbookTest.of(wt, Workbook.of(wt.Workbook))));
+      test.setWorkbooks(
+        t.WorkbookTest.map((wt) => {
+          const workbook = Workbook.of(wt.Workbook);
+          workbook.setQuestions(
+            wt.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+          );
+          return WorkbookTest.of(wt, workbook);
+        }),
+      );
       return test;
     });
   }
