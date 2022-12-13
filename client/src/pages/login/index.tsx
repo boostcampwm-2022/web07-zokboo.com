@@ -15,7 +15,7 @@ const Login = () => {
 
   const SSOMutation = useMutation(getSSOData, {
     onSuccess: (data) => {
-      // alert('로그인에 성공하였습니다.');
+      alert('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
       window.location.href = '/';
     },
@@ -26,7 +26,7 @@ const Login = () => {
 
   const loginMutation = useMutation(getLocalLoginData, {
     onSuccess: (data) => {
-      // alert('로그인에 성공하였습니다.');
+      alert('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
       window.location.href = '/';
     },
