@@ -3,8 +3,9 @@ import axios from './index';
 import SEARCH_TYPE from '../pages/search/constants';
 import { SERVER_URL } from '../utils/constants';
 
-const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
-  const [_key, searchWord, searchType] = queryKey;
+export const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
+  const searchWord = queryKey[1];
+  const searchType = queryKey[2];
 
   // 더 나은 방법이 없을까?
   const params = (() => {

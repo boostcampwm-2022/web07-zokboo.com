@@ -1,4 +1,4 @@
-import { BsCheckLg } from 'react-icons/bs';
+import { AiOutlineCheck } from '@react-icons/all-files/ai/AiOutlineCheck';
 import { useSearchParams } from 'react-router-dom';
 import {
   CategoryItem,
@@ -21,7 +21,7 @@ import Test from '../../components/mypage/test';
 import MypageWorkbook from '../../components/mypage/workbook';
 
 const MyPage = () => {
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const service = searchParams.get('service');
 
   const checkActiveService = (curService: string) => {
@@ -57,7 +57,7 @@ const MyPage = () => {
                 <span>나의 문제집</span>
                 {checkActiveService(SERVICE_ROUTE.workbook) && (
                   <span>
-                    <BsCheckLg />
+                    <AiOutlineCheck />
                   </span>
                 )}
               </CategoryLink>
@@ -67,7 +67,7 @@ const MyPage = () => {
                 <span>공유 받은 문제집</span>
                 {checkActiveService(SERVICE_ROUTE.share) && (
                   <span>
-                    <BsCheckLg />
+                    <AiOutlineCheck />
                   </span>
                 )}
               </CategoryLink>
@@ -77,7 +77,7 @@ const MyPage = () => {
                 <span>나의 시험</span>
                 {checkActiveService(SERVICE_ROUTE.test) && (
                   <span>
-                    <BsCheckLg />
+                    <AiOutlineCheck />
                   </span>
                 )}
               </CategoryLink>
@@ -87,7 +87,7 @@ const MyPage = () => {
                 <span>나의 시험지</span>
                 {checkActiveService(SERVICE_ROUTE.testpaper) && (
                   <span>
-                    <BsCheckLg />
+                    <AiOutlineCheck />
                   </span>
                 )}
               </CategoryLink>
@@ -97,7 +97,7 @@ const MyPage = () => {
                 <span>오답노트</span>
                 {checkActiveService(SERVICE_ROUTE.review) && (
                   <span>
-                    <BsCheckLg />
+                    <AiOutlineCheck />
                   </span>
                 )}
               </CategoryLink>

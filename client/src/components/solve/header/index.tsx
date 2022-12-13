@@ -44,7 +44,7 @@ const Header = ({ handleTestGrade }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (timer === 0) {
+    if (timer < 0) {
       handleTestGrade();
     }
   }, [timer]);

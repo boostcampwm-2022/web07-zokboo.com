@@ -9,7 +9,7 @@ import KEYS from '../../react-query/keys/auth';
 import { Container, Contents, Inner, LoadingContainer, Title } from './Style';
 
 const EmailAuth = () => {
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const [count, setCount] = useState(3);

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import ModalContainer from '../../components/login/LoginModal';
-import { EmailForm, FindPwContainer, InputBox, SendButton, WhatFindContainer } from './Style';
+import { EmailForm, FindPwContainer, InputBox, SendButton } from './Style';
 
 const FindPw = () => {
   const [showAuth, setShowAuth] = useState<boolean>(false);

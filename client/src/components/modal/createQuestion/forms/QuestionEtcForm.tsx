@@ -1,4 +1,4 @@
-import { MdArrowDropDown } from 'react-icons/md';
+import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
 import { SubTitle, TextArea } from '../../../../styles/common';
 import DropDown from '../../../common/dropdown';
 import { DropdownItem } from '../../../common/dropdown/Style';

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FiArrowLeft } from 'react-icons/fi';
 import { media } from '../../styles/theme';
 
 export const GoToLogin = styled(Link)`

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MdArrowDropDown } from 'react-icons/md';
+import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
 import { useQuery } from 'react-query';
 import { getQuestion } from '../../../api/question';
 import useInput from '../../../hooks/useInput';
@@ -73,7 +73,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
             direction="right"
           >
             {DROPBOX_LIST.map((item) => {
-              const { text, value } = item;
+              const { text } = item;
 
               return (
                 <DropdownItem key={text} onClick={() => setSearchType(item)}>

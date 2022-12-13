@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { BiSearchAlt2 } from 'react-icons/bi';
-import { MdArrowDropDown } from 'react-icons/md';
-import { useNavigate, Link } from 'react-router-dom';
+import { BiSearchAlt2 } from '@react-icons/all-files/bi/BiSearchAlt2';
+import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
 import useToggle from '../../hooks/useToggle';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectUserData from '../../redux/login/selector';
@@ -33,7 +32,6 @@ const Header = () => {
   const userData = useAppSelector(selectUserData);
   const [isToggle, handleToggle] = useToggle(false);
   const [input, setInput] = useState('');
-  const navigate = useNavigate();
 
   const handleSearchWorkbook = () => {
     // navigate(`/search?q=${input}`);
@@ -65,7 +63,7 @@ const Header = () => {
               }}
               onChange={(e) => setInput(e.target.value)}
             />
-            <SearchButton onClick={handleSearchToggle}>
+            <SearchButton onClick={handleSearchToggle} id="search-button" aria-label="search-button">
               <BiSearchAlt2 size={30} />
             </SearchButton>
           </SearchContainer>
@@ -75,7 +73,7 @@ const Header = () => {
                 <DropDown
                   title={
                     <DropDownSelector>
-                      <DropDownImage src={userData.avatar ? userData.avatar : DefaultAvatar} />
+                      <DropDownImage src={userData.avatar ? userData.avatar : DefaultAvatar} alt="profile" />
                       <DropDownIcon>
                         <MdArrowDropDown size={30} />
                       </DropDownIcon>

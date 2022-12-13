@@ -1,4 +1,5 @@
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
+import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SampleImage from '../../../images/sample-image.jpeg';

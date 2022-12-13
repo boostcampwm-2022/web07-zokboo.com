@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { BiX } from 'react-icons/bi';
-import { BsCheckLg } from 'react-icons/bs';
+import { BiX } from '@react-icons/all-files/bi/BiX';
+import { AiOutlineCheck } from '@react-icons/all-files/ai/AiOutlineCheck';
 import useArrayText from '../../../../hooks/useArrayText';
 import { SubTitle, TextArea } from '../../../../styles/common';
 import { QUESTION_TYPE } from '../../../../utils/constants';
@@ -59,7 +59,9 @@ const QuestionAnswerForm = ({ questionType, optionList, answer, updateFields }: 
   return questionType === QUESTION_TYPE.subjective ? (
     <Step>
       <SubTitle>모범 답안 작성</SubTitle>
+      
       <TextArea id="answer" rows={18} value={answer} onChange={(e) => updateFields({ answer: e.target.value })} />
+
     </Step>
   ) : (
     <Step>
@@ -73,7 +75,7 @@ const QuestionAnswerForm = ({ questionType, optionList, answer, updateFields }: 
             <QuestionInput value={data} onChange={({ target }) => handleOptionChange(key, target.value)} />
 
             <QuestionButton type="button" isActive={answerIdx === key} onClick={() => handleAnswerSelect(idx)}>
-              <BsCheckLg size={20} />
+              <AiOutlineCheck size={20} />
             </QuestionButton>
 
             <DeleteButton onClick={() => handleOptionDelete(key)}>

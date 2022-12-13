@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { BsCircleFill } from 'react-icons/bs';
+import { BsCircleFill } from '@react-icons/all-files/bs/BsCircleFill';
 import { toast } from 'react-toastify';
 import { createQuestion } from '../../../api/question';
 import { ButtonList, StepContainer, ModalButton, StepBar, Container, StepBarItem, StepBarButton } from './Style';
