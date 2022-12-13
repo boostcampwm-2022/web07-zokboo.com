@@ -17,6 +17,7 @@ export const SERVICE_ROUTE = {
   workbook: 'workbook',
   review: 'review',
   share: 'share',
+};
 
 export const VERIFICATION = {
   id: /^[a-z]+[a-z0-9]{6,16}$/g,
