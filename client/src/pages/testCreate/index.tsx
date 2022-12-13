@@ -11,6 +11,7 @@ import useToggle from '../../hooks/useToggle';
 import useUserData from '../../hooks/useUserData';
 import { Button, SubTitle } from '../../styles/common';
 import { Workbook } from '../../types/workbook';
+import { SERVICE_ROUTE } from '../../utils/constants';
 import {
   Container,
   CreateButton,
@@ -132,7 +133,7 @@ const TestCreate = () => {
       {
         onSuccess: () => {
           toast.success('시험을 만들었습니다.');
-          navigate('/mypage?service=testpaper');
+          navigate(`/mypage?service=${SERVICE_ROUTE.test}`);
         },
       },
     );
