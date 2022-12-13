@@ -61,9 +61,11 @@ export class QuestionService {
         request.commentary,
         Number(request.difficulty),
       );
-      question.setHashtags(request.hashtags.map((hashtag) => Hashtag.new(hashtag)));
+      const hashtags = JSON.parse(request.hashtags) as string[];
+      const options = JSON.parse(request.options) as string[];
+      question.setHashtags(hashtags.map((hashtag) => Hashtag.new(hashtag)));
       if (request.questionType === QuestionType.MULTIPLE) {
-        question.setOptions(request.options.map((option) => Option.new(option)));
+        question.setOptions(options.map((option) => Option.new(option)));
       }
       if (request.images.length !== 0) {
         const paths = [];
