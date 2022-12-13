@@ -147,13 +147,25 @@ const TestCreate = () => {
         <InfoContainer>
           <InfoBox>
             <SubTitle>시험명</SubTitle>
-            <InfoInput ref={titleRef} />
+            <InfoInput type="text" ref={titleRef} placeholder="시험명을 입력해주세요." />
           </InfoBox>
           <InfoBox>
             <SubTitle>시험 시간</SubTitle>
             <InfoInputBox>
-              <InfoTimeInput type="number" ref={minuteRef} defaultValue={0} /> <InfoText>분</InfoText>
-              <InfoTimeInput type="number" ref={secondRef} defaultValue={0} /> <InfoText>초</InfoText>
+              <InfoTimeInput
+                type="number"
+                ref={minuteRef}
+                defaultValue={0}
+                placeholder="시험 시간(분)을 입력해주세요"
+              />
+              <InfoText>분</InfoText>
+              <InfoTimeInput
+                type="number"
+                ref={secondRef}
+                defaultValue={0}
+                placeholder="시험 시간(초)을 입력해주세요"
+              />
+              <InfoText>초</InfoText>
             </InfoInputBox>
           </InfoBox>
         </InfoContainer>

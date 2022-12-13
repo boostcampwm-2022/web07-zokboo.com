@@ -63,7 +63,7 @@ const Header = () => {
               }}
               onChange={(e) => setInput(e.target.value)}
             />
-            <SearchButton onClick={handleSearchToggle}>
+            <SearchButton onClick={handleSearchToggle} id="search-button" aria-label="search-button">
               <BiSearchAlt2 size={30} />
             </SearchButton>
           </SearchContainer>
@@ -73,7 +73,7 @@ const Header = () => {
                 <DropDown
                   title={
                     <DropDownSelector>
-                      <DropDownImage src={userData.avatar ? userData.avatar : DefaultAvatar} />
+                      <DropDownImage src={userData.avatar ? userData.avatar : DefaultAvatar} alt="profile" />
                       <DropDownIcon>
                         <MdArrowDropDown size={30} />
                       </DropDownIcon>

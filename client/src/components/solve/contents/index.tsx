@@ -235,6 +235,7 @@ const Contents = ({ handleTestGrade }: Props) => {
                     value={answerList[idx]?.writtenAnswer}
                     onChange={(e) => handleQuestionSolve(questionId, e.target.value)}
                     readOnly={testType.isGrading || testType.isComplete}
+                    placeholder="정답을 입력해주세요."
                   />
                 )}
 
