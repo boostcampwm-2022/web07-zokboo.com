@@ -9,7 +9,7 @@ import { Container, Header } from './Style';
 
 const Test = () => {
   const [testData, setTestData] = useState<TestListSearchData[]>([]);
-  const { data, isLoading, isSuccess } = useQuery(['tests/my'], getMyTest, {
+  const { data, isLoading, isSuccess, isError } = useQuery(['tests/my'], getMyTest, {
     onSuccess: (d) => {
       setTestData(d.data);
     },
@@ -19,21 +19,23 @@ const Test = () => {
     <Container>
       <Header>나의 시험</Header>
       {isLoading && <Loading />}
-      {isSuccess && testData.length !== 0 ? (
-        testData.map((test, idx) => (
-          <TestSearchResultItem
-            key={test.testId}
-            testId={test.testId}
-            title={test.title}
-            totalCount={test.totalCount}
-            minutes={test.minutes}
-            seconds={test.seconds}
-            workbooks={test.workbooks}
-          />
-        ))
-      ) : (
-        <Error message="생성한 시험이 없습니다." />
-      )}
+      {isSuccess &&
+        (testData.length !== 0 ? (
+          testData.map((test, idx) => (
+            <TestSearchResultItem
+              key={test.testId}
+              testId={test.testId}
+              title={test.title}
+              totalCount={test.totalCount}
+              minutes={test.minutes}
+              seconds={test.seconds}
+              workbooks={test.workbooks}
+            />
+          ))
+        ) : (
+          <Error message="생성한 시험이 없습니다." />
+        ))}
+      {isError && '문제집을 불러올 수 없습니다. 관리자에게 문의해주세요.'}
     </Container>
   );
 };
