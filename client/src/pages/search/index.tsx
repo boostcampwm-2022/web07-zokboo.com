@@ -9,8 +9,8 @@ import { useAppSelector } from '../../redux/hooks';
 import selectSearchType from '../../redux/search/searchType/selector';
 import SelectSearchType from '../../components/search/SelectSearchType';
 import getSearchData from '../../api/search';
-import Error from '../../components/mypage/utils/Error';
-import Loading from '../../components/mypage/utils/Loading';
+import Loading from '../../components/common/utils/Loading';
+import Error from '../../components/common/utils/Error';
 
 const Search = () => {
   const [searchParams, _] = useSearchParams();
@@ -46,7 +46,7 @@ const Search = () => {
               />
             ))
           ) : (
-            <Error title="검색결과가 없습니다." />
+            <Error message="검색결과가 없습니다." />
           ))}
       </Items>
     </SearchResultContainer>
