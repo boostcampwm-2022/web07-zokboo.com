@@ -9,10 +9,10 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Error = ({ title }: { title: string }) => {
+const Error = ({ message }: { message: string }) => {
   return (
     <Container>
-      <div>{title}</div>
+      <div>{message}</div>
     </Container>
   );
 };
