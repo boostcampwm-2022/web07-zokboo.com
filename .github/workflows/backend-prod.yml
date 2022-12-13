@@ -11,7 +11,7 @@ jobs:
     environment: production
 
     steps:
-      - name: SSH Remote Commands - test
+      - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.PROD_SERVER_IP }}
