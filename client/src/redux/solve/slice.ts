@@ -28,10 +28,9 @@ const solveSlice = createSlice({
       state.seconds = action.payload.seconds ?? 0;
       state.state = action.payload.state;
       state.createdAt = action.payload.createdAt ?? '';
-      state.answerList = action.payload.questions.map(({ questionId, writtenAnswer, questionType }) => ({
+      state.answerList = action.payload.questions.map(({ questionId, writtenAnswer }) => ({
         testPaperQuestionId: questionId,
         writtenAnswer: writtenAnswer ?? '',
-        questionType,
       }));
       state.markList = action.payload.questions.map(({ questionId, questionType }) => ({
         testPaperQuestionId: questionId,

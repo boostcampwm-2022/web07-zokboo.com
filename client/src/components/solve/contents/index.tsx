@@ -129,17 +129,22 @@ const Contents = ({ handleTestGrade }: Props) => {
   };
 
   const handleMarkTestGrade = () => {
-    const subjectQuestions = markList.filter(({ questionType }) => questionType === QUESTION_TYPE.subjective);
+    const subjectQuestions = markList
+      .filter(({ questionType }) => questionType === QUESTION_TYPE.subjective)
+      .map(({ testPaperQuestionId, isCorrect }) => ({
+        testPaperQuestionId,
+        isCorrect,
+      }));
 
     markGradeTestMutation.mutate(
       {
         testPaperId: id,
-        body: subjectQuestions,
+        body: { questions: subjectQuestions },
       },
       {
         onSuccess: () => {
           toast.success('주관식 채점이 완료되었습니다.');
-          navigate(`/mypage?service=${SERVICE_ROUTE.test}`);
+          navigate(`/mypage?service=${SERVICE_ROUTE.review}`);
         },
       },
     );
@@ -264,7 +269,7 @@ const Contents = ({ handleTestGrade }: Props) => {
           })}
         </QuestionList>
 
-        <TestButtonContainer isShow={solveType.isTest}>
+        <TestButtonContainer isShow={testType.isSolve || testType.isGrading}>
           <TestButton onClick={handleTestEndButtonClick}>{buttonText}</TestButton>
         </TestButtonContainer>
       </QuestionContainer>
