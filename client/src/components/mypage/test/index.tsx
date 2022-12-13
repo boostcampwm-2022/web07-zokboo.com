@@ -35,7 +35,7 @@ const Test = () => {
         ) : (
           <Error message="생성한 시험이 없습니다." />
         ))}
-      {isError && '문제집을 불러올 수 없습니다. 관리자에게 문의해주세요.'}
+      {isError && <Error message="시험을 불러올 수 없습니다. J021에게 문의해주세요." />}
     </Container>
   );
 };

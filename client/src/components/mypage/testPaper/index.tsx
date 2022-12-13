@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
-import getTestPaper, { getMyTestPaper } from '../../../api/testpaper';
+import { getMyTestPaper } from '../../../api/testpaper';
+import Error from '../../common/utils/Error';
 import Loading from '../../common/utils/Loading';
 import { Header, Main, WorkbookContainer } from './Style';
 
@@ -19,7 +20,7 @@ const TestPaper = () => {
       <Main>
         {isLoading && <Loading />}
         {isSuccess && '성공' /** api 받으면 구현예정 */}
-        {isError && 'error'}
+        {isError && <Error message="시험지를 불러올 수 없습니다. J021에게 문의해주세요." />}
       </Main>
     </WorkbookContainer>
   );
