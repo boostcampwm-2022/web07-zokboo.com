@@ -45,7 +45,7 @@ const MyPage = () => {
 
           <LinkList>
             <MyPageLink to="/workbook/new">문제집 만들기</MyPageLink>
-            <MyPageLink to="/exam/new">시험지 만들기</MyPageLink>
+            <MyPageLink to="/test/new">시험지 만들기</MyPageLink>
           </LinkList>
         </MobileContainer>
 

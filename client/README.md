@@ -6,8 +6,8 @@
 | 2    | SEARCH       | 검색 결과      | "/search"         |
 | 3    | PROBLEM      | 문제집 생성    | "/problem_create" |
 | 4    | PROBLEM/ID   | 문제집 풀이    | "/problem/:id"    |
-| 5    | EXAM         | 시험지 생성    | "/exam_create"    |
-| 6    | EXAM/ID      | 시험지 풀이    | "/exam/:id"       |
+| 5    | EXAM         | 시험지 생성    | "/test/new"       |
+| 6    | EXAM/ID      | 시험지 풀이    | "/test/:id"       |
 | 7    | REVIEW       | 오답노트       | "/review/:id"     |
 | 8    | LOGIN        | 로그인         | "/login"          |
 | 9    | SIGNUP       | 회원가입       | "/signup"         |
