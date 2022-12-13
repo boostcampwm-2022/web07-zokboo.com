@@ -5,7 +5,7 @@ import SearchWorkbookType from '../../../types/search';
 import { MYPAGE_TYPE } from '../../../utils/constants';
 import Loading from '../../common/Loading';
 import Error from '../../common/utils/Error';
-import WorkbookItem from '../../workbookItem/WorkbookItem';
+import SearchResultItem from '../../search/SearchResultItem';
 
 import { Header, WorkbookContainer } from './Style';
 
@@ -31,8 +31,8 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
       {isLoading && <Loading />}
       {isSuccess &&
         (workbookData.length !== 0 ? (
-          workbookData.map((workbook, index) => (
-            <WorkbookItem
+          workbookData.map((workbook) => (
+            <SearchResultItem
               key={workbook.workbookId}
               workbookId={workbook.workbookId}
               title={workbook.title}
