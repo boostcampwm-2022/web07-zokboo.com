@@ -16,7 +16,7 @@ import WorkbookQuestionSimpleResponse from './dto/response/WorkbookQuestionSimpl
 import WorkbookQuestionDetailResponse from './dto/response/WorkbookQuestionDetailResponse';
 import WorkbookSearchResponse from './dto/response/WorkbookSearchResponse';
 
-@Controller('workbooks')
+@Controller('api/workbooks')
 @ApiExtraModels(
   ApiResponse,
   CreateWorkbookResponse,

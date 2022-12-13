@@ -7,7 +7,7 @@ import { ApiExtraModels } from '@nestjs/swagger';
 import SigninResponse from './dto/response/SigninResponse';
 import { ApiSingleResponse } from '../../decorators/ApiResponseDecorator';
 
-@Controller('users')
+@Controller('api/users')
 @ApiExtraModels(SigninResponse)
 export class UserController {
   constructor(private readonly userService: UserService) {}

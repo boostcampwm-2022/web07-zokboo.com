@@ -10,7 +10,7 @@ import TestSimpleResponse from './dto/response/TestSimpleResponse';
 import WorkbookTestSimpleResponse from './dto/response/WorkbookTestSimpleResponse';
 import { TestService } from './TestService';
 
-@Controller('tests')
+@Controller('api/tests')
 @ApiExtraModels(CreateWorkbookTestRequest, TestSimpleResponse, WorkbookTestSimpleResponse)
 export class TestController {
   constructor(private readonly testService: TestService) {}
