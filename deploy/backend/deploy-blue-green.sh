@@ -20,7 +20,7 @@ sleep 10
 
 EXIST_AFTER=$(docker-compose -p zokboo-backend-${AFTER_COMPOSE} -f /build/backend/docker-compose.${AFTER_COMPOSE}.yml ps | grep Up)
 if [ -n "$EXIST_AFTER" ]; then
-        cp /build/backend/nginx.${AFTER_COMPOSE}.conf /etc/nginx/sites-enabled/backend.conf
+        cp /build/backend/nginx.${AFTER_COMPOSE}.conf /etc/nginx/sites-available/backend
         nginx -s reload
 
         docker-compose -p zokboo-backend-${BEFORE_COMPOSE} -f /build/backend/docker-compose.${BEFORE_COMPOSE}.yml down
