@@ -42,33 +42,44 @@ export const Problem = styled.div`
   background-color: white;
 `;
 
-export const ProblemTitle = styled.div`
+export const Title = styled.div`
   font-weight: 700;
+  margin-bottom: 16px;
 `;
 
-export const ProblemOptions = styled.div``;
+export const Options = styled.div``;
 
 export const ProblemImg = styled.img`
   max-width: 350px;
   max-height: 350px;
 `;
 
-export const ProblemDifficulty = styled.div`
+export const Difficulty = styled.div`
   color: ${colors.gray4};
   font-size: ${fonts.size.xs};
 `;
-export const ProblemCommentary = styled.div`
+export const VisibleToggle = styled.div`
+  margin-top: 16px;
+  width: fit-content;
+  cursor: pointer;
+`;
+export const Answer = styled.div`
   color: ${colors.gray4};
   font-size: ${fonts.size.xs};
 `;
-export const ProblemHashtags = styled.div`
+export const Commentary = styled.div`
+  color: ${colors.gray4};
+  font-size: ${fonts.size.xs};
+`;
+export const Infos = styled.div`
+  font-size: 14px;
+`;
+export const Hashtags = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 
   margin-top: 8px;
-
-  font-size: 14px;
 
   > * {
     font-size: 12px;

@@ -1,27 +1,38 @@
+import React from 'react';
 import { GetQuestionResponse } from '../../types/question';
 import SampleQuestionImage from '../../images/sample-question-image.png';
 import {
+  Answer,
+  Commentary,
+  Difficulty,
+  Hashtags,
   Header,
+  Infos,
+  Options,
   Problem,
-  ProblemCommentary,
-  ProblemDifficulty,
   ProblemDropdown,
-  ProblemHashtags,
   ProblemImg,
   ProblemNumber,
-  ProblemOptions,
-  ProblemTitle,
   QuestionType,
+  Title,
+  VisibleToggle,
 } from './Style';
 import { DIFFICULTY, QUESTION_TYPE } from '../../utils/constants';
+import useToggle from '../../hooks/useToggle';
 
 interface QuestionItemProps extends GetQuestionResponse {
   index: number;
 }
 
 const QuestionItem = (props: QuestionItemProps) => {
-  const { questionId, index, question, hashtags, difficulty, commentary, images, questionType, options } = props;
+  const { questionId, index, question, hashtags, difficulty, commentary, images, questionType, options, answer } =
+    props;
   const isSubjective = questionType === QUESTION_TYPE.subjective;
+  const [answerVisible, handleAnswerVisible] = useToggle(false);
+
+  const handleVisibleToggle = (e: React.MouseEvent<HTMLDivElement>) => {
+    handleAnswerVisible();
+  };
   return (
     <ProblemDropdown key={questionId}>
       <Header>
@@ -29,18 +40,30 @@ const QuestionItem = (props: QuestionItemProps) => {
         <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
       </Header>
       <Problem>
-        <ProblemTitle>문제 : {question}</ProblemTitle>
-        <ProblemOptions>{JSON.stringify(options)}</ProblemOptions>
+        <Title>문제 : {question}</Title>
+        <Options>
+          {options && options.map((option, idx) => <div key={option}>{`${idx + 1}번 : ${option}`}</div>)}
+        </Options>
         <ProblemImg src={images[0]} alt="" />
+        <Infos>
+          <Hashtags>
+            해시태그 :
+            {hashtags.map((hashtag, idx) => {
+              return <div key={hashtag}>{hashtag}</div>;
+            })}
+          </Hashtags>
 
-        <ProblemHashtags>
-          해시태그 :
-          {hashtags.map((hashtag, idx) => {
-            return <div key={hashtag}>{hashtag}</div>;
-          })}
-        </ProblemHashtags>
-        <ProblemDifficulty>난이도 : {DIFFICULTY[difficulty]}</ProblemDifficulty>
-        <ProblemCommentary>메모 : {commentary}</ProblemCommentary>
+          <VisibleToggle onClick={handleVisibleToggle}>
+            <div>정답 및 해설 보기</div>
+            {answerVisible && (
+              <>
+                <Answer>정답 : {answer}</Answer>
+                <Commentary>해설 : {commentary}</Commentary>
+                <Difficulty>난이도 : {DIFFICULTY[difficulty]}</Difficulty>
+              </>
+            )}
+          </VisibleToggle>
+        </Infos>
       </Problem>
     </ProblemDropdown>
   );
