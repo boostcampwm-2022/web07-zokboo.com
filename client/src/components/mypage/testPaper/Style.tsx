@@ -16,7 +16,4 @@ export const Main = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xl};
 `;
