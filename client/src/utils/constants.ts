@@ -11,6 +11,23 @@ export const MYPAGE_TYPE = {
   나의시험지: 'my_test',
 };
 
+export const SOLVE_TYPE = {
+  test: 'test',
+  workbook: 'workbook',
+};
+
+export const TEST_TYPE = {
+  solve: 'SOLVING',
+  grade: 'GRADING',
+  complete: 'COMPLETE',
+};
+
+export const TEST_QUESTION_TYPE = {
+  correct: 'CORRECT',
+  wrong: 'WRONG',
+  unmarked: 'UNMARKED',
+};
+
 export const SERVICE_ROUTE = {
   test: 'test',
   testpaper: 'testpaper',

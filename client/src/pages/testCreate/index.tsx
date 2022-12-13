@@ -94,17 +94,17 @@ const TestCreate = () => {
       count: Number(questionValues[idx]),
     }));
     let title = '';
-    let minute = 0;
-    let second = 0;
+    let minutes = 0;
+    let seconds = 0;
 
     if (titleRef.current) {
       title = titleRef.current.value;
     }
     if (minuteRef.current) {
-      minute = Number(minuteRef.current.value);
+      minutes = Number(minuteRef.current.value);
     }
     if (secondRef.current) {
-      second = Number(secondRef.current.value);
+      seconds = Number(secondRef.current.value);
     }
 
     if (!title || title.trim() === '') {
@@ -112,7 +112,7 @@ const TestCreate = () => {
       return;
     }
 
-    if (minute + second <= 0) {
+    if (minutes + seconds <= 0) {
       toast.error('시험 시간이 0초 입니다.');
       return;
     }
@@ -125,8 +125,8 @@ const TestCreate = () => {
     createTestMutation.mutate(
       {
         title,
-        minute,
-        second,
+        minutes,
+        seconds,
         workbooks,
       },
       {

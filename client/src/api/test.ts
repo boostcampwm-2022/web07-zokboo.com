@@ -8,10 +8,4 @@ export const createTest = async (body: PostCreateTestBody) => {
   return data;
 };
 
-export const getTest = async (params: number) => {
-  const { data } = await axios.get(`${SERVER_URL}/tests/${params}/questions`);
-
-  return data;
-};
-
 export default createTest;

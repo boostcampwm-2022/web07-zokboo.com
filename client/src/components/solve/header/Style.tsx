@@ -6,6 +6,10 @@ export const Container = styled.header`
   top: 0;
   left: 0;
 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   z-index: 5;
 
   width: 100%;
@@ -14,13 +18,18 @@ export const Container = styled.header`
   padding: 10px 15px;
 `;
 
-export const Inner = styled.div`
-  display: flex;
+export const Inner = styled.div<{ isShow: boolean }>`
+  display: ${(props) => (props.isShow ? `flex` : `none`)};
 `;
 
 export const LogoBox = styled.div`
   width: 30px;
   height: 30px;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const Title = styled.h2`
