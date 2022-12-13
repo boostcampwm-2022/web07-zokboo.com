@@ -65,10 +65,26 @@ const Login = () => {
           </MoreButtons>
           <SSOTitle>간편로그인</SSOTitle>
           <SSOButtons>
-            <SSOIcon src={githubIcon} alt="github" onClick={() => SSOMutation.mutate(GITHUB)} />
-            <SSOIcon src={googleIcon} alt="google" onClick={() => SSOMutation.mutate(GOOGLE)} />
-            <SSOIcon src={naverIcon} alt="naver" onClick={() => SSOMutation.mutate(NAVER)} />
-            <SSOIcon src={kakaoIcon} alt="kakao" onClick={() => SSOMutation.mutate(KAKAO)} />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/github-icon.png"
+              alt="github"
+              onClick={() => SSOMutation.mutate(GITHUB)}
+            />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/google-icon.png"
+              alt="google"
+              onClick={() => SSOMutation.mutate(GOOGLE)}
+            />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/naver-icon.png"
+              alt="naver"
+              onClick={() => SSOMutation.mutate(NAVER)}
+            />
+            <SSOIcon
+              src="https://kr.object.ncloudstorage.com/asset.image/kakao-icon.png"
+              alt="kakao"
+              onClick={() => SSOMutation.mutate(KAKAO)}
+            />
           </SSOButtons>
         </ModalBody>
       </ModalContainer>

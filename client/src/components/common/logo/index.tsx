@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../../../assets/images/logo.png';
-import smallLogo from '../../../assets/images/small_logo.png';
 
 const LogoContainer = styled(Link)<{ width: string }>`
   display: block;
@@ -20,7 +18,14 @@ interface Props {
 const Logo = ({ type }: Props) => {
   return (
     <LogoContainer to="/" width="100px">
-      <img src={type === 'small' ? smallLogo : logo} alt="logo" />
+      <img
+        src={
+          type === 'small'
+            ? 'https://kr.object.ncloudstorage.com/asset.image/small_logo.png'
+            : 'https://kr.object.ncloudstorage.com/asset.image/logo.png'
+        }
+        alt="logo"
+      />
     </LogoContainer>
   );
 };
