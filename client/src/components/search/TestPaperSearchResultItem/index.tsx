@@ -22,7 +22,18 @@ const Title = styled.div`
   padding-bottom: 8px;
   margin-left: 4px;
 `;
-const NowState = styled.div``;
+const NowState = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Label = styled.div`
+  border: none;
+  margin: 4px;
+  border-radius: 8px;
+  padding: 3px 7px;
+  color: ${colors.white};
+  background-color: ${colors.primary};
+`;
 const Timer = styled.div``;
 
 const CreateAt = styled.div``;
@@ -83,7 +94,10 @@ const TestPaperSearchResultItem = ({ obj }: { obj: TestPaper }) => {
     <SearchResultContainer>
       <SearchResult>
         <Title>{title}</Title>
-        <NowState>현재 상태 : {now}</NowState>
+        <NowState>
+          <div>현재 상태 :</div>
+          <Label>{now}</Label>
+        </NowState>
         <Timer>제한 시간 : {`${minutes}분 ${seconds}초`}</Timer>
         <CreateAt>생성일자 : {create}</CreateAt>
         <UpdatedAt>수정일자 : {update}</UpdatedAt>
