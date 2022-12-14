@@ -5,7 +5,6 @@ import { AiFillHeart } from '@react-icons/all-files/ai/AiFillHeart';
 import { AiOutlineHeart } from '@react-icons/all-files/ai/AiOutlineHeart';
 import { toast } from 'react-toastify';
 import { getWorkbookById, saveWorkbook } from '../../api/workbook';
-import SampleQuestionImage from '../../images/sample-question-image.png';
 import {
   BodyTitle,
   ButtonContainer,
@@ -15,48 +14,48 @@ import {
   Heart,
   IsPublic,
   PageContainer,
-  Problem,
-  ProblemCommentary,
-  ProblemDifficulty,
-  ProblemDropdown,
-  ProblemHashtags,
-  ProblemImg,
   ProblemList,
   ProblemListContainer,
-  ProblemNumber,
-  ProblemTitle,
-  Right,
   Title,
   WorkbookIntroduce,
   WorkbookSaveButton,
 } from './Style';
-
-interface Question {
-  questionId: number;
-  question: string;
-  difficulty: number;
-  answer: string;
-  commentary: string;
-  questionType: string;
-  images: string[];
-  options: string[];
-  hashtags: string[];
-}
-
-interface Workbook {
-  workbookId: number;
-  title: string;
-  description: string;
-  isPublic: boolean;
-  questions: Question[];
-}
+import Loading from '../../components/common/utils/Loading';
+import Error from '../../components/common/utils/Error';
+import QuestionItem from '../../components/workbookDetail';
+import { GetWorkbookListResponse } from '../../types/workbook';
+import { postWorkbookDisLike, postWorkbookLike } from '../../api/like';
+import useToggle from '../../hooks/useToggle';
 
 const WorkbookDetail = () => {
   const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
-  const { isLoading, isSuccess, isError, data } = useQuery<Workbook>(['workbook', workbookId], getWorkbookById);
-  const [isLike, setIsLike] = useState<boolean>(false);
+  const [workbook, setWorkbook] = useState<GetWorkbookListResponse>({
+    workbookId: 0,
+    title: '',
+    description: '',
+    isPublic: false,
+    questions: [],
+  });
+  const [isLike, setIsLike] = useToggle(false);
 
+  const { isLoading, isSuccess, isError } = useQuery(['workbook', workbookId], getWorkbookById, {
+    onSuccess: (d) => {
+      setWorkbook(d.data);
+    },
+  });
+  const { mutate: likeMutate } = useMutation(postWorkbookLike, {
+    onSuccess: (d) => {
+      toast.success('👍 좋아요를 눌렀습니다.');
+      setIsLike();
+    },
+  });
+  const { mutate: dislikeMutate } = useMutation(postWorkbookDisLike, {
+    onSuccess: (d) => {
+      toast.success('👎 좋아요를 취소하였습니다.');
+      setIsLike();
+    },
+  });
   const saveWorkbookMutation = useMutation(saveWorkbook);
 
   const handleWorkbookSave = () => {
@@ -75,66 +74,49 @@ const WorkbookDetail = () => {
   };
 
   const handleLike = useCallback(() => {
-    if (isLike) {
-      /** 좋아요 취소 api */
-    } else {
-      /** 좋아요 입력 api */
+    if (workbookId) {
+      if (isLike) {
+        dislikeMutate(workbookId);
+      } else {
+        likeMutate(workbookId);
+      }
     }
-
-    setIsLike((prev) => !prev);
   }, []);
 
   return (
     <PageContainer>
-      {isLoading && <div>로딩중</div>}
-      {isError && <div>다시 시도해 주세요</div>}
+      {isLoading && <Loading />}
       {isSuccess && (
         <>
           <HeaderContainer>
             <Header>
-              <Right>
-                <WorkbookIntroduce>
-                  <IsPublic>{data.isPublic ? 'public' : 'private'}</IsPublic>
-                  <Title>{`제목 : ${data.title}`}</Title>
-                  <Description>{data.description}asdasd123213213</Description>
-                </WorkbookIntroduce>
-                <ButtonContainer>
-                  <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
-                  <Heart type="button" onClick={handleLike}>
-                    {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
-                  </Heart>
-                </ButtonContainer>
-              </Right>
+              <WorkbookIntroduce>
+                <IsPublic>{workbook.isPublic ? 'public' : 'private'}</IsPublic>
+                <Title>{`제목 : ${workbook.title}`}</Title>
+                <Description>{workbook.description}</Description>
+              </WorkbookIntroduce>
+              <ButtonContainer>
+                <Heart type="button" onClick={handleLike}>
+                  {isLike ? <AiFillHeart size={32} /> : <AiOutlineHeart size={32} />}
+                </Heart>
+                <WorkbookSaveButton type="button" value="문제집 저장" onClick={handleWorkbookSave} />
+              </ButtonContainer>
             </Header>
           </HeaderContainer>
 
           <ProblemListContainer>
             <ProblemList>
               <BodyTitle>문제 미리보기</BodyTitle>
-              {data.questions.map((x, idx) => {
-                return (
-                  <ProblemDropdown key={x.questionId}>
-                    <ProblemNumber>{idx + 1}번 문제</ProblemNumber>
-                    <Problem>
-                      <ProblemTitle>문제 : {x.question}</ProblemTitle>
-                      <ProblemImg src={SampleQuestionImage} alt="" />
-
-                      <ProblemHashtags>
-                        해시태그 :
-                        {x.hashtags.map((hashtag) => {
-                          return <div key={hashtag}>{hashtag}</div>;
-                        })}
-                      </ProblemHashtags>
-                      <ProblemDifficulty>난이도 : {x.difficulty}</ProblemDifficulty>
-                      <ProblemCommentary>메모 : {x.commentary}</ProblemCommentary>
-                    </Problem>
-                  </ProblemDropdown>
-                );
-              })}
+              {workbook.questions.length !== 0
+                ? workbook.questions.map((question, idx) => (
+                    <QuestionItem key={question.questionId} {...question} index={idx} />
+                  ))
+                : null}
             </ProblemList>
           </ProblemListContainer>
         </>
       )}
+      {isError && <Error message="문제집 정보를 불러올 수 없습니다. 다시 시도해주세요." />}
     </PageContainer>
   );
 };
