@@ -133,4 +133,34 @@ export class UserRepository {
     }
     return OauthUser.oauthOf(oauthUser);
   }
+
+  async getMyData(userId: bigint) {
+    const data = await this.prismaInstance.user.findUnique({
+      where: {
+        user_id: userId,
+      },
+      include: {
+        Test: {
+          include: {
+            TestPaper: true,
+          },
+        },
+        Workbook_UserToWorkbook_user_id: true,
+      },
+    });
+
+    const workbookCount = data.Workbook_UserToWorkbook_user_id.length;
+    const testCount = data.Test.length;
+    const testPaperCount = data.Test.reduce((acc, curr) => (acc += curr.TestPaper.length), 0);
+    const reviewCount = data.Test.reduce(
+      (acc, curr) => (acc += curr.TestPaper.filter((tp) => tp.state === 'COMPLETE').length),
+      0,
+    );
+    return {
+      workbookCount,
+      testCount,
+      testPaperCount,
+      reviewCount,
+    };
+  }
 }

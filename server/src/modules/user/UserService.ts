@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaInstance } from '../common/PrismaInstance';
 import { ImageUploader } from '../common/ImageUploader';
 import SigninResponse from './dto/response/SigninResponse';
+import MyDataResponse from './dto/response/MyDataResponse';
 
 @Injectable()
 export class UserService {
@@ -48,6 +49,12 @@ export class UserService {
     });
 
     return result;
+  }
+
+  public async getMyData(userId: number) {
+    const result = await this.userRepository.getMyData(BigInt(userId));
+
+    return new MyDataResponse(result);
   }
 
   private comparePassword(password: string, passwordConfirmation: string) {
