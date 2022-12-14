@@ -12,7 +12,7 @@ const FindPw = lazy(() => import('../pages/findPw/FindPw'));
 const Home = lazy(() => import('../pages/home'));
 const Login = lazy(() => import('../pages/login'));
 const Workbook = lazy(() => import('../pages/workbook'));
-const Review = lazy(() => import('../pages/Review'));
+const Review = lazy(() => import('../pages/review'));
 const Search = lazy(() => import('../pages/search'));
 const SignUp = lazy(() => import('../pages/signup'));
 const WorkbookDetail = lazy(() => import('../pages/workbookDetail'));
