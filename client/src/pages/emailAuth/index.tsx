@@ -20,7 +20,7 @@ const EmailAuth = () => {
     enabled: token !== null,
     onSuccess: () => {
       toast.success('이메일 인증이 완료되었습니다.');
-      // navigate('/home');
+      // navigate('/');
       let cnt = 0;
       const interval = setInterval(() => {
         setCount((prev) => prev - 1);
@@ -28,20 +28,20 @@ const EmailAuth = () => {
 
         if (cnt === 3) {
           clearInterval(interval);
-          navigate('/home');
+          navigate('/');
         }
       }, 1000);
     },
     onError: (error: AxiosError) => {
       toast.error(error.message);
-      navigate('/home');
+      navigate('/');
     },
   });
 
   useEffect(() => {
     if (!token) {
       toast.error('잘못된 접근입니다.');
-      navigate('/home');
+      navigate('/');
     }
   }, []);
 

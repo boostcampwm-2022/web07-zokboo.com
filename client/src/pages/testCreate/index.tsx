@@ -132,7 +132,7 @@ const TestCreate = () => {
       {
         onSuccess: () => {
           toast.success('시험을 만들었습니다.');
-          navigate('/home');
+          navigate('/');
         },
       },
     );

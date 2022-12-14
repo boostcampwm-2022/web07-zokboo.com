@@ -61,7 +61,7 @@ const PasswordAuth = () => {
   useEffect(() => {
     if (!token) {
       toast.error('잘못된 접근입니다.');
-      navigate('/home');
+      navigate('/');
     }
   }, []);
 

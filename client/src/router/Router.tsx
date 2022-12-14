@@ -29,7 +29,7 @@ const Router = () => {
         <GlobalStyle />
         {/* Header */}
         <Routes>
-          <Route path="/home" element={<Header />} />
+          <Route path="/" element={<Header />} />
           <Route path="/workbook/new" element={<Header />} />
           <Route path="/mypage" element={<Header />} />
           <Route path="/test/new" element={<Header />} />
@@ -39,8 +39,7 @@ const Router = () => {
 
         {/* Contents */}
         <Routes>
-          <Route path="/" element={<InitPage />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/search/view" element={<WorkbookDetail />} />
           <Route path="/workbook/new" element={<WorkbookCreate />} />
@@ -56,6 +55,7 @@ const Router = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/auth/email" element={<EmailAuth />} />
           <Route path="/auth/password" element={<PasswordAuth />} />
+          <Route path="/init" element={<InitPage />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
