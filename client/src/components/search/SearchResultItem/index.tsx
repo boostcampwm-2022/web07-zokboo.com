@@ -12,7 +12,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
   const saveWorkbookMutation = useMutation(saveWorkbook);
 
   const handleMoveWorkbookView = () => {
-    navigate(`./view?id=${workbookId}`); // 뒤로가기 했을때 리렌더링 되지 않도록
+    navigate(`/search/view?id=${workbookId}`); // 뒤로가기 했을때 리렌더링 되지 않도록
   };
 
   const handleTestButton = () => {

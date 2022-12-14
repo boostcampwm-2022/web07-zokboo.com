@@ -14,6 +14,7 @@ import WorkbookStateResponse from './dto/response/WorkbookStateResponse';
 import { WorkbookService } from './WorkbookService';
 import WorkbookQuestionSimpleResponse from './dto/response/WorkbookQuestionSimpleResponse';
 import WorkbookQuestionDetailResponse from './dto/response/WorkbookQuestionDetailResponse';
+import WorkbookSearchResponse from './dto/response/WorkbookSearchResponse';
 
 @Controller('workbooks')
 @ApiExtraModels(
@@ -25,6 +26,7 @@ import WorkbookQuestionDetailResponse from './dto/response/WorkbookQuestionDetai
   WorkbookQuestionSimpleResponse,
   WorkbookQuestionDetailResponse,
   WorkbookStateResponse,
+  WorkbookSearchResponse,
 )
 export class WorkbookController {
   constructor(private readonly workbookService: WorkbookService) {}
@@ -48,7 +50,7 @@ export class WorkbookController {
     type: String,
     required: false,
   })
-  @ApiMultiResponse(200, WorkbookSimpleResponse, '문제집 조회 / 검색 성공')
+  @ApiMultiResponse(200, WorkbookSearchResponse, '문제집 조회 / 검색 성공')
   async searchWorkbooks(@Query('title') title?: string, @Query('content') content?: string) {
     const response = await this.workbookService.searchWorkbooks(title, content);
     return new ApiResponse('문제집 조회 / 검색 성공', response);

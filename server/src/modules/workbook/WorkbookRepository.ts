@@ -6,6 +6,7 @@ import Option from '../question/domain/Option';
 import Question from '../question/domain/Question';
 import QuestionImage from '../question/domain/QuestionImage';
 import QuestionType from '../question/enum/QuestionType';
+import User from '../user/domain/User';
 import Workbook from './domain/Workbook';
 import WorkbookQuestion from './domain/WorkbookQuestion';
 
@@ -117,12 +118,14 @@ export class WorkbookRepository {
             Question: true,
           },
         },
+        User_UserToWorkbook_user_id: true,
       },
     });
     return workbooks.map((w) => {
       const questions = w.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question)));
       const workbook = Workbook.of(w);
       workbook.setQuestions(questions);
+      workbook.setUser(User.of(w.User_UserToWorkbook_user_id));
       return workbook;
     });
   }
