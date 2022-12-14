@@ -22,7 +22,14 @@ const DashBoardItem = ({ title, image, link, contents }: ItemProps) => {
   );
 };
 
-const DashBoard = () => {
+interface Props {
+  workbookCount: number;
+  testCount: number;
+  testPaperCount: number;
+  reviewCount: number;
+}
+
+const DashBoard = ({ workbookCount, testCount, testPaperCount, reviewCount }: Props) => {
   return (
     <HomeDashBoard>
       <DashBoardItem
@@ -31,7 +38,7 @@ const DashBoard = () => {
         link={`/mypage?service=${SERVICE_ROUTE.workbook}`}
         contents={
           <p>
-            <span>10</span>권
+            <span>{workbookCount}</span>권
           </p>
         }
       />
@@ -41,7 +48,7 @@ const DashBoard = () => {
         link={`/mypage?service=${SERVICE_ROUTE.test}`}
         contents={
           <p>
-            <span>10</span>개
+            <span>{testCount}</span>개
           </p>
         }
       />
@@ -51,7 +58,7 @@ const DashBoard = () => {
         link={`/mypage?service=${SERVICE_ROUTE.testpaper}`}
         contents={
           <p>
-            <span>10</span>장
+            <span>{testPaperCount}</span>장
           </p>
         }
       />
@@ -61,7 +68,7 @@ const DashBoard = () => {
         link={`/mypage?service=${SERVICE_ROUTE.review}`}
         contents={
           <p>
-            <span>10</span>권
+            <span>{reviewCount}</span>권
           </p>
         }
       />

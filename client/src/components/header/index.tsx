@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { BiSearchAlt2 } from '@react-icons/all-files/bi/BiSearchAlt2';
 import { MdArrowDropDown } from '@react-icons/all-files/md/MdArrowDropDown';
 import useToggle from '../../hooks/useToggle';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import selectUserData from '../../redux/login/selector';
-import { signoutSuccess } from '../../redux/login/slice';
+import { useAppDispatch } from '../../redux/hooks';
+import { signoutSuccess } from '../../redux/user/slice';
 import DropDown from '../common/dropdown';
 import Logo from '../common/logo';
 import {
@@ -23,12 +22,15 @@ import {
   DropDownContainer,
   AuthLink,
   DropDownLink,
+  DropDownLinkItem,
 } from './Style';
 import { DropdownItem } from '../common/dropdown/Style';
+import useUserData from '../../hooks/useUserData';
+import { SERVICE_ROUTE } from '../../utils/constants';
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  const userData = useAppSelector(selectUserData);
+  const userData = useUserData();
   const [isToggle, handleToggle] = useToggle(false);
   const [input, setInput] = useState('');
 
@@ -80,9 +82,9 @@ const Header = () => {
                   }
                   direction="right"
                 >
-                  <DropdownItem>
-                    <DropDownLink to="/mypage">마이페이지</DropDownLink>
-                  </DropdownItem>
+                  <DropDownLinkItem>
+                    <DropDownLink to={`/mypage?service=${SERVICE_ROUTE.workbook}`}>마이페이지</DropDownLink>
+                  </DropDownLinkItem>
                   <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
                 </DropDown>
               </DropDownContainer>

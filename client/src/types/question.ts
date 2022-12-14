@@ -20,7 +20,6 @@ export interface GetQuestionResponse {
   options: string[];
   images: string[];
   workbookQuestionId?: number;
-  images: string[];
 }
 
 export interface GetSearchQuestionResponse {

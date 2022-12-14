@@ -23,14 +23,14 @@ import {
 import Loading from '../../components/common/utils/Loading';
 import Error from '../../components/common/utils/Error';
 import QuestionItem from '../../components/workbookDetail';
-import { GetWorkbookListResponse } from '../../types/workbook';
+import { WorkbookList } from '../../types/workbook';
 import { postWorkbookDisLike, postWorkbookLike } from '../../api/like';
 import useToggle from '../../hooks/useToggle';
 
 const WorkbookDetail = () => {
   const [searchParams] = useSearchParams();
   const workbookId = searchParams.get('id');
-  const [workbook, setWorkbook] = useState<GetWorkbookListResponse>({
+  const [workbook, setWorkbook] = useState<WorkbookList>({
     workbookId: 0,
     title: '',
     description: '',
