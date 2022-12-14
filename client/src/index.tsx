@@ -8,7 +8,7 @@ import worker from './mocks/worker';
 import { persistor, store } from './redux/store';
 
 if (process.env.NODE_ENV === 'development') {
-  worker.start();
+  // worker.start();
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

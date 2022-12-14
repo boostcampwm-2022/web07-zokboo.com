@@ -25,6 +25,8 @@ import { MYPAGE_TYPE, SERVICE_ROUTE, ALLOW_FILE_EXTENSION, FILE_SIZE_MAX_LIMIT }
 import TestPaper from '../../components/mypage/testPaper';
 import Test from '../../components/mypage/test';
 import MypageWorkbook from '../../components/mypage/workbook';
+import { PatchUpdateUserProfile } from '../../types/user';
+import { updateUser } from '../../redux/login/slice';
 
 const MyPage = () => {
   const userData = useUserData();
@@ -66,9 +68,8 @@ const MyPage = () => {
     formData.append('profile', uploadFile);
 
     updateProfileImageMutation.mutate(formData, {
-      onSuccess: (data) => {
-        console.log(data);
-        // dispatch(updateUser(data));
+      onSuccess: ({ data }: PatchUpdateUserProfile) => {
+        dispatch(updateUser({ avatar: data.avatar }));
       },
     });
   };
