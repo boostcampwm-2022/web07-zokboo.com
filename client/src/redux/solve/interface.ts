@@ -4,7 +4,6 @@ import { TestType } from '../../types/test';
 interface Answer {
   testPaperQuestionId: number;
   writtenAnswer: string;
-  questionType: string;
 }
 
 interface Mark {

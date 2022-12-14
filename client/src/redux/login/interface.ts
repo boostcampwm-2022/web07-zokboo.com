@@ -4,3 +4,7 @@ export interface LoginState {
   nickname: string;
   userId: string;
 }
+
+export interface UpdateUser {
+  avatar: string;
+}

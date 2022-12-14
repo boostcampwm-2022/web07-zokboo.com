@@ -11,6 +11,15 @@ jobs:
     environment: production
 
     steps:
+      - uses: actions/checkout@v3
+      - name: Docker Build - Production
+        run: |
+          docker login -u ${{ secrets.FRONTEND_DOCKERHUB_USERNAME }} -p ${{ secrets.FRONTEND_DOCKERHUB_PASSWORD }}
+          docker build -t zokboo-front-prod --build-arg SERVER_URL=${{ secrets.SERVER_URL }} ./client/
+          docker image tag zokboo-front-prod heroleggo/zokboo-front-prod:blue
+          docker image tag zokboo-front-prod heroleggo/zokboo-front-prod:green
+          docker image push -a heroleggo/zokboo-front-prod
+
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.5
         with:

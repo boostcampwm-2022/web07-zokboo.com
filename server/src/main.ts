@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.enableCors({
     origin: ['http://localhost:3000', 'http://175.45.201.93:3389', 'https://zokboo.shop', 'https://localhost:3000'],
     credentials: true,
@@ -16,8 +17,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Zokboo.com API Docs')
-    .setDescription('Zokboo.com API Docs')
+    .setDescription('부스트캠프 웹 모바일 7기 족부닷컴의 API 명세입니다.')
     .setVersion('1.0')
+    .addServer('/api')
     .build();
 
   app.use(cookieParser());

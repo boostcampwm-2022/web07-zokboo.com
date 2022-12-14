@@ -14,35 +14,53 @@ export interface PostCreateTestBody {
 export type TestType = 'SOLVING' | 'GRADING' | 'COMPLETE' | 'WORKBOOK';
 
 export interface GetTestPaperResponse {
-  testPaperId: number;
-  title: string;
-  minutes: number;
-  seconds: number;
-  createdAt: string;
-  state: TestType;
-  questions: GetTestQuestionResponse[];
+  msg: string;
+  data: {
+    testPaperId: number;
+    title: string;
+    minutes: number;
+    seconds: number;
+    createdAt: string;
+    state: TestType;
+    questions: GetTestQuestionResponse[];
+  };
 }
 
 interface GradeTestPaperBody {
-  testPaperQuestionId: number;
-  questionType: string;
-  writtenAnswer: string;
+  questions: {
+    testPaperQuestionId: number;
+    writtenAnswer: string;
+  }[];
 }
 
 export interface PutGradeTestPaperProps {
   testPaperId: number;
-  body: GradeTestPaperBody[];
+  body: GradeTestPaperBody;
+}
+
+export interface GetGradeTestPaperResponse {
+  msg: string;
+  data: {
+    testPaperId: number;
+    title: string;
+    minutes: number;
+    seconds: number;
+    createdAt: string;
+    state: TestType;
+    questions: GetTestQuestionResponse[];
+  };
 }
 
 interface MarkGradeTestPaperBody {
-  testPaperQuestionId: number;
-  questionType: string;
-  isCorrect: boolean;
+  questions: {
+    testPaperQuestionId: number;
+    isCorrect: boolean;
+  }[];
 }
 
 export interface PatchMarkGradeTestPaperProps {
   testPaperId: number;
-  body: MarkGradeTestPaperBody[];
+  body: MarkGradeTestPaperBody;
 }
 
 export interface TestListSearchData {

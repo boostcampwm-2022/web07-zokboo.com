@@ -33,7 +33,7 @@ const SearchWorkbookModal = ({ handleWorkbookAdd }: Props) => {
   const [questionToggleList, setQuestionToggleList] = useState<boolean[]>([]);
   const [isSearch, handleSearchToggle] = useToggle(false);
 
-  const { data: workbookList = [], isLoading } = useQuery<GetWorkbookListByTitleResponse[]>(
+  const { data: response, isLoading } = useQuery<GetWorkbookListByTitleResponse>(
     WORKBOOK_KEYS.searchTitle,
     async () => {
       const result = await getWorkbookListByTitle(titleValue);
@@ -43,12 +43,14 @@ const SearchWorkbookModal = ({ handleWorkbookAdd }: Props) => {
     {
       enabled: isSearch,
 
-      onSuccess: (data) => {
+      onSuccess: ({ data }: GetWorkbookListByTitleResponse) => {
         handleSearchToggle();
         setQuestionToggleList(new Array(data.length).fill(false));
       },
     },
   );
+
+  const workbookList = response?.data ?? [];
 
   const handleQuestionToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
     e.stopPropagation();

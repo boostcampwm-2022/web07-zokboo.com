@@ -10,7 +10,7 @@ export const getWorkbook = async (params: number) => {
 };
 
 export const getWorkbookListByTitle = async (title: string) => {
-  const { data } = await axios.get(`${SERVER_URL}/workbooks?title=${title}`);
+  const { data } = await axios.get(`${SERVER_URL}/workbooks/my?title=${title}`);
 
   return data;
 };

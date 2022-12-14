@@ -11,6 +11,9 @@ export const MYPAGE_TYPE = {
   나의시험지: 'my_test',
 };
 
+export const ALLOW_FILE_EXTENSION = ['jpg', 'jpeg', 'png'];
+export const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024;
+
 export const SOLVE_TYPE = {
   test: 'test',
   workbook: 'workbook',

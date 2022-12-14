@@ -8,7 +8,7 @@ import { solveWorkbookQuestion } from '../../../api/workbook';
 import useToggle from '../../../hooks/useToggle';
 import DESCRIPTION_TYPE from '../../../pages/workbook/constants';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { updateAnswer, updateMark } from '../../../redux/solve/slice';
+import { updateAnswer, updateGradeQuestion, updateMark } from '../../../redux/solve/slice';
 import selectSolveData from '../../../redux/solve/selector';
 import { QUESTION_TYPE, SERVICE_ROUTE, SOLVE_TYPE, TEST_QUESTION_TYPE, TEST_TYPE } from '../../../utils/constants';
 import {
@@ -39,6 +39,7 @@ import {
 } from './Style';
 import TEST_BUTTON_TEXT from './contants';
 import { markGradeTestPaper } from '../../../api/testpaper';
+import { GetGradeTestPaperResponse } from '../../../types/test';
 
 interface Props {
   handleTestGrade: () => void;
@@ -129,17 +130,31 @@ const Contents = ({ handleTestGrade }: Props) => {
   };
 
   const handleMarkTestGrade = () => {
-    const subjectQuestions = markList.filter(({ questionType }) => questionType === QUESTION_TYPE.subjective);
+    const subjectQuestions = markList
+      .filter(({ questionType }) => questionType === QUESTION_TYPE.subjective)
+      .map(({ testPaperQuestionId, isCorrect }) => ({
+        testPaperQuestionId,
+        isCorrect,
+      }));
 
     markGradeTestMutation.mutate(
       {
         testPaperId: id,
-        body: subjectQuestions,
+        body: { questions: subjectQuestions },
       },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }: GetGradeTestPaperResponse) => {
           toast.success('주관식 채점이 완료되었습니다.');
-          navigate(`/mypage?service=${SERVICE_ROUTE.test}`);
+          navigate(`/mypage?service=${SERVICE_ROUTE.review}`);
+          dispatch(
+            updateGradeQuestion({
+              questions: data.questions.map((question) => ({
+                ...question,
+                questionId: question.testPaperQuestionId,
+              })),
+              state: data.state,
+            }),
+          );
         },
       },
     );
@@ -264,7 +279,7 @@ const Contents = ({ handleTestGrade }: Props) => {
           })}
         </QuestionList>
 
-        <TestButtonContainer isShow={solveType.isTest}>
+        <TestButtonContainer isShow={testType.isSolve || testType.isGrading}>
           <TestButton onClick={handleTestEndButtonClick}>{buttonText}</TestButton>
         </TestButtonContainer>
       </QuestionContainer>

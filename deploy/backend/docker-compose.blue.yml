@@ -3,7 +3,7 @@ version: '3'
 services:
   blue-container:
     container_name: 'zokboo-backend-blue'
-    image: hooo0503/zokboo-dev:latest
+    image: hooo0503/zokboo-dev:blue
     env_file:
       - /build/backend/.env
     ports:
