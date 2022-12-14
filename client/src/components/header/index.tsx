@@ -24,7 +24,6 @@ import {
   AuthLink,
   DropDownLink,
 } from './Style';
-import DefaultAvatar from '../../images/default-avatar.jpg';
 import { DropdownItem } from '../common/dropdown/Style';
 
 const Header = () => {
@@ -73,7 +72,7 @@ const Header = () => {
                 <DropDown
                   title={
                     <DropDownSelector>
-                      <DropDownImage src={userData.avatar ? userData.avatar : DefaultAvatar} alt="profile" />
+                      <DropDownImage src={userData.avatar} />
                       <DropDownIcon>
                         <MdArrowDropDown size={30} />
                       </DropDownIcon>

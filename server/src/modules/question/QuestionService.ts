@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import Hashtag from './domain/Hashtag';
 import Option from './domain/Option';
 import Question from './domain/Question';
@@ -11,6 +11,8 @@ import { QuestionRepository } from './QuestionRepository';
 import { PrismaInstance } from '../common/PrismaInstance';
 import QuestionImage from './domain/QuestionImage';
 import { ImageUploader } from '../common/ImageUploader';
+import QuestionLike from './domain/QuestionLike';
+import LikeQuestionResponse from './dto/response/LikeQuestionResponse';
 
 @Injectable()
 export class QuestionService {
@@ -22,6 +24,7 @@ export class QuestionService {
 
   async getQuestions(query: GetQuestionsQuery, userId: number): Promise<GetQuestionsResponse[]> {
     let result: GetQuestionsResponse[];
+    let likes: boolean[];
     await this.prisma.$transaction(async (tx) => {
       if (query.hashtag) {
         const hashtag = await this.questionRepository.findHashtagByName(query.hashtag, tx);
@@ -30,22 +33,40 @@ export class QuestionService {
           return;
         }
         const questions = await this.questionRepository.findQuestionsWithDetailsByHashtag(hashtag, tx);
+        likes = await this.questionRepository.mapLikeByQuestionIds(
+          BigInt(userId),
+          questions.map((question) => question.questionId),
+          tx,
+        );
         if (query.text) {
-          result = questions.filter((q) => q.question.includes(query.text)).map((q) => new GetQuestionsResponse(q));
+          result = questions
+            .filter((q) => q.question.includes(query.text))
+            .map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
           return;
         }
-        result = questions.map((q) => new GetQuestionsResponse(q));
+        result = questions.map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
         return;
       }
       if (query.text) {
         const questions = await this.questionRepository.findQuestionsWithDetailsByQuestion(query.text, tx);
 
-        result = questions.map((q) => new GetQuestionsResponse(q));
+        likes = await this.questionRepository.mapLikeByQuestionIds(
+          BigInt(userId),
+          questions.map((question) => question.questionId),
+          tx,
+        );
+        result = questions.map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
         return;
       }
       const questions = await this.questionRepository.findQuestionsWithDetailsByUserId(userId, tx);
 
-      result = questions.map((q) => new GetQuestionsResponse(q));
+      likes = await this.questionRepository.mapLikeByQuestionIds(
+        BigInt(userId),
+        questions.map((question) => question.questionId),
+        tx,
+      );
+
+      result = questions.map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
     });
     return result;
   }
@@ -78,6 +99,42 @@ export class QuestionService {
       await this.questionRepository.save(question, tx);
       result = new CreateQuestionResponse(question);
     });
+    return result;
+  }
+
+  async likeQuestion(questionId: number, userId: number) {
+    let result: LikeQuestionResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const hasLiked = await this.questionRepository.checkLiked(questionId, userId, tx);
+
+      if (hasLiked) {
+        throw new BadRequestException('ALREADY_LIKED_QUESTION');
+      }
+      const newLike = new QuestionLike(BigInt(questionId), BigInt(userId));
+      const likeResult = await this.questionRepository.createQuestionLike(newLike, tx);
+      result = new LikeQuestionResponse(likeResult);
+    });
+    return result;
+  }
+
+  async dislikeQuestion(questionId: number, userId: number) {
+    let result: LikeQuestionResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const hasLiked = await this.questionRepository.checkLiked(questionId, userId, tx);
+
+      if (!hasLiked) {
+        throw new BadRequestException('NO_LIKE_FOUND');
+      }
+      const newDislike = new QuestionLike(BigInt(questionId), BigInt(userId));
+      const dislikeResult = await this.questionRepository.deleteQuestionLike(newDislike, tx);
+
+      if (dislikeResult !== 1) {
+        throw new BadRequestException('DISLIKE_FAILED');
+      }
+
+      result = new LikeQuestionResponse(newDislike);
+    });
+
     return result;
   }
 }
