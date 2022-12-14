@@ -5,6 +5,13 @@ export interface PatchUpdateUserProfile {
   };
 }
 
+export interface Review {
+  test: {
+    title: string;
+  };
+  createdAt: string;
+}
+
 export interface GetUserInfo {
   msg: string;
   data: {
@@ -12,9 +19,6 @@ export interface GetUserInfo {
     testCount: number;
     testPaperCount: number;
     reviewCount: number;
-    reviews: {
-      title: string;
-      createdAt: Date;
-    };
+    reviews: Review[];
   };
 }
