@@ -1,12 +1,15 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 import { TestListSearchData } from '../../../../types/test';
 import SearchResultContainer from '../../../common/searchResultContainer';
 import QuestionRangeWorkbook from '../QuestionRangeWorkbook';
 import { ProblemCount, QuestionRange, SearchResult, Timer, Title, TitleContainer } from './Style';
 
 const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, workbooks }: TestListSearchData) => {
+  const navigate = useNavigate();
+
   return (
-    <SearchResultContainer>
+    <SearchResultContainer handleClick={() => navigate(`/test?testId=${testId}`)}>
       <SearchResult>
         <TitleContainer>
           <div>제목 :</div>

@@ -4,7 +4,7 @@ import axios from './index';
 import { PatchMarkGradeTestPaperProps, PutGradeTestPaperProps } from '../types/test';
 
 export const getMyTestPaper = async () => {
-  const { data } = await axios.get(`${SERVER_URL}/testpapers/my`);
+  const { data } = await axios.get(`${SERVER_URL}/testpapers/?state=SOLVING`);
   return data;
 };
 

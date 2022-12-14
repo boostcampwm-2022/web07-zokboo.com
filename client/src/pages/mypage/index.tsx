@@ -29,7 +29,6 @@ import Review from '../../components/mypage/review';
 import { PatchUpdateUserProfile } from '../../types/user';
 import { updateUser } from '../../redux/login/slice';
 
-
 const MyPage = () => {
   const userData = useUserData();
   const [searchParams] = useSearchParams();
@@ -92,7 +91,7 @@ const MyPage = () => {
 
           <LinkList>
             <MyPageLink to="/workbook/new">문제집 만들기</MyPageLink>
-            <MyPageLink to="/test/new">시험지 만들기</MyPageLink>
+            <MyPageLink to="/test/new">시험 만들기</MyPageLink>
           </LinkList>
         </MobileContainer>
 
