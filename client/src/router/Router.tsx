@@ -21,7 +21,6 @@ const EmailAuth = lazy(() => import('../pages/emailAuth'));
 const PasswordAuth = lazy(() => import('../pages/passwordAuth'));
 const WorkbookCreate = lazy(() => import('../pages/workbookCreate'));
 const PageNotFound = lazy(() => import('../pages/PageNotFound'));
-const InitPage = lazy(() => import('../pages/initpage'));
 
 const Router = () => {
   return (
