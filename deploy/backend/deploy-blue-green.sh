@@ -24,5 +24,6 @@ if [ -n "$EXIST_AFTER" ]; then
         nginx -s reload
 
         docker-compose -p zokboo-backend-${BEFORE_COMPOSE} -f /build/backend/docker-compose.${BEFORE_COMPOSE}.yml down
+        docker rmi hooo0503/zokboo-dev:${BEFORE_COMPOSE}
         echo "$BEFORE_COMPOSE down"
 fi
