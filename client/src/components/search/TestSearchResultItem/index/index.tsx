@@ -1,12 +1,23 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { postTestPaper } from '../../../../api/testpaper';
 import { TestListSearchData } from '../../../../types/test';
 import SearchResultContainer from '../../../common/searchResultContainer';
 import QuestionRangeWorkbook from '../QuestionRangeWorkbook';
 import { ProblemCount, QuestionRange, SearchResult, Timer, Title, TitleContainer } from './Style';
 
 const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, workbooks }: TestListSearchData) => {
+  const navigate = useNavigate();
+  const { mutate: testPaperMutate } = useMutation(postTestPaper, {
+    onSuccess: (d) => {
+      alert('시험이 바로 시작됩니다.');
+      navigate(`/test/${d.data.testPaperId}`);
+    },
+  });
+
   return (
-    <SearchResultContainer>
+    <SearchResultContainer handleClick={() => testPaperMutate({ title, testId })}>
       <SearchResult>
         <TitleContainer>
           <div>제목 :</div>

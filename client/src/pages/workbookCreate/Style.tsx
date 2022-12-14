@@ -92,3 +92,22 @@ export const ListButton = styled(Button)`
 
   margin: 0px 0 10px 10px;
 `;
+
+export const QuestionType = styled.div<{ type: boolean }>`
+  width: 120px;
+  height: 25px;
+
+  font-size: ${fonts.size.sm};
+  font-weight: ${fonts.weight.semiBold};
+  background-color: ${(props) => (props.type ? '#FEF2C0' : '#E99695')};
+  color: black;
+
+  padding: 1px 7px;
+  border-radius: 2em;
+  margin: 0px 10px;
+`;
+
+export const QuestionBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

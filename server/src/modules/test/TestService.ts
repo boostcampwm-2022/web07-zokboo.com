@@ -17,7 +17,7 @@ export class TestService {
 
   async createTest(request: CreateTestRequest, userId: number) {
     let result: TestSimpleResponse;
-    this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx) => {
       const workbooks = await this.workbookRepository.findWorkbooksByIdsWithAuthorization(
         request.workbooks.map((w) => w.workbookId),
         userId,

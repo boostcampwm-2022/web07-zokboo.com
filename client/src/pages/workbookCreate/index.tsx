@@ -20,6 +20,7 @@ import {
   ProblemList,
 } from '../../styles/problemList';
 import { AddQuestion } from '../../types/question';
+import { QUESTION_TYPE } from '../../utils/constants';
 import {
   ListButton,
   ButtonList,
@@ -31,6 +32,8 @@ import {
   InfoToggle,
   ProblemListContainer,
   InfoTextArea,
+  QuestionBox,
+  QuestionType,
 } from './Style';
 
 const WorkbookCreate = () => {
@@ -135,11 +138,15 @@ const WorkbookCreate = () => {
 
           <ProblemList>
             {problemList.map((problem, idx) => {
-              const { questionId, question, hashtags } = problem;
+              const { questionId, question, hashtags, questionType } = problem;
+              const isSubjective = questionType === QUESTION_TYPE.subjective;
 
               return (
                 <ProblemItem key={questionId}>
-                  <ProblemItemTitle>{question}</ProblemItemTitle>
+                  <QuestionBox>
+                    <ProblemItemTitle>{question}</ProblemItemTitle>
+                    <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
+                  </QuestionBox>
                   <ProblemItemUnderLine>
                     <ProblemItemHashTagList>
                       {hashtags.map((hashtag) => (

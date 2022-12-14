@@ -15,7 +15,7 @@ import Error from '../../components/common/utils/Error';
 const Search = () => {
   const [searchParams] = useSearchParams();
   const searchWord = searchParams.get('q');
-  const { searchType } = useAppSelector(selectSearchType, () => true);
+  const { searchType } = useAppSelector(selectSearchType);
   const [searchResult, setSearchResult] = useState<SearchWorkbookType[]>([]);
 
   const { isLoading, isSuccess, data } = useQuery([WORKBOOK_SEARCH, searchWord, searchType], getSearchData, {

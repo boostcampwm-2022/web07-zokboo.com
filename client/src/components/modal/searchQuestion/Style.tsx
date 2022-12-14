@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button, Input } from '../../../styles/common';
 import { ProblemItem, ProblemList } from '../../../styles/problemList';
-import { media } from '../../../styles/theme';
+import { fonts, media } from '../../../styles/theme';
 import { DropDownContainer } from '../createQuestion/Style';
 
 export const Container = styled.div`
@@ -45,4 +45,23 @@ export const SearchProblemList = styled(ProblemList)`
   ${ProblemItem} {
     cursor: pointer;
   }
+`;
+
+export const QuestionType = styled.div<{ type: boolean }>`
+  width: 120px;
+  height: 25px;
+
+  font-size: ${fonts.size.sm};
+  font-weight: ${fonts.weight.semiBold};
+  background-color: ${(props) => (props.type ? '#FEF2C0' : '#E99695')};
+  color: black;
+
+  padding: 1px 7px;
+  border-radius: 2em;
+  margin: 0px 10px;
+`;
+
+export const QuestionBox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
