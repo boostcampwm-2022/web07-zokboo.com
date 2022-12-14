@@ -2,12 +2,14 @@ import { FiMoreHorizontal } from '@react-icons/all-files/fi/FiMoreHorizontal';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
+import React from 'react';
 import { ButtonContainer, ContentButtons, Infos, ItemExplain, ItemTitle, SaveButton, TestButton } from './Style';
 import SearchWorkbookType from '../../../types/search';
 import { saveWorkbook } from '../../../api/workbook';
 import SearchResultContainer from '../../common/searchResultContainer';
+import { MYPAGE_TYPE } from '../../../utils/constants';
 
-const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
+const SearchResultItem = ({ workbookId, title, description, questionCount, type = '' }: SearchWorkbookType) => {
   const navigate = useNavigate();
   const saveWorkbookMutation = useMutation(saveWorkbook);
 
@@ -15,7 +17,8 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
     navigate(`/search/view?id=${workbookId}`); // 뒤로가기 했을때 리렌더링 되지 않도록
   };
 
-  const handleTestButton = () => {
+  const handleTestButton = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     navigate(`/workbook/${workbookId}`);
   };
 
@@ -41,8 +44,8 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
       <Infos>{`문제 수 : ${questionCount}`}</Infos>
       <ButtonContainer>
         <ContentButtons>
-          <TestButton type="button" value="시험 응시하기" onClick={handleTestButton} />
-          <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />
+          <TestButton type="button" value="문제 살펴보기" onClick={handleTestButton} />
+          {!type && <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />}
         </ContentButtons>
       </ButtonContainer>
     </SearchResultContainer>
