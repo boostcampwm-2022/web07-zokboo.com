@@ -53,6 +53,7 @@ export class WorkbookController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   @ApiQuery({
     name: 'title',
     type: String,
@@ -64,8 +65,12 @@ export class WorkbookController {
     required: false,
   })
   @ApiMultiResponse(200, WorkbookSearchResponse, '문제집 조회 / 검색 성공')
-  async searchWorkbooks(@Query('title') title?: string, @Query('content') content?: string) {
-    const response = await this.workbookService.searchWorkbooks(title, content);
+  async searchWorkbooks(
+    @User('id') userId: string,
+    @Query('title') title?: string,
+    @Query('content') content?: string,
+  ) {
+    const response = await this.workbookService.searchWorkbooks(Number(userId), title, content);
     return new ApiResponse('문제집 조회 / 검색 성공', response);
   }
 

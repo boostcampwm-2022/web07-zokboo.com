@@ -299,4 +299,20 @@ export class QuestionRepository {
     });
     return questions.map((question) => Question.of(question));
   }
+
+  async mapLikeByQuestionIds(userId: bigint, questionIds: bigint[], tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.questionLike.findMany({
+      where: {
+        user_id: userId,
+        question_id: {
+          in: questionIds,
+        },
+      },
+    });
+
+    const resultSet = new Set(result.map((like) => like.question_id));
+
+    return questionIds.map((questionId) => resultSet.has(questionId));
+  }
 }

@@ -24,6 +24,7 @@ export class QuestionService {
 
   async getQuestions(query: GetQuestionsQuery, userId: number): Promise<GetQuestionsResponse[]> {
     let result: GetQuestionsResponse[];
+    let likes: boolean[];
     await this.prisma.$transaction(async (tx) => {
       if (query.hashtag) {
         const hashtag = await this.questionRepository.findHashtagByName(query.hashtag, tx);
@@ -32,22 +33,40 @@ export class QuestionService {
           return;
         }
         const questions = await this.questionRepository.findQuestionsWithDetailsByHashtag(hashtag, tx);
+        likes = await this.questionRepository.mapLikeByQuestionIds(
+          BigInt(userId),
+          questions.map((question) => question.questionId),
+          tx,
+        );
         if (query.text) {
-          result = questions.filter((q) => q.question.includes(query.text)).map((q) => new GetQuestionsResponse(q));
+          result = questions
+            .filter((q) => q.question.includes(query.text))
+            .map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
           return;
         }
-        result = questions.map((q) => new GetQuestionsResponse(q));
+        result = questions.map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
         return;
       }
       if (query.text) {
         const questions = await this.questionRepository.findQuestionsWithDetailsByQuestion(query.text, tx);
 
-        result = questions.map((q) => new GetQuestionsResponse(q));
+        likes = await this.questionRepository.mapLikeByQuestionIds(
+          BigInt(userId),
+          questions.map((question) => question.questionId),
+          tx,
+        );
+        result = questions.map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
         return;
       }
       const questions = await this.questionRepository.findQuestionsWithDetailsByUserId(userId, tx);
 
-      result = questions.map((q) => new GetQuestionsResponse(q));
+      likes = await this.questionRepository.mapLikeByQuestionIds(
+        BigInt(userId),
+        questions.map((question) => question.questionId),
+        tx,
+      );
+
+      result = questions.map((q, idx) => new GetQuestionsResponse(q, likes[idx]));
     });
     return result;
   }

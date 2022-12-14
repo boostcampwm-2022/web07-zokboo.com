@@ -8,8 +8,12 @@ export default class WorkbookSearchResponse extends WorkbookSimpleResponse {
   @ApiProperty()
   public user: SigninResponse;
 
-  constructor(workbook: Workbook) {
+  @ApiProperty()
+  public liked: boolean;
+
+  constructor(workbook: Workbook, liked: boolean) {
     super(workbook);
     this.user = new SigninResponse(workbook.user);
+    this.liked = liked;
   }
 }

@@ -35,9 +35,13 @@ export class WorkbookService {
     return result;
   }
 
-  async searchWorkbooks(title: string, content: string) {
+  async searchWorkbooks(userId: number, title: string, content: string) {
     const workbooks = await this.workbookRepository.searchWorkbooks(title, content);
-    return workbooks.map((w) => new WorkbookSearchResponse(w));
+    const likes = await this.workbookRepository.mapLikeByWorkbookIds(
+      BigInt(userId),
+      workbooks.map((workbook) => workbook.workbookId),
+    );
+    return workbooks.map((w, idx) => new WorkbookSearchResponse(w, likes[idx]));
   }
 
   async searchWorkbooksByUser(title: string, content: string, userId: number) {

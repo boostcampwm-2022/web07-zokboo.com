@@ -335,4 +335,19 @@ export class WorkbookRepository {
       return workbook;
     });
   }
+
+  async mapLikeByWorkbookIds(userId: bigint, workbookIds: bigint[]) {
+    const result = await this.prismaInstance.workbookLike.findMany({
+      where: {
+        user_id: userId,
+        workbook_id: {
+          in: workbookIds,
+        },
+      },
+    });
+
+    const resultSet = new Set(result.map((like) => like.workbook_id));
+
+    return workbookIds.map((workbookId) => resultSet.has(workbookId));
+  }
 }
