@@ -21,6 +21,7 @@ const EmailAuth = lazy(() => import('../pages/emailAuth'));
 const PasswordAuth = lazy(() => import('../pages/passwordAuth'));
 const WorkbookCreate = lazy(() => import('../pages/workbookCreate'));
 const PageNotFound = lazy(() => import('../pages/PageNotFound'));
+const InitPage = lazy(() => import('../pages/initpage'));
 
 const Router = () => {
   return (
@@ -55,6 +56,7 @@ const Router = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/auth/email" element={<EmailAuth />} />
           <Route path="/auth/password" element={<PasswordAuth />} />
+          <Route path="/init" element={<InitPage />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
