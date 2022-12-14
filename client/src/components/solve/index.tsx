@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { gradeTestPaper } from '../../api/testpaper';
 import useUserData from '../../hooks/useUserData';
-import KEYS from '../../react-query/keys/test';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import selectSolveData from '../../redux/solve/selector';
+import { updateGradeQuestion } from '../../redux/solve/slice';
+import { GetGradeTestPaperResponse } from '../../types/test';
 import Loading from '../common/Loading';
 import Contents from './contents';
 import Header from './header';
@@ -19,8 +20,8 @@ interface Props {
 
 const Solve = ({ isLoading, isError }: Props) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   useUserData();
-  const queryClient = useQueryClient();
   const { id, answerList } = useAppSelector(selectSolveData);
   const gradeTestMutation = useMutation(gradeTestPaper);
 
@@ -28,12 +29,20 @@ const Solve = ({ isLoading, isError }: Props) => {
     gradeTestMutation.mutate(
       {
         testPaperId: id,
-        body: answerList,
+        body: { questions: answerList },
       },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }: GetGradeTestPaperResponse) => {
           toast.success('시험이 종료되었습니다.');
-          queryClient.invalidateQueries([KEYS.detail, id]);
+          dispatch(
+            updateGradeQuestion({
+              questions: data.questions.map((question) => ({
+                ...question,
+                questionId: question.testPaperQuestionId,
+              })),
+              state: data.state,
+            }),
+          );
         },
       },
     );

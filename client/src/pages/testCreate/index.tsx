@@ -11,6 +11,7 @@ import useToggle from '../../hooks/useToggle';
 import useUserData from '../../hooks/useUserData';
 import { Button, SubTitle } from '../../styles/common';
 import { Workbook } from '../../types/workbook';
+import { SERVICE_ROUTE } from '../../utils/constants';
 import {
   Container,
   CreateButton,
@@ -132,7 +133,7 @@ const TestCreate = () => {
       {
         onSuccess: () => {
           toast.success('시험을 만들었습니다.');
-          navigate('/');
+          navigate(`/mypage?service=${SERVICE_ROUTE.test}`);
         },
       },
     );
@@ -152,19 +153,9 @@ const TestCreate = () => {
           <InfoBox>
             <SubTitle>시험 시간</SubTitle>
             <InfoInputBox>
-              <InfoTimeInput
-                type="number"
-                ref={minuteRef}
-                defaultValue={0}
-                placeholder="시험 시간(분)을 입력해주세요"
-              />
+              <InfoTimeInput type="number" ref={minuteRef} placeholder="0" />
               <InfoText>분</InfoText>
-              <InfoTimeInput
-                type="number"
-                ref={secondRef}
-                defaultValue={0}
-                placeholder="시험 시간(초)을 입력해주세요"
-              />
+              <InfoTimeInput type="number" ref={secondRef} placeholder="0" />
               <InfoText>초</InfoText>
             </InfoInputBox>
           </InfoBox>
@@ -182,7 +173,7 @@ const TestCreate = () => {
               <div>문제수</div>
             </WorkbookHeader>
             {workbookList.map((workbook, idx) => {
-              const { workbookId, title, description, questions, questionCount } = workbook;
+              const { workbookId, title, description, questions } = workbook;
               return (
                 <WorkbookItem key={workbookId}>
                   <WorkbookInfo>
@@ -196,7 +187,7 @@ const TestCreate = () => {
                   <WorkbookInput
                     type="number"
                     value={questionValues[idx]}
-                    onChange={(e) => handleQuestionLengthUpdate(idx, e.target.value, questionCount)}
+                    onChange={(e) => handleQuestionLengthUpdate(idx, e.target.value, questions.length)}
                   />
                 </WorkbookItem>
               );

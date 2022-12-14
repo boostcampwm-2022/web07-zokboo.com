@@ -1,10 +1,18 @@
 import { QueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
-const queryErrorHandler = (error: unknown) => {
-  const message = error instanceof Error ? error.message : '잠시 후 다시 시도해주세요.';
+interface Response {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+}
 
-  toast.error(message);
+const queryErrorHandler = (error: unknown) => {
+  const customError = error as Response;
+
+  toast.error(customError.response.data.message);
 };
 
 const generateQueryClient = () => {
