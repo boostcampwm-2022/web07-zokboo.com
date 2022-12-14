@@ -20,14 +20,15 @@ import {
 } from './Style';
 import useUserData from '../../hooks/useUserData';
 import { Input } from '../../styles/common';
-import updateProfileImage from '../../api/user';
+import { updateProfileImage } from '../../api/user';
 import { MYPAGE_TYPE, SERVICE_ROUTE, ALLOW_FILE_EXTENSION, FILE_SIZE_MAX_LIMIT } from '../../utils/constants';
 import TestPaper from '../../components/mypage/testPaper';
 import Test from '../../components/mypage/test';
 import MypageWorkbook from '../../components/mypage/workbook';
 import Review from '../../components/mypage/review';
 import { PatchUpdateUserProfile } from '../../types/user';
-import { updateUser } from '../../redux/login/slice';
+import { updateUser } from '../../redux/user/slice';
+
 
 const MyPage = () => {
   const userData = useUserData();

@@ -54,6 +54,7 @@ export const colors = {
   gray2: '#bdc3c7',
   gray3: '#95a5a6',
   gray4: '#7f8c8d',
+  chart: ['#c0392b', '#d35400', '#f1c40f', '#2ecc71', '#3498db', '#34495e', '#8e44ad'],
 };
 
 export const device = {

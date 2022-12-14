@@ -7,4 +7,8 @@ export const updateProfileImage = async (body: FormData) => {
   return data;
 };
 
-export default updateProfileImage;
+export const getUserData = async () => {
+  const { data } = await axios.get(`${SERVER_URL}/users/my`);
+
+  return data;
+};
