@@ -2,7 +2,7 @@ import Question from 'src/modules/question/domain/Question';
 import { TestPaperQuestion as pTestPaperQuestion } from '@prisma/client';
 import TestPaperQuestionState from '../enum/TestPaperQuestionState';
 import QuestionType from 'src/modules/question/enum/QuestionType';
-import { BadRequestException } from '@nestjs/common';
+import TestPaper from './TestPaper';
 
 class TestPaperQuestion {
   public testPaperQuestionId: bigint | undefined;
@@ -11,6 +11,7 @@ class TestPaperQuestion {
   public writtenAnswer: string;
   public review: string;
   public question: Question;
+  public testPaper: TestPaper;
 
   constructor(
     testPaperQuestionId: bigint | undefined,
@@ -19,6 +20,7 @@ class TestPaperQuestion {
     writtenAnswer: string,
     review: string,
     question: Question,
+    testPaper: TestPaper,
   ) {
     this.testPaperQuestionId = testPaperQuestionId;
     this.testPaperId = testPaperId;
@@ -26,6 +28,7 @@ class TestPaperQuestion {
     this.writtenAnswer = writtenAnswer;
     this.review = review;
     this.question = question;
+    this.testPaper = testPaper;
   }
 
   static of(testPaperQuestion: pTestPaperQuestion, question: Question) {
@@ -36,15 +39,20 @@ class TestPaperQuestion {
       testPaperQuestion.written_answer,
       testPaperQuestion.review,
       question,
+      undefined,
     );
   }
 
   static new(question: Question) {
-    return new TestPaperQuestion(undefined, undefined, TestPaperQuestionState.UNMARKED, '', '', question);
+    return new TestPaperQuestion(undefined, undefined, TestPaperQuestionState.UNMARKED, '', '', question, undefined);
   }
 
   setId(testPaperQuestionId: bigint) {
     this.testPaperQuestionId = testPaperQuestionId;
+  }
+
+  setTestPaper(testPaper: TestPaper) {
+    this.testPaper = testPaper;
   }
 
   solve(writtenAnswer: string | undefined) {
@@ -75,6 +83,10 @@ class TestPaperQuestion {
     }
     this.state = TestPaperQuestionState.WRONG;
     return false;
+  }
+
+  reviewQuestion(content: string) {
+    this.review = content;
   }
 }
 

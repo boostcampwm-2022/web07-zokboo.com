@@ -15,6 +15,8 @@ import TestPaperState from './enum/TestPaperState';
 import { TestPaperRepository } from './TestPaperRepository';
 import ReviewNoteResponse from './dto/response/ReviewNoteResponse';
 import TestPaperSimpleResponse from './dto/response/TestPaperSimpleResponse';
+import ReviewQuestionRequest from './dto/request/ReviewQuestionRequest';
+import ReviewQuestionResponse from './dto/response/ReviewQuestionResponse';
 
 @Injectable()
 export class TestPaperService {
@@ -94,6 +96,24 @@ export class TestPaperService {
       request.questions.forEach((q) => correctResults.set(BigInt(q.testPaperQuestionId), q.isCorrect));
       testPaper.markSubjectiveTypeQuestions(correctResults);
       result = new TestPaperGradedResponse(await this.testPaperRepository.save(testPaper));
+    });
+    return result;
+  }
+
+  async reviewTestPaperQuestion(userId: number, testPaperQuestionId: number, request: ReviewQuestionRequest) {
+    let result: ReviewQuestionResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const testPaperQuestion = await this.testPaperRepository.findTestPaperQuestion(testPaperQuestionId);
+      if (
+        !testPaperQuestion ||
+        testPaperQuestion.testPaper.test.userId !== BigInt(userId) ||
+        testPaperQuestion.testPaper.state !== TestPaperState.COMPLETE
+      ) {
+        throw new BadRequestException('유효하지 않은 시험지입니다.');
+      }
+      testPaperQuestion.reviewQuestion(request.review);
+      await this.testPaperRepository.updateTestPaperQuestion(testPaperQuestion);
+      result = new ReviewQuestionResponse(testPaperQuestion);
     });
     return result;
   }
