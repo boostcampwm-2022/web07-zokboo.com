@@ -38,6 +38,7 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
               title={workbook.title}
               description={workbook.description}
               questionCount={workbook.questionCount}
+              type={type}
             />
           ))
         ) : (
