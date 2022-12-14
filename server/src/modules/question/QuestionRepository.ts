@@ -6,6 +6,7 @@ import Option from './domain/Option';
 import Question from './domain/Question';
 import QuestionImage from './domain/QuestionImage';
 import QuestionType from './enum/QuestionType';
+import QuestionLike from './domain/QuestionLike';
 
 @Injectable()
 export class QuestionRepository {
@@ -72,6 +73,18 @@ export class QuestionRepository {
     return question;
   }
 
+  async createQuestionLike(questionLike: QuestionLike, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const newLike = await prisma.questionLike.create({
+      data: {
+        question_id: questionLike.questionId,
+        user_id: questionLike.userId,
+      },
+    });
+
+    return QuestionLike.of(newLike);
+  }
+
   async createQuestionImage(questionImage: QuestionImage, questionId: bigint, tx?: Prisma.TransactionClient) {
     const prisma = tx ? tx : this.prismaInstance;
     const newImage = await prisma.questionImage.create({
@@ -120,6 +133,30 @@ export class QuestionRepository {
     });
     option.setId(newOption.option_id);
     return option;
+  }
+
+  async checkLiked(questionId: number, userId: number, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.questionLike.findFirst({
+      where: {
+        question_id: questionId,
+        user_id: userId,
+      },
+    });
+
+    return !!result;
+  }
+
+  async deleteQuestionLike(like: QuestionLike, tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.questionLike.deleteMany({
+      where: {
+        question_id: like.questionId,
+        user_id: like.userId,
+      },
+    });
+
+    return result.count;
   }
 
   async findQuestionsByUserId(userId: bigint, tx?: Prisma.TransactionClient) {
@@ -261,5 +298,21 @@ export class QuestionRepository {
       },
     });
     return questions.map((question) => Question.of(question));
+  }
+
+  async mapLikeByQuestionIds(userId: bigint, questionIds: bigint[], tx?: Prisma.TransactionClient) {
+    const prisma = tx ? tx : this.prismaInstance;
+    const result = await prisma.questionLike.findMany({
+      where: {
+        user_id: userId,
+        question_id: {
+          in: questionIds,
+        },
+      },
+    });
+
+    const resultSet = new Set(result.map((like) => like.question_id));
+
+    return questionIds.map((questionId) => resultSet.has(questionId));
   }
 }

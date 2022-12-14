@@ -1,20 +1,20 @@
 import { WorkbookLike as pWorkbookLike } from '@prisma/client';
 
 class WorkbookLike {
-  public userId: bigint;
   public workbookId: bigint;
+  public userId: bigint;
 
-  constructor(userId: bigint, workbookId: bigint) {
-    this.userId = userId;
+  constructor(workbookId: bigint, userId: bigint) {
     this.workbookId = workbookId;
+    this.userId = userId;
   }
 
-  static new(userId: bigint, workbookId: bigint) {
+  static new(workbookId: bigint, userId: bigint) {
     return new WorkbookLike(userId, workbookId);
   }
 
   static of(record: pWorkbookLike) {
-    return new WorkbookLike(record.user_id, record.workbook_id);
+    return new WorkbookLike(record.workbook_id, record.user_id);
   }
 }
 
