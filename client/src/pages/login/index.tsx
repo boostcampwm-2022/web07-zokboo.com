@@ -17,7 +17,7 @@ const Login = () => {
     onSuccess: (data) => {
       alert('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
-      window.location.href = '/';
+      window.location.href = '/home';
     },
     onError: (message: string) => {
       toast.error(message);
@@ -28,7 +28,7 @@ const Login = () => {
     onSuccess: (data) => {
       alert('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
-      window.location.href = '/';
+      window.location.href = '/home';
     },
     onError: (message: string) => {
       toast.error(message);

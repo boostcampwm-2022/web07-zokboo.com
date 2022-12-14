@@ -22,7 +22,7 @@ interface Props {
 
 const Logo = ({ type }: Props) => {
   return (
-    <LogoContainer to="/" width="100px">
+    <LogoContainer to="/home" width="100px">
       <img
         src={
           type === 'small'

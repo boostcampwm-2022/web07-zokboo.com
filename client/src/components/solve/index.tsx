@@ -41,7 +41,7 @@ const Solve = ({ isLoading, isError }: Props) => {
 
   useEffect(() => {
     if (isError) {
-      navigate('/');
+      navigate('/home');
     }
   }, [isError]);
 
