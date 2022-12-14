@@ -23,6 +23,7 @@ import {
   DropDownContainer,
   AuthLink,
   DropDownLink,
+  DropDownLinkItem,
 } from './Style';
 import { DropdownItem } from '../common/dropdown/Style';
 import useUserData from '../../hooks/useUserData';
@@ -81,9 +82,9 @@ const Header = () => {
                   }
                   direction="right"
                 >
-                  <DropdownItem>
+                  <DropDownLinkItem>
                     <DropDownLink to="/mypage">마이페이지</DropDownLink>
-                  </DropdownItem>
+                  </DropDownLinkItem>
                   <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
                 </DropDown>
               </DropDownContainer>

@@ -4,3 +4,17 @@ export interface PatchUpdateUserProfile {
     avatar: string;
   };
 }
+
+export interface GetUserInfo {
+  msg: string;
+  data: {
+    workbookCount: number;
+    testCount: number;
+    testPaperCount: number;
+    reviewCount: number;
+    reviews: {
+      title: string;
+      createdAt: Date;
+    };
+  };
+}
