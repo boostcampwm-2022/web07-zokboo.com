@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppSelector } from '../redux/hooks';
-import selectUserData from '../redux/login/selector';
+import selectUserData from '../redux/user/selector';
 
 const useUserData = () => {
   const userData = useAppSelector(selectUserData);

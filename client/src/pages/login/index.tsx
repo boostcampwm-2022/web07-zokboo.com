@@ -1,23 +1,24 @@
 import React from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/common/logo';
 import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
-
 import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 import { useAppDispatch } from '../../redux/hooks';
-import { signinSuccess } from '../../redux/login/slice';
+import { signinSuccess } from '../../redux/user/slice';
 import ModalContainer from '../../components/login/LoginModal';
 import { getLocalLoginData, getSSOData } from '../../api/auth';
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const SSOMutation = useMutation(getSSOData, {
     onSuccess: (data) => {
-      alert('로그인에 성공하였습니다.');
+      toast.success('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
-      window.location.href = '/';
+      navigate('/');
     },
     onError: (message: string) => {
       toast.error(message);
@@ -26,9 +27,9 @@ const Login = () => {
 
   const loginMutation = useMutation(getLocalLoginData, {
     onSuccess: (data) => {
-      alert('로그인에 성공하였습니다.');
+      toast.success('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
-      window.location.href = '/';
+      navigate('/');
     },
     onError: (message: string) => {
       toast.error(message);

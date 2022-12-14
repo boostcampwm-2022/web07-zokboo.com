@@ -1,12 +1,19 @@
+import { useQuery } from 'react-query';
 import Chart from '../../components/chart/Chart';
 import DashBoard from '../../components/dashboard';
+import useUserData from '../../hooks/useUserData';
+import KEYS from '../../react-query/keys/user';
 import { HomeContainer, HomeTitle } from './Style';
 
 const Home = () => {
+  const userData = useUserData();
+
+  // const {data} = useQuery(KEYS.my, )
+
   return (
     <HomeContainer>
       <HomeTitle>
-        <strong>회원</strong>님의 책장이에요.
+        <strong>{userData.nickname}</strong>님의 책장이에요.
       </HomeTitle>
 
       <DashBoard />
