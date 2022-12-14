@@ -12,7 +12,7 @@ import {
   ProblemItemTitle,
   ProblemItemUnderLine,
 } from '../../../styles/problemList';
-import { GetQuestionResponse, AddQuestion, GetSearchQuestionResponse } from '../../../types/question';
+import { AddQuestion, GetSearchQuestionResponse } from '../../../types/question';
 import DropDown from '../../common/dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import Loading from '../../common/Loading';
