@@ -25,7 +25,10 @@ import {
   SearchButton,
   SearchDropDownContainer,
   SearchProblemList,
+  QuestionType,
+  QuestionBox,
 } from './Style';
+import { QUESTION_TYPE } from '../../../utils/constants';
 
 interface Props {
   handleProblemAdd: (problem: AddQuestion) => void;
@@ -99,11 +102,15 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       <SearchProblemList>
         {isLoading && <Loading />}
         {problemList.map((problem) => {
-          const { questionId, question, hashtags } = problem;
+          const { questionId, question, hashtags, questionType } = problem;
+          const isSubjective = questionType === QUESTION_TYPE.subjective;
 
           return (
             <ProblemItem key={questionId} onClick={() => handleProblemAdd(problem)}>
-              <ProblemItemTitle>{question}</ProblemItemTitle>
+              <QuestionBox>
+                <ProblemItemTitle>{question}</ProblemItemTitle>
+                <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
+              </QuestionBox>
               <ProblemItemUnderLine>
                 <ProblemItemHashTagList>
                   {hashtags.map((hashtag) => (
