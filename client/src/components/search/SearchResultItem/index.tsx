@@ -7,8 +7,9 @@ import { ButtonContainer, ContentButtons, Infos, ItemExplain, ItemTitle, SaveBut
 import SearchWorkbookType from '../../../types/search';
 import { saveWorkbook } from '../../../api/workbook';
 import SearchResultContainer from '../../common/searchResultContainer';
+import { MYPAGE_TYPE } from '../../../utils/constants';
 
-const SearchResultItem = ({ workbookId, title, description, questionCount }: SearchWorkbookType) => {
+const SearchResultItem = ({ workbookId, title, description, questionCount, type = '' }: SearchWorkbookType) => {
   const navigate = useNavigate();
   const saveWorkbookMutation = useMutation(saveWorkbook);
 
@@ -44,7 +45,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
       <ButtonContainer>
         <ContentButtons>
           <TestButton type="button" value="문제 살펴보기" onClick={handleTestButton} />
-          <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />
+          {!type && <SaveButton type="button" value="저장하기" onClick={handleSaveButton} />}
         </ContentButtons>
       </ButtonContainer>
     </SearchResultContainer>
