@@ -1,4 +1,4 @@
-import { FiMoreHorizontal } from 'react-icons/fi';
+import { FiMoreHorizontal } from '@react-icons/all-files/fi/FiMoreHorizontal';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
@@ -12,7 +12,7 @@ const SearchResultItem = ({ workbookId, title, description, questionCount }: Sea
   const saveWorkbookMutation = useMutation(saveWorkbook);
 
   const handleMoveWorkbookView = () => {
-    navigate(`./view?id=${workbookId}`); // 뒤로가기 했을때 리렌더링 되지 않도록
+    navigate(`/search/view?id=${workbookId}`); // 뒤로가기 했을때 리렌더링 되지 않도록
   };
 
   const handleTestButton = () => {

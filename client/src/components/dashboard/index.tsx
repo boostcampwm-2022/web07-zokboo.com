@@ -1,7 +1,3 @@
-import reviewNote from '../../assets/images/review_note.png';
-import paper from '../../assets/images/paper.png';
-import books from '../../assets/images/books.png';
-import profile from '../../assets/images/profile.png';
 import { HomeDashBoard, ItemContainer, ItemImageBox, ItemInfo } from './Style';
 import { SERVICE_ROUTE } from '../../utils/constants';
 
@@ -31,7 +27,7 @@ const DashBoard = () => {
     <HomeDashBoard>
       <DashBoardItem
         title="문제집"
-        image={books}
+        image="https://kr.object.ncloudstorage.com/asset.image/books.svg"
         link={`/mypage?service=${SERVICE_ROUTE.workbook}`}
         contents={
           <p>
@@ -41,7 +37,7 @@ const DashBoard = () => {
       />
       <DashBoardItem
         title="시험"
-        image={profile}
+        image="https://kr.object.ncloudstorage.com/asset.image/profile.svg"
         link={`/mypage?service=${SERVICE_ROUTE.test}`}
         contents={
           <p>
@@ -51,7 +47,7 @@ const DashBoard = () => {
       />
       <DashBoardItem
         title="시험지"
-        image={paper}
+        image="https://kr.object.ncloudstorage.com/asset.image/paper.svg"
         link={`/mypage?service=${SERVICE_ROUTE.testpaper}`}
         contents={
           <p>
@@ -61,7 +57,7 @@ const DashBoard = () => {
       />
       <DashBoardItem
         title="오답노트"
-        image={reviewNote}
+        image="https://kr.object.ncloudstorage.com/asset.image/review-note.svg"
         link={`/mypage?service=${SERVICE_ROUTE.review}`}
         contents={
           <p>

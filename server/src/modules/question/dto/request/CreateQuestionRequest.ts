@@ -27,16 +27,12 @@ class CreateQuestionRequest {
   public difficulty: string;
 
   @ApiProperty()
-  @IsString({
-    each: true,
-  })
-  public hashtags: string[];
+  @IsString()
+  public hashtags: string;
 
   @ApiProperty()
-  @IsString({
-    each: true,
-  })
-  public options: string[];
+  @IsString()
+  public options: string;
 
   @ApiProperty()
   public images: Express.Multer.File[];

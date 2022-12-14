@@ -11,6 +11,7 @@ export const ProblemList = styled(List)`
 
   border: 2px solid ${colors.gray2};
   border-radius: 10px;
+  background-color: ${colors.offWhite};
 `;
 export const ProblemItem = styled(Item)`
   display: flex;

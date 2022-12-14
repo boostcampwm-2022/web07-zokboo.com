@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { gradeTestPaper } from '../../api/testpaper';
-import { solveWorkbookQuestion } from '../../api/workbook';
 import useUserData from '../../hooks/useUserData';
 import KEYS from '../../react-query/keys/test';
 import { useAppSelector } from '../../redux/hooks';
@@ -20,7 +19,7 @@ interface Props {
 
 const Solve = ({ isLoading, isError }: Props) => {
   const navigate = useNavigate();
-  const userData = useUserData();
+  useUserData();
   const queryClient = useQueryClient();
   const { id, answerList } = useAppSelector(selectSolveData);
   const gradeTestMutation = useMutation(gradeTestPaper);

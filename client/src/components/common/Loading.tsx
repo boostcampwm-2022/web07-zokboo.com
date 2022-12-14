@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { VscCircleOutline } from 'react-icons/vsc';
+import { VscCircleOutline } from '@react-icons/all-files/vsc/VscCircleOutline';
 import styled from 'styled-components';
 
 const Container = styled.div`

@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { Workbook as pWorkbook } from '@prisma/client';
+import User from 'src/modules/user/domain/User';
 import WorkbookQuestion from './WorkbookQuestion';
 
 class Workbook {
@@ -12,6 +13,7 @@ class Workbook {
   public questions: WorkbookQuestion[] | undefined;
   public createdAt: Date;
   public updatedAt: Date;
+  public user: User;
 
   constructor(
     workbookId: bigint | undefined,
@@ -23,6 +25,7 @@ class Workbook {
     questions: WorkbookQuestion[] | undefined,
     createdAt: Date,
     updatedAt: Date,
+    user: User,
   ) {
     this.workbookId = workbookId;
     this.title = title;
@@ -33,6 +36,7 @@ class Workbook {
     this.questions = questions;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.user = user;
   }
 
   static of(record: pWorkbook) {
@@ -46,12 +50,24 @@ class Workbook {
       undefined,
       record.created_at,
       record.updated_at,
+      undefined,
     );
   }
 
   static new(title: string, description: string, isPublic: boolean, userId: number) {
     const now = new Date();
-    return new Workbook(undefined, title, description, isPublic, BigInt(userId), undefined, undefined, now, now);
+    return new Workbook(
+      undefined,
+      title,
+      description,
+      isPublic,
+      BigInt(userId),
+      undefined,
+      undefined,
+      now,
+      now,
+      undefined,
+    );
   }
 
   static duplicate(workbook: Workbook, userId: number) {
@@ -69,6 +85,7 @@ class Workbook {
       undefined,
       now,
       now,
+      undefined,
     );
   }
 
@@ -81,6 +98,10 @@ class Workbook {
       throw new BadRequestException('문제집에 포함될 수 있는 문제 수는 5개에서 50개 입니다.');
     }
     this.questions = questions;
+  }
+
+  setUser(user: User) {
+    this.user = user;
   }
 }
 

@@ -3,7 +3,7 @@ version: '3'
 services:
   green-container:
     container_name: 'zokboo-frontend-green'
-    image: heroleggo/zokboo-front:green
+    image: heroleggo/zokboo-front-prod:green
     env_file:
       - /build/frontend/.env
     ports:

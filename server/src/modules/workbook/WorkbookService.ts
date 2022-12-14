@@ -8,6 +8,7 @@ import SolveWorkbookQuestionRequest from './dto/request/SolveWorkbookQuestionReq
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import WorkbookQuestionSimpleResponse from './dto/response/WorkbookQuestionSimpleResponse';
+import WorkbookSearchResponse from './dto/response/WorkbookSearchResponse';
 import WorkbookSimpleResponse from './dto/response/WorkbookSimpleResponse';
 import WorkbookStateResponse from './dto/response/WorkbookStateResponse';
 import { WorkbookRepository } from './WorkbookRepository';
@@ -36,12 +37,12 @@ export class WorkbookService {
 
   async searchWorkbooks(title: string, content: string) {
     const workbooks = await this.workbookRepository.searchWorkbooks(title, content);
-    return workbooks.map((w) => new WorkbookSimpleResponse(w));
+    return workbooks.map((w) => new WorkbookSearchResponse(w));
   }
 
   async searchWorkbooksByUser(title: string, content: string, userId: number) {
     const workbooks = await this.workbookRepository.searchWorkbooksByUser(title, content, userId);
-    return workbooks.map((w) => new WorkbookSimpleResponse(w));
+    return workbooks.map((w) => new WorkbookDetailResponse(w));
   }
 
   async getWorkbook(workbookId: number) {

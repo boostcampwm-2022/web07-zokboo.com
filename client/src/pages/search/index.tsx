@@ -13,7 +13,7 @@ import Loading from '../../components/common/utils/Loading';
 import Error from '../../components/common/utils/Error';
 
 const Search = () => {
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const searchWord = searchParams.get('q');
   const { searchType } = useAppSelector(selectSearchType, () => true);
   const [searchResult, setSearchResult] = useState<SearchWorkbookType[]>([]);

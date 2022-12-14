@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-class SolveWorkbookQuestionRequest {
+class ReviewQuestionRequest {
   @ApiProperty()
   @IsString()
-  public newAnswer: string;
+  public review: string;
 }
 
-export default SolveWorkbookQuestionRequest;
+export default ReviewQuestionRequest;

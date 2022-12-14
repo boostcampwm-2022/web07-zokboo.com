@@ -30,7 +30,7 @@ export class TestService {
       request.workbooks.forEach((w) => {
         countTable.set(w.workbookId, w.count);
       });
-      const test = Test.new(BigInt(userId), request.title, request.timeout);
+      const test = Test.new(BigInt(userId), request.title, request.minutes * 60 + request.seconds);
       test.setWorkbooks(workbooks.map((w) => WorkbookTest.new(test, w, countTable.get(Number(w.workbookId)))));
       await this.testRepository.save(test, tx);
       result = new TestSimpleResponse(test);
