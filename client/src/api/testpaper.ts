@@ -3,6 +3,11 @@ import { SERVER_URL } from '../utils/constants';
 import axios from './index';
 import { PatchMarkGradeTestPaperProps, PutGradeTestPaperProps } from '../types/test';
 
+export const postTestPaper = async (body: { title: string; testId: number }) => {
+  const { data } = await axios.post(`${SERVER_URL}/testpapers`, body);
+  return data;
+};
+
 export const getMyTestPaper = async () => {
   const { data } = await axios.get(`${SERVER_URL}/testpapers/?state=SOLVING`);
   return data;
