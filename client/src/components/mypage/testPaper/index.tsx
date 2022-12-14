@@ -19,6 +19,7 @@ interface TestPaper {
   minutes: number;
   seconds: number;
   createdAt: string;
+  updatedAt: string;
   state: TestType;
   questions: GetTestQuestionResponse[];
 }
@@ -40,9 +41,10 @@ const TestPaper = () => {
       <Header>나의 시험지</Header>
       {isLoading && <Loading />}
       {isSuccess && testPaperData.length !== 0
-        ? testPaperData.map((testPaper, idx) => (
-            <TestPaperSearchResultItem key={testPaper.testPaperId} msg={JSON.stringify(testPaper)} />
-          ))
+        ? testPaperData
+            .slice(0)
+            .reverse()
+            .map((testPaper, idx) => <TestPaperSearchResultItem key={testPaper.testPaperId} obj={testPaper} />)
         : null}
       {isError && <Error emoji="😓" message="Error! 시험지를 불러올 수 없습니다. J021에게 문의해주세요." />}
     </Container>
