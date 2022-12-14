@@ -19,6 +19,12 @@ export interface GetQuestionResponse {
   updatedAt: Date;
   options: string[];
   workbookQuestionId?: number;
+  images: string[];
+}
+
+export interface GetSearchQuestionResponse {
+  msg: string;
+  data: GetQuestionResponse[];
 }
 
 export interface GetTestQuestionResponse {
@@ -30,6 +36,7 @@ export interface GetTestQuestionResponse {
   options: string[];
   writtenAnswer?: string;
   state?: string;
+  images: string[];
 }
 
 export interface WorkbookQuestion extends GetQuestionResponse {
@@ -47,4 +54,5 @@ export interface SolveQuestion {
   workbookQuestionId?: number;
   writtenAnswer?: string;
   state?: string;
+  images: string[];
 }

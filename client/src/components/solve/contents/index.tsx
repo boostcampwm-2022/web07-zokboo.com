@@ -22,6 +22,7 @@ import {
   QuestionCheckButton,
   QuestionContainer,
   QuestionDescription,
+  QuestionImage,
   QuestionItem,
   QuestionList,
   QuestionMarkBox,
@@ -196,6 +197,7 @@ const Contents = ({ handleTestGrade }: Props) => {
               answer,
               options,
               state: questionState,
+              images,
             } = questionData;
             const isAnswer = checkDescriptionType(idx, DESCRIPTION_TYPE.answer);
             const isComment = checkDescriptionType(idx, DESCRIPTION_TYPE.comment);
@@ -231,6 +233,7 @@ const Contents = ({ handleTestGrade }: Props) => {
                     </QuestionMarkButton>
                   </QuestionMarkBox>
                 </QuestionBox>
+                <QuestionImage src={images[0]} alt="question" />
                 {questionType === QUESTION_TYPE.multiple ? (
                   <QuestionOptionList>
                     {options.map((option) => (

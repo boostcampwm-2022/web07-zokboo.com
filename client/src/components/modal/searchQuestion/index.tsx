@@ -12,7 +12,7 @@ import {
   ProblemItemTitle,
   ProblemItemUnderLine,
 } from '../../../styles/problemList';
-import { GetQuestionResponse, AddQuestion } from '../../../types/question';
+import { GetQuestionResponse, AddQuestion, GetSearchQuestionResponse } from '../../../types/question';
 import DropDown from '../../common/dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import Loading from '../../common/Loading';
@@ -42,7 +42,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
 
   const [isSearch, handleSearchToggle] = useToggle(false);
 
-  const { data: problemList = [], isLoading } = useQuery<GetQuestionResponse[]>(
+  const { data, isLoading } = useQuery<GetSearchQuestionResponse>(
     QUESTION_KEYS.search,
     async () => {
       const result = await getQuestion({ type: searchType.value, value: searchValue });
@@ -56,6 +56,8 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       },
     },
   );
+
+  const problemList = data?.data ?? [];
 
   return (
     <Container>
