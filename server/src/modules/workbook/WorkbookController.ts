@@ -1,4 +1,16 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiExtraModels, ApiQuery } from '@nestjs/swagger';
 import { ApiMultiResponse, ApiSingleResponse } from '../../decorators/ApiResponseDecorator';
 import { User } from '../../decorators/UserDecorator';
@@ -15,6 +27,7 @@ import { WorkbookService } from './WorkbookService';
 import WorkbookQuestionSimpleResponse from './dto/response/WorkbookQuestionSimpleResponse';
 import WorkbookQuestionDetailResponse from './dto/response/WorkbookQuestionDetailResponse';
 import WorkbookSearchResponse from './dto/response/WorkbookSearchResponse';
+import LikeWorkbookResponse from './dto/response/LikeWorkbookResponse';
 
 @Controller('workbooks')
 @ApiExtraModels(
@@ -40,6 +53,7 @@ export class WorkbookController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   @ApiQuery({
     name: 'title',
     type: String,
@@ -51,8 +65,12 @@ export class WorkbookController {
     required: false,
   })
   @ApiMultiResponse(200, WorkbookSearchResponse, '문제집 조회 / 검색 성공')
-  async searchWorkbooks(@Query('title') title?: string, @Query('content') content?: string) {
-    const response = await this.workbookService.searchWorkbooks(title, content);
+  async searchWorkbooks(
+    @User('id') userId: string,
+    @Query('title') title?: string,
+    @Query('content') content?: string,
+  ) {
+    const response = await this.workbookService.searchWorkbooks(Number(userId), title, content);
     return new ApiResponse('문제집 조회 / 검색 성공', response);
   }
 
@@ -127,5 +145,25 @@ export class WorkbookController {
     const response = await this.workbookService.duplicateWorkbook(workbookId, Number(userId));
 
     return new ApiResponse('문제집 저장 성공', response);
+  }
+
+  @Post(':workbookId/like')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiSingleResponse(200, LikeWorkbookResponse, '문제집 좋아요 성공')
+  async likeWorkbook(@User('id') userId: string, @Param('workbookId', ParseIntPipe) workbookId: number) {
+    const response = await this.workbookService.likeWorkbook(workbookId, Number(userId));
+
+    return new ApiResponse('문제집 좋아요 성공', response);
+  }
+
+  @Post(':workbookId/dislike')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiSingleResponse(200, LikeWorkbookResponse, '문제집 좋아요 취소 성공')
+  async dislikeWorkbook(@User('id') userId: string, @Param('workbookId', ParseIntPipe) workbookId: number) {
+    const response = await this.workbookService.dislikeWorkbook(workbookId, Number(userId));
+
+    return new ApiResponse('문제집 좋아요 취소 성공', response);
   }
 }

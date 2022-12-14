@@ -18,6 +18,7 @@ export interface GetQuestionResponse {
   createdAt: Date;
   updatedAt: Date;
   options: string[];
+  workbookQuestionId?: number;
 }
 
 export interface GetTestQuestionResponse {

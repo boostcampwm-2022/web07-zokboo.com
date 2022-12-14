@@ -59,7 +59,9 @@ const QuestionAnswerForm = ({ questionType, optionList, answer, updateFields }: 
   return questionType === QUESTION_TYPE.subjective ? (
     <Step>
       <SubTitle>모범 답안 작성</SubTitle>
-      <TextArea id="answer" value={answer} rows={18} onChange={(e) => updateFields({ answer: e.target.value })} />
+      
+      <TextArea id="answer" rows={18} value={answer} onChange={(e) => updateFields({ answer: e.target.value })} />
+
     </Step>
   ) : (
     <Step>

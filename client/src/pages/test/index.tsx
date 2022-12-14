@@ -18,7 +18,7 @@ const Test = () => {
 
   const { isLoading, isError } = useQuery<GetTestPaperResponse>([KEYS.detail, numberId], getTestPaper, {
     enabled: numberId !== id || type !== SOLVE_TYPE.test,
-    onSuccess: (data: GetTestPaperResponse) => {
+    onSuccess: ({ data }: GetTestPaperResponse) => {
       dispatch(
         initSolve({
           id: data.testPaperId,

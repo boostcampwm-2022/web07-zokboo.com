@@ -1,4 +1,17 @@
-import { Body, Controller, Get, Post, UseGuards, Query, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Query,
+  UseInterceptors,
+  UploadedFiles,
+  Param,
+  HttpStatus,
+  HttpCode,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ApiExtraModels, ApiQuery } from '@nestjs/swagger';
 import { ApiMultiResponse, ApiSingleResponse } from 'src/decorators/ApiResponseDecorator';
 import { User } from '../../decorators/UserDecorator';
@@ -10,6 +23,7 @@ import GetQuestionsQuery from './dto/query/GetQuestionsQuery';
 import GetQuestionsResponse from './dto/response/GetQuestionsResponse';
 import { QuestionService } from './QuestionService';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import LikeQuestionResponse from './dto/response/LikeQuestionResponse';
 
 @Controller('questions')
 @ApiExtraModels(ApiResponse, CreateQuestionResponse, GetQuestionsResponse)
@@ -47,5 +61,25 @@ export class QuestionController {
     request.images = images;
     const response = await this.questionService.createQuestion(request, Number(userId));
     return new ApiResponse('문제 생성 성공', response);
+  }
+
+  @Post(':questionId/like')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiSingleResponse(200, LikeQuestionResponse, '문제 좋아요 완료')
+  async likeQuestion(@User('id') userId: string, @Param('questionId', ParseIntPipe) questionId: number) {
+    const response = await this.questionService.likeQuestion(questionId, Number(userId));
+
+    return new ApiResponse('문제집 좋아요 성공', response);
+  }
+
+  @Post(':questionId/dislike')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiSingleResponse(200, LikeQuestionResponse, '문제 좋아요 취소 완료')
+  async dislikeQuestion(@User('id') userId: string, @Param('questionId', ParseIntPipe) questionId: number) {
+    const response = await this.questionService.dislikeQuestion(questionId, Number(userId));
+
+    return new ApiResponse('문제집 좋아요 취소 성공', response);
   }
 }
