@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../styles/theme';
 import SearchResultContainer from '../../common/searchResultContainer';
@@ -40,6 +41,7 @@ const CreateAt = styled.div``;
 const UpdatedAt = styled.div``;
 
 const TestPaperSearchResultItem = ({ obj }: { obj: TestPaper }) => {
+  const navigate = useNavigate();
   // console.log(obj);
   const { title, testPaperId, state, minutes, seconds, createdAt, updatedAt } = obj;
   const now = useMemo(() => {
@@ -90,8 +92,12 @@ const TestPaperSearchResultItem = ({ obj }: { obj: TestPaper }) => {
     return `${Math.floor(betweenTimeDay / 365)}년전`;
   }, []);
 
+  const handleTestPaper = () => {
+    navigate(`/test/${testPaperId}`);
+  };
+
   return (
-    <SearchResultContainer>
+    <SearchResultContainer handleClick={handleTestPaper}>
       <SearchResult>
         <Title>{title}</Title>
         <NowState>
