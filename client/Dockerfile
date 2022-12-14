@@ -4,7 +4,8 @@ COPY package*.json ./
 RUN npm ci
 ARG SERVER_URL
 ENV REACT_APP_BASE_URL=${SERVER_URL} \
-	NODE_ENV=production
+	NODE_ENV=production \
+	DISABLE_ESLINT_PLUGIN=true
 COPY ./ ./
 RUN npm i --save serve
 RUN npm run build
