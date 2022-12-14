@@ -5,6 +5,12 @@ import BasicUser from './domain/BasicUser';
 import OauthUser from './domain/OauthUser';
 import User from './domain/User';
 import OauthType from './enum/OauthType';
+import TestPaper from '../testPaper/domain/TestPaper';
+import Test from '../test/domain/Test';
+import WorkbookTest from '../test/domain/WorkbookTest';
+import Workbook from '../workbook/domain/Workbook';
+import WorkbookQuestion from '../workbook/domain/WorkbookQuestion';
+import Question from '../question/domain/Question';
 
 type UserType = User | BasicUser | OauthUser;
 
@@ -135,6 +141,7 @@ export class UserRepository {
   }
 
   async getMyData(userId: bigint) {
+    // TODO: "무조건" 여기 개선하기, 상당히 마음에 들지 않지만, 우선 기능 구현을 위해 작성
     const data = await this.prismaInstance.user.findUnique({
       where: {
         user_id: userId,
@@ -142,7 +149,24 @@ export class UserRepository {
       include: {
         Test: {
           include: {
-            TestPaper: true,
+            TestPaper: {
+              include: {
+                TestPaperQuestion: true,
+              },
+            },
+            WorkbookTest: {
+              include: {
+                Workbook: {
+                  include: {
+                    WorkbookQuestion: {
+                      include: {
+                        Question: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         Workbook_UserToWorkbook_user_id: true,
@@ -152,15 +176,30 @@ export class UserRepository {
     const workbookCount = data.Workbook_UserToWorkbook_user_id.length;
     const testCount = data.Test.length;
     const testPaperCount = data.Test.reduce((acc, curr) => (acc += curr.TestPaper.length), 0);
-    const reviewCount = data.Test.reduce(
-      (acc, curr) => (acc += curr.TestPaper.filter((tp) => tp.state === 'COMPLETE').length),
-      0,
-    );
+    const reviews = data.Test.reduce((acc, curr) => {
+      const test = Test.of(curr);
+      test.setWorkbooks(
+        curr.WorkbookTest.map((wt) => {
+          const workbook = Workbook.of(wt.Workbook);
+          workbook.setQuestions(
+            wt.Workbook.WorkbookQuestion.map((wq) => WorkbookQuestion.of(wq, Question.of(wq.Question))),
+          );
+          return WorkbookTest.of(wt, workbook);
+        }),
+      );
+      const reviewPaper = curr.TestPaper.filter((tp) => tp.state === 'COMPLETE').map((tp) => ({
+        testPaper: tp,
+        test,
+      }));
+      acc.push(...reviewPaper);
+      return acc;
+    }, []).map((rp) => TestPaper.of(rp.testPaper, rp.test));
     return {
       workbookCount,
       testCount,
       testPaperCount,
-      reviewCount,
+      reviewCount: reviews.length,
+      reviews,
     };
   }
 }
