@@ -58,7 +58,7 @@ export class QuestionController {
     @Body() request: CreateQuestionRequest,
     @UploadedFiles() images: Array<Express.Multer.File>,
   ) {
-    request.images = images;
+    request.images = images || [];
     const response = await this.questionService.createQuestion(request, Number(userId));
     return new ApiResponse('문제 생성 성공', response);
   }

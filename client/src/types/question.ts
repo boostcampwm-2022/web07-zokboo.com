@@ -18,6 +18,7 @@ export interface GetQuestionResponse {
   createdAt: Date;
   updatedAt: Date;
   options: string[];
+  images: string[];
   workbookQuestionId?: number;
   images: string[];
 }
@@ -25,6 +26,7 @@ export interface GetQuestionResponse {
 export interface GetSearchQuestionResponse {
   msg: string;
   data: GetQuestionResponse[];
+  writtenAnswer?: string;
 }
 
 export interface GetTestQuestionResponse {
