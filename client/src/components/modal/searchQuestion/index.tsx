@@ -12,7 +12,7 @@ import {
   ProblemItemTitle,
   ProblemItemUnderLine,
 } from '../../../styles/problemList';
-import { GetQuestionResponse, AddQuestion } from '../../../types/question';
+import { AddQuestion, GetSearchQuestionResponse } from '../../../types/question';
 import DropDown from '../../common/dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
 import Loading from '../../common/Loading';
@@ -25,7 +25,10 @@ import {
   SearchButton,
   SearchDropDownContainer,
   SearchProblemList,
+  QuestionType,
+  QuestionBox,
 } from './Style';
+import { QUESTION_TYPE } from '../../../utils/constants';
 
 interface Props {
   handleProblemAdd: (problem: AddQuestion) => void;
@@ -42,7 +45,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
 
   const [isSearch, handleSearchToggle] = useToggle(false);
 
-  const { data: problemList = [], isLoading } = useQuery<GetQuestionResponse[]>(
+  const { data, isLoading } = useQuery<GetSearchQuestionResponse>(
     QUESTION_KEYS.search,
     async () => {
       const result = await getQuestion({ type: searchType.value, value: searchValue });
@@ -56,6 +59,8 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       },
     },
   );
+
+  const problemList = data?.data ?? [];
 
   return (
     <Container>
@@ -97,11 +102,15 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
       <SearchProblemList>
         {isLoading && <Loading />}
         {problemList.map((problem) => {
-          const { questionId, question, hashtags } = problem;
+          const { questionId, question, hashtags, questionType } = problem;
+          const isSubjective = questionType === QUESTION_TYPE.subjective;
 
           return (
             <ProblemItem key={questionId} onClick={() => handleProblemAdd(problem)}>
-              <ProblemItemTitle>{question}</ProblemItemTitle>
+              <QuestionBox>
+                <ProblemItemTitle>{question}</ProblemItemTitle>
+                <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
+              </QuestionBox>
               <ProblemItemUnderLine>
                 <ProblemItemHashTagList>
                   {hashtags.map((hashtag) => (

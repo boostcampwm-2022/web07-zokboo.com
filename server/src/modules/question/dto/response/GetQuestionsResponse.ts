@@ -34,8 +34,8 @@ export default class GetQuestionsResponse {
   // @ApiProperty()
   // public updatedAt: Date;
 
-  // @ApiProperty()
-  // public hashtags: string[];
+  @ApiProperty()
+  public hashtags: string[];
 
   // @ApiProperty()
   // public options: string[] | undefined;
@@ -53,7 +53,7 @@ export default class GetQuestionsResponse {
     // this.commentary = record.commentary;
     // this.createdAt = record.createdAt;
     // this.updatedAt = record.updatedAt;
-    // this.hashtags = record.hashtags.map((h) => h.name);
+    this.hashtags = record.hashtags.map((h) => h.name);
     // if (record.questionType === QuestionType.MULTIPLE) {
     //   this.options = record.options.map((o) => o.content);
     // }

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
-import { getUserData } from '../../api/user';
 import Chart from '../../components/chart/Chart';
+import { getUserData } from '../../api/user';
 import Loading from '../../components/common/Loading';
 import DashBoard from '../../components/dashboard';
 import useUserData from '../../hooks/useUserData';

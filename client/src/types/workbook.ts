@@ -15,6 +15,14 @@ export interface PostCreateWorkbookBody {
   questions: number[];
 }
 
+export interface WorkbookList {
+  workbookId: number;
+  title: string;
+  description: string;
+  isPublic: boolean;
+  questions: WorkbookQuestion[];
+}
+
 export interface GetWorkbookListResponse {
   msg: string;
   data: {
