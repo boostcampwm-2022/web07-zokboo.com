@@ -182,7 +182,7 @@ const TestCreate = () => {
               <div>문제수</div>
             </WorkbookHeader>
             {workbookList.map((workbook, idx) => {
-              const { workbookId, title, description, questions } = workbook;
+              const { workbookId, title, description, questions, questionCount } = workbook;
               return (
                 <WorkbookItem key={workbookId}>
                   <WorkbookInfo>
@@ -196,7 +196,7 @@ const TestCreate = () => {
                   <WorkbookInput
                     type="number"
                     value={questionValues[idx]}
-                    onChange={(e) => handleQuestionLengthUpdate(idx, e.target.value, questions.length)}
+                    onChange={(e) => handleQuestionLengthUpdate(idx, e.target.value, questionCount)}
                   />
                 </WorkbookItem>
               );

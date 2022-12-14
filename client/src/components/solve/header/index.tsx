@@ -44,10 +44,10 @@ const Header = ({ handleTestGrade }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (timer < 0) {
+    if (timer < 0 && type === TEST_TYPE.solve) {
       handleTestGrade();
     }
-  }, [timer]);
+  }, [timer, type]);
 
   return (
     <Container>

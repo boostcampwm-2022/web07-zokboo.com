@@ -23,11 +23,13 @@ const Workbook = () => {
     },
     {
       enabled: numberId !== id || type !== SOLVE_TYPE.workbook,
-      onSuccess: (data: GetWorkbookListResponse) => {
+      onSuccess: ({ data }: GetWorkbookListResponse) => {
         dispatch(
           initSolve({
             id: data.workbookId,
-            questions: data.questions,
+            questions: data.questions.map((question) => {
+              return { ...question, questionId: question.workbookQuestionId };
+            }),
             title: data.title,
             type: SOLVE_TYPE.workbook,
             state: 'WORKBOOK',
