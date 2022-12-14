@@ -146,7 +146,7 @@ const Contents = ({ handleTestGrade }: Props) => {
       {
         onSuccess: ({ data }: GetGradeTestPaperResponse) => {
           toast.success('주관식 채점이 완료되었습니다.');
-          navigate(`/mypage?service=${SERVICE_ROUTE.review}`);
+          navigate(`/mypage?service=${SERVICE_ROUTE.test}`);
           dispatch(
             updateGradeQuestion({
               questions: data.questions.map((question) => ({
