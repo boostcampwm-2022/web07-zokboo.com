@@ -55,7 +55,6 @@ const Router = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/auth/email" element={<EmailAuth />} />
           <Route path="/auth/password" element={<PasswordAuth />} />
-          <Route path="/init" element={<InitPage />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
