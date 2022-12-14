@@ -11,7 +11,7 @@ const ToggleButton = styled.div`
 
   cursor: pointer;
 
-  ::before {
+  ::after {
     content: '';
 
     position: absolute;
@@ -43,7 +43,7 @@ const ToggleContainer = styled.label`
   }
 
   input[type='checkbox']:checked + ${ToggleButton} {
-    ::before {
+    ::after {
       content: '';
 
       position: absolute;
@@ -61,6 +61,20 @@ const ToggleContainer = styled.label`
       border-radius: 50%;
 
       transition: all 0.3s;
+    }
+
+    ::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: -1px;
+
+      width: 100%;
+      height: 100%;
+
+      background-color: ${colors.secondary};
+      border: 1px solid ${colors.secondary};
+      border-radius: 60px;
     }
   }
 `;

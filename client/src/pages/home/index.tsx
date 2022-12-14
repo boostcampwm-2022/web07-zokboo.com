@@ -23,7 +23,7 @@ const Home = () => {
 
       <DashBoard />
 
-      <HomeTitle>최근에 활동한 정보에요.</HomeTitle>
+      <HomeTitle>최근 활동한 정보에요.</HomeTitle>
       <Chart />
     </HomeContainer>
   );
