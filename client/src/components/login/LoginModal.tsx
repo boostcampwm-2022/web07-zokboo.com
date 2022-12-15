@@ -13,10 +13,18 @@ export const ModalTitle = styled.div`
 
   margin: 10px 0;
 
-  width: 300px;
+  a {
+    ${media.mobileLength} {
+      width: 200px !important;
+    }
+  }
 
   img {
-    width: 100%;
+    width: 100% !important;
+
+    ${media.mobileLength} {
+      width: 200px !important;
+    }
   }
 `;
 
