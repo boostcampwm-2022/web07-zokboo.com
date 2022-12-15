@@ -50,18 +50,24 @@ const QuestionAnswerForm = ({ questionType, optionList, answer, updateFields }: 
   }, [optionList]);
 
   useEffect(() => {
-    if (optionList.length !== optionValues.length)
+    let isCheck = false;
+    optionValues.forEach((value, idx) => {
+      if (value !== optionList[idx]) {
+        isCheck = true;
+      }
+    });
+
+    if (isCheck)
       updateFields({
         optionList: optionValues,
       });
-  }, [optionValues]);
+  }, [optionValues, optionList]);
 
   return questionType === QUESTION_TYPE.subjective ? (
     <Step>
       <SubTitle>모범 답안 작성</SubTitle>
-      
-      <TextArea id="answer" rows={18} value={answer} onChange={(e) => updateFields({ answer: e.target.value })} />
 
+      <TextArea id="answer" rows={18} value={answer} onChange={(e) => updateFields({ answer: e.target.value })} />
     </Step>
   ) : (
     <Step>

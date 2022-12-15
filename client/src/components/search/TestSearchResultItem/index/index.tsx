@@ -1,6 +1,7 @@
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { postTestPaper } from '../../../../api/testpaper';
 import { TestListSearchData } from '../../../../types/test';
 import SearchResultContainer from '../../../common/searchResultContainer';
@@ -11,7 +12,7 @@ const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, wor
   const navigate = useNavigate();
   const { mutate: testPaperMutate } = useMutation(postTestPaper, {
     onSuccess: (d) => {
-      alert('시험이 바로 시작됩니다.');
+      toast.success('시험이 바로 시작됩니다.');
       navigate(`/test/${d.data.testPaperId}`);
     },
   });
@@ -28,7 +29,7 @@ const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, wor
         <Timer>
           제한 시간 : {minutes}분 {seconds}초
         </Timer>
-        <QuestionRange>
+        <QuestionRange onClick={(e) => e.stopPropagation()}>
           <summary>
             <IoMdArrowDropdown />
             시험범위 📚
