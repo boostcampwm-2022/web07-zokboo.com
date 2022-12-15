@@ -75,7 +75,7 @@
 
 | 👀 문제집 미리보기 | 💯 채점 기능 |
 | :----: | :----: |
-| <img src="https://user-images.githubusercontent.com/92029332/207884143-94f290ce-b7d7-429c-a83e-2362369b8af7.png" alt="검색 캡쳐"/> | <img src="" alt="채점 캡쳐"/> |
+| <img src="https://user-images.githubusercontent.com/92029332/207884143-94f290ce-b7d7-429c-a83e-2362369b8af7.png" alt="검색 캡쳐"/> | <img src="https://user-images.githubusercontent.com/92029332/207889928-1d18a9f2-72a0-4cbf-8292-83cf22af68d1.png" alt="채점 캡쳐"/> |
 
 
 
