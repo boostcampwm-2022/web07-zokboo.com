@@ -71,7 +71,7 @@
 
 | 🔍 문제집 검색 | 📑 시험 기능 |
 | :----: | :----: |
-| <img src="https://user-images.githubusercontent.com/92029332/207883944-7a013f98-dcec-4602-98c8-68734087ccfa.png" alt="검색 캡쳐"/> | <img src="" alt="시험 캡쳐"/> |
+| <img src="https://user-images.githubusercontent.com/92029332/207883944-7a013f98-dcec-4602-98c8-68734087ccfa.png" alt="검색 캡쳐"/> | <img src="https://user-images.githubusercontent.com/92029332/207889586-d3236aff-5b31-4313-9f6b-24d954d778ba.png" alt="시험 캡쳐"/> |
 
 | 👀 문제집 미리보기 | 💯 채점 기능 |
 | :----: | :----: |
