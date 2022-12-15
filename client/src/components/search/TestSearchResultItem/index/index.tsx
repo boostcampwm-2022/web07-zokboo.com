@@ -29,7 +29,7 @@ const TestSearchResultItem = ({ testId, title, totalCount, minutes, seconds, wor
         <Timer>
           제한 시간 : {minutes}분 {seconds}초
         </Timer>
-        <QuestionRange>
+        <QuestionRange onClick={(e) => e.stopPropagation()}>
           <summary>
             <IoMdArrowDropdown />
             시험범위 📚
