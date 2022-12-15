@@ -56,6 +56,11 @@
     <img src="https://user-images.githubusercontent.com/62789083/202658137-d56cec00-6e4a-4990-b87b-150980d98c7d.png" alt="techstack" />
 </div>
 
+
+
+💬 <b>자세한 기술도입의 이유는 노션의 [프로젝트 소개 페이지](https://www.notion.so/boostcamp-wm/Web07-zokboo-com-6353387d9d124f409e4b024bf461c0bf#f47b5b86f3bd4442a5140e8d5d7d297a)에서 확인하실 수 있어요</b>
+
+
 <!-- Features -->
 
 ### 🎯 주요 기능
@@ -65,7 +70,7 @@
 > 문제집을 만들고, 스크랩하고, 시험지를 만들고, 오답노트를 만들어 나의 계정에 기록할 수 있어요
 
 <div align="center"> 
-    <img src="https://user-images.githubusercontent.com/92029332/207870021-c61acbf7-9160-4109-831e-027415519e6d.png" width=40% alt="로그인 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207870021-c61acbf7-9160-4109-831e-027415519e6d.png" width=60% alt="로그인 캡쳐"/>
 </div>
 
 ## 🔨 문제집 제작
@@ -73,8 +78,8 @@
 > 나만 풀기 아까웠던 문제들을 공유해봐요
 
 <div align="center"> 
-    <img src="https://user-images.githubusercontent.com/92029332/207871408-6735124a-65e3-4b34-b545-12786b5aa198.png" width=40% alt="문제집 제작 캡쳐"/>
-    <img src="https://user-images.githubusercontent.com/92029332/207872124-89516744-7821-4469-8120-d4524b32c177.png" width=40% alt="문제집 제작 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207871408-6735124a-65e3-4b34-b545-12786b5aa198.png" width=45% alt="문제집 제작 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207872124-89516744-7821-4469-8120-d4524b32c177.png" width=45% alt="문제집 제작 캡쳐"/>
 </div>
 
 ## 🔍 문제집 검색
@@ -82,8 +87,8 @@
 > 다른 사람들의 지혜를 활용해봐요
 
 <div align="center"> 
-    <img src="https://user-images.githubusercontent.com/92029332/207883944-7a013f98-dcec-4602-98c8-68734087ccfa.png" width=40% alt="검색 캡쳐"/>
-    <img src="https://user-images.githubusercontent.com/92029332/207884143-94f290ce-b7d7-429c-a83e-2362369b8af7.png" width=40% alt="검색 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207883944-7a013f98-dcec-4602-98c8-68734087ccfa.png" width=45% alt="검색 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207884143-94f290ce-b7d7-429c-a83e-2362369b8af7.png" width=45% alt="검색 캡쳐"/>
 </div>
 
 ## 📑 시험 기능
