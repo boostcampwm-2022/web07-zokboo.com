@@ -6,12 +6,12 @@ import useInput from '../../../hooks/useInput';
 import useToggle from '../../../hooks/useToggle';
 import QUESTION_KEYS from '../../../react-query/keys/question';
 import {
-  ProblemItem,
-  ProblemItemHashTagItem,
-  ProblemItemHashTagList,
-  ProblemItemTitle,
-  ProblemItemUnderLine,
-} from '../../../styles/problemList';
+  QuestionItem,
+  QuestionItemHashTagItem,
+  QuestionItemHashTagList,
+  QuestionItemTitle,
+  QuestionItemUnderLine,
+} from '../../../styles/questionList';
 import { AddQuestion, GetSearchQuestionResponse } from '../../../types/question';
 import DropDown from '../../common/dropdown';
 import { DropdownItem } from '../../common/dropdown/Style';
@@ -24,14 +24,14 @@ import {
   SearchInput,
   SearchButton,
   SearchDropDownContainer,
-  SearchProblemList,
+  SearchQuestionList,
   QuestionType,
   QuestionBox,
 } from './Style';
 import { QUESTION_TYPE } from '../../../utils/constants';
 
 interface Props {
-  handleProblemAdd: (problem: AddQuestion) => void;
+  handleQuestionAdd: (question: AddQuestion) => void;
 }
 
 interface SearchType {
@@ -39,7 +39,7 @@ interface SearchType {
   value: string;
 }
 
-const SearchProblemModal = ({ handleProblemAdd }: Props) => {
+const SearchQuestionModal = ({ handleQuestionAdd }: Props) => {
   const [searchType, setSearchType] = useState<SearchType>(DROPBOX_LIST[0]);
   const { text: searchValue, onChange: handleSearchInputChange } = useInput('');
 
@@ -60,7 +60,7 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
     },
   );
 
-  const problemList = data?.data ?? [];
+  const questionList = data?.data ?? [];
 
   return (
     <Container>
@@ -99,31 +99,31 @@ const SearchProblemModal = ({ handleProblemAdd }: Props) => {
         </SearchButton>
       </SearchContainer>
 
-      <SearchProblemList>
+      <SearchQuestionList>
         {isLoading && <Loading />}
-        {problemList.map((problem) => {
-          const { questionId, question, hashtags, questionType } = problem;
+        {questionList.map((questionItem) => {
+          const { questionId, question, hashtags, questionType } = questionItem;
           const isSubjective = questionType === QUESTION_TYPE.subjective;
 
           return (
-            <ProblemItem key={questionId} onClick={() => handleProblemAdd(problem)}>
+            <QuestionItem key={questionId} onClick={() => handleQuestionAdd(questionItem)}>
               <QuestionBox>
-                <ProblemItemTitle>{question}</ProblemItemTitle>
+                <QuestionItemTitle>{question}</QuestionItemTitle>
                 <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
               </QuestionBox>
-              <ProblemItemUnderLine>
-                <ProblemItemHashTagList>
+              <QuestionItemUnderLine>
+                <QuestionItemHashTagList>
                   {hashtags.map((hashtag) => (
-                    <ProblemItemHashTagItem key={hashtag}>{hashtag}</ProblemItemHashTagItem>
+                    <QuestionItemHashTagItem key={hashtag}>{hashtag}</QuestionItemHashTagItem>
                   ))}
-                </ProblemItemHashTagList>
-              </ProblemItemUnderLine>
-            </ProblemItem>
+                </QuestionItemHashTagList>
+              </QuestionItemUnderLine>
+            </QuestionItem>
           );
         })}
-      </SearchProblemList>
+      </SearchQuestionList>
     </Container>
   );
 };
 
-export default SearchProblemModal;
+export default SearchQuestionModal;

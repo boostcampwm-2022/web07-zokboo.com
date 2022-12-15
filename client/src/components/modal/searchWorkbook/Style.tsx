@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Input, Item, List } from '../../../styles/common';
-import { ProblemItem, ProblemList } from '../../../styles/problemList';
+import { QuestionItem, QuestionList } from '../../../styles/questionList';
 import { colors, media } from '../../../styles/theme';
 
 export const Container = styled.div`
@@ -30,7 +30,7 @@ export const SearchButton = styled(Button)`
   height: 100%;
 `;
 
-export const SearchWorkbookItem = styled(ProblemItem)`
+export const SearchWorkbookItem = styled(QuestionItem)`
   height: auto;
 
   border-radius: 0;
@@ -41,7 +41,7 @@ export const SearchWorkbookItem = styled(ProblemItem)`
   transition: all 1s;
 `;
 
-export const SearchWorkbookList = styled(ProblemList)`
+export const SearchWorkbookList = styled(QuestionList)`
   height: calc(100% - 42px);
 
   border-radius: 0;
@@ -90,11 +90,11 @@ export const InfoButton = styled(Button)`
   border-radius: 50%;
 `;
 
-export const QuestionList = styled(List)<{ isToggle: boolean }>`
+export const WorkbookQuestionList = styled(List)<{ isToggle: boolean }>`
   display: ${(props) => (props.isToggle ? `block` : `none`)};
 `;
 
-export const QuestionItem = styled(Item)`
+export const WorkbookQuestionItem = styled(Item)`
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;

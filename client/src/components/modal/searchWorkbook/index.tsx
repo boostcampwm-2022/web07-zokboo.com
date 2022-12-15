@@ -20,8 +20,8 @@ import {
   InfoDesc,
   InfoButton,
   InfoContainer,
-  QuestionItem,
-  QuestionList,
+  WorkbookQuestionList,
+  WorkbookQuestionItem,
 } from './Style';
 
 interface Props {
@@ -88,12 +88,12 @@ const SearchWorkbookModal = ({ handleWorkbookAdd }: Props) => {
                 </InfoButton>
               </InfoContainer>
 
-              <QuestionList isToggle={questionToggleList[idx]}>
+              <WorkbookQuestionList isToggle={questionToggleList[idx]}>
                 {questions.map((questionItem) => {
                   const { questionId, question } = questionItem;
-                  return <QuestionItem key={questionId}>{question}</QuestionItem>;
+                  return <WorkbookQuestionItem key={questionId}>{question}</WorkbookQuestionItem>;
                 })}
-              </QuestionList>
+              </WorkbookQuestionList>
             </SearchWorkbookItem>
           );
         })}

@@ -12,7 +12,7 @@ import QuestionEtcForm from './forms/QuestionEtcForm';
 import { QUESTION_TYPE } from '../../../utils/constants';
 
 interface Props {
-  handleProblemAdd: (problem: AddQuestion) => void;
+  handleQuestionAdd: (question: AddQuestion) => void;
 }
 
 interface FormData {
@@ -37,7 +37,7 @@ const INITIAL_DATA = {
   difficultValue: 0,
 };
 
-const CreateProblemModal = ({ handleProblemAdd }: Props) => {
+const CreateQuestionModal = ({ handleQuestionAdd }: Props) => {
   const [formData, setFormData] = useState<FormData>(INITIAL_DATA);
 
   const updateFields = (fields: Partial<FormData>) => {
@@ -108,7 +108,7 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
 
     createQuestionMutation.mutate(bodyData, {
       onSuccess: (rowData) => {
-        handleProblemAdd(rowData.data);
+        handleQuestionAdd(rowData.data);
         handleModalReset();
       },
     });
@@ -168,4 +168,4 @@ const CreateProblemModal = ({ handleProblemAdd }: Props) => {
   );
 };
 
-export default CreateProblemModal;
+export default CreateQuestionModal;
