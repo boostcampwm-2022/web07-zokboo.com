@@ -48,14 +48,6 @@
 
 그렇다면 본인이 공부를 하며 **중요한 문제들을 미리 정리**해놓고 이를 나중에 풀어볼 수 있으면 어떨까요? 공부를 하며 **메모장에 문제로 나올만한 내용을 기록**해두고 이를 **나중에 다시한번 풀어보는 경험** 다들 없으신가요? 이제 메모장같은 야매가 아닌, **족부닷컴을 이용해보는 건 어떨까요?** 비단 전공 공부 뿐만이 아니라 자격증 시험, 외국어 공부 등 이용자가 원하는 어느 분야에나 사용할 수 있도록 말이에요!
 
-<!-- Screenshots -->
-
-### 📸 스크린샷
-
-<div align="center"> 
-  <img src="https://placehold.co/600x400?text=Your+Screenshot+here" alt="screenshot" />
-</div>
-
 <!-- TechStack -->
 
 ### ⚒️ Tech Stack
@@ -73,7 +65,7 @@
 > 문제집을 만들고, 스크랩하고, 시험지를 만들고, 오답노트를 만들어 나의 계정에 기록할 수 있어요
 
 <div align="center"> 
-    <img src="" alt="로그인 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207870021-c61acbf7-9160-4109-831e-027415519e6d.png" width=40% alt="로그인 캡쳐"/>
 </div>
 
 ## 🔨 문제집 제작
@@ -81,7 +73,8 @@
 > 나만 풀기 아까웠던 문제들을 공유해봐요
 
 <div align="center"> 
-    <img src="" alt="문제집 제작 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207871408-6735124a-65e3-4b34-b545-12786b5aa198.png" width=40% alt="문제집 제작 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207872124-89516744-7821-4469-8120-d4524b32c177.png" width=40% alt="문제집 제작 캡쳐"/>
 </div>
 
 ## 🔍 문제집 검색
@@ -89,7 +82,8 @@
 > 다른 사람들의 지혜를 활용해봐요
 
 <div align="center"> 
-    <img src="" alt="검색 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207883944-7a013f98-dcec-4602-98c8-68734087ccfa.png" width=40% alt="검색 캡쳐"/>
+    <img src="https://user-images.githubusercontent.com/92029332/207884143-94f290ce-b7d7-429c-a83e-2362369b8af7.png" width=40% alt="검색 캡쳐"/>
 </div>
 
 ## 📑 시험 기능
