@@ -8,7 +8,16 @@ export const GoToLogin = styled(Link)`
 `;
 
 export const ModalTitle = styled.div`
-  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  margin: 10px 0;
+
+  width: 300px;
+
+  img {
+    width: 100%;
+  }
 `;
 
 export const ModalContainerStyled = styled.div`
