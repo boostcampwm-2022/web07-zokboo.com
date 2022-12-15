@@ -21,7 +21,7 @@
 </p>
    
 <h4>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">팀 위키</a>
+    <a href="https://github.com/Louis3797/awesome-readme-template/wiki/">팀 위키</a>
     <span> · </span>
     <a href="https://boostcamp-wm.notion.site/Web07-zokboo-com-6353387d9d124f409e4b024bf461c0bf">노션 페이지</a>
     <span> · </span>
