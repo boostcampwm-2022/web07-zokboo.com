@@ -25,6 +25,7 @@ interface InfoData {
   question: string;
   questionType: string;
   hashTagList: string[];
+  image: File | null;
 }
 
 interface FieldProps {
@@ -38,7 +39,7 @@ type Props = InfoData & {
   updateFields: (fields: Partial<FieldProps>) => void;
 };
 
-const QuestionInfoForm = ({ question, questionType, hashTagList, updateFields }: Props) => {
+const QuestionInfoForm = ({ question, questionType, image, hashTagList, updateFields }: Props) => {
   const {
     state: hashTagState,
     values: hashTagValues,
@@ -109,6 +110,12 @@ const QuestionInfoForm = ({ question, questionType, hashTagList, updateFields }:
         hashTagList: hashTagValues,
       });
   }, [hashTagValues]);
+
+  useEffect(() => {
+    if (!image) {
+      setRenderImage('');
+    }
+  }, [image]);
 
   return (
     <Step>
