@@ -5,6 +5,7 @@ export interface Workbook {
   title: string;
   description: string;
   questions: GetQuestionResponse[];
+  questionCount: number;
 }
 
 export interface PostCreateWorkbookBody {
@@ -14,12 +15,23 @@ export interface PostCreateWorkbookBody {
   questions: number[];
 }
 
-export interface GetWorkbookListResponse {
+export interface WorkbookList {
   workbookId: number;
   title: string;
   description: string;
   isPublic: boolean;
   questions: WorkbookQuestion[];
+}
+
+export interface GetWorkbookListResponse {
+  msg: string;
+  data: {
+    workbookId: number;
+    title: string;
+    description: string;
+    isPublic: boolean;
+    questions: WorkbookQuestion[];
+  };
 }
 
 interface SolveWorkbookQuestionParams {
@@ -37,10 +49,14 @@ export interface PatchSolveWorkbookQuestionProps {
 }
 
 export interface GetWorkbookListByTitleResponse {
-  workbookId: number;
-  title: string;
-  description: string;
-  questions: GetQuestionResponse[];
+  msg: string;
+  data: {
+    workbookId: number;
+    title: string;
+    description: string;
+    questions: GetQuestionResponse[];
+    questionCount: number;
+  }[];
 }
 
 export interface PostWorkbookSave {

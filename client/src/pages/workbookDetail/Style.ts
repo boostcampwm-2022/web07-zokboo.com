@@ -12,8 +12,6 @@ export const PageContainer = styled.div`
 
 export const HeaderContainer = styled.div`
   display: flex;
-  flex-direction: row;
-
   justify-content: center;
   ${media.mobileLength} {
     justify-content: flex-start;
@@ -27,24 +25,15 @@ export const HeaderContainer = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  justify-content: flex-start;
-`;
-
-export const Left = styled.div`
-  display: flex;
-  ${media.mobileWidth} {
-    display: none;
+  flex-direction: column;
+  width: 800px;
+  ${media.tablet} {
+    width: 80%;
   }
-  flex-direction: row;
-  align-items: center;
-
-  gap: 4px;
-  padding-left: 20px;
-`;
-export const Right = styled.div`
-  padding-left: 20px;
-  width: 100%;
-  max-width: 400px;
+  ${media.mobileWidth} {
+    width: 100%;
+  }
+  padding: 0px 30px;
 `;
 
 export const WorkbookIntroduce = styled.div`
@@ -112,74 +101,11 @@ export const ProblemListContainer = styled.div`
   margin: 0 10px;
 `;
 export const ProblemList = styled.div`
-  width: 70%;
+  width: 800px;
+  ${media.tablet} {
+    width: 80%;
+  }
   ${media.mobileWidth} {
     width: 100%;
-  }
-`;
-
-export const ProblemDropdown = styled.details`
-  margin-top: 12px;
-
-  > * {
-    padding: 10px 20px;
-  }
-`;
-
-export const ProblemNumber = styled.summary`
-  white-space: nowrap;
-  overflow: hidden;
-
-  background-color: ${colors.secondary};
-  border-radius: 4px;
-  margin-bottom: 8px;
-
-  ::marker {
-    display: none;
-    content: '🔽  ';
-  }
-`;
-
-export const Problem = styled.div`
-  background-color: white;
-`;
-
-export const ProblemTitle = styled.div`
-  font-weight: 700;
-`;
-
-export const ProblemImg = styled.img`
-  max-width: 350px;
-  max-height: 350px;
-`;
-
-export const ProblemDifficulty = styled.div`
-  color: ${colors.gray4};
-  font-size: ${fonts.size.xs};
-`;
-export const ProblemCommentary = styled.div`
-  color: ${colors.gray4};
-  font-size: ${fonts.size.xs};
-`;
-export const ProblemHashtags = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  margin-top: 8px;
-
-  font-size: 14px;
-
-  > * {
-    font-size: 12px;
-
-    border: none;
-    border-radius: 4px;
-
-    margin: 0 4px;
-    padding: 2px 4px;
-
-    background-color: ${colors.primary};
-    color: ${colors.white};
   }
 `;

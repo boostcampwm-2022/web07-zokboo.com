@@ -8,9 +8,12 @@ import SolveWorkbookQuestionRequest from './dto/request/SolveWorkbookQuestionReq
 import CreateWorkbookResponse from './dto/response/CreateWorkbookResponse';
 import WorkbookDetailResponse from './dto/response/WorkbookDetailResponse';
 import WorkbookQuestionSimpleResponse from './dto/response/WorkbookQuestionSimpleResponse';
+import WorkbookSearchResponse from './dto/response/WorkbookSearchResponse';
 import WorkbookSimpleResponse from './dto/response/WorkbookSimpleResponse';
 import WorkbookStateResponse from './dto/response/WorkbookStateResponse';
 import { WorkbookRepository } from './WorkbookRepository';
+import LikeWorkbookResponse from './dto/response/LikeWorkbookResponse';
+import WorkbookLike from './domain/WorkbookLike';
 
 @Injectable()
 export class WorkbookService {
@@ -32,9 +35,13 @@ export class WorkbookService {
     return result;
   }
 
-  async searchWorkbooks(title: string, content: string) {
+  async searchWorkbooks(userId: number, title: string, content: string) {
     const workbooks = await this.workbookRepository.searchWorkbooks(title, content);
-    return workbooks.map((w) => new WorkbookSimpleResponse(w));
+    const likes = await this.workbookRepository.mapLikeByWorkbookIds(
+      BigInt(userId),
+      workbooks.map((workbook) => workbook.workbookId),
+    );
+    return workbooks.map((w, idx) => new WorkbookSearchResponse(w, likes[idx]));
   }
 
   async searchWorkbooksByUser(title: string, content: string, userId: number) {
@@ -99,6 +106,44 @@ export class WorkbookService {
       newWorkbook.setId(savedResult.workbookId);
       result = new CreateWorkbookResponse(newWorkbook);
     });
+    return result;
+  }
+
+  async likeWorkbook(workbookId: number, userId: number) {
+    let result: LikeWorkbookResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const hasLiked = await this.workbookRepository.checkLiked(workbookId, userId, tx);
+
+      if (hasLiked) {
+        throw new BadRequestException('ALREADY_LIKED_WORKBOOK');
+      }
+
+      const newLike = new WorkbookLike(BigInt(workbookId), BigInt(userId));
+      const likeResult = await this.workbookRepository.createWorkbookLike(newLike, tx);
+      result = new LikeWorkbookResponse(likeResult);
+    });
+
+    return result;
+  }
+
+  async dislikeWorkbook(workbookId: number, userId: number) {
+    let result: LikeWorkbookResponse;
+    await this.prisma.$transaction(async (tx) => {
+      const hasLiked = await this.workbookRepository.checkLiked(workbookId, userId, tx);
+
+      if (!hasLiked) {
+        throw new BadRequestException('NO_LIKE_FOUND');
+      }
+      const newDislike = new WorkbookLike(BigInt(workbookId), BigInt(userId));
+      const dislikeResult = await this.workbookRepository.deleteWorkbookLike(newDislike, tx);
+
+      if (dislikeResult !== 1) {
+        throw new BadRequestException('DISLIKE_FAILED');
+      }
+
+      result = new LikeWorkbookResponse(newDislike);
+    });
+
     return result;
   }
 }

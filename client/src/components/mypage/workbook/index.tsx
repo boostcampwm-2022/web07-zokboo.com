@@ -5,7 +5,7 @@ import SearchWorkbookType from '../../../types/search';
 import { MYPAGE_TYPE } from '../../../utils/constants';
 import Loading from '../../common/Loading';
 import Error from '../../common/utils/Error';
-import WorkbookItem from '../../workbookItem/WorkbookItem';
+import SearchResultItem from '../../search/SearchResultItem';
 
 import { Header, WorkbookContainer } from './Style';
 
@@ -15,7 +15,7 @@ interface MypageWorkbookProps {
 
 const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
   const [workbookData, setWorkbookData] = useState<SearchWorkbookType[]>([]);
-  const { isLoading, isSuccess, data } = useQuery([type], getMyWorkbookData, {
+  const { isLoading, isSuccess, data, isError } = useQuery([type], getMyWorkbookData, {
     onSuccess: (d) => {
       setWorkbookData(d.data);
       console.log(d.msg);
@@ -31,18 +31,20 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
       {isLoading && <Loading />}
       {isSuccess &&
         (workbookData.length !== 0 ? (
-          workbookData.map((workbook, index) => (
-            <WorkbookItem
+          workbookData.map((workbook) => (
+            <SearchResultItem
               key={workbook.workbookId}
               workbookId={workbook.workbookId}
               title={workbook.title}
               description={workbook.description}
               questionCount={workbook.questionCount}
+              type={type}
             />
           ))
         ) : (
-          <Error message="문제집이 없습니다." />
+          <Error message="이런, 문제집이 없습니다." />
         ))}
+      {isError && <Error emoji="🫠" message="Error! 문제집을 불러올 수 없습니다. J021에게 문의해주세요." />}
     </WorkbookContainer>
   );
 };

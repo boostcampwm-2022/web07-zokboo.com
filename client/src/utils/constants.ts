@@ -11,6 +11,9 @@ export const MYPAGE_TYPE = {
   나의시험지: 'my_test',
 };
 
+export const ALLOW_FILE_EXTENSION = ['jpg', 'jpeg', 'png'];
+export const FILE_SIZE_MAX_LIMIT = 5 * 1024 * 1024;
+
 export const SOLVE_TYPE = {
   test: 'test',
   workbook: 'workbook',
@@ -41,3 +44,5 @@ export const VERIFICATION = {
   pw: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*=-])(?=.*[0-9]).{8,16}$/,
   email: /[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
 };
+
+export const DIFFICULTY = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];

@@ -257,3 +257,12 @@ export const TestButtonContainer = styled.div<{ isShow: boolean }>`
 export const TestButton = styled(Button)`
   padding: 5px 20px;
 `;
+
+export const QuestionImage = styled.img`
+  display: ${(props) => (props.src ? `block` : `none`)};
+
+  width: 320px;
+  height: 240px;
+
+  margin: 5px 0 0;
+`;

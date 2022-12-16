@@ -13,6 +13,9 @@ export default class GetQuestionsResponse {
   @ApiProperty()
   public images: string[];
 
+  @ApiProperty()
+  public liked: boolean;
+
   // @ApiProperty({
   //   enum: QuestionType,
   //   enumName: 'Question Type',
@@ -31,25 +34,26 @@ export default class GetQuestionsResponse {
   // @ApiProperty()
   // public updatedAt: Date;
 
-  // @ApiProperty()
-  // public hashtags: string[];
+  @ApiProperty()
+  public hashtags: string[];
 
   // @ApiProperty()
   // public options: string[] | undefined;
 
-  constructor(record: Question) {
+  constructor(record: Question, liked?: boolean) {
     if (!record.questionId) {
       throw new BadRequestException('저장되지 않은 Question');
     }
     this.questionId = Number(record.questionId);
     this.question = record.question;
     this.images = record.images.map((i) => i.path);
+    this.liked = liked || undefined;
     // this.questionType = record.questionType;
     // this.answer = record.answer;
     // this.commentary = record.commentary;
     // this.createdAt = record.createdAt;
     // this.updatedAt = record.updatedAt;
-    // this.hashtags = record.hashtags.map((h) => h.name);
+    this.hashtags = record.hashtags.map((h) => h.name);
     // if (record.questionType === QuestionType.MULTIPLE) {
     //   this.options = record.options.map((o) => o.content);
     // }

@@ -19,7 +19,7 @@ interface Props {
 const Header = ({ handleTestGrade }: Props) => {
   const { title, minutes, seconds, createdAt, type, state } = useAppSelector(selectSolveData);
   const intervalRef = useRef<NodeJS.Timer>();
-  const [timer, setTimer] = useState(-1);
+  const [timer, setTimer] = useState(Infinity);
 
   useEffect(() => {
     if (type === SOLVE_TYPE.test) {
@@ -44,10 +44,10 @@ const Header = ({ handleTestGrade }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (timer < 0) {
+    if (timer < 0 && state === TEST_TYPE.solve) {
       handleTestGrade();
     }
-  }, [timer]);
+  }, [timer, state]);
 
   return (
     <Container>

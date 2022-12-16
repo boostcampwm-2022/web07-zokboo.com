@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Button, Item, List } from './common';
 import { colors, fonts } from './theme';
 
-export const ProblemList = styled(List)`
+export const QuestionList = styled(List)`
   width: 100%;
   height: 460px;
 
@@ -13,7 +13,7 @@ export const ProblemList = styled(List)`
   border-radius: 10px;
   background-color: ${colors.offWhite};
 `;
-export const ProblemItem = styled(Item)`
+export const QuestionItem = styled(Item)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -27,7 +27,7 @@ export const ProblemItem = styled(Item)`
   border-radius: 10px;
 `;
 
-export const ProblemItemTitle = styled.h3`
+export const QuestionItemTitle = styled.h3`
   display: inline-block;
   width: 90%;
   height: 2.4em;
@@ -48,19 +48,19 @@ export const ProblemItemTitle = styled.h3`
   display: -webkit-box;
 `;
 
-export const ProblemItemUnderLine = styled.div`
+export const QuestionItemUnderLine = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-export const ProblemItemHashTagList = styled.div`
+export const QuestionItemHashTagList = styled.div`
   width: calc(100% - 55px);
 
   display: flex;
   justify-content: flex-start;
 `;
 
-export const ProblemItemHashTagItem = styled.span`
+export const QuestionItemHashTagItem = styled.span`
   display: inline-block;
 
   box-sizing: border-box;
@@ -76,7 +76,7 @@ export const ProblemItemHashTagItem = styled.span`
   font-size: ${fonts.size.xs};
 `;
 
-export const ProblemItemButton = styled(Button)`
+export const QuestionItemButton = styled(Button)`
   width: 55px;
   height: 30px;
 

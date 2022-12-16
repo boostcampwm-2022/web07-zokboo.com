@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Input } from '../../styles/common';
 import { colors, fonts, media, paddings, widths } from '../../styles/theme';
+import { DropdownItem } from '../common/dropdown/Style';
 
 export const Container = styled.header`
   border-bottom: 1px solid ${colors.gray1};
@@ -210,6 +211,12 @@ export const DropDownLink = styled(Link)`
   height: 100%;
   width: 100%;
 
+  padding: 5px 10px;
+
   color: ${colors.text};
   text-decoration: none;
+`;
+
+export const DropDownLinkItem = styled(DropdownItem)`
+  padding: 0;
 `;

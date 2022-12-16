@@ -55,7 +55,7 @@ export const LoginButton = styled.input`
   border-radius: 8px;
 
   padding: 8px;
-  width: 224px;
+  width: 200px;
 
   :hover {
     background-color: ${colors.primary};
@@ -97,4 +97,6 @@ export const SSOButtons = styled.div`
 
 export const SSOIcon = styled.img`
   width: 48px;
+
+  cursor: pointer;
 `;
