@@ -50,6 +50,8 @@ const Login = () => {
     loginMutation.mutate({ email, password: pw });
   };
 
+  console.log(code, type);
+
   useEffect(() => {
     if (code && type) {
       SSOMutation.mutate({ SSOType: type, code });
