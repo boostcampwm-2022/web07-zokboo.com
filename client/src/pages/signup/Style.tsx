@@ -34,6 +34,14 @@ export const Modal = styled.div`
   flex-direction: column;
 
   width: 70%;
+
+  img {
+    width: 300px;
+
+    ${media.mobileLength} {
+      width: 200px;
+    }
+  }
 `;
 
 export const InputContainer = styled.div`
