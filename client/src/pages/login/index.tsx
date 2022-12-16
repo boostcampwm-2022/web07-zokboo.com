@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Logo from '../../components/common/logo';
 import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
-import { GITHUB, GOOGLE, KAKAO, NAVER } from './constants';
 import { useAppDispatch } from '../../redux/hooks';
 import { signinSuccess } from '../../redux/user/slice';
 import ModalContainer from '../../components/login/LoginModal';
 import { getLocalLoginData, getSSOData } from '../../api/auth';
+import { GITHUB, GOOGLE, KAKAO, NAVER, URL } from './constants';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  console.log(process.env);
+
+  const code = searchParams.get('code');
+  const type = searchParams.get('type');
 
   const SSOMutation = useMutation(getSSOData, {
     onSuccess: (data) => {
@@ -46,6 +52,12 @@ const Login = () => {
     loginMutation.mutate({ email, password: pw });
   };
 
+  useEffect(() => {
+    if (code && type) {
+      SSOMutation.mutate({ SSOType: type, code });
+    }
+  }, []);
+
   return (
     <div>
       <ModalContainer title={<Logo type="large" />}>
@@ -65,22 +77,30 @@ const Login = () => {
             <SSOIcon
               src="https://kr.object.ncloudstorage.com/asset.image/github-icon.svg"
               alt="github"
-              onClick={() => SSOMutation.mutate(GITHUB)}
+              onClick={() => {
+                window.location.href = `https://github.com/login/oauth/authorize?client_id=${GITHUB}&redirect_uri=${URL}login?type=github`;
+              }}
             />
             <SSOIcon
               src="https://kr.object.ncloudstorage.com/asset.image/google-icon.svg"
               alt="google"
-              onClick={() => SSOMutation.mutate(GOOGLE)}
+              onClick={() => {
+                window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE}&redirect_uri=${URL}login?type=google&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email`;
+              }}
             />
             <SSOIcon
               src="https://kr.object.ncloudstorage.com/asset.image/naver-icon.svg"
               alt="naver"
-              onClick={() => SSOMutation.mutate(NAVER)}
+              onClick={() => {
+                window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER}&redirect_uri=${URL}login?type=naver&state=ascaso1233dc`;
+              }}
             />
             <SSOIcon
               src="https://kr.object.ncloudstorage.com/asset.image/kakao-icon.svg"
               alt="kakao"
-              onClick={() => SSOMutation.mutate(KAKAO)}
+              onClick={() => {
+                window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&redirect_uri=${URL}login?type=kakao&client_id=${KAKAO}`;
+              }}
             />
           </SSOButtons>
         </ModalBody>

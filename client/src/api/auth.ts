@@ -18,10 +18,12 @@ export const resetPassword = async (body: PostResetPasswordBody) => {
   return data;
 };
 
-export const getSSOData = async (SSOType: string) => {
-  const { data } = await axios.get(`${SERVER_URL}/auth/${SSOType}`, { withCredentials: true }).catch((err) => {
-    throw err.response.data.message;
-  });
+export const getSSOData = async ({ SSOType, code }: { SSOType: string; code: string }) => {
+  const { data } = await axios
+    .get(`${SERVER_URL}/auth/${SSOType}/callback?code=${code}`, { withCredentials: true })
+    .catch((err) => {
+      throw err.response.data.message;
+    });
   return data;
 };
 
