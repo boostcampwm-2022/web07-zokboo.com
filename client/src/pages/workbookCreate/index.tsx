@@ -50,7 +50,7 @@ const WorkbookCreate = () => {
   const createWorkbookMutation = useMutation(createWorkbook);
 
   const handleQuestionAdd = (question: AddQuestion) => {
-    const listFilter = questionList.filter((currQuestion) => question === currQuestion);
+    const listFilter = questionList.filter((currQuestion) => question.questionId === currQuestion.questionId);
 
     if (listFilter.length === 0) {
       toast.success('문제를 추가하였습니다.');
@@ -138,14 +138,12 @@ const WorkbookCreate = () => {
 
           <QuestionList>
             {questionList.map((questionItem, idx) => {
-              const { questionId, question, hashtags, questionType } = questionItem;
-              const isSubjective = questionType === QUESTION_TYPE.subjective;
+              const { questionId, question, hashtags } = questionItem;
 
               return (
                 <QuestionItem key={questionId}>
                   <QuestionBox>
                     <QuestionItemTitle>{question}</QuestionItemTitle>
-                    <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
                   </QuestionBox>
                   <QuestionItemUnderLine>
                     <QuestionItemHashTagList>

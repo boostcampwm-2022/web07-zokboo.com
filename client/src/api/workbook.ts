@@ -25,7 +25,6 @@ export const getMyWorkbookData = async ({ queryKey }: QueryFunctionContext) => {
 export const getWorkbookById = async ({ queryKey }: QueryFunctionContext) => {
   const workbookId = queryKey[1];
   const { data } = await axios.get(`${SERVER_URL}/workbooks/${workbookId}`);
-  console.log(data);
   return data;
 };
 

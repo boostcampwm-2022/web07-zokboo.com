@@ -102,14 +102,12 @@ const SearchQuestionModal = ({ handleQuestionAdd }: Props) => {
       <SearchQuestionList>
         {isLoading && <Loading />}
         {questionList.map((questionItem) => {
-          const { questionId, question, hashtags, questionType } = questionItem;
-          const isSubjective = questionType === QUESTION_TYPE.subjective;
+          const { questionId, question, hashtags } = questionItem;
 
           return (
             <QuestionItem key={questionId} onClick={() => handleQuestionAdd(questionItem)}>
               <QuestionBox>
                 <QuestionItemTitle>{question}</QuestionItemTitle>
-                <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
               </QuestionBox>
               <QuestionItemUnderLine>
                 <QuestionItemHashTagList>
