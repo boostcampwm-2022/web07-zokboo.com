@@ -10,10 +10,10 @@ export const getSearchData = async ({ queryKey }: QueryFunctionContext) => {
   // 더 나은 방법이 없을까?
   const params = (() => {
     if (searchType === SEARCH_TYPE.title) {
-      return { title: searchWord, content: '' };
+      return { title: searchWord };
     }
     if (searchType === SEARCH_TYPE.content) {
-      return { title: '', content: searchWord };
+      return { content: searchWord };
     }
     if (searchType === SEARCH_TYPE.title_content) {
       return { title: searchWord, content: searchWord };
