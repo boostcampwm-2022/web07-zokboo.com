@@ -4,13 +4,16 @@ import { toast } from 'react-toastify';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Logo from '../../components/common/logo';
 import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { signinSuccess } from '../../redux/user/slice';
 import ModalContainer from '../../components/login/LoginModal';
 import { getLocalLoginData, getSSOData } from '../../api/auth';
-import { GITHUB, GOOGLE, KAKAO, NAVER, URL } from './constants';
+import { GITHUB, KAKAO, NAVER, URL } from './constants';
+import selectUserData from '../../redux/user/selector';
 
 const Login = () => {
+  const userData = useAppSelector(selectUserData);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -51,6 +54,12 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (userData.userId) {
+      navigate('/');
+    }
+  }, [userData]);
+
+  useEffect(() => {
     if (code && type) {
       SSOMutation.mutate({ SSOType: type, code });
     }
@@ -79,13 +88,13 @@ const Login = () => {
                 window.location.href = `https://github.com/login/oauth/authorize?client_id=${GITHUB}&redirect_uri=${URL}login?type=github`;
               }}
             />
-            <SSOIcon
+            {/* <SSOIcon
               src="https://kr.object.ncloudstorage.com/asset.image/google-icon.svg"
               alt="google"
               onClick={() => {
                 window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE}&redirect_uri=${URL}login?type=google&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email`;
               }}
-            />
+            /> */}
             <SSOIcon
               src="https://kr.object.ncloudstorage.com/asset.image/naver-icon.svg"
               alt="naver"
