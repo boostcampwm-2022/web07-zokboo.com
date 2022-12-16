@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Logo from '../../components/common/logo';
 import ModalContainer from '../../components/login/LoginModal';
 import { EmailForm, FindPwContainer, InputBox, SendButton } from './Style';
 
@@ -20,7 +21,7 @@ const FindPw = () => {
   };
 
   return (
-    <ModalContainer title="비밀번호 찾기">
+    <ModalContainer title={<Logo type="large" />}>
       {/* <WhatFindContainer>
         <Link className="find-id" to="/find_id">
           아이디 찾기

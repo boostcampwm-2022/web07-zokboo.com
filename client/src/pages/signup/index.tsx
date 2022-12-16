@@ -16,6 +16,7 @@ import {
 import { VERIFICATION } from '../../utils/constants';
 import ToggleVisible from '../../components/login/ToggleVisible';
 import { postSignup } from '../../api/auth';
+import Logo from '../../components/common/logo';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const SignUp = () => {
   return (
     <ModalContainer>
       <Modal>
-        회원가입
+        <Logo type="large" />
         <InputContainer>
           <InputTitle>이메일</InputTitle>
           <InputBoxContainer>
