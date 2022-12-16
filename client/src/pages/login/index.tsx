@@ -15,8 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  console.log(process.env);
-
   const code = searchParams.get('code');
   const type = searchParams.get('type');
 
