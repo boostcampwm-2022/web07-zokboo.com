@@ -15,7 +15,14 @@ jobs:
       - name: Docker Build - Production
         run: |
           docker login -u ${{ secrets.FRONTEND_DOCKERHUB_USERNAME }} -p ${{ secrets.FRONTEND_DOCKERHUB_PASSWORD }}
-          docker build -t zokboo-front-prod --build-arg SERVER_URL=${{ secrets.SERVER_URL }} ./client/
+          docker build -t zokboo-front-prod \
+            --build-arg SSO_URL=${{ secrets.REACT_APP_SSO_URL }} \
+            --build-arg SERVER_URL=${{ secrets.SERVER_URL }} \
+            --build-arg GITHUB=${{ secrets.REACT_APP_GITHUB }} \
+            --build-arg NAVER=${{ secrets.REACT_APP_NAVER }} \
+            --build-arg GOOGLE=${{ secrets.REACT_APP_GOOGLE }} \
+            --build-arg KAKAO=${{ secrets.REACT_APP_KAKAO }} \
+            ./client/
           docker image tag zokboo-front-prod heroleggo/zokboo-front-prod:blue
           docker image tag zokboo-front-prod heroleggo/zokboo-front-prod:green
           docker image push -a heroleggo/zokboo-front-prod
