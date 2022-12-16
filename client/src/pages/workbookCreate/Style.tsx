@@ -21,7 +21,7 @@ export const Container = styled.div`
   }
 `;
 
-export const ProblemListContainer = styled.div`
+export const QuestionListContainer = styled.div`
   display: flex;
   flex-direction: column;
 

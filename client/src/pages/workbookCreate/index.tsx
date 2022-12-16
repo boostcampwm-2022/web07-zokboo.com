@@ -5,20 +5,20 @@ import { createWorkbook } from '../../api/workbook';
 import MainTitle from '../../components/common/mainTitle/MainTitle';
 import Toggle from '../../components/common/Toggle';
 import Modal from '../../components/modal';
-import CreateProblemModal from '../../components/modal/createQuestion';
-import SearchProblemModal from '../../components/modal/searchQuestion';
+import CreateQuestionModal from '../../components/modal/createQuestion';
+import SearchQuestionModal from '../../components/modal/searchQuestion';
 import useToggle from '../../hooks/useToggle';
 import useUserData from '../../hooks/useUserData';
 import { SubTitle } from '../../styles/common';
 import {
-  ProblemItem,
-  ProblemItemButton,
-  ProblemItemHashTagItem,
-  ProblemItemHashTagList,
-  ProblemItemTitle,
-  ProblemItemUnderLine,
-  ProblemList,
-} from '../../styles/problemList';
+  QuestionItem,
+  QuestionItemButton,
+  QuestionItemHashTagItem,
+  QuestionItemHashTagList,
+  QuestionItemTitle,
+  QuestionItemUnderLine,
+  QuestionList,
+} from '../../styles/questionList';
 import { AddQuestion } from '../../types/question';
 import { QUESTION_TYPE } from '../../utils/constants';
 import {
@@ -30,7 +30,7 @@ import {
   InfoInput,
   InfoItem,
   InfoToggle,
-  ProblemListContainer,
+  QuestionListContainer,
   InfoTextArea,
   QuestionBox,
   QuestionType,
@@ -45,24 +45,24 @@ const WorkbookCreate = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
 
-  const [problemList, setProblemList] = useState<AddQuestion[]>([]);
+  const [questionList, setQuestionList] = useState<AddQuestion[]>([]);
 
   const createWorkbookMutation = useMutation(createWorkbook);
 
-  const handleProblemAdd = (problem: AddQuestion) => {
-    const listFilter = problemList.filter((currProblem) => problem === currProblem);
+  const handleQuestionAdd = (question: AddQuestion) => {
+    const listFilter = questionList.filter((currQuestion) => question === currQuestion);
 
     if (listFilter.length === 0) {
       toast.success('문제를 추가하였습니다.');
-      setProblemList((prev) => [...prev, problem]);
+      setQuestionList((prev) => [...prev, question]);
     } else {
       toast.error('이미 추가된 문제입니다.');
     }
   };
 
-  const handleProblemDelete = (index: number) => {
-    const updateProblemList = problemList.filter((_, idx) => idx !== index);
-    setProblemList(updateProblemList);
+  const handleQuestionDelete = (index: number) => {
+    const updateQuestionList = questionList.filter((_, idx) => idx !== index);
+    setQuestionList(updateQuestionList);
   };
 
   const handleWorkbookCreate = (event: React.FormEvent<HTMLFormElement>) => {
@@ -83,12 +83,12 @@ const WorkbookCreate = () => {
       return;
     }
 
-    if (problemList.length === 0) {
+    if (questionList.length === 0) {
       toast.error('문제에 문제를 추가해주세요.');
       return;
     }
 
-    const questions = problemList.map(({ questionId }) => questionId);
+    const questions = questionList.map(({ questionId }) => questionId);
 
     createWorkbookMutation.mutate(
       {
@@ -100,7 +100,7 @@ const WorkbookCreate = () => {
       {
         onSuccess: () => {
           target.reset();
-          setProblemList([]);
+          setQuestionList([]);
           toast.success('문제집을 추가하였습니다.');
         },
       },
@@ -130,47 +130,47 @@ const WorkbookCreate = () => {
           <InfoButton type="submit">문제집 생성</InfoButton>
         </InfoContainer>
 
-        <ProblemListContainer>
+        <QuestionListContainer>
           <ButtonList>
             <ListButton onClick={onSearchModalToggle}>문제 검색</ListButton>
             <ListButton onClick={onCreateModalToggle}>문제 추가</ListButton>
           </ButtonList>
 
-          <ProblemList>
-            {problemList.map((problem, idx) => {
-              const { questionId, question, hashtags, questionType } = problem;
+          <QuestionList>
+            {questionList.map((questionItem, idx) => {
+              const { questionId, question, hashtags, questionType } = questionItem;
               const isSubjective = questionType === QUESTION_TYPE.subjective;
 
               return (
-                <ProblemItem key={questionId}>
+                <QuestionItem key={questionId}>
                   <QuestionBox>
-                    <ProblemItemTitle>{question}</ProblemItemTitle>
+                    <QuestionItemTitle>{question}</QuestionItemTitle>
                     <QuestionType type={isSubjective}>{isSubjective ? '📄 주관식' : '🔢 객관식'}</QuestionType>
                   </QuestionBox>
-                  <ProblemItemUnderLine>
-                    <ProblemItemHashTagList>
+                  <QuestionItemUnderLine>
+                    <QuestionItemHashTagList>
                       {hashtags.map((hashtag) => (
-                        <ProblemItemHashTagItem key={hashtag}>{hashtag}</ProblemItemHashTagItem>
+                        <QuestionItemHashTagItem key={hashtag}>{hashtag}</QuestionItemHashTagItem>
                       ))}
-                    </ProblemItemHashTagList>
-                    <ProblemItemButton onClick={() => handleProblemDelete(idx)}>제거</ProblemItemButton>
-                  </ProblemItemUnderLine>
-                </ProblemItem>
+                    </QuestionItemHashTagList>
+                    <QuestionItemButton onClick={() => handleQuestionDelete(idx)}>제거</QuestionItemButton>
+                  </QuestionItemUnderLine>
+                </QuestionItem>
               );
             })}
-          </ProblemList>
-        </ProblemListContainer>
+          </QuestionList>
+        </QuestionListContainer>
       </Container>
 
       {isCreateModal && (
         <Modal onToggle={onCreateModalToggle}>
-          <CreateProblemModal handleProblemAdd={handleProblemAdd} />
+          <CreateQuestionModal handleQuestionAdd={handleQuestionAdd} />
         </Modal>
       )}
 
       {isSearchModal && (
         <Modal onToggle={onSearchModalToggle}>
-          <SearchProblemModal handleProblemAdd={handleProblemAdd} />
+          <SearchQuestionModal handleQuestionAdd={handleQuestionAdd} />
         </Modal>
       )}
     </>

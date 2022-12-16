@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Input } from '../../../styles/common';
-import { ProblemItem, ProblemList } from '../../../styles/problemList';
+import { QuestionItem, QuestionList } from '../../../styles/questionList';
 import { fonts, media } from '../../../styles/theme';
 import { DropDownContainer } from '../createQuestion/Style';
 
@@ -39,10 +39,10 @@ export const SearchButton = styled(Button)`
   height: 100%;
 `;
 
-export const SearchProblemList = styled(ProblemList)`
+export const SearchQuestionList = styled(QuestionList)`
   height: calc(100% - 42px);
 
-  ${ProblemItem} {
+  ${QuestionItem} {
     cursor: pointer;
   }
 `;
