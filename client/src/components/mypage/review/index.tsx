@@ -19,7 +19,7 @@ const Review = () => {
       <Header>나의 오답노트</Header>
       <Main>
         {isLoading && <Loading />}
-        {isSuccess && '성공' /** api 받으면 구현예정 */}
+        {isSuccess && data.length !== 0 ? '구현 예정' : <Error message="이런, 오답노트가 비었습니다." />}
         {isError && <Error emoji="🫠" message="오답노트를 불러올 수 없습니다. J021에게 문의해주세요." />}
       </Main>
     </WorkbookContainer>
