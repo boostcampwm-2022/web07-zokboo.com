@@ -31,16 +31,20 @@ const MypageWorkbook = ({ type }: MypageWorkbookProps) => {
       {isLoading && <Loading />}
       {isSuccess &&
         (workbookData.length !== 0 ? (
-          workbookData.map((workbook) => (
-            <SearchResultItem
-              key={workbook.workbookId}
-              workbookId={workbook.workbookId}
-              title={workbook.title}
-              description={workbook.description}
-              questionCount={workbook.questionCount}
-              type={type}
-            />
-          ))
+          workbookData.map((workbook) => {
+            const { workbookId, title, description } = workbook;
+            const workbookCount = workbook.questions ? workbook.questions.length : workbook.questionCount;
+            return (
+              <SearchResultItem
+                key={workbookId}
+                workbookId={workbookId}
+                title={title}
+                description={description}
+                questionCount={workbookCount}
+                type={type}
+              />
+            );
+          })
         ) : (
           <Error message="이런, 문제집이 없습니다." />
         ))}

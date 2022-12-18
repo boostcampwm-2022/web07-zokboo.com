@@ -3,6 +3,7 @@ interface SearchWorkbookType {
   title: string;
   description: string;
   questionCount: number;
+  questions?: string[];
   type?: string;
 }
 
