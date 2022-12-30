@@ -5,14 +5,17 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Logo from '../../components/common/logo';
 import { InputBox, LoginButton, ModalBody, MoreButtons, RedirectButton, SSOButtons, SSOIcon, SSOTitle } from './Style';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { signinSuccess } from '../../redux/user/slice';
+import { signin, signinSuccess } from '../../redux/user/slice';
 import ModalContainer from '../../components/login/LoginModal';
-import { getLocalLoginData, getSSOData } from '../../api/auth';
+import { getSSOData } from '../../api/auth';
 import { GITHUB, KAKAO, NAVER, URL } from './constants';
 import selectUserData from '../../redux/user/selector';
 
 const Login = () => {
-  const userData = useAppSelector(selectUserData);
+  // userData 안에 isLoading, isSuccess 등 상태값이 들어있으므로
+  // 로딩처리, 에러처리 등등의 기능들이 saga에서도 가능하다.
+  // 보통은 react-query처럼 const {isLoading, isSuccess, ...} 이런식으로 선언한다.
+  const { isSuccess, isError, error } = useAppSelector(selectUserData);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -22,6 +25,7 @@ const Login = () => {
   const type = searchParams.get('type');
 
   const SSOMutation = useMutation(getSSOData, {
+    // TODO : SSO 로그인도 redux saga로 바꾸기
     onSuccess: (data) => {
       toast.success('로그인에 성공하였습니다.');
       dispatch(signinSuccess({ isLogined: true, ...data.data }));
@@ -29,18 +33,6 @@ const Login = () => {
     },
     onError: (message: string) => {
       toast.error(message);
-    },
-  });
-
-  const loginMutation = useMutation(getLocalLoginData, {
-    onSuccess: (data) => {
-      toast.success('로그인에 성공하였습니다.');
-      dispatch(signinSuccess({ isLogined: true, ...data.data }));
-      navigate('/');
-    },
-    onError: (message: string) => {
-      toast.error(message);
-      (document.getElementById('password') as HTMLInputElement).value = '';
     },
   });
 
@@ -48,16 +40,17 @@ const Login = () => {
     e.preventDefault();
 
     const email = (document.getElementById('email') as HTMLInputElement).value;
-    const pw = (document.getElementById('password') as HTMLInputElement).value;
-
-    loginMutation.mutate({ email, password: pw });
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+    dispatch(signin({ email, password }));
   };
 
   useEffect(() => {
-    if (userData.userId) {
-      navigate('/');
-    }
-  }, [userData]);
+    if (isSuccess) navigate('/');
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) toast.error(error);
+  }, [isError]);
 
   useEffect(() => {
     if (code && type) {
