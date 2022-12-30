@@ -19,30 +19,25 @@ export const resetPassword = async (body: PostResetPasswordBody) => {
 };
 
 export const getSSOData = async ({ SSOType, code }: { SSOType: string; code: string }) => {
-  const { data } = await axios
-    .get(`${SERVER_URL}/auth/${SSOType}/callback?code=${code}`, { withCredentials: true })
-    .catch((err) => {
-      throw err.response.data.message;
-    });
+  const { data } = await axios.get(`${SERVER_URL}/auth/${SSOType}/callback?code=${code}`).catch((err) => {
+    throw err.response.data.message;
+  });
   return data;
 };
 
 export const getLocalLoginData = async ({ email, password }: { email: string; password: string }) => {
-  const { data } = await axios
-    .post(`${SERVER_URL}/auth/signin`, { email, password }, { withCredentials: true })
-    .catch((err) => {
-      throw err.response.data.message;
-    });
+  console.log(3232323);
+  const { data } = await axios.post(`${SERVER_URL}/auth/signin`, { email, password }).catch((err) => {
+    throw err.response.data.message;
+  });
 
   return data;
 };
 
 export const postSignup = async (signupInput: signupProps) => {
-  const { data } = await axios
-    .post(`${SERVER_URL}/auth/signup`, signupInput, { withCredentials: true })
-    .catch((res) => {
-      throw toast.error(res.response.data.message);
-    });
+  const { data } = await axios.post(`${SERVER_URL}/auth/signup`, signupInput).catch((res) => {
+    throw toast.error(res.response.data.message);
+  });
 
   return data;
 };
